@@ -1,0 +1,105 @@
+Rebuild the entire website for Kingsborough Church with a modern, visually immersive design that reflects spiritual depth, warmth, and community. The new site should reflect the aesthetic and interactive experience of sites like JoinCCI.org and ElevationChurch.org, incorporating advanced visual effects, parallax scrolling, and a refined, elegant feel.
+
+🎨 Color Scheme:
+Gold (#D4AF37 or similar): Symbolizes royalty, divine presence, and excellence. Used for highlights, buttons, and accent elements.
+
+Lilac (#C8A2C8 or similar): Represents spiritual awakening and peace. Can be used for backgrounds, section dividers, and soft overlays.
+
+White (#FFFFFF): For clarity, cleanliness, and balance — dominant background color for readability and simplicity.
+
+✨ Design Goals:
+Full-screen hero section with animated background or parallax video loop (e.g., aerial city, people worshipping, or symbolic movement).
+
+Smooth parallax transitions between major sections.
+
+Animated elements such as text reveals, fade-ins, scroll-triggered effects, and dynamic backgrounds.
+
+Floating navigation bar with smooth scroll and highlight effects.
+
+Bold typography, modern layout, and strong visual hierarchy.
+
+Mobile-first design with responsive scaling across all device types.
+
+🧩 Key Sections & Features:
+Homepage
+
+Eye-catching hero with “Welcome to Kingsborough Church” and service CTA
+
+Parallax scroll to “About Us” with animation
+
+Upcoming events slider
+
+Call-to-action buttons: Join Us, Give, Livestream
+
+About Page
+
+Interactive timeline for church history
+
+Meet the pastors/team with hover animations
+
+Embedded video about the mission
+
+Ministries
+
+Cards or tiles with rollover effects
+
+Smooth modal popups or pages with details on each ministry
+
+Events
+
+Dynamic events calendar
+
+Option to register or RSVP for events
+
+Livestream countdown integration
+
+Sermons
+
+Stylish sermon archive with thumbnails and categories
+
+Embedded video/audio players
+
+Filter by series, speaker, or date
+
+Giving
+
+Clean and secure layout
+
+Parallax section with spiritual encouragement quote
+
+Integrated payment methods
+
+Contact Page
+
+Embedded map
+
+Animated contact form
+
+Scroll-triggered prayer request form
+
+Blog / Articles
+
+Smooth entry animations for blog cards
+
+Option for devotional posts or thought pieces
+
+Footer
+
+Social media integration with hover animations
+
+Newsletter sign-up
+
+Quick links to all main sections
+
+📱 Additional Features:
+Cookie consent with smooth animation
+
+Dark-mode toggle (optional)
+
+Live chat integration or prayer request pop-up
+
+SEO-optimized page structure
+
+Smooth lazy loading and preloading animations
+
+Scroll progress bar or visual indicators
