@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-opensans antialiased bg-background text-foreground;
+    color: #333333;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold text-white font-montserrat font-medium px-6 py-3 rounded transition-all duration-300 hover:bg-opacity-90 hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply bg-deepPurple text-white font-montserrat font-medium px-6 py-3 rounded transition-all duration-300 hover:bg-opacity-90 hover:shadow-md;
+  }
+
+  .btn-outline {
+    @apply border-2 border-gold text-gold font-montserrat font-medium px-6 py-3 rounded transition-all duration-300 hover:bg-gold hover:text-white hover:shadow-md;
+  }
+
+  .parallax {
+    @apply bg-fixed bg-center bg-no-repeat bg-cover;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .overlay-gold {
+    @apply absolute inset-0;
+    background: linear-gradient(45deg, rgba(212, 175, 55, 0.8), rgba(212, 175, 55, 0.2));
+  }
+
+  .overlay-lilac {
+    @apply absolute inset-0;
+    background: linear-gradient(45deg, rgba(200, 162, 200, 0.8), rgba(200, 162, 200, 0.2));
+  }
+
+  .overlay-purple {
+    @apply absolute inset-0;
+    background: linear-gradient(45deg, rgba(74, 48, 109, 0.8), rgba(74, 48, 109, 0.2));
+  }
+}
+
+:root {
+  --gold: 46 59% 51%;
+  --lilac: 300 20% 70%;
+  --deepPurple: 270 30% 30%;
+  --darkGray: 0 0% 20%;
+  --lightGray: 0 0% 96%;
+}
