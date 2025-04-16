@@ -44,3 +44,12 @@ export interface ContactFormData {
 export interface NewsletterFormData {
   email: string;
 }
+
+export interface MagazineItem {
+  id: number;
+  title: string;
+  date: string;
+  coverImage: string;
+  summary: string;
+  pdfUrl: string;
+}

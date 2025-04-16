@@ -7,6 +7,7 @@ import Community from '@/components/home/Community';
 import Quote from '@/components/home/Quote';
 import Events from '@/components/home/Events';
 import Sermons from '@/components/home/Sermons';
+import Magazines from '@/components/home/Magazines';
 import Giving from '@/components/home/Giving';
 import Contact from '@/components/home/Contact';
 import Newsletter from '@/components/home/Newsletter';
@@ -29,6 +30,7 @@ const Home = () => {
         <Quote />
         <Events />
         <Sermons />
+        <Magazines />
         <Giving />
         <Contact />
         <Newsletter />

@@ -1,4 +1,4 @@
-import { EventItem, SermonItem, MinistryItem, LeaderItem } from './types';
+import { EventItem, SermonItem, MinistryItem, LeaderItem, MagazineItem } from './types';
 
 // Leaders data
 export const leaders: LeaderItem[] = [
@@ -117,5 +117,33 @@ export const sermons: SermonItem[] = [
     series: "Purpose Series",
     description: "Understanding God's divine plan for your life and how to walk in your God-given purpose.",
     image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  }
+];
+
+// Magazine data
+export const magazines: MagazineItem[] = [
+  {
+    id: 1,
+    title: "Faith In Action",
+    date: "April 2024",
+    coverImage: "https://images.unsplash.com/photo-1603659297485-f85408aeb499?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    summary: "This month's edition features testimonies of transformation, insights on walking in your God-given purpose, and exclusive interviews with Apostle Tunde and Pastor Toyin on the power of faith.",
+    pdfUrl: "#"
+  },
+  {
+    id: 2,
+    title: "Kingdom Living",
+    date: "March 2024",
+    coverImage: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    summary: "Explore biblical principles for living as citizens of God's kingdom, with practical teachings on applying kingdom values in your everyday life, family, and community.",
+    pdfUrl: "#"
+  },
+  {
+    id: 3,
+    title: "Revival & Restoration",
+    date: "February 2024",
+    coverImage: "https://images.unsplash.com/photo-1621777150504-95cd48f44619?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    summary: "Dedicated to spiritual renewal, this edition presents powerful teachings on prayer, worship, and the move of the Holy Spirit, along with stories of healing and restoration.",
+    pdfUrl: "#"
   }
 ];
