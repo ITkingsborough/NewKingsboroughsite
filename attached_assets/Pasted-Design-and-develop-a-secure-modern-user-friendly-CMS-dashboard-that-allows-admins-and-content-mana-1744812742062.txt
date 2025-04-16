@@ -1,0 +1,259 @@
+Design and develop a secure, modern, user-friendly CMS dashboard that allows admins and content managers to create, upload, update, and delete all content across the Kingsborough Church website — including sermons, magazines, events, image galleries, blog posts, and more.
+
+🖥️ CMS Dashboard Overview:
+Login/Authentication
+
+Secure admin login
+
+Role-based access (Admin, Editor, Media Manager, etc.)
+
+Password reset, 2FA optional
+
+Main Navigation (Sidebar or Top Nav)
+
+Dashboard (overview)
+
+Sermons
+
+Events
+
+Monthly Magazines
+
+Gallery
+
+Blog / Devotionals
+
+Ministries
+
+About Page Content
+
+Team Members
+
+Contact Submissions / Prayer Requests
+
+Users & Permissions
+
+Settings
+
+📦 MODULES & CONTENT MANAGEMENT SECTIONS:
+1. 📖 Monthly Magazines
+Upload PDF or embed digital magazine viewer (like Issuu)
+
+Fields:
+
+Title
+
+Month/Year
+
+Cover Image
+
+File upload (PDF)
+
+Short description
+
+Actions:
+
+Create, Edit, Delete
+
+Auto-generate archive grid on website
+
+Option to “Feature” a magazine on homepage
+
+2. 🎙️ Sermons Manager
+Upload and manage weekly sermons
+
+Fields:
+
+Title
+
+Speaker
+
+Series Name
+
+Date
+
+Thumbnail
+
+Video URL or File
+
+Audio File (optional)
+
+Scripture Reference
+
+Tags (e.g., Faith, Healing, Youth)
+
+Actions:
+
+Add new sermon
+
+Edit or remove sermons
+
+Filter/search sermons
+
+Option to pin latest sermon to homepage
+
+3. 🗓️ Events Manager
+Full CRUD for all events
+
+Fields:
+
+Event Title
+
+Date & Time
+
+Description
+
+Location (physical or online)
+
+Image Banner
+
+RSVP Link (optional)
+
+Actions:
+
+Add/Edit/Delete events
+
+Mark as "Upcoming" or "Past"
+
+Schedule repeating events
+
+4. 🖼️ Gallery Manager
+Upload and organize photo galleries
+
+Features:
+
+Drag & drop upload
+
+Tag system (e.g. Worship, Outreach, Baptism, Kids)
+
+Gallery groups or folders
+
+Actions:
+
+Create/rename/delete galleries
+
+Edit tags or captions
+
+View all media by tag or upload date
+
+Bulk upload or bulk delete
+
+5. 📰 Blog / Devotionals
+Rich text editor with media embedding
+
+Fields:
+
+Title
+
+Author
+
+Tags/Categories
+
+Featured Image
+
+Content (WYSIWYG)
+
+Schedule Post (optional)
+
+Actions:
+
+Save draft / Publish / Archive / Delete
+
+View analytics (views, shares)
+
+6. 🧑‍🤝‍🧑 Team Members Manager
+Manage church leadership and ministry teams
+
+Fields:
+
+Name
+
+Role/Title
+
+Photo
+
+Bio
+
+Social links (optional)
+
+Actions:
+
+Add, edit, or remove team members
+
+Reorder display priority
+
+7. 📄 About Page Content Editor
+Modular content editing
+
+Sections:
+
+Intro Statement
+
+Vision & Mission
+
+Timeline (add/remove key moments)
+
+Core Values (edit cards)
+
+Live preview toggle or preview before publishing
+
+8. 📩 Contact & Prayer Requests
+Inbox-style layout
+
+View messages submitted through website forms
+
+Mark as "Handled" or "Archived"
+
+Export as CSV
+
+9. 🧑‍💼 User Management & Permissions
+Manage admin users
+
+Role types:
+
+Admin (full access)
+
+Editor (content access)
+
+Media Manager (gallery + sermons only)
+
+Create, suspend, or remove users
+
+View last login, activity log
+
+10. ⚙️ Settings
+Church service times
+
+Social media links
+
+Giving platform integration
+
+Custom announcement banners
+
+Homepage customizations (e.g. highlight magazine, sermon, CTA)
+
+✨ Design Features:
+Clean, modern UI (inspired by Notion, Linear, or Sanity)
+
+Responsive layout (mobile-friendly for on-the-go updates)
+
+Dark mode toggle (optional)
+
+Drag-and-drop support (gallery, team reorder, timeline)
+
+Smooth animations on interactions (Framer Motion or similar)
+
+Toast notifications for success/error feedback
+
+🔐 Security & Tech Notes:
+JWT or session-based authentication
+
+Role-based access control (RBAC)
+
+Audit logs for content edits/deletes
+
+Auto-save drafts
+
+Version history (optional)
+
+Deploy as SPA (React/Next.js) with Node.js/Express/Strapi/Sanity backend, or full-stack Laravel, or even WordPress with custom dashboard — based on your stack
