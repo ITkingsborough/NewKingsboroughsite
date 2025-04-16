@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { 
   Home, 
@@ -17,34 +17,53 @@ import {
   CircleUser,
   PieChart,
   BarChart3,
-  Activity
+  Activity,
+  Church,
+  TrendingUp,
+  MessageSquare
 } from 'lucide-react';
 import { useAdminAuth } from '@/hooks/use-admin-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useQuery } from '@tanstack/react-query';
+import { getQueryFn } from '@/lib/queryClient';
+import { Loader2 } from 'lucide-react';
 
 // Stat card component
 interface StatCardProps {
   title: string;
-  value: string;
+  value: string | number;
   icon: React.ComponentType<{ className?: string }>;
   color: string;
+  isLoading?: boolean;
+  path?: string;
 }
 
-const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
+const StatCard = ({ title, value, icon: Icon, color, isLoading = false, path }: StatCardProps) => (
   <Card className={`overflow-hidden border-none ${color}`}>
     <CardContent className="p-6">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-white/80">{title}</p>
-          <h3 className="text-2xl font-bold text-white mt-1">{value}</h3>
+          <h3 className="text-2xl font-bold text-white mt-1">
+            {isLoading ? (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+              value
+            )}
+          </h3>
         </div>
         <div className={`rounded-full p-2 bg-white/20`}>
           <Icon className="h-5 w-5 text-white" />
         </div>
       </div>
       <div className="mt-4 flex items-center text-xs text-white/80">
-        <Button variant="ghost" size="sm" className="text-xs text-white hover:text-white hover:bg-white/20 px-2 py-1 h-auto">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-xs text-white hover:text-white hover:bg-white/20 px-2 py-1 h-auto"
+          onClick={() => path && (window.location.href = path)}
+        >
           View All
         </Button>
       </div>
@@ -53,91 +72,198 @@ const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
 );
 
 // Dashboard components will be added later
-const DashboardContent = () => (
-  <div className="p-6 space-y-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <StatCard 
-        title="Pages" 
-        value="1,345" 
-        icon={FileText} 
-        color="bg-gradient-to-br from-emerald-500 to-emerald-600" 
-      />
-      <StatCard 
-        title="Posts" 
-        value="12,456" 
-        icon={FileText} 
-        color="bg-gradient-to-br from-purple-500 to-purple-600" 
-      />
-      <StatCard 
-        title="Events" 
-        value="21" 
-        icon={Calendar} 
-        color="bg-gradient-to-br from-orange-500 to-orange-600" 
-      />
-      <StatCard 
-        title="Files" 
-        value="1,220" 
-        icon={Image} 
-        color="bg-gradient-to-br from-blue-500 to-blue-600" 
-      />
-    </div>
+const DashboardContent = () => {
+  // Fetch Events
+  const { 
+    data: events = [], 
+    isLoading: eventsLoading 
+  } = useQuery({
+    queryKey: ['/api/events'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
 
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  // Fetch Sermons
+  const { 
+    data: sermons = [], 
+    isLoading: sermonsLoading 
+  } = useQuery({
+    queryKey: ['/api/sermons'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Fetch Communities
+  const { 
+    data: communities = [], 
+    isLoading: communitiesLoading 
+  } = useQuery({
+    queryKey: ['/api/communities'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Fetch Contact Messages
+  const { 
+    data: contactMessages = [], 
+    isLoading: contactMessagesLoading 
+  } = useQuery({
+    queryKey: ['/api/admin/contact'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Fetch Magazines
+  const { 
+    data: magazines = [], 
+    isLoading: magazinesLoading 
+  } = useQuery({
+    queryKey: ['/api/magazines'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Fetch Leaders
+  const { 
+    data: leaders = [], 
+    isLoading: leadersLoading 
+  } = useQuery({
+    queryKey: ['/api/leaders'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  // Fetch Newsletter Subscribers
+  const { 
+    data: subscribers = [], 
+    isLoading: subscribersLoading 
+  } = useQuery({
+    queryKey: ['/api/admin/subscribers'],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard 
+          title="Upcoming Events" 
+          value={Array.isArray(events) ? events.length : 0} 
+          icon={Calendar} 
+          color="bg-gradient-to-br from-amber-400 to-amber-600"
+          isLoading={eventsLoading}
+          path="/admin/events"
+        />
+        <StatCard 
+          title="Sermons" 
+          value={Array.isArray(sermons) ? sermons.length : 0}
+          icon={Mic} 
+          color="bg-gradient-to-br from-purple-500 to-purple-700"
+          isLoading={sermonsLoading}
+          path="/admin/sermons"
+        />
+        <StatCard 
+          title="Communities" 
+          value={Array.isArray(communities) ? communities.length : 0}
+          icon={Users} 
+          color="bg-gradient-to-br from-purple-400 to-purple-600"
+          isLoading={communitiesLoading} 
+          path="/admin/communities"
+        />
+        <StatCard 
+          title="Leadership" 
+          value={Array.isArray(leaders) ? leaders.length : 0}
+          icon={CircleUser} 
+          color="bg-gradient-to-br from-amber-500 to-amber-700"
+          isLoading={leadersLoading}
+          path="/admin/leaders"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-medium text-amber-700">Magazines</CardTitle>
+              <span className="text-3xl font-bold">
+                {magazinesLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : (Array.isArray(magazines) ? magazines.length : 0)}
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center py-8">
+              <div className="flex items-center text-sm">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-8 border-amber-300 text-amber-700 hover:text-amber-800 hover:bg-amber-50 hover:border-amber-400"
+                  onClick={() => window.location.href = '/admin/magazines'}
+                >
+                  View All
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-medium text-purple-600">Contact Messages</CardTitle>
+              <span className="text-3xl font-bold">
+                {contactMessagesLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : (Array.isArray(contactMessages) ? contactMessages.length : 0)}
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center py-8">
+              <div className="flex items-center text-sm">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-8 border-purple-300 text-purple-700 hover:text-purple-800 hover:bg-purple-50 hover:border-purple-400"
+                  onClick={() => window.location.href = '/admin/contact'}
+                >
+                  View All
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card>
-        <CardHeader className="pb-2">
+        <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-medium">Categories</CardTitle>
-            <span className="text-3xl font-bold">65</span>
+            <CardTitle className="text-lg font-medium text-purple-600">Newsletter Subscribers</CardTitle>
+            <div className="text-3xl font-bold">
+              {subscribersLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : (Array.isArray(subscribers) ? subscribers.length : 0)}
+            </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center py-8">
-            <div className="flex items-center text-sm">
-              <Button variant="outline" size="sm" className="h-8">View All</Button>
+          <div className="h-[200px] flex items-center justify-center">
+            <div className="text-center space-y-2">
+              {subscribersLoading ? (
+                <Loader2 className="h-16 w-16 text-gray-300 mx-auto animate-spin" />
+              ) : Array.isArray(subscribers) && subscribers.length > 0 ? (
+                <>
+                  <MessageSquare className="h-16 w-16 text-amber-400 mx-auto" />
+                  <p className="text-sm text-gray-500">Managing {subscribers.length} newsletter subscribers</p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4 border-amber-300 text-amber-700 hover:text-amber-800 hover:bg-amber-50 hover:border-amber-400"
+                    onClick={() => window.location.href = '/admin/subscribers'}
+                  >
+                    Manage Subscribers
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <MessageSquare className="h-16 w-16 text-gray-300 mx-auto" />
+                  <p className="text-sm text-gray-500">No newsletter subscribers yet</p>
+                </>
+              )}
             </div>
           </div>
         </CardContent>
       </Card>
-
-      <Card>
-        <CardHeader className="pb-2">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-medium">Comments</CardTitle>
-            <span className="text-3xl font-bold">9,876</span>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center py-8">
-            <div className="flex items-center text-sm">
-              <Button variant="outline" size="sm" className="h-8">View All</Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
-
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>User Stats</CardTitle>
-          <div className="flex space-x-2">
-            <Button variant="outline" size="sm" className="h-8">Week</Button>
-            <Button variant="outline" size="sm" className="bg-purple-500 text-white border-purple-500 h-8">Month</Button>
-            <Button variant="outline" size="sm" className="h-8">Year</Button>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[300px] flex items-center justify-center">
-          <div className="text-center space-y-2">
-            <BarChart3 className="h-16 w-16 text-gray-300 mx-auto" />
-            <p className="text-sm text-gray-500">Analytics chart will be displayed here</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  </div>
-);
+  );
+};
 const CommunityContent = () => <div className="p-6">Communities Content</div>;
 const SermonContent = () => <div className="p-6">Sermons Content</div>;
 const EventContent = () => <div className="p-6">Events Content</div>;
@@ -180,7 +306,7 @@ export default function AdminDashboard() {
       }`}>
         <div className="flex h-16 items-center px-6 border-b">
           <Link href="/admin" className="flex items-center">
-            <h1 className="text-xl font-bold text-purple-600">Constructor</h1>
+            <h1 className="text-xl font-bold text-amber-600">Kingsborough</h1>
           </Link>
           <button 
             onClick={() => setSidebarOpen(false)} 
@@ -197,7 +323,7 @@ export default function AdminDashboard() {
                 onClick={() => window.location.href = item.path}
                 className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm cursor-pointer ${
                   location === item.path
-                    ? 'bg-purple-50 font-medium text-purple-600'
+                    ? 'bg-amber-50 font-medium text-amber-600'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}>
                 <div className="flex items-center">
@@ -213,7 +339,7 @@ export default function AdminDashboard() {
         <div className="border-t p-4">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <div className="h-9 w-9 rounded-full bg-purple-100 flex items-center justify-center text-purple-700">
+              <div className="h-9 w-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700">
                 {user?.name.charAt(0).toUpperCase()}
               </div>
             </div>
@@ -224,7 +350,7 @@ export default function AdminDashboard() {
           </div>
           <Button 
             variant="outline" 
-            className="mt-4 w-full justify-start text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-gray-200"
+            className="mt-4 w-full justify-start text-amber-600 hover:bg-amber-50 hover:text-amber-700 border-amber-200"
             onClick={handleLogout}
             disabled={logoutMutation.isPending}
           >
