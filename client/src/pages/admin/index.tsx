@@ -308,7 +308,9 @@ export default function AdminDashboard() {
   
   // Function to go to the public website
   const goToPublicSite = () => {
-    window.open('/', '_blank');
+    // Ensure we're using the full URL with origin to avoid relative path issues
+    const origin = window.location.origin;
+    window.open(`${origin}/`, '_blank');
   };
 
   return (
@@ -391,14 +393,20 @@ export default function AdminDashboard() {
             </h2>
           </div>
           <div className="ml-auto">
-            <Button 
-              variant="outline" 
-              className="mr-2 text-amber-600 hover:bg-amber-50 hover:text-amber-700 border-amber-200"
-              onClick={goToPublicSite}
+            <a 
+              href="/"
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex"
             >
-              <Church className="mr-2 h-4 w-4" />
-              View Website
-            </Button>
+              <Button 
+                variant="outline" 
+                className="mr-2 text-amber-600 hover:bg-amber-50 hover:text-amber-700 border-amber-200"
+              >
+                <Church className="mr-2 h-4 w-4" />
+                View Website
+              </Button>
+            </a>
           </div>
         </header>
         
