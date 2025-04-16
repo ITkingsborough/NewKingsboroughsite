@@ -135,7 +135,17 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Kingsborough Church. All Rights Reserved.</p>
+          <p className="mb-2">&copy; {new Date().getFullYear()} Kingsborough Church. All Rights Reserved.</p>
+          <p>
+            <a 
+              href="http://www.kingsborough.org" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-gold hover:text-white transition-colors duration-300"
+            >
+              Visit the official Kingsborough Church website
+            </a>
+          </p>
         </div>
       </div>
     </footer>
