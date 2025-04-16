@@ -73,6 +73,8 @@ const galleryItemFormSchema = z.object({
     required_error: "Date is required",
   }),
   isFeatured: z.boolean().default(false),
+  createdBy: z.number().optional(),
+  updatedBy: z.number().optional(),
 });
 
 type GalleryItemFormValues = z.infer<typeof galleryItemFormSchema>;
@@ -113,6 +115,8 @@ export default function GalleryPage() {
       tags: ["all"],
       date: new Date(),
       isFeatured: false,
+      createdBy: user?.id,
+      updatedBy: user?.id,
     },
   });
 
@@ -211,6 +215,8 @@ export default function GalleryPage() {
       tags: item.tags,
       date: new Date(item.date),
       isFeatured: item.isFeatured,
+      createdBy: item.createdBy,
+      updatedBy: user?.id, // Set to current user's ID when editing
     });
     setDialogOpen(true);
   };
