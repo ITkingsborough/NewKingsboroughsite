@@ -11,6 +11,7 @@ interface ParallaxSectionProps {
   overlayClass?: string;
   speed?: number;
   className?: string;
+  id?: string;
 }
 
 const ParallaxSection = ({
@@ -18,7 +19,8 @@ const ParallaxSection = ({
   backgroundUrl,
   overlayClass = 'overlay-purple',
   speed = 0.2,
-  className = ''
+  className = '',
+  id
 }: ParallaxSectionProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
@@ -53,6 +55,7 @@ const ParallaxSection = ({
   return (
     <div 
       ref={sectionRef}
+      id={id}
       className={`relative overflow-hidden ${className}`}
     >
       {/* Background with parallax effect */}

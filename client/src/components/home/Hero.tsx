@@ -1,39 +1,99 @@
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import { Link } from 'wouter';
-import { fadeIn, slideUp } from '@/lib/animations';
+import { gsap } from 'gsap';
+import ParallaxSection from '@/components/ui/ParallaxSection';
+import { scrollToElement } from '@/hooks/use-smooth-scroll';
 
 const Hero = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const scrollIconRef = useRef<HTMLDivElement>(null);
+
+  // Set up GSAP animations for the hero content
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    // Create a timeline for entrance animations
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+
+    // Animate elements sequentially
+    tl.fromTo(
+      headingRef.current,
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      0.2
+    )
+    .fromTo(
+      paragraphRef.current,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      0.5
+    )
+    .fromTo(
+      buttonsRef.current,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 },
+      0.8
+    )
+    .fromTo(
+      scrollIconRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 1 },
+      1.2
+    );
+
+    // Create the bouncing animation for the scroll icon
+    gsap.to(scrollIconRef.current, {
+      y: 10,
+      duration: 0.8,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+
+    // Cleanup
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  // Handle scroll down button click
+  const handleScrollDown = () => {
+    scrollToElement('welcome', 1.2, 80);
+  };
+
   return (
-    <section 
+    <ParallaxSection 
       id="home" 
-      className="relative h-screen flex items-center parallax" 
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` }}
+      backgroundUrl="https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+      overlayClass="overlay-purple"
+      speed={0.3}
+      className="h-screen flex items-center"
     >
-      <div className="absolute inset-0 overlay-purple"></div>
-      <div className="container mx-auto px-4 lg:px-8 z-10">
-        <motion.div 
+      <div className="container mx-auto px-4 lg:px-8">
+        <div 
+          ref={contentRef}
           className="max-w-3xl"
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn()}
         >
-          <motion.h1 
-            className="text-4xl md:text-6xl font-montserrat font-bold text-white mb-4 tracking-tight text-shadow"
-            variants={slideUp(0.2)}
+          <h1 
+            ref={headingRef}
+            className="text-4xl md:text-6xl font-montserrat font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
           >
             Welcome to Kingsborough Church
-          </motion.h1>
+          </h1>
           
-          <motion.p 
-            className="text-xl md:text-2xl text-white opacity-90 mb-8 font-light"
-            variants={slideUp(0.4)}
+          <p 
+            ref={paragraphRef}
+            className="text-xl md:text-2xl text-white opacity-0 mb-8 font-light"
           >
             A place to belong, believe, and become.
-          </motion.p>
+          </p>
           
-          <motion.div 
-            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
-            variants={slideUp(0.6)}
+          <div 
+            ref={buttonsRef}
+            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 opacity-0"
           >
             <Link href="/about" className="btn-primary">
               Learn More
@@ -41,24 +101,18 @@ const Hero = () => {
             <Link href="/events" className="btn-outline">
               Join Us This Week
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
       
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
+      <div 
+        ref={scrollIconRef}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white cursor-pointer opacity-0"
+        onClick={handleScrollDown}
       >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          <i className="fas fa-chevron-down"></i>
-        </motion.div>
-      </motion.div>
-    </section>
+        <i className="fas fa-chevron-down"></i>
+      </div>
+    </ParallaxSection>
   );
 };
 

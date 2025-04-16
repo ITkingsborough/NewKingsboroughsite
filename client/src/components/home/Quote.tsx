@@ -1,42 +1,94 @@
-import { motion } from 'framer-motion';
-import { slideUp } from '@/lib/animations';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import ParallaxSection from '@/components/ui/ParallaxSection';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
 const Quote = () => {
+  const quoteRef = useRef<HTMLQuoteElement>(null);
+  const sourceRef = useRef<HTMLParagraphElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!quoteRef.current || !sourceRef.current || !containerRef.current) return;
+
+    // Create the animation timeline
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: 'top 70%',
+        end: 'bottom 20%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // Create text reveal animation using character-by-character approach
+    const quoteText = quoteRef.current.textContent || '';
+    
+    // Clear the quote text temporarily
+    quoteRef.current.textContent = '';
+    
+    // Create individual spans for each character
+    const chars = Array.from(quoteText).map(char => {
+      const span = document.createElement('span');
+      span.textContent = char;
+      span.style.opacity = '0';
+      span.style.display = 'inline-block';
+      quoteRef.current?.appendChild(span);
+      return span;
+    });
+    
+    // Animate each character with a stagger effect
+    tl.to(chars, {
+      opacity: 1,
+      stagger: 0.03, // Time between each character animation
+      duration: 0.1,
+      ease: 'power2.out',
+    })
+    .fromTo(
+      sourceRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.2' // Start slightly before the quote finishes
+    );
+
+    // Clean up
+    return () => {
+      if (tl.scrollTrigger) {
+        tl.scrollTrigger.kill();
+      }
+    };
+  }, []);
+
   return (
-    <section 
-      className="parallax h-96 flex items-center justify-center relative" 
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1455044372794-d981761b5bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` }}
+    <ParallaxSection 
+      backgroundUrl="https://images.unsplash.com/photo-1455044372794-d981761b5bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+      overlayClass="overlay-gold"
+      speed={0.4}
+      className="h-96 flex items-center justify-center"
     >
-      <div className="absolute inset-0 overlay-gold"></div>
-      <div className="container mx-auto px-4 lg:px-8 z-10 text-center">
-        <motion.div 
+      <div className="container mx-auto px-4 lg:px-8 text-center">
+        <div 
+          ref={containerRef}
           className="max-w-3xl mx-auto"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
-          variants={slideUp()}
         >
-          <motion.blockquote 
+          <blockquote 
+            ref={quoteRef}
             className="font-playfair text-2xl md:text-4xl text-white italic mb-6 text-shadow"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
           >
             "For where two or three gather in my name, there am I with them."
-          </motion.blockquote>
-          <motion.p 
-            className="text-white text-lg font-montserrat"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
+          </blockquote>
+          <p 
+            ref={sourceRef}
+            className="text-white text-lg font-montserrat opacity-0"
           >
             Matthew 18:20
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
       </div>
-    </section>
+    </ParallaxSection>
   );
 };
 
