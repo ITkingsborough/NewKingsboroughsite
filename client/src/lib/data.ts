@@ -4,31 +4,17 @@ import { EventItem, SermonItem, MinistryItem, LeaderItem } from './types';
 export const leaders: LeaderItem[] = [
   {
     id: 1,
-    name: "Pastor James Wilson",
-    role: "Lead Pastor",
-    bio: "Leading with vision and compassion for over 15 years, Pastor James is devoted to helping people grow in their faith journey.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    name: "Apostle Tunde Balogun",
+    role: "Senior Pastor",
+    bio: "Leading with vision, wisdom and compassion, Apostle Tunde Balogun is devoted to helping people discover their purpose and grow in their faith journey.",
+    image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 2,
-    name: "Sarah Martinez",
-    role: "Worship Pastor",
-    bio: "With a passion for music and worship, Sarah leads our congregation into meaningful encounters with God every week.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 3,
-    name: "David Thompson",
-    role: "Youth Pastor",
-    bio: "David brings energy and relevance to our youth ministry, creating a space where teens can authentically explore faith.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 4,
-    name: "Rebecca Chen",
-    role: "Community Outreach",
-    bio: "Passionate about serving others, Rebecca coordinates our local and global outreach initiatives with heart and purpose.",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    name: "Toyin Balogun",
+    role: "Co-Pastor",
+    bio: "With a heart for ministry and a passion for leading people into God's presence, Pastor Toyin serves alongside her husband to shepherd the Kingsborough Church family.",
+    image: "https://images.unsplash.com/photo-1531078215167-91fcfe45b39e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   }
 ];
 
@@ -108,8 +94,8 @@ export const sermons: SermonItem[] = [
   {
     id: 1,
     title: "Finding Peace in Chaos",
-    speaker: "Pastor James Wilson",
-    date: "October 8, 2023",
+    speaker: "Apostle Tunde Balogun",
+    date: "April 14, 2024",
     series: "Peace Series",
     description: "Discover biblical principles for maintaining inner peace during life's most challenging seasons.",
     image: "https://images.unsplash.com/photo-1515569371593-46e0d3921359?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
@@ -117,19 +103,19 @@ export const sermons: SermonItem[] = [
   {
     id: 2,
     title: "The Heart of Worship",
-    speaker: "Sarah Martinez",
-    date: "October 1, 2023",
+    speaker: "Pastor Toyin Balogun",
+    date: "April 7, 2024",
     series: "Worship Series",
     description: "Exploring what it means to worship God in spirit and truth, beyond just music and songs.",
     image: "https://images.unsplash.com/photo-1501740326664-5571ff5e30a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   },
   {
     id: 3,
-    title: "Better Together",
-    speaker: "Pastor James Wilson",
-    date: "September 24, 2023",
-    series: "Community Series",
-    description: "Understanding God's design for community and why we need each other to thrive in our faith.",
+    title: "Destiny and Purpose",
+    speaker: "Apostle Tunde Balogun",
+    date: "March 31, 2024",
+    series: "Purpose Series",
+    description: "Understanding God's divine plan for your life and how to walk in your God-given purpose.",
     image: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   }
 ];
