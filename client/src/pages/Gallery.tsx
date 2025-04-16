@@ -213,20 +213,17 @@ const Gallery = () => {
         </div>
       </div>
       
-      {/* Tag Filter Bar - Fixed version with high visibility */}
-      <div className="py-8 bg-deepPurple fixed top-16 left-0 right-0 z-50 shadow-lg" style={{ position: 'sticky', top: 0 }}>
+      {/* Tag Filter Bar - Compact version */}
+      <div className="py-4 bg-deepPurple fixed top-16 left-0 right-0 z-50 shadow-lg" style={{ position: 'sticky', top: 0 }}>
         <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="text-2xl text-gold font-bold mb-6 text-center">
-            FILTER BY CATEGORY
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5 py-2">
+          <div className="flex flex-wrap justify-center gap-3">
             {allTags.map(tag => (
               <button
                 key={tag}
                 onClick={() => setActiveTag(tag)}
                 className={activeTag === tag
-                  ? "bg-gold text-white px-6 py-3 rounded-lg text-lg font-bold shadow-lg"
-                  : "bg-white text-deepPurple border-2 border-gold px-6 py-3 rounded-lg text-lg font-medium hover:bg-gold hover:text-white"
+                  ? "bg-gold text-white px-4 py-2 rounded-md text-sm font-bold shadow-md"
+                  : "bg-white text-deepPurple border border-gold px-4 py-2 rounded-md text-sm font-medium hover:bg-gold hover:text-white"
                 }
               >
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -237,7 +234,7 @@ const Gallery = () => {
       </div>
       
       {/* Gallery Grid */}
-      <section className="py-16 mt-12 bg-white">
+      <section className="py-16 mt-6 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           {/* Simple grid without animations for stability */}
           <div
