@@ -15,6 +15,7 @@ import {
   Settings,
   Users,
   X,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -140,6 +141,12 @@ function Sidebar({ className }: { className?: string }) {
               icon={<MessageSquare className="h-4 w-4" />}
               label="Contact Messages"
               active={location.startsWith("/cms/contact")}
+            />
+            <SidebarLink
+              href="/cms/magazines"
+              icon={<FileText className="h-4 w-4" />}
+              label="Magazines"
+              active={location.startsWith("/cms/magazines")}
             />
           </div>
           

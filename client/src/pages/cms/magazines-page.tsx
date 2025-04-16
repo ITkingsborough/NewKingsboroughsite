@@ -90,11 +90,7 @@ export default function MagazinesPage() {
   // Create magazine mutation
   const createMagazineMutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const res = await apiRequest("POST", "/api/cms/magazines", formData, {
-        headers: {
-          // Don't set Content-Type here, it will be set automatically with boundary
-        },
-      });
+      const res = await apiRequest("POST", "/api/cms/magazines", formData);
       return await res.json();
     },
     onSuccess: () => {
@@ -118,11 +114,7 @@ export default function MagazinesPage() {
   // Update magazine mutation
   const updateMagazineMutation = useMutation({
     mutationFn: async ({id, formData}: {id: number, formData: FormData}) => {
-      const res = await apiRequest("PUT", `/api/cms/magazines/${id}`, formData, {
-        headers: {
-          // Don't set Content-Type here, it will be set automatically with boundary
-        },
-      });
+      const res = await apiRequest("PUT", `/api/cms/magazines/${id}`, formData);
       return await res.json();
     },
     onSuccess: () => {

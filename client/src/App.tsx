@@ -17,6 +17,7 @@ import DashboardPage from "@/pages/cms/dashboard-page";
 import SermonsPage from "@/pages/cms/sermons-page";
 import EventsPage from "@/pages/cms/events-page";
 import GalleryPage from "@/pages/cms/gallery-page";
+import MagazinesPage from "@/pages/cms/magazines-page";
 import ContactPage from "@/pages/cms/contact-page";
 import UnauthorizedPage from "@/pages/cms/unauthorized-page";
 import CookieConsent from "@/components/ui/CookieConsent";
@@ -111,6 +112,12 @@ function App() {
             <Route path="/cms/contact">
               <ProtectedRoute>
                 <ContactPage />
+              </ProtectedRoute>
+            </Route>
+            
+            <Route path="/cms/magazines">
+              <ProtectedRoute>
+                <MagazinesPage />
               </ProtectedRoute>
             </Route>
             
