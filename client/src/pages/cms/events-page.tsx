@@ -293,7 +293,6 @@ export default function EventsPage() {
                 <TableHead>Date</TableHead>
                 <TableHead>Time</TableHead>
                 <TableHead>Location</TableHead>
-                <TableHead>Category</TableHead>
                 <TableHead>Featured</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -305,9 +304,8 @@ export default function EventsPage() {
                   <TableCell>{format(new Date(event.date), "MMM d, yyyy")}</TableCell>
                   <TableCell>{event.time}</TableCell>
                   <TableCell>{event.location}</TableCell>
-                  <TableCell>{event.category}</TableCell>
                   <TableCell>
-                    {event.isFeatured ? (
+                    {event.featured ? (
                       <CheckCircle className="h-4 w-4 text-green-500" />
                     ) : (
                       <XCircle className="h-4 w-4 text-muted-foreground" />
@@ -466,37 +464,7 @@ export default function EventsPage() {
 
                 <FormField
                   control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Service">Service</SelectItem>
-                          <SelectItem value="Fellowship">Fellowship</SelectItem>
-                          <SelectItem value="Outreach">Outreach</SelectItem>
-                          <SelectItem value="Holiday">Holiday</SelectItem>
-                          <SelectItem value="Meeting">Meeting</SelectItem>
-                          <SelectItem value="Conference">Conference</SelectItem>
-                          <SelectItem value="Other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="isFeatured"
+                  name="featured"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                       <div className="space-y-0.5">
@@ -537,26 +505,12 @@ export default function EventsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="image"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Image URL</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter image URL" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="registerUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Registration URL (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter registration URL" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
