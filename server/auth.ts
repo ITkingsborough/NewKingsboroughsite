@@ -288,6 +288,7 @@ export function setupAuth(app: Express) {
 
   // Middleware to check if user is authenticated
   app.use("/api/cms/*", (req, res, next) => {
+    console.log("CMS API request:", req.path, "Auth status:", req.isAuthenticated());
     if (!req.isAuthenticated()) {
       return res.status(401).json({
         success: false,

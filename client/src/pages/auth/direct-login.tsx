@@ -19,6 +19,7 @@ export default function DirectLoginPage() {
     setLoading(true);
     try {
       // Make direct fetch instead of using mutation to ensure cookies are set properly
+      console.log("Attempting direct login with:", { username });
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
