@@ -26,10 +26,7 @@ async function createAdminUser() {
       email,
       name,
       password: hashedPassword,
-      role: "admin",
-      active: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      role: "admin"
     }).returning();
 
     console.log("Admin user created successfully!");
