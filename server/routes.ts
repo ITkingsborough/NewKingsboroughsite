@@ -1,4 +1,4 @@
-import type { Express, Request, Response } from "express";
+import express, { type Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { 
@@ -7,9 +7,12 @@ import {
   insertSermonSchema,
   insertEventSchema,
   insertGalleryItemSchema,
+  insertMagazineSchema,
   insertActivityLogSchema
 } from "@shared/schema";
 import { setupAuth, logUserActivity } from "./auth";
+import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
+import path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -886,6 +889,339 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+
+  // File Upload endpoints
+  app.post('/api/upload', uploadMiddleware.single('file'), async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      if (!req.file) {
+        return res.status(400).json({ success: false, message: 'No file uploaded' });
+      }
+
+      // Get file information
+      const uploadType = req.body.uploadType || 'gallery';
+      const fileUrl = getPublicUrl(req.file.filename, uploadType);
+      
+      // Log the activity
+      await logUserActivity(req.user.id, "upload", uploadType, undefined, JSON.stringify({
+        filename: req.file.filename,
+        fileUrl: fileUrl,
+        size: req.file.size
+      }));
+
+      return res.status(201).json({
+        success: true,
+        message: 'File uploaded successfully',
+        data: {
+          filename: req.file.filename,
+          fileUrl: fileUrl,
+          originalName: req.file.originalname,
+          size: req.file.size,
+          mimetype: req.file.mimetype
+        }
+      });
+    } catch (error: any) {
+      console.error('Error uploading file:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to upload file',
+        error: error.message || String(error)
+      });
+    }
+  });
+
+  // Magazine endpoints
+  app.get('/api/cms/magazines', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const magazines = await storage.getAllMagazines();
+      return res.json({
+        success: true,
+        data: magazines
+      });
+    } catch (error) {
+      console.error('Error fetching magazines:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch magazines'
+      });
+    }
+  });
+
+  app.get('/api/cms/magazines/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const magazine = await storage.getMagazine(id);
+      
+      if (!magazine) {
+        return res.status(404).json({
+          success: false,
+          message: 'Magazine not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: magazine
+      });
+    } catch (error) {
+      console.error('Error fetching magazine:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch magazine'
+      });
+    }
+  });
+
+  app.post('/api/cms/magazines', uploadMiddleware.fields([
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'pdfFile', maxCount: 1 }
+  ]), async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has editor or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'editor' && req.user.role !== 'media_manager') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to create magazines'
+        });
+      }
+      
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      
+      if (!files.coverImage || !files.pdfFile) {
+        return res.status(400).json({
+          success: false,
+          message: 'Both cover image and PDF file are required'
+        });
+      }
+      
+      const coverImageUrl = getPublicUrl(files.coverImage[0].filename, 'magazines');
+      const pdfUrl = getPublicUrl(files.pdfFile[0].filename, 'magazines');
+      
+      const magazineData = {
+        ...req.body,
+        coverImage: coverImageUrl,
+        pdfUrl: pdfUrl,
+        createdBy: req.user.id,
+        updatedBy: req.user.id
+      };
+      
+      const validatedData = insertMagazineSchema.parse(magazineData);
+      const magazine = await storage.createMagazine(validatedData);
+      await logUserActivity(req.user.id, "create", "magazine", magazine.id);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Magazine created successfully',
+        data: magazine
+      });
+    } catch (error: any) {
+      console.error('Error creating magazine:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create magazine',
+        error: error.message || String(error)
+      });
+    }
+  });
+
+  app.put('/api/cms/magazines/:id', uploadMiddleware.fields([
+    { name: 'coverImage', maxCount: 1 },
+    { name: 'pdfFile', maxCount: 1 }
+  ]), async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has editor or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'editor' && req.user.role !== 'media_manager') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to update magazines'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const magazine = await storage.getMagazine(id);
+      
+      if (!magazine) {
+        return res.status(404).json({
+          success: false,
+          message: 'Magazine not found'
+        });
+      }
+      
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] } || {};
+      const updateData: any = { ...req.body, updatedBy: req.user.id };
+      
+      // Update cover image if uploaded
+      if (files.coverImage && files.coverImage.length > 0) {
+        // Delete old cover image if it exists
+        if (magazine.coverImage) {
+          await deleteFile(magazine.coverImage);
+        }
+        updateData.coverImage = getPublicUrl(files.coverImage[0].filename, 'magazines');
+      }
+      
+      // Update PDF file if uploaded
+      if (files.pdfFile && files.pdfFile.length > 0) {
+        // Delete old PDF file if it exists
+        if (magazine.pdfUrl) {
+          await deleteFile(magazine.pdfUrl);
+        }
+        updateData.pdfUrl = getPublicUrl(files.pdfFile[0].filename, 'magazines');
+      }
+      
+      const validatedData = insertMagazineSchema.partial().parse(updateData);
+      const updatedMagazine = await storage.updateMagazine(id, validatedData);
+      await logUserActivity(req.user.id, "update", "magazine", id);
+      
+      return res.json({
+        success: true,
+        message: 'Magazine updated successfully',
+        data: updatedMagazine
+      });
+    } catch (error: any) {
+      console.error('Error updating magazine:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to update magazine',
+        error: error.message || String(error)
+      });
+    }
+  });
+
+  app.delete('/api/cms/magazines/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has admin role
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to delete magazines'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const magazine = await storage.getMagazine(id);
+      
+      if (!magazine) {
+        return res.status(404).json({
+          success: false,
+          message: 'Magazine not found'
+        });
+      }
+      
+      // Delete associated files
+      if (magazine.coverImage) {
+        await deleteFile(magazine.coverImage);
+      }
+      
+      if (magazine.pdfUrl) {
+        await deleteFile(magazine.pdfUrl);
+      }
+      
+      await storage.deleteMagazine(id);
+      await logUserActivity(req.user.id, "delete", "magazine", id);
+      
+      return res.json({
+        success: true,
+        message: 'Magazine deleted successfully'
+      });
+    } catch (error) {
+      console.error('Error deleting magazine:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete magazine'
+      });
+    }
+  });
+
+  // Public magazine endpoints
+  app.get('/api/magazines', async (req, res) => {
+    try {
+      const magazines = await storage.getAllMagazines();
+      return res.json({
+        success: true,
+        data: magazines
+      });
+    } catch (error) {
+      console.error('Error fetching magazines:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch magazines'
+      });
+    }
+  });
+
+  app.get('/api/magazines/featured', async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 5;
+      const magazines = await storage.getFeaturedMagazines(limit);
+      return res.json({
+        success: true,
+        data: magazines
+      });
+    } catch (error) {
+      console.error('Error fetching featured magazines:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch featured magazines'
+      });
+    }
+  });
+
+  app.get('/api/magazines/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const magazine = await storage.getMagazine(id);
+      
+      if (!magazine) {
+        return res.status(404).json({
+          success: false,
+          message: 'Magazine not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: magazine
+      });
+    } catch (error) {
+      console.error('Error fetching magazine:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch magazine'
+      });
+    }
+  });
+
+  // Configure Express to serve static files from the public folder
+  app.use('/uploads', (req, res, next) => {
+    // Make sure the file being accessed is from the uploads directory
+    if (!req.url.startsWith('/')) {
+      return res.status(404).send('Not found');
+    }
+    next();
+  }, express.static(path.join(process.cwd(), 'public', 'uploads')));
 
   const httpServer = createServer(app);
   return httpServer;
