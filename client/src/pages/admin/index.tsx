@@ -28,6 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useQuery } from '@tanstack/react-query';
 import { getQueryFn } from '@/lib/queryClient';
 import { Loader2 } from 'lucide-react';
+import SermonManager from '@/components/admin/SermonManager';
 
 // Stat card component
 interface StatCardProps {
@@ -265,7 +266,7 @@ const DashboardContent = () => {
   );
 };
 const CommunityContent = () => <div className="p-6">Communities Content</div>;
-const SermonContent = () => <div className="p-6">Sermons Content</div>;
+const SermonContent = () => <div className="p-6"><SermonManager /></div>;
 const EventContent = () => <div className="p-6">Events Content</div>;
 const MagazineContent = () => <div className="p-6">Magazines Content</div>;
 const LeaderContent = () => <div className="p-6">Leadership Content</div>;

@@ -338,9 +338,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Create sermon
-  app.post('/api/admin/sermons', isAuthenticated, async (req, res) => {
+  app.post('/api/sermons', isAuthenticated, upload.single('image'), async (req, res) => {
     try {
-      const validatedData = insertSermonSchema.parse(req.body);
+      // Handle form data
+      const formData = req.body;
+      
+      // Add image path if file was uploaded
+      if (req.file) {
+        formData.image = `/uploads/${req.file.filename}`;
+      }
+      
+      const validatedData = insertSermonSchema.parse(formData);
       const result = await storage.createSermon(validatedData);
       return res.status(201).json(result);
     } catch (error) {
@@ -349,10 +357,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Update sermon
-  app.put('/api/admin/sermons/:id', isAuthenticated, async (req, res) => {
+  app.patch('/api/sermons/:id', isAuthenticated, upload.single('image'), async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const validatedData = insertSermonSchema.partial().parse(req.body);
+      const formData = req.body;
+      
+      // Add image path if file was uploaded
+      if (req.file) {
+        formData.image = `/uploads/${req.file.filename}`;
+      }
+      
+      const validatedData = insertSermonSchema.partial().parse(formData);
       const result = await storage.updateSermon(id, validatedData);
       
       if (!result) {
@@ -366,16 +381,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // Delete sermon
-  app.delete('/api/admin/sermons/:id', isAuthenticated, async (req, res) => {
+  app.delete('/api/sermons/:id', isAuthenticated, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const success = await storage.deleteSermon(id);
       
-      if (!success) {
+      // Get the sermon first to find the image path
+      const sermon = await storage.getSermon(id);
+      if (!sermon) {
         return res.status(404).json({ message: 'Sermon not found' });
       }
       
-      return res.json({ message: 'Sermon deleted successfully' });
+      // Delete from database
+      const success = await storage.deleteSermon(id);
+      
+      if (success) {
+        // Delete the image file if it exists
+        if (sermon.image) {
+          const imagePath = path.join(process.cwd(), 'public', sermon.image);
+          if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+          }
+        }
+        
+        return res.json({ message: 'Sermon deleted successfully' });
+      } else {
+        return res.status(500).json({ message: 'Failed to delete sermon from database' });
+      }
     } catch (error) {
       return handleError(res, error, 'Error deleting sermon');
     }
