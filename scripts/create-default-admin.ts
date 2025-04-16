@@ -1,11 +1,12 @@
 import { hashPassword } from "../server/auth";
 import { db } from "../server/db";
 import { users } from "../shared/schema";
+import { eq } from "drizzle-orm";
 
 async function createDefaultAdmin() {
   try {
     console.log("Checking for existing admin users...");
-    const existingAdmins = await db.select().from(users).where({ role: "admin" });
+    const existingAdmins = await db.select().from(users).where(eq(users.role, "admin"));
     
     if (existingAdmins.length > 0) {
       console.log("Admin users already exist in the database.");

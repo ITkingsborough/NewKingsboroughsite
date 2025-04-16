@@ -284,7 +284,7 @@ export class DatabaseStorage implements IStorage {
   async getFeaturedGalleryItems(limit: number = 10): Promise<GalleryItem[]> {
     return db.select()
       .from(galleryItems)
-      .where(eq(galleryItems.is_featured, true))
+      .where(eq(galleryItems.isFeatured, true))
       .orderBy(desc(galleryItems.date))
       .limit(limit);
   }

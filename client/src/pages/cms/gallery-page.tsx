@@ -214,8 +214,8 @@ export default function GalleryPage() {
       imageUrl: item.imageUrl,
       tags: item.tags,
       date: new Date(item.date),
-      isFeatured: item.isFeatured,
-      createdBy: item.createdBy,
+      isFeatured: item.isFeatured || false,
+      createdBy: item.createdBy || undefined,
       updatedBy: user?.id, // Set to current user's ID when editing
     });
     setDialogOpen(true);
@@ -231,6 +231,8 @@ export default function GalleryPage() {
       tags: ["all"],
       date: new Date(),
       isFeatured: false,
+      createdBy: user?.id,
+      updatedBy: user?.id,
     });
     setDialogOpen(true);
   };
