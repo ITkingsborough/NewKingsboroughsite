@@ -75,7 +75,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div 
           ref={contentRef}
-          className="ml-auto mr-8 md:mr-16 lg:mr-24 max-w-3xl"
+          className="mx-auto text-center max-w-4xl"
         >
           <h1 
             ref={headingRef}
@@ -93,7 +93,7 @@ const Hero = () => {
           
           <div 
             ref={buttonsRef}
-            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 opacity-0"
+            className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 opacity-0"
           >
             <Link href="/about" className="btn-primary text-xl px-8 py-4">
               Learn More
