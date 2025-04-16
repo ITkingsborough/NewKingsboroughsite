@@ -65,11 +65,14 @@ const Sermons = () => {
   useEffect(() => {
     // Add parallax effect to hero section
     if (heroRef.current) {
-      createScrollAnimation(
-        heroRef.current.querySelector('.parallax-bg'),
-        { y: '30%' },
-        { trigger: heroRef.current, scrub: true, start: 'top top', end: 'bottom top' }
-      );
+      const parallaxBg = heroRef.current.querySelector('.parallax-bg');
+      if (parallaxBg) {
+        createScrollAnimation(
+          parallaxBg,
+          { y: '30%' },
+          { trigger: heroRef.current, scrub: true, start: 'top top', end: 'bottom top' }
+        );
+      }
     }
 
     // Animate featured sermon on scroll

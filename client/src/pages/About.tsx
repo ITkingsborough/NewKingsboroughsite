@@ -95,7 +95,7 @@ const About = () => {
   useEffect(() => {
     // Hero section parallax effect
     if (parallaxBgRef.current) {
-      createParallaxEffect(parallaxBgRef.current, 'vertical', 0.3);
+      createParallaxEffect(parallaxBgRef.current, 0.3, 'vertical');
     }
     
     // Who We Are section animations
@@ -214,7 +214,7 @@ const About = () => {
     if (ctaRef.current) {
       const ctaBg = ctaRef.current.querySelector('.cta-bg');
       if (ctaBg) {
-        createParallaxEffect(ctaBg, 'vertical', 0.2);
+        createParallaxEffect(ctaBg, 0.2, 'vertical');
       }
     }
     
