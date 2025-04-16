@@ -77,6 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (req.isAuthenticated()) {
       return next();
     }
+    console.log('Auth check failed: User not authenticated');
     return res.status(401).json({ message: "Unauthorized" });
   };
   

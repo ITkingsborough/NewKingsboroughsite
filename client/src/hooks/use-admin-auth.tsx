@@ -39,9 +39,12 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     data: user = null,
     error,
     isLoading,
+    refetch,
   } = useQuery<AdminUserData | null, Error>({
     queryKey: ["/api/admin/me"],
     queryFn: getQueryFn({ on401: "returnNull" }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 1,
   });
 
   // Mutation to login
