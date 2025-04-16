@@ -258,7 +258,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllSermons(): Promise<Sermon[]> {
-    return await db.select().from(sermons);
+    try {
+      return await db.select().from(sermons);
+    } catch (error) {
+      console.error('Error in getAllSermons:', error);
+      return [];
+    }
   }
 
   async getSermon(id: number): Promise<Sermon | undefined> {

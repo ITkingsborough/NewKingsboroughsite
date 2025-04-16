@@ -172,6 +172,7 @@ export default function SermonManager() {
     {
       key: 'preacher',
       header: 'Preacher',
+      cell: (sermon: any) => sermon.preacher || sermon.speaker || 'Unknown',
     },
     {
       key: 'videoUrl',

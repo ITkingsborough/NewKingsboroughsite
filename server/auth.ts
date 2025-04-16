@@ -44,6 +44,8 @@ export function setupAuth(app: Express) {
     cookie: {
       secure: process.env.NODE_ENV === "production", // Only use secure cookies in production
       maxAge: 1000 * 60 * 60 * 24 * 7, // One week
+      httpOnly: true,
+      sameSite: 'lax', // This helps with CSRF protection
     },
     store: storage.sessionStore,
   };
@@ -82,6 +84,8 @@ export function setupAuth(app: Express) {
 
   // Serialize user to session
   passport.serializeUser((user, done) => {
+    // Log serialization
+    console.log('Serializing user:', user.id);
     done(null, user.id);
   });
 
@@ -89,8 +93,14 @@ export function setupAuth(app: Express) {
   passport.deserializeUser(async (id: number, done) => {
     try {
       const user = await storage.getUser(id);
+      if (!user) {
+        console.log('Deserialize failed: User not found for ID', id);
+        return done(null, false);
+      }
+      console.log('Deserialized user:', user.id);
       done(null, user);
     } catch (error) {
+      console.error('Deserialize error:', error);
       done(error);
     }
   });
