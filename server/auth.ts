@@ -101,12 +101,7 @@ export function setupAuth(app: Express) {
           return done(null, false, { message: "Invalid username or password" });
         }
         
-        // If user exists but is inactive
-        if (!user.active) {
-          return done(null, false, { message: "Account has been deactivated" });
-        }
-        
-        // Update last login timestamp
+        // Update last login timestamp (now just a placeholder since field is removed)
         await storage.updateUserLastLogin(user.id);
         
         // Log login activity
@@ -127,9 +122,6 @@ export function setupAuth(app: Express) {
     try {
       const user = await storage.getUser(id);
       if (!user) {
-        return done(null, false);
-      }
-      if (!user.active) {
         return done(null, false);
       }
       done(null, user);

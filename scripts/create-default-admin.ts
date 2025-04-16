@@ -22,10 +22,7 @@ async function createDefaultAdmin() {
       email: "admin@kingsboroughchurch.org",
       name: "Admin User",
       password: await hashPassword("admin123"),
-      role: "admin",
-      active: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      role: "admin"
     };
     
     console.log("Creating default admin user...");

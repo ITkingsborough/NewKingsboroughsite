@@ -64,20 +64,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const now = new Date();
     const [user] = await db.insert(users).values({
-      ...insertUser,
-      active: true,
-      createdAt: now,
-      updatedAt: now
+      ...insertUser
     }).returning();
     return user;
   }
   
   async updateUserLastLogin(userId: number): Promise<void> {
-    await db.update(users)
-      .set({ lastLogin: new Date() })
-      .where(eq(users.id, userId));
+    // Skip update as lastLogin column doesn't exist in current schema
+    return;
   }
   
   async createContactMessage(message: InsertContact): Promise<Contact> {
