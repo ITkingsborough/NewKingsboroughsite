@@ -97,8 +97,16 @@ const galleryImages = [
   }
 ];
 
-// Extract unique tags from images
-const allTags = ["all", ...Array.from(new Set(galleryImages.flatMap(img => img.tags)))];
+// Extract unique tags from images - for debugging, add manually if array is empty
+let extractedTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
+// If no tags were extracted, provide some defaults
+if (extractedTags.length === 0) {
+  extractedTags = ["worship", "service", "baptism", "community", "prayer", "outreach"];
+}
+const allTags = ["all", ...extractedTags];
+
+// Log to ensure tags are present
+console.log("Gallery tags:", allTags);
 
 const Gallery = () => {
   const [activeTag, setActiveTag] = useState("all");
@@ -228,21 +236,24 @@ const Gallery = () => {
       </div>
       
       {/* Tag Filter Bar */}
-      <div className="py-6 bg-deepPurple/5 sticky top-0 z-10 shadow-md border-b border-gold/20">
+      <div className="py-8 bg-deepPurple sticky top-0 z-10 shadow-lg">
         <div className="container mx-auto px-4 lg:px-8">
+          <h2 className="text-xl text-white font-semibold mb-4 text-center">
+            Filter by Category
+          </h2>
           <div 
             ref={tagsRef}
-            className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide" 
+            className="flex gap-4 overflow-x-auto pb-3 scrollbar-hide justify-center flex-wrap" 
             style={{ scrollbarWidth: 'none' }}
           >
             {allTags.map(tag => (
               <button
                 key={tag}
                 onClick={() => setActiveTag(tag)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors duration-300 ${
+                className={`px-5 py-3 rounded-full text-base font-medium whitespace-nowrap transition-colors duration-300 ${
                   activeTag === tag
-                    ? 'bg-gold text-white'
-                    : 'border border-gold text-gold hover:bg-gold/10'
+                    ? 'bg-gold text-white font-bold shadow-lg'
+                    : 'bg-white text-deepPurple border-2 border-gold hover:bg-gold hover:text-white'
                 }`}
               >
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}
