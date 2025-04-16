@@ -48,45 +48,45 @@ const galleryImages = [
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1609139003551-ee5552a8d17a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Bible study group meeting",
-    tags: ["education", "community"],
-    caption: "Midweek Bible study fellowship"
+    src: "https://images.unsplash.com/photo-1471565661762-b9dfae862dbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Youth group outdoor activity",
+    tags: ["youth", "community"],
+    caption: "Youth group summer retreat"
   },
   {
     id: 7,
-    src: "https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Youth group social event",
-    tags: ["youth", "events"],
-    caption: "Youth ministry social gathering"
+    src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Church anniversary celebration",
+    tags: ["events", "community"],
+    caption: "Celebrating our 25th church anniversary"
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Easter celebration service",
-    tags: ["events", "service"],
-    caption: "Easter celebration service"
+    src: "https://images.unsplash.com/photo-1490349708435-19d432984978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Prayer meeting with people kneeling",
+    tags: ["prayer", "worship"],
+    caption: "Wednesday night prayer service"
   },
   {
     id: 9,
-    src: "https://images.unsplash.com/photo-1508529843326-5c6c9b59039b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Church retreat group photo",
-    tags: ["community", "events"],
-    caption: "Annual church retreat"
+    src: "https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Women's conference group photo",
+    tags: ["women", "events"],
+    caption: "Annual women's conference"
   },
   {
     id: 10,
-    src: "https://images.unsplash.com/photo-1599071232256-26215b5c831a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Mothers prayer group",
-    tags: ["prayer", "women"],
-    caption: "Women's prayer circle"
+    src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Church volunteers packing donation boxes",
+    tags: ["outreach", "community"],
+    caption: "Holiday gift box outreach preparation"
   },
   {
     id: 11,
-    src: "https://images.unsplash.com/photo-1557495511-2c1b460333c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Church volunteer team",
-    tags: ["outreach", "events"],
-    caption: "Our amazing volunteer team"
+    src: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    alt: "Youth praise dance performance",
+    tags: ["youth", "worship"],
+    caption: "Youth praise dance ministry"
   },
   {
     id: 12,
@@ -116,7 +116,6 @@ const Gallery = () => {
   
   // Refs for GSAP animations
   const headerRef = useRef<HTMLDivElement>(null);
-  const tagsRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   
   const { createRevealAnimation } = useGsapAnimations();
@@ -181,40 +180,24 @@ const Gallery = () => {
     setDisplayCount(8);
   }, [activeTag]);
   
-  // GSAP animations
+  // Simplified animations that won't interfere with content visibility
   useEffect(() => {
-    if (!headerRef.current || !tagsRef.current || !galleryRef.current) return;
+    if (!headerRef.current) return;
     
-    // Header animations
+    // Simple header animation only - avoid animating critical UI elements
     gsap.from(headerRef.current.children, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "power2.out"
-    });
-    
-    // Tag animations
-    gsap.from(tagsRef.current.children, {
       y: 20,
       opacity: 0,
       duration: 0.5,
       stagger: 0.1,
-      ease: "power2.out",
-      delay: 0.5
-    });
-    
-    // Set up image reveal animations
-    const images = galleryRef.current.querySelectorAll('.gallery-item');
-    images.forEach((image, index) => {
-      createRevealAnimation(image, 'bottom', 30);
+      ease: "power1.out"
     });
     
     // Clean up
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [createRevealAnimation, activeTag, displayCount]);
+  }, []);
 
   return (
     <>
@@ -235,26 +218,21 @@ const Gallery = () => {
         </div>
       </div>
       
-      {/* Tag Filter Bar */}
-      <div className="py-8 bg-deepPurple sticky top-0 z-10 shadow-lg">
+      {/* Tag Filter Bar - Fixed version with high visibility */}
+      <div className="py-8 bg-deepPurple fixed top-16 left-0 right-0 z-50 shadow-lg" style={{ position: 'sticky', top: 0 }}>
         <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="text-xl text-white font-semibold mb-4 text-center">
-            Filter by Category
+          <h2 className="text-2xl text-gold font-bold mb-6 text-center">
+            FILTER BY CATEGORY
           </h2>
-          <div 
-            ref={tagsRef}
-            className="flex gap-4 overflow-x-auto pb-3 scrollbar-hide justify-center flex-wrap" 
-            style={{ scrollbarWidth: 'none' }}
-          >
+          <div className="flex flex-wrap justify-center gap-5 py-2">
             {allTags.map(tag => (
               <button
                 key={tag}
                 onClick={() => setActiveTag(tag)}
-                className={`px-5 py-3 rounded-full text-base font-medium whitespace-nowrap transition-colors duration-300 ${
-                  activeTag === tag
-                    ? 'bg-gold text-white font-bold shadow-lg'
-                    : 'bg-white text-deepPurple border-2 border-gold hover:bg-gold hover:text-white'
-                }`}
+                className={activeTag === tag
+                  ? "bg-gold text-white px-6 py-3 rounded-lg text-lg font-bold shadow-lg"
+                  : "bg-white text-deepPurple border-2 border-gold px-6 py-3 rounded-lg text-lg font-medium hover:bg-gold hover:text-white"
+                }
               >
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}
               </button>
@@ -264,84 +242,71 @@ const Gallery = () => {
       </div>
       
       {/* Gallery Grid */}
-      <section className="py-16 bg-white">
+      <section className="py-16 mt-12 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
+          {/* Simple grid without animations for stability */}
+          <div
             ref={galleryRef}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            variants={staggerContainer()}
-            initial="hidden"
-            animate="visible"
           >
-            <AnimatePresence>
-              {displayedImages.map((image) => (
-                <motion.div
-                  layout
-                  key={image.id}
-                  className="gallery-item"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: loaded.includes(image.id) ? 1 : 0, y: loaded.includes(image.id) ? 0 : 20 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
+            {displayedImages.map((image) => (
+              <div
+                key={image.id}
+                className="gallery-item"
+              >
+                <div 
+                  className="relative overflow-hidden rounded-lg shadow-md cursor-pointer aspect-[4/3] group"
+                  onClick={() => setOpenImage(image.id)}
                 >
-                  <div 
-                    className="relative overflow-hidden rounded-lg shadow-md cursor-pointer aspect-[4/3] group"
-                    onClick={() => setOpenImage(image.id)}
-                  >
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      onLoad={() => handleImageLoad(image.id)}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    
-                    {/* Bottom tag bar - always visible */}
-                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-deepPurple/60 flex flex-wrap">
-                      {image.tags.map((tag, idx) => (
-                        <span 
-                          key={idx}
-                          className="inline-block bg-gold text-white text-xs px-2 py-1 rounded-full mr-2 mb-1"
-                        >
-                          {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                        </span>
-                      ))}
-                    </div>
-                    
-                    {/* Overlay on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-deepPurple/80 via-deepPurple/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                      <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        <p className="text-white text-sm font-medium mt-1">{image.caption}</p>
-                      </div>
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    onLoad={() => handleImageLoad(image.id)}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  
+                  {/* Bottom tag bar - always visible */}
+                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-deepPurple/60 flex flex-wrap">
+                    {image.tags.map((tag, idx) => (
+                      <span 
+                        key={idx}
+                        className="inline-block bg-gold text-white text-xs px-2 py-1 rounded-full mr-2 mb-1"
+                      >
+                        {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  {/* Overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-deepPurple/80 via-deepPurple/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <p className="text-white text-sm font-medium mt-1">{image.caption}</p>
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                </div>
+              </div>
+            ))}
+          </div>
           
           {/* Show More Button */}
           {filteredImages.length > displayCount && (
             <div className="flex justify-center mt-12">
-              <motion.button
+              <button
                 onClick={handleLoadMore}
                 className="px-6 py-3 bg-gold text-white rounded-lg font-medium transition-all duration-300 hover:bg-deepPurple hover:shadow-lg flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
               >
                 Show More
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
-              </motion.button>
+              </button>
             </div>
           )}
           
           {/* Empty state */}
           {filteredImages.length === 0 && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <div 
               className="text-center py-16"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -355,7 +320,7 @@ const Gallery = () => {
               >
                 View All Images
               </button>
-            </motion.div>
+            </div>
           )}
         </div>
       </section>
