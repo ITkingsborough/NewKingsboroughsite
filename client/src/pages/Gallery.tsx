@@ -263,7 +263,7 @@ const Gallery = () => {
             animate="visible"
           >
             <AnimatePresence>
-              {filteredImages.map((image) => (
+              {displayedImages.map((image) => (
                 <motion.div
                   layout
                   key={image.id}
@@ -291,7 +291,7 @@ const Gallery = () => {
                         {image.tags.map((tag, idx) => (
                           <span 
                             key={idx}
-                            className="inline-block bg-gold/90 text-white text-xs px-2 py-1 rounded-full mr-2 mb-2"
+                            className="inline-block bg-gold text-white text-xs px-2 py-1 rounded-full mr-2 mb-2"
                           >
                             {tag.charAt(0).toUpperCase() + tag.slice(1)}
                           </span>
@@ -304,6 +304,23 @@ const Gallery = () => {
               ))}
             </AnimatePresence>
           </motion.div>
+          
+          {/* Show More Button */}
+          {filteredImages.length > displayCount && (
+            <div className="flex justify-center mt-12">
+              <motion.button
+                onClick={handleLoadMore}
+                className="px-6 py-3 bg-gold text-white rounded-lg font-medium transition-all duration-300 hover:bg-deepPurple hover:shadow-lg flex items-center gap-2"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Show More
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </motion.button>
+            </div>
+          )}
           
           {/* Empty state */}
           {filteredImages.length === 0 && (
@@ -394,7 +411,7 @@ const Gallery = () => {
                   {filteredImages[currentImageIndex].tags.map((tag, idx) => (
                     <span 
                       key={idx}
-                      className="inline-block bg-gold/80 text-white text-xs px-2 py-1 rounded-full"
+                      className="inline-block bg-gold text-white text-xs px-2 py-1 rounded-full"
                     >
                       {tag.charAt(0).toUpperCase() + tag.slice(1)}
                     </span>
