@@ -6,6 +6,7 @@ export const userRoleEnum = pgEnum('user_role', ['admin', 'editor', 'media_manag
 export const sermonCategoryEnum = pgEnum('sermon_category', ['Sunday Service', 'Bible Study', 'Special Event', 'Conference', 'Youth', 'Other']);
 export const eventCategoryEnum = pgEnum('event_category', ['Service', 'Fellowship', 'Outreach', 'Holiday', 'Meeting', 'Conference', 'Other']);
 export const galleryTagEnum = pgEnum('gallery_tag', ['all', 'hadassah', 'kingsmen', 'youth', 'service']);
+export const magazineTypeEnum = pgEnum('magazine_type', ['weekly', 'monthly', 'quarterly', 'special']);
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -178,3 +179,34 @@ export const insertGalleryItemSchema = createInsertSchema(galleryItems).pick({
 
 export type InsertGalleryItem = z.infer<typeof insertGalleryItemSchema>;
 export type GalleryItem = typeof galleryItems.$inferSelect;
+
+// Magazines
+export const magazines = pgTable("magazines", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  type: text("type").notNull().default('monthly'),
+  date: text("date").notNull(), // Publication date as text (e.g., "June 2023")
+  coverImage: text("cover_image").notNull(), // Cover image path
+  pdfUrl: text("pdf_url").notNull(), // PDF file path
+  featured: boolean("featured").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  createdBy: integer("created_by").references(() => users.id),
+  updatedBy: integer("updated_by").references(() => users.id),
+});
+
+export const insertMagazineSchema = createInsertSchema(magazines).pick({
+  title: true,
+  description: true,
+  type: true,
+  date: true,
+  coverImage: true,
+  pdfUrl: true,
+  featured: true,
+  createdBy: true,
+  updatedBy: true,
+});
+
+export type InsertMagazine = z.infer<typeof insertMagazineSchema>;
+export type Magazine = typeof magazines.$inferSelect;
