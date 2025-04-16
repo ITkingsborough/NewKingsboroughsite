@@ -5,11 +5,18 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { User } from "@shared/schema";
 
 declare global {
   namespace Express {
-    interface User extends User {}
+    interface User {
+      id: number;
+      username: string;
+      password: string;
+      name: string;
+      email: string;
+      role: string;
+      createdAt: Date | null;
+    }
   }
 }
 
@@ -140,7 +147,7 @@ export function setupAuth(app: Express) {
     }
     
     // Remove password from response
-    const { password, ...userWithoutPassword } = req.user as User;
+    const { password, ...userWithoutPassword } = req.user as Express.User;
     res.json(userWithoutPassword);
   });
 
