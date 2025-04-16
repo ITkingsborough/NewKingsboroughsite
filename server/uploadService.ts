@@ -21,54 +21,76 @@ for (const dir of [uploadDir, galleryDir, sermonsDir, eventsDir, magazinesDir]) 
 // Configure storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadType = req.body.uploadType || 'gallery';
-    let dest;
+    console.log('File field:', file.fieldname);
     
-    switch (uploadType) {
-      case 'gallery':
-        dest = galleryDir;
-        break;
-      case 'sermon':
-        dest = sermonsDir;
-        break;
-      case 'event':
-        dest = eventsDir;
-        break;
-      case 'magazine':
-        dest = magazinesDir;
-        break;
-      default:
-        dest = uploadDir;
+    let dest;
+    // Determine destination directory based on the file fieldname
+    if (file.fieldname === 'pdfFile') {
+      dest = magazinesDir;
+    } else if (file.fieldname === 'coverImage') {
+      dest = magazinesDir;
+    } else if (file.fieldname === 'image' || file.fieldname.includes('image')) {
+      // Gallery images
+      dest = galleryDir;
+    } else if (file.fieldname === 'audioFile') {
+      // Sermon audio files
+      dest = sermonsDir;
+    } else if (file.fieldname === 'banner') {
+      // Event banners
+      dest = eventsDir;
+    } else {
+      // Default fallback
+      dest = uploadDir;
     }
     
+    console.log('Destination directory:', dest);
     cb(null, dest);
   },
   filename: (req, file, cb) => {
     // Create a unique filename with original extension
     const extension = path.extname(file.originalname);
     const filename = `${uuidv4()}${extension}`;
+    console.log('Generated filename:', filename);
     cb(null, filename);
   }
 });
 
 // File filter to allow only images and pdfs
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  // Check if this is PDF upload for magazines
-  if (req.body.uploadType === 'magazine' && file.fieldname === 'pdfFile') {
+  console.log('Filtering file:', file.fieldname, file.mimetype);
+  
+  // PDF files
+  if (file.fieldname === 'pdfFile') {
     if (file.mimetype === 'application/pdf') {
       cb(null, true);
     } else {
-      cb(new Error('Only PDF files are allowed for magazines'));
+      cb(new Error('Only PDF files are allowed for PDF uploads'));
     }
     return;
   }
-
-  // For images
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed'));
+  
+  // Image files
+  if (file.fieldname === 'coverImage' || file.fieldname === 'image' || file.fieldname.includes('image') || file.fieldname === 'banner') {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed for image uploads'));
+    }
+    return;
   }
+  
+  // Audio files
+  if (file.fieldname === 'audioFile') {
+    if (file.mimetype.startsWith('audio/') || file.mimetype === 'application/octet-stream') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only audio files are allowed for sermon uploads'));
+    }
+    return;
+  }
+  
+  // Default - accept the file
+  cb(null, true);
 };
 
 // Set up multer with configured storage

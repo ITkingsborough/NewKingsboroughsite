@@ -202,16 +202,31 @@ export default function MagazinesPage() {
     
     setIsSubmitting(true);
     
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("date", date);
-    formData.append("type", type);
-    formData.append("featured", featured.toString());
-    formData.append("coverImage", coverImage);
-    formData.append("pdfFile", pdfFile);
-    
-    await createMagazineMutation.mutateAsync(formData);
+    try {
+      console.log("Creating form data...");
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("date", date);
+      formData.append("type", type);
+      formData.append("featured", featured.toString());
+      
+      console.log("Adding cover image:", coverImage);
+      formData.append("coverImage", coverImage);
+      
+      console.log("Adding PDF file:", pdfFile);
+      formData.append("pdfFile", pdfFile);
+      
+      await createMagazineMutation.mutateAsync(formData);
+    } catch (error) {
+      console.error("Error preparing form data:", error);
+      setIsSubmitting(false);
+      toast({
+        title: "Error preparing data",
+        description: "There was an error preparing the form data.",
+        variant: "destructive",
+      });
+    }
   };
   
   // Handle form submission for updating a magazine
@@ -228,25 +243,38 @@ export default function MagazinesPage() {
     
     setIsSubmitting(true);
     
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("date", date);
-    formData.append("type", type);
-    formData.append("featured", featured.toString());
-    
-    if (coverImage) {
-      formData.append("coverImage", coverImage);
+    try {
+      console.log("Creating form data for update...");
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("date", date);
+      formData.append("type", type);
+      formData.append("featured", featured.toString());
+      
+      if (coverImage) {
+        console.log("Adding cover image for update:", coverImage);
+        formData.append("coverImage", coverImage);
+      }
+      
+      if (pdfFile) {
+        console.log("Adding PDF file for update:", pdfFile);
+        formData.append("pdfFile", pdfFile);
+      }
+      
+      await updateMagazineMutation.mutateAsync({
+        id: selectedMagazine.id,
+        formData
+      });
+    } catch (error) {
+      console.error("Error preparing form data for update:", error);
+      setIsSubmitting(false);
+      toast({
+        title: "Error preparing data",
+        description: "There was an error preparing the form data for update.",
+        variant: "destructive",
+      });
     }
-    
-    if (pdfFile) {
-      formData.append("pdfFile", pdfFile);
-    }
-    
-    await updateMagazineMutation.mutateAsync({
-      id: selectedMagazine.id,
-      formData
-    });
   };
   
   // Handle delete confirmation

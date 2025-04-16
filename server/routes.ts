@@ -1000,9 +1000,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      console.log('Files received:', req.files);
+      console.log('Body received:', req.body);
       
-      if (!files.coverImage || !files.pdfFile) {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] } || {};
+      
+      if (!files || !files.coverImage || files.coverImage.length === 0 || !files.pdfFile || files.pdfFile.length === 0) {
         return res.status(400).json({
           success: false,
           message: 'Both cover image and PDF file are required'
