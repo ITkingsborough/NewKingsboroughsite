@@ -14,8 +14,7 @@ async function createAdminUser() {
     // Get user input
     const username = await promptQuestion("Enter admin username: ");
     const email = await promptQuestion("Enter admin email: ");
-    const firstName = await promptQuestion("Enter first name: ");
-    const lastName = await promptQuestion("Enter last name: ");
+    const name = await promptQuestion("Enter full name: ");
     const password = await promptQuestion("Enter password: ");
 
     // Hash the password
@@ -25,8 +24,7 @@ async function createAdminUser() {
     const [user] = await db.insert(users).values({
       username,
       email,
-      firstName,
-      lastName,
+      name,
       password: hashedPassword,
       role: "admin",
       active: true,

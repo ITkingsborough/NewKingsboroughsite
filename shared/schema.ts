@@ -7,14 +7,11 @@ export const userRoleEnum = pgEnum('user_role', ['admin', 'editor', 'media_manag
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
-  email: text("email").notNull().unique(),
   password: text("password").notNull(),
   name: text("name").notNull(),
-  role: userRoleEnum("role").notNull().default('editor'),
-  active: boolean("active").default(true),
-  lastLogin: timestamp("last_login"),
+  email: text("email").notNull().unique(),
+  role: text("role").notNull().default('editor'),
   createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
