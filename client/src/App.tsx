@@ -12,6 +12,7 @@ import Gallery from "@/pages/Gallery";
 import Giving from "@/pages/Giving";
 import Contact from "@/pages/Contact";
 import LoginPage from "@/pages/auth/login-page";
+import DirectLoginPage from "@/pages/auth/direct-login";
 import DashboardPage from "@/pages/cms/dashboard-page";
 import SermonsPage from "@/pages/cms/sermons-page";
 import EventsPage from "@/pages/cms/events-page";
@@ -40,7 +41,7 @@ function App() {
 
   // Check if we're in the CMS section
   const isCmsRoute = location.startsWith("/cms");
-  const isAuthRoute = location.startsWith("/auth");
+  const isAuthRoute = location.startsWith("/auth") && location !== "/direct-login";
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -61,6 +62,7 @@ function App() {
                   <Route path="/giving" component={Giving} />
                   <Route path="/contact" component={Contact} />
                   <Route path="/auth/login" component={LoginPage} />
+                  <Route path="/direct-login" component={DirectLoginPage} />
                   <Route component={NotFound} />
                 </Switch>
               </PageTransition>
@@ -77,6 +79,9 @@ function App() {
               <LoginPage />
             </Route>
             <Route path="/auth/login" component={LoginPage} />
+            <Route path="/direct-login">
+              <DirectLoginPage />
+            </Route>
             
             {/* Protected CMS routes */}
             <Route path="/cms/dashboard">
