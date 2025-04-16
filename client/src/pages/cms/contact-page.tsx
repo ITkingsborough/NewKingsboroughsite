@@ -207,7 +207,7 @@ export default function ContactPage() {
                   <TableCell className="font-medium">{message.name}</TableCell>
                   <TableCell>{message.email}</TableCell>
                   <TableCell>
-                    {format(new Date(message.createdAt), "MMM d, yyyy")}
+                    {message.createdAt && format(new Date(message.createdAt), "MMM d, yyyy")}
                   </TableCell>
                   <TableCell>
                     {message.isPrayer ? (
@@ -326,8 +326,8 @@ export default function ContactPage() {
                 )}
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
-                  {selectedMessage
-                    ? format(new Date(selectedMessage.createdAt), "MMMM d, yyyy 'at' h:mm a")
+                  {selectedMessage?.createdAt 
+                    ? format(new Date(selectedMessage.createdAt), "MMMM d, yyyy 'at' h:mm a") 
                     : ""}
                 </div>
               </CardDescription>

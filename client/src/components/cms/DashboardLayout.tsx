@@ -111,6 +111,12 @@ function Sidebar({ className }: { className?: string }) {
               label="Dashboard"
               active={location === "/cms/dashboard"}
             />
+          </div>
+
+          <div className="space-y-1">
+            <p className="text-xs font-medium text-muted-foreground py-1 px-3">
+              Content Management
+            </p>
             <SidebarLink
               href="/cms/sermons"
               icon={<Mic className="h-4 w-4" />}
@@ -130,44 +136,32 @@ function Sidebar({ className }: { className?: string }) {
               active={location.startsWith("/cms/gallery")}
             />
             <SidebarLink
-              href="/cms/magazines"
-              icon={<File className="h-4 w-4" />}
-              label="Magazines"
-              active={location.startsWith("/cms/magazines")}
-            />
-            <SidebarLink
-              href="/cms/team"
-              icon={<Users className="h-4 w-4" />}
-              label="Team Members"
-              active={location.startsWith("/cms/team")}
-            />
-            <SidebarLink
               href="/cms/contact"
               icon={<MessageSquare className="h-4 w-4" />}
-              label="Contact Submissions"
+              label="Contact Messages"
               active={location.startsWith("/cms/contact")}
             />
           </div>
           
-          <div className="space-y-1">
-            <p className="text-xs font-medium text-muted-foreground py-1 px-3">
-              Administration
-            </p>
-            {user?.role === "admin" && (
+          {user?.role === "admin" && (
+            <div className="space-y-1">
+              <p className="text-xs font-medium text-muted-foreground py-1 px-3">
+                Administration
+              </p>
               <SidebarLink
                 href="/cms/users"
                 icon={<Users className="h-4 w-4" />}
                 label="User Management"
                 active={location.startsWith("/cms/users")}
               />
-            )}
-            <SidebarLink
-              href="/cms/settings"
-              icon={<Settings className="h-4 w-4" />}
-              label="Settings"
-              active={location.startsWith("/cms/settings")}
-            />
-          </div>
+              <SidebarLink
+                href="/cms/settings"
+                icon={<Settings className="h-4 w-4" />}
+                label="Settings"
+                active={location.startsWith("/cms/settings")}
+              />
+            </div>
+          )}
         </div>
       </ScrollArea>
       
