@@ -64,8 +64,7 @@ function SidebarLink({
 function Sidebar({ className }: { className?: string }) {
   const [location] = useLocation();
   const { user, logoutMutation } = useAuth();
-  const firstName = user?.firstName || "";
-  const lastName = user?.lastName || "";
+  const name = user?.name || "";
   const role = user?.role || "";
 
   // Format role for display
@@ -75,8 +74,8 @@ function Sidebar({ className }: { className?: string }) {
     role === "media_manager" ? "Media Manager" : 
     "User";
 
-  // Get user initials for avatar
-  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  // Get user initials for avatar (take first letter of each word in name)
+  const initials = name.split(' ').map(n => n.charAt(0)).join('').toUpperCase();
 
   // Handle logout
   const handleLogout = () => {
@@ -97,7 +96,7 @@ function Sidebar({ className }: { className?: string }) {
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="space-y-0.5">
-            <div className="font-medium">{firstName} {lastName}</div>
+            <div className="font-medium">{name}</div>
             <div className="text-xs text-muted-foreground">{displayRole}</div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { Calendar, FileText, Image, MessageSquare, Mic, Users } from "lucide-rea
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const firstName = user?.firstName || "";
+  const name = user?.name || "";
 
   // For a real application, these would be fetched from the API
   const stats = [
@@ -52,7 +52,7 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Welcome back, {firstName}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Welcome back, {name}</h1>
           <p className="text-muted-foreground">
             Here's an overview of your church's content and recent activity.
           </p>

@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         queryClient.setQueryData(["/api/auth/user"], data);
         toast({
           title: "Login successful",
-          description: `Welcome back, ${data.user.firstName}!`,
+          description: `Welcome back, ${data.user.name}!`,
         });
       } else {
         throw new Error(data.message || "Login failed");
@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         queryClient.setQueryData(["/api/auth/user"], data);
         toast({
           title: "Registration successful",
-          description: `Welcome, ${data.user.firstName}!`,
+          description: `Welcome, ${data.user.name}!`,
         });
       } else {
         throw new Error(data.message || "Registration failed");

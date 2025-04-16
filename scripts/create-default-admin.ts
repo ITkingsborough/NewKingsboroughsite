@@ -20,8 +20,7 @@ async function createDefaultAdmin() {
     const defaultAdmin = {
       username: "admin",
       email: "admin@kingsboroughchurch.org",
-      firstName: "Admin",
-      lastName: "User",
+      name: "Admin User",
       password: await hashPassword("admin123"),
       role: "admin",
       active: true,
