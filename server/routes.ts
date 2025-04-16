@@ -1,8 +1,15 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertNewsletterSchema } from "@shared/schema";
-import { setupAuth } from "./auth";
+import { 
+  insertContactSchema, 
+  insertNewsletterSchema,
+  insertSermonSchema,
+  insertEventSchema,
+  insertGalleryItemSchema,
+  insertActivityLogSchema
+} from "@shared/schema";
+import { setupAuth, logUserActivity } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -60,6 +67,822 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(400).json({
         success: false,
         message: 'Invalid newsletter subscription data'
+      });
+    }
+  });
+
+  // CMS API Routes
+  // All CMS routes are protected by authentication middleware in auth.ts
+
+  // Contact Message Management
+  app.get('/api/cms/contacts', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const messages = await storage.getAllContactMessages();
+      return res.json({
+        success: true,
+        data: messages
+      });
+    } catch (error) {
+      console.error('Error fetching contact messages:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch contact messages'
+      });
+    }
+  });
+
+  app.get('/api/cms/contacts/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const message = await storage.getContactMessage(id);
+      
+      if (!message) {
+        return res.status(404).json({
+          success: false,
+          message: 'Contact message not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: message
+      });
+    } catch (error) {
+      console.error('Error fetching contact message:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch contact message'
+      });
+    }
+  });
+
+  app.delete('/api/cms/contacts/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const message = await storage.getContactMessage(id);
+      
+      if (!message) {
+        return res.status(404).json({
+          success: false,
+          message: 'Contact message not found'
+        });
+      }
+      
+      await storage.deleteContactMessage(id);
+      await logUserActivity(req.user.id, "delete", "contact", id);
+      
+      return res.json({
+        success: true,
+        message: 'Contact message deleted successfully'
+      });
+    } catch (error) {
+      console.error('Error deleting contact message:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete contact message'
+      });
+    }
+  });
+
+  // Sermon Management
+  app.get('/api/cms/sermons', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const sermons = await storage.getAllSermons();
+      return res.json({
+        success: true,
+        data: sermons
+      });
+    } catch (error) {
+      console.error('Error fetching sermons:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch sermons'
+      });
+    }
+  });
+
+  app.get('/api/cms/sermons/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const sermon = await storage.getSermon(id);
+      
+      if (!sermon) {
+        return res.status(404).json({
+          success: false,
+          message: 'Sermon not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: sermon
+      });
+    } catch (error) {
+      console.error('Error fetching sermon:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch sermon'
+      });
+    }
+  });
+
+  app.post('/api/cms/sermons', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has editor or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'editor') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to create sermons'
+        });
+      }
+      
+      const validatedData = insertSermonSchema.parse({
+        ...req.body,
+        createdBy: req.user.id,
+        updatedBy: req.user.id
+      });
+      
+      const sermon = await storage.createSermon(validatedData);
+      await logUserActivity(req.user.id, "create", "sermon", sermon.id);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Sermon created successfully',
+        data: sermon
+      });
+    } catch (error) {
+      console.error('Error creating sermon:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create sermon'
+      });
+    }
+  });
+
+  app.put('/api/cms/sermons/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has editor or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'editor') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to update sermons'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const sermon = await storage.getSermon(id);
+      
+      if (!sermon) {
+        return res.status(404).json({
+          success: false,
+          message: 'Sermon not found'
+        });
+      }
+      
+      const validatedData = insertSermonSchema.partial().parse({
+        ...req.body,
+        updatedBy: req.user.id
+      });
+      
+      const updatedSermon = await storage.updateSermon(id, validatedData);
+      await logUserActivity(req.user.id, "update", "sermon", id);
+      
+      return res.json({
+        success: true,
+        message: 'Sermon updated successfully',
+        data: updatedSermon
+      });
+    } catch (error) {
+      console.error('Error updating sermon:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to update sermon'
+      });
+    }
+  });
+
+  app.delete('/api/cms/sermons/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has admin role
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to delete sermons'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const sermon = await storage.getSermon(id);
+      
+      if (!sermon) {
+        return res.status(404).json({
+          success: false,
+          message: 'Sermon not found'
+        });
+      }
+      
+      await storage.deleteSermon(id);
+      await logUserActivity(req.user.id, "delete", "sermon", id);
+      
+      return res.json({
+        success: true,
+        message: 'Sermon deleted successfully'
+      });
+    } catch (error) {
+      console.error('Error deleting sermon:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete sermon'
+      });
+    }
+  });
+
+  // Event Management
+  app.get('/api/cms/events', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const events = await storage.getAllEvents();
+      return res.json({
+        success: true,
+        data: events
+      });
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch events'
+      });
+    }
+  });
+
+  app.get('/api/cms/events/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const event = await storage.getEvent(id);
+      
+      if (!event) {
+        return res.status(404).json({
+          success: false,
+          message: 'Event not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: event
+      });
+    } catch (error) {
+      console.error('Error fetching event:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch event'
+      });
+    }
+  });
+
+  app.post('/api/cms/events', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has editor or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'editor') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to create events'
+        });
+      }
+      
+      const validatedData = insertEventSchema.parse({
+        ...req.body,
+        createdBy: req.user.id,
+        updatedBy: req.user.id
+      });
+      
+      const event = await storage.createEvent(validatedData);
+      await logUserActivity(req.user.id, "create", "event", event.id);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Event created successfully',
+        data: event
+      });
+    } catch (error) {
+      console.error('Error creating event:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create event'
+      });
+    }
+  });
+
+  app.put('/api/cms/events/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has editor or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'editor') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to update events'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const event = await storage.getEvent(id);
+      
+      if (!event) {
+        return res.status(404).json({
+          success: false,
+          message: 'Event not found'
+        });
+      }
+      
+      const validatedData = insertEventSchema.partial().parse({
+        ...req.body,
+        updatedBy: req.user.id
+      });
+      
+      const updatedEvent = await storage.updateEvent(id, validatedData);
+      await logUserActivity(req.user.id, "update", "event", id);
+      
+      return res.json({
+        success: true,
+        message: 'Event updated successfully',
+        data: updatedEvent
+      });
+    } catch (error) {
+      console.error('Error updating event:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to update event'
+      });
+    }
+  });
+
+  app.delete('/api/cms/events/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has admin role
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to delete events'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const event = await storage.getEvent(id);
+      
+      if (!event) {
+        return res.status(404).json({
+          success: false,
+          message: 'Event not found'
+        });
+      }
+      
+      await storage.deleteEvent(id);
+      await logUserActivity(req.user.id, "delete", "event", id);
+      
+      return res.json({
+        success: true,
+        message: 'Event deleted successfully'
+      });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete event'
+      });
+    }
+  });
+
+  // Gallery Management
+  app.get('/api/cms/gallery', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const galleryItems = await storage.getAllGalleryItems();
+      return res.json({
+        success: true,
+        data: galleryItems
+      });
+    } catch (error) {
+      console.error('Error fetching gallery items:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch gallery items'
+      });
+    }
+  });
+
+  app.get('/api/cms/gallery/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const galleryItem = await storage.getGalleryItem(id);
+      
+      if (!galleryItem) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: galleryItem
+      });
+    } catch (error) {
+      console.error('Error fetching gallery item:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch gallery item'
+      });
+    }
+  });
+
+  app.post('/api/cms/gallery', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has media_manager or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'media_manager') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to create gallery items'
+        });
+      }
+      
+      const validatedData = insertGalleryItemSchema.parse({
+        ...req.body,
+        createdBy: req.user.id,
+        updatedBy: req.user.id
+      });
+      
+      const galleryItem = await storage.createGalleryItem(validatedData);
+      await logUserActivity(req.user.id, "create", "gallery", galleryItem.id);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Gallery item created successfully',
+        data: galleryItem
+      });
+    } catch (error) {
+      console.error('Error creating gallery item:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create gallery item'
+      });
+    }
+  });
+
+  app.put('/api/cms/gallery/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has media_manager or admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'media_manager') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to update gallery items'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const galleryItem = await storage.getGalleryItem(id);
+      
+      if (!galleryItem) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found'
+        });
+      }
+      
+      const validatedData = insertGalleryItemSchema.partial().parse({
+        ...req.body,
+        updatedBy: req.user.id
+      });
+      
+      const updatedGalleryItem = await storage.updateGalleryItem(id, validatedData);
+      await logUserActivity(req.user.id, "update", "gallery", id);
+      
+      return res.json({
+        success: true,
+        message: 'Gallery item updated successfully',
+        data: updatedGalleryItem
+      });
+    } catch (error) {
+      console.error('Error updating gallery item:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to update gallery item'
+      });
+    }
+  });
+
+  app.delete('/api/cms/gallery/:id', async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ success: false, message: 'Not authenticated' });
+      }
+      
+      // Check if user has admin role
+      if (req.user.role !== 'admin' && req.user.role !== 'media_manager') {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to delete gallery items'
+        });
+      }
+      
+      const id = parseInt(req.params.id, 10);
+      const galleryItem = await storage.getGalleryItem(id);
+      
+      if (!galleryItem) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found'
+        });
+      }
+      
+      await storage.deleteGalleryItem(id);
+      await logUserActivity(req.user.id, "delete", "gallery", id);
+      
+      return res.json({
+        success: true,
+        message: 'Gallery item deleted successfully'
+      });
+    } catch (error) {
+      console.error('Error deleting gallery item:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete gallery item'
+      });
+    }
+  });
+
+  // Public API Endpoints
+  app.get('/api/sermons', async (req, res) => {
+    try {
+      const category = req.query.category as string | undefined;
+      let sermons;
+      
+      if (category) {
+        sermons = await storage.getSermonsByCategory(category);
+      } else {
+        sermons = await storage.getAllSermons();
+      }
+      
+      return res.json({
+        success: true,
+        data: sermons
+      });
+    } catch (error) {
+      console.error('Error fetching sermons:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch sermons'
+      });
+    }
+  });
+
+  app.get('/api/sermons/featured', async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 5;
+      const sermons = await storage.getFeaturedSermons(limit);
+      
+      return res.json({
+        success: true,
+        data: sermons
+      });
+    } catch (error) {
+      console.error('Error fetching featured sermons:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch featured sermons'
+      });
+    }
+  });
+
+  app.get('/api/sermons/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const sermon = await storage.getSermon(id);
+      
+      if (!sermon) {
+        return res.status(404).json({
+          success: false,
+          message: 'Sermon not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: sermon
+      });
+    } catch (error) {
+      console.error('Error fetching sermon:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch sermon'
+      });
+    }
+  });
+
+  app.get('/api/events', async (req, res) => {
+    try {
+      const events = await storage.getAllEvents();
+      
+      return res.json({
+        success: true,
+        data: events
+      });
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch events'
+      });
+    }
+  });
+
+  app.get('/api/events/upcoming', async (req, res) => {
+    try {
+      const events = await storage.getFutureEvents();
+      
+      return res.json({
+        success: true,
+        data: events
+      });
+    } catch (error) {
+      console.error('Error fetching upcoming events:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch upcoming events'
+      });
+    }
+  });
+
+  app.get('/api/events/featured', async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 5;
+      const events = await storage.getFeaturedEvents(limit);
+      
+      return res.json({
+        success: true,
+        data: events
+      });
+    } catch (error) {
+      console.error('Error fetching featured events:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch featured events'
+      });
+    }
+  });
+
+  app.get('/api/events/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const event = await storage.getEvent(id);
+      
+      if (!event) {
+        return res.status(404).json({
+          success: false,
+          message: 'Event not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: event
+      });
+    } catch (error) {
+      console.error('Error fetching event:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch event'
+      });
+    }
+  });
+
+  app.get('/api/gallery', async (req, res) => {
+    try {
+      const tag = req.query.tag as string | undefined;
+      let galleryItems;
+      
+      if (tag) {
+        galleryItems = await storage.getGalleryItemsByTag(tag);
+      } else {
+        galleryItems = await storage.getAllGalleryItems();
+      }
+      
+      return res.json({
+        success: true,
+        data: galleryItems
+      });
+    } catch (error) {
+      console.error('Error fetching gallery items:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch gallery items'
+      });
+    }
+  });
+
+  app.get('/api/gallery/featured', async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+      const galleryItems = await storage.getFeaturedGalleryItems(limit);
+      
+      return res.json({
+        success: true,
+        data: galleryItems
+      });
+    } catch (error) {
+      console.error('Error fetching featured gallery items:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch featured gallery items'
+      });
+    }
+  });
+
+  app.get('/api/gallery/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const galleryItem = await storage.getGalleryItem(id);
+      
+      if (!galleryItem) {
+        return res.status(404).json({
+          success: false,
+          message: 'Gallery item not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: galleryItem
+      });
+    } catch (error) {
+      console.error('Error fetching gallery item:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch gallery item'
       });
     }
   });

@@ -181,7 +181,7 @@ export class DatabaseStorage implements IStorage {
   async getFeaturedSermons(limit: number = 5): Promise<Sermon[]> {
     return db.select()
       .from(sermons)
-      .where(isNull(sermons.featuredOrder).not())
+      .where(sql`${sermons.featuredOrder} IS NOT NULL`)
       .orderBy(asc(sermons.featuredOrder))
       .limit(limit);
   }
