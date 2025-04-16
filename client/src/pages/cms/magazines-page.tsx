@@ -206,18 +206,36 @@ export default function MagazinesPage() {
       console.log("Creating form data...");
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("description", description);
+      formData.append("description", description || "");
       formData.append("date", date);
-      formData.append("type", type);
+      formData.append("type", type || "monthly");
       formData.append("featured", featured.toString());
       
-      console.log("Adding cover image:", coverImage);
-      formData.append("coverImage", coverImage);
+      // Make sure files are properly attached with correct field names
+      if (coverImage) {
+        console.log("Adding cover image:", coverImage.name, coverImage.type, coverImage.size);
+        formData.append("coverImage", coverImage);
+      } else {
+        console.error("Cover image is missing");
+        throw new Error("Cover image is required");
+      }
       
-      console.log("Adding PDF file:", pdfFile);
-      formData.append("pdfFile", pdfFile);
+      if (pdfFile) {
+        console.log("Adding PDF file:", pdfFile.name, pdfFile.type, pdfFile.size);
+        formData.append("pdfFile", pdfFile);
+      } else {
+        console.error("PDF file is missing");
+        throw new Error("PDF file is required");
+      }
       
-      await createMagazineMutation.mutateAsync(formData);
+      // Log formData entries for debugging
+      console.log("FormData entries:");
+      for (const pair of (formData as any).entries()) {
+        console.log(pair[0], pair[1], typeof pair[1]);
+      }
+      
+      const result = await createMagazineMutation.mutateAsync(formData);
+      console.log("Create magazine result:", result);
     } catch (error) {
       console.error("Error preparing form data:", error);
       setIsSubmitting(false);

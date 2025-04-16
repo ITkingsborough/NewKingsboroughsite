@@ -983,130 +983,182 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/cms/magazines', uploadMiddleware.fields([
-    { name: 'coverImage', maxCount: 1 },
-    { name: 'pdfFile', maxCount: 1 }
-  ]), async (req, res) => {
-    try {
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ success: false, message: 'Not authenticated' });
-      }
-      
-      // Check if user has editor or admin role
-      if (req.user.role !== 'admin' && req.user.role !== 'editor' && req.user.role !== 'media_manager') {
-        return res.status(403).json({
-          success: false,
-          message: 'You do not have permission to create magazines'
+  app.post('/api/cms/magazines', async (req, res) => {
+    // Use middleware inside the route handler for better error handling
+    const upload = uploadMiddleware.fields([
+      { name: 'coverImage', maxCount: 1 },
+      { name: 'pdfFile', maxCount: 1 }
+    ]);
+    
+    upload(req, res, async (err) => {
+      try {
+        if (err) {
+          console.error('Multer error:', err);
+          return res.status(400).json({
+            success: false,
+            message: 'File upload error',
+            error: err.message
+          });
+        }
+        
+        if (!req.isAuthenticated()) {
+          return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+        
+        // Check if user has editor or admin role
+        if (req.user.role !== 'admin' && req.user.role !== 'editor' && req.user.role !== 'media_manager') {
+          return res.status(403).json({
+            success: false,
+            message: 'You do not have permission to create magazines'
+          });
+        }
+        
+        console.log('Files received:', req.files);
+        console.log('Body received:', req.body);
+        
+        // Detailed logging
+        if (!req.files) {
+          console.error('No files were uploaded');
+          return res.status(400).json({
+            success: false,
+            message: 'No files were uploaded'
+          });
+        }
+        
+        const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+        console.log('Cover image files:', files.coverImage);
+        console.log('PDF files:', files.pdfFile);
+        
+        // Check if both required files are present
+        if (!files.coverImage || files.coverImage.length === 0) {
+          return res.status(400).json({
+            success: false,
+            message: 'Cover image is required'
+          });
+        }
+        
+        if (!files.pdfFile || files.pdfFile.length === 0) {
+          return res.status(400).json({
+            success: false,
+            message: 'PDF file is required'
+          });
+        }
+        
+        const coverImageUrl = getPublicUrl(files.coverImage[0].filename, 'magazines');
+        const pdfUrl = getPublicUrl(files.pdfFile[0].filename, 'magazines');
+        
+        const magazineData = {
+          ...req.body,
+          coverImage: coverImageUrl,
+          pdfUrl: pdfUrl,
+          createdBy: req.user.id,
+          updatedBy: req.user.id
+        };
+        
+        const validatedData = insertMagazineSchema.parse(magazineData);
+        const magazine = await storage.createMagazine(validatedData);
+        await logUserActivity(req.user.id, "create", "magazine", magazine.id);
+        
+        return res.status(201).json({
+          success: true,
+          message: 'Magazine created successfully',
+          data: magazine
         });
-      }
-      
-      console.log('Files received:', req.files);
-      console.log('Body received:', req.body);
-      
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] } || {};
-      
-      if (!files || !files.coverImage || files.coverImage.length === 0 || !files.pdfFile || files.pdfFile.length === 0) {
+      } catch (error: any) {
+        console.error('Error creating magazine:', error);
         return res.status(400).json({
           success: false,
-          message: 'Both cover image and PDF file are required'
+          message: 'Failed to create magazine',
+          error: error.message || String(error)
         });
       }
-      
-      const coverImageUrl = getPublicUrl(files.coverImage[0].filename, 'magazines');
-      const pdfUrl = getPublicUrl(files.pdfFile[0].filename, 'magazines');
-      
-      const magazineData = {
-        ...req.body,
-        coverImage: coverImageUrl,
-        pdfUrl: pdfUrl,
-        createdBy: req.user.id,
-        updatedBy: req.user.id
-      };
-      
-      const validatedData = insertMagazineSchema.parse(magazineData);
-      const magazine = await storage.createMagazine(validatedData);
-      await logUserActivity(req.user.id, "create", "magazine", magazine.id);
-      
-      return res.status(201).json({
-        success: true,
-        message: 'Magazine created successfully',
-        data: magazine
-      });
-    } catch (error: any) {
-      console.error('Error creating magazine:', error);
-      return res.status(400).json({
-        success: false,
-        message: 'Failed to create magazine',
-        error: error.message || String(error)
-      });
-    }
+    });
   });
 
-  app.put('/api/cms/magazines/:id', uploadMiddleware.fields([
-    { name: 'coverImage', maxCount: 1 },
-    { name: 'pdfFile', maxCount: 1 }
-  ]), async (req, res) => {
-    try {
-      if (!req.isAuthenticated()) {
-        return res.status(401).json({ success: false, message: 'Not authenticated' });
-      }
-      
-      // Check if user has editor or admin role
-      if (req.user.role !== 'admin' && req.user.role !== 'editor' && req.user.role !== 'media_manager') {
-        return res.status(403).json({
+  app.put('/api/cms/magazines/:id', async (req, res) => {
+    // Use middleware inside the route handler for better error handling
+    const upload = uploadMiddleware.fields([
+      { name: 'coverImage', maxCount: 1 },
+      { name: 'pdfFile', maxCount: 1 }
+    ]);
+    
+    upload(req, res, async (err) => {
+      try {
+        if (err) {
+          console.error('Multer error:', err);
+          return res.status(400).json({
+            success: false,
+            message: 'File upload error',
+            error: err.message
+          });
+        }
+        
+        if (!req.isAuthenticated()) {
+          return res.status(401).json({ success: false, message: 'Not authenticated' });
+        }
+        
+        // Check if user has editor or admin role
+        if (req.user.role !== 'admin' && req.user.role !== 'editor' && req.user.role !== 'media_manager') {
+          return res.status(403).json({
+            success: false,
+            message: 'You do not have permission to update magazines'
+          });
+        }
+        
+        const id = parseInt(req.params.id, 10);
+        const magazine = await storage.getMagazine(id);
+        
+        if (!magazine) {
+          return res.status(404).json({
+            success: false,
+            message: 'Magazine not found'
+          });
+        }
+        
+        console.log('Update files received:', req.files);
+        console.log('Update body received:', req.body);
+        
+        const files = req.files as { [fieldname: string]: Express.Multer.File[] } || {};
+        const updateData: any = { ...req.body, updatedBy: req.user.id };
+        
+        // Update cover image if uploaded
+        if (files.coverImage && files.coverImage.length > 0) {
+          console.log('Updating cover image');
+          // Delete old cover image if it exists
+          if (magazine.coverImage) {
+            await deleteFile(magazine.coverImage);
+          }
+          updateData.coverImage = getPublicUrl(files.coverImage[0].filename, 'magazines');
+        }
+        
+        // Update PDF file if uploaded
+        if (files.pdfFile && files.pdfFile.length > 0) {
+          console.log('Updating PDF file');
+          // Delete old PDF file if it exists
+          if (magazine.pdfUrl) {
+            await deleteFile(magazine.pdfUrl);
+          }
+          updateData.pdfUrl = getPublicUrl(files.pdfFile[0].filename, 'magazines');
+        }
+        
+        const validatedData = insertMagazineSchema.partial().parse(updateData);
+        const updatedMagazine = await storage.updateMagazine(id, validatedData);
+        await logUserActivity(req.user.id, "update", "magazine", id);
+        
+        return res.json({
+          success: true,
+          message: 'Magazine updated successfully',
+          data: updatedMagazine
+        });
+      } catch (error: any) {
+        console.error('Error updating magazine:', error);
+        return res.status(400).json({
           success: false,
-          message: 'You do not have permission to update magazines'
+          message: 'Failed to update magazine',
+          error: error.message || String(error)
         });
       }
-      
-      const id = parseInt(req.params.id, 10);
-      const magazine = await storage.getMagazine(id);
-      
-      if (!magazine) {
-        return res.status(404).json({
-          success: false,
-          message: 'Magazine not found'
-        });
-      }
-      
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] } || {};
-      const updateData: any = { ...req.body, updatedBy: req.user.id };
-      
-      // Update cover image if uploaded
-      if (files.coverImage && files.coverImage.length > 0) {
-        // Delete old cover image if it exists
-        if (magazine.coverImage) {
-          await deleteFile(magazine.coverImage);
-        }
-        updateData.coverImage = getPublicUrl(files.coverImage[0].filename, 'magazines');
-      }
-      
-      // Update PDF file if uploaded
-      if (files.pdfFile && files.pdfFile.length > 0) {
-        // Delete old PDF file if it exists
-        if (magazine.pdfUrl) {
-          await deleteFile(magazine.pdfUrl);
-        }
-        updateData.pdfUrl = getPublicUrl(files.pdfFile[0].filename, 'magazines');
-      }
-      
-      const validatedData = insertMagazineSchema.partial().parse(updateData);
-      const updatedMagazine = await storage.updateMagazine(id, validatedData);
-      await logUserActivity(req.user.id, "update", "magazine", id);
-      
-      return res.json({
-        success: true,
-        message: 'Magazine updated successfully',
-        data: updatedMagazine
-      });
-    } catch (error: any) {
-      console.error('Error updating magazine:', error);
-      return res.status(400).json({
-        success: false,
-        message: 'Failed to update magazine',
-        error: error.message || String(error)
-      });
-    }
+    });
   });
 
   app.delete('/api/cms/magazines/:id', async (req, res) => {
