@@ -22,38 +22,36 @@ const Leadership = () => {
         </motion.div>
         
         <motion.div 
-          className="flex flex-col items-center justify-center max-w-5xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={staggerContainer()}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {leaders.map((leader, index) => (
-              <motion.div 
-                key={leader.id} 
-                className="card-hover text-center"
-                variants={slideUp((index + 1) * 0.1)}
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <div className="rounded-lg overflow-hidden mb-4 max-w-[300px] mx-auto">
-                  <img 
-                    src={leader.image} 
-                    alt={leader.name} 
-                    className="w-full h-72 object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <h3 className="text-xl font-montserrat font-semibold mb-1">{leader.name}</h3>
-                <p className="text-gold mb-3">{leader.role}</p>
-                <p className="text-sm max-w-md mx-auto">{leader.bio}</p>
-              </motion.div>
-            ))}
-          </div>
+          {leaders.map((leader, index) => (
+            <motion.div 
+              key={leader.id} 
+              className="card-hover"
+              variants={slideUp((index + 1) * 0.1)}
+              whileHover={{ 
+                y: -5,
+                boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
+                transition: { duration: 0.3 }
+              }}
+            >
+              <div className="rounded-lg overflow-hidden mb-4">
+                <img 
+                  src={leader.image} 
+                  alt={leader.name} 
+                  className="w-full h-72 object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <h3 className="text-xl font-montserrat font-semibold mb-1">{leader.name}</h3>
+              <p className="text-gold mb-3">{leader.role}</p>
+              <p className="text-sm">{leader.bio}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

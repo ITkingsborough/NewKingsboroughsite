@@ -23,45 +23,43 @@ const Ministries = () => {
         </motion.div>
         
         <motion.div 
-          className="flex justify-center"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={staggerContainer()}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl">
-            {ministries.map((ministry, index) => (
-              <motion.div 
-                key={ministry.id} 
-                className="bg-white rounded-lg shadow-md overflow-hidden card-hover text-center"
-                variants={slideUp((index % 3 + 1) * 0.1)}
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <div className="h-48 overflow-hidden">
-                  <img 
-                    src={ministry.image} 
-                    alt={ministry.title} 
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-montserrat font-semibold mb-3">{ministry.title}</h3>
-                  <p className="mb-4">{ministry.description}</p>
-                  <Link 
-                    href={`/ministries?id=${ministry.id}`}
-                    className="text-gold font-montserrat font-medium hover:underline inline-flex items-center justify-center"
-                  >
-                    Learn More <i className="fas fa-arrow-right ml-2 text-sm"></i>
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {ministries.map((ministry, index) => (
+            <motion.div 
+              key={ministry.id} 
+              className="bg-white rounded-lg shadow-md overflow-hidden card-hover"
+              variants={slideUp((index % 3 + 1) * 0.1)}
+              whileHover={{ 
+                y: -5,
+                boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
+                transition: { duration: 0.3 }
+              }}
+            >
+              <div className="h-48 overflow-hidden">
+                <img 
+                  src={ministry.image} 
+                  alt={ministry.title} 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-montserrat font-semibold mb-3">{ministry.title}</h3>
+                <p className="mb-4">{ministry.description}</p>
+                <Link 
+                  href={`/ministries?id=${ministry.id}`}
+                  className="text-gold font-montserrat font-medium hover:underline inline-flex items-center"
+                >
+                  Learn More <i className="fas fa-arrow-right ml-2 text-sm"></i>
+                </Link>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
         
         <motion.div 
