@@ -29,9 +29,9 @@ const About = () => {
   return (
     <section id="about" className="py-20 bg-lilac bg-opacity-10">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center">
+        <div className="flex flex-col items-center text-center">
           <motion.div 
-            className="lg:w-1/2 mb-10 lg:mb-0 lg:pr-12"
+            className="max-w-3xl mb-10"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
@@ -53,7 +53,7 @@ const About = () => {
           </motion.div>
           
           <motion.div 
-            className="lg:w-1/2 grid grid-cols-2 gap-4"
+            className="max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 mt-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
@@ -62,7 +62,7 @@ const About = () => {
             {images.map((image, index) => (
               <motion.div 
                 key={index} 
-                className={image.className}
+                className="h-40 md:h-48 overflow-hidden rounded-lg"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.5 }}
               >
