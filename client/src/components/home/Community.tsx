@@ -113,8 +113,34 @@ const Community = () => {
     const cardsWidth = cards.scrollWidth;
     const containerWidth = carouselRef.current.offsetWidth;
     
-    // Only enable dragging if content overflows
+    // Horizontal mouse wheel scrolling
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      // Calculate smooth scrolling amount based on wheel delta
+      const scrollAmount = e.deltaY * 1.5; // Adjust multiplier for scroll speed
+      
+      // Get current scroll position
+      const currentScroll = cards.scrollLeft;
+      
+      // Calculate maximum scroll position
+      const maxScroll = cardsWidth - containerWidth;
+      
+      // Calculate new scroll position with limits
+      const newScroll = Math.max(0, Math.min(currentScroll + scrollAmount, maxScroll));
+      
+      // Use GSAP for smooth scrolling animation
+      gsap.to(cards, {
+        scrollLeft: newScroll,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+
+    // Only enable wheel scrolling if content overflows
     if (cardsWidth > containerWidth) {
+      // Add event listener for wheel event
+      cards.addEventListener('wheel', handleWheel, { passive: false });
+      
       // Make cards draggable for smooth scrolling
       Draggable.create(cards, {
         type: "x",
@@ -132,6 +158,7 @@ const Community = () => {
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       Draggable.get(cards)?.kill();
+      cards.removeEventListener('wheel', handleWheel);
     };
   }, []);
 
@@ -159,14 +186,16 @@ const Community = () => {
 
         <div 
           ref={carouselRef}
-          className="relative overflow-hidden"
+          className="relative"
         >
           <div 
             ref={cardsRef}
-            className="flex space-x-5 pb-4 cursor-grab active:cursor-grabbing"
+            className="flex space-x-5 pb-4 cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide"
             style={{ 
               willChange: "transform",
-              touchAction: "pan-y"
+              touchAction: "pan-y",
+              scrollBehavior: "smooth", 
+              scrollbarWidth: "none" /* Firefox */
             }}
           >
             {communityCards.map((card, index) => (
@@ -198,7 +227,7 @@ const Community = () => {
 
           <div className="flex justify-center mt-6 space-x-2">
             <p className="text-sm text-gray-500 italic">
-              <span className="hidden sm:inline">Drag to scroll</span>
+              <span className="hidden sm:inline">Scroll horizontally using your mouse wheel or drag the cards</span>
               <span className="inline sm:hidden">Swipe to see more</span>
             </p>
           </div>
