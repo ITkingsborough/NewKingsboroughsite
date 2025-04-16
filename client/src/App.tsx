@@ -73,6 +73,9 @@ function App() {
           // CMS routes don't use the main layout
           <Switch>
             {/* Auth routes */}
+            <Route path="/auth">
+              <LoginPage />
+            </Route>
             <Route path="/auth/login" component={LoginPage} />
             
             {/* Protected CMS routes */}
