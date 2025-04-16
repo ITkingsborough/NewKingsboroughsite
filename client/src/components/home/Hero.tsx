@@ -75,30 +75,30 @@ const Hero = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div 
           ref={contentRef}
-          className="mx-auto text-center max-w-4xl"
+          className="max-w-3xl"
         >
           <h1 
             ref={headingRef}
-            className="text-5xl md:text-7xl lg:text-8xl font-montserrat font-bold text-white mb-6 tracking-tight text-shadow opacity-0 whitespace-nowrap"
+            className="text-4xl md:text-6xl font-montserrat font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
           >
             Welcome to Kingsborough Church
           </h1>
           
           <p 
             ref={paragraphRef}
-            className="text-2xl md:text-3xl lg:text-4xl text-white opacity-0 mb-10 font-light"
+            className="text-xl md:text-2xl text-white opacity-0 mb-8 font-light"
           >
             A place to belong, believe, and become.
           </p>
           
           <div 
             ref={buttonsRef}
-            className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 opacity-0"
+            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 opacity-0"
           >
-            <Link href="/about" className="btn-primary text-xl px-8 py-4">
+            <Link href="/about" className="btn-primary">
               Learn More
             </Link>
-            <Link href="/events" className="btn-outline text-xl px-8 py-4">
+            <Link href="/events" className="btn-outline">
               Join Us This Week
             </Link>
           </div>
