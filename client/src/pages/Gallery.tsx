@@ -104,6 +104,7 @@ const Gallery = () => {
   const [activeTag, setActiveTag] = useState("all");
   const [openImage, setOpenImage] = useState<number | null>(null);
   const [loaded, setLoaded] = useState<number[]>([]);
+  const [displayCount, setDisplayCount] = useState(8);
   
   // Refs for GSAP animations
   const headerRef = useRef<HTMLDivElement>(null);
@@ -116,6 +117,9 @@ const Gallery = () => {
   const filteredImages = activeTag === "all" 
     ? galleryImages 
     : galleryImages.filter(img => img.tags.includes(activeTag));
+    
+  // Get displayed images based on the display count
+  const displayedImages = filteredImages.slice(0, displayCount);
   
   // Handle image load
   const handleImageLoad = (id: number) => {
@@ -159,6 +163,16 @@ const Gallery = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [openImage, filteredImages]);
   
+  // Function to load more images
+  const handleLoadMore = () => {
+    setDisplayCount(prev => Math.min(prev + 8, filteredImages.length));
+  };
+  
+  // Reset display count when tag changes
+  useEffect(() => {
+    setDisplayCount(8);
+  }, [activeTag]);
+  
   // GSAP animations
   useEffect(() => {
     if (!headerRef.current || !tagsRef.current || !galleryRef.current) return;
@@ -192,7 +206,7 @@ const Gallery = () => {
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [createRevealAnimation, activeTag]);
+  }, [createRevealAnimation, activeTag, displayCount]);
 
   return (
     <>
