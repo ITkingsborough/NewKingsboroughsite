@@ -113,11 +113,17 @@ const Community = () => {
     const cardsWidth = cards.scrollWidth;
     const containerWidth = carouselRef.current.offsetWidth;
     
+    // For smoother performance
+    let isScrolling = false;
+    let scrollTimeout: number;
+    let targetScrollPosition = 0;
+    
     // Horizontal mouse wheel scrolling
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      // Calculate smooth scrolling amount based on wheel delta
-      const scrollAmount = e.deltaY * 1.5; // Adjust multiplier for scroll speed
+      
+      // Clear any existing timeouts
+      clearTimeout(scrollTimeout);
       
       // Get current scroll position
       const currentScroll = cards.scrollLeft;
@@ -125,15 +131,48 @@ const Community = () => {
       // Calculate maximum scroll position
       const maxScroll = cardsWidth - containerWidth;
       
-      // Calculate new scroll position with limits
-      const newScroll = Math.max(0, Math.min(currentScroll + scrollAmount, maxScroll));
+      // Calculate scroll amount with speed-based adaptive scrolling
+      // Larger delta values result in faster scrolling
+      const sensitivity = 0.8; // Adjust this value to change base scroll speed
+      const accelerationFactor = Math.min(1.0, Math.abs(e.deltaY) / 100); // Speed factor based on how fast user is scrolling
+      const scrollAmount = e.deltaY * sensitivity * (1 + accelerationFactor);
       
-      // Use GSAP for smooth scrolling animation
-      gsap.to(cards, {
-        scrollLeft: newScroll,
-        duration: 0.3,
-        ease: "power2.out"
-      });
+      // Update target position with momentum and limits
+      targetScrollPosition = Math.max(0, Math.min(currentScroll + scrollAmount, maxScroll));
+      
+      // If not already animating, start a new animation
+      if (!isScrolling) {
+        isScrolling = true;
+        
+        // Use GSAP ticker for smoother animation
+        gsap.ticker.add(updateScroll);
+      }
+      
+      // Set a timeout to stop the animation after a delay
+      scrollTimeout = window.setTimeout(() => {
+        gsap.ticker.remove(updateScroll);
+        isScrolling = false;
+      }, 200); // Animation continues briefly after user stops scrolling for smooth finish
+    };
+    
+    // Smooth scroll update function
+    const updateScroll = () => {
+      // Get current position
+      const currentPosition = cards.scrollLeft;
+      
+      // Calculate a step toward the target with easing
+      const ease = 0.15; // Lower value = smoother but slower animation
+      const step = (targetScrollPosition - currentPosition) * ease;
+      
+      // Only update if the step is significant
+      if (Math.abs(step) > 0.1) {
+        cards.scrollLeft = currentPosition + step;
+      } else {
+        // If we're very close to target, just set it directly and stop animating
+        cards.scrollLeft = targetScrollPosition;
+        gsap.ticker.remove(updateScroll);
+        isScrolling = false;
+      }
     };
 
     // Only enable wheel scrolling if content overflows
@@ -150,7 +189,17 @@ const Community = () => {
         },
         inertia: true,
         dragClickables: true,
-        edgeResistance: 0.8
+        edgeResistance: 0.9,
+        throwResistance: 2500, // Lower value = more slide after release
+        overshootTolerance: 0.5,
+        snap: { // Snap to card boundaries for a cleaner end position
+          x: function(endValue) {
+            // Calculate card width including gap
+            const cardWidth = 320 + 20; // Card width + gap
+            // Snap to the closest card boundary
+            return Math.round(endValue / cardWidth) * cardWidth;
+          }
+        }
       });
     }
 
@@ -195,7 +244,11 @@ const Community = () => {
               willChange: "transform",
               touchAction: "pan-y",
               scrollBehavior: "smooth", 
-              scrollbarWidth: "none" /* Firefox */
+              scrollbarWidth: "none", /* Firefox */
+              WebkitOverflowScrolling: "touch", /* iOS momentum scrolling */
+              transform: "translate3d(0,0,0)", /* Hardware acceleration */
+              perspective: "1000px",
+              backfaceVisibility: "hidden" as "hidden"
             }}
           >
             {communityCards.map((card, index) => (
