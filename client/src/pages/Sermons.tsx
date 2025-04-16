@@ -370,9 +370,11 @@ const Sermons = () => {
                   </p>
                   <button 
                     onClick={() => { 
-                      setActiveSeries(series);
-                      setActiveFilter('all');
-                      document.getElementById('sermon-list')?.scrollIntoView({ behavior: 'smooth' });
+                      if (series) {
+                        setActiveSeries(series);
+                        setActiveFilter('all');
+                        document.getElementById('sermon-list')?.scrollIntoView({ behavior: 'smooth' });
+                      }
                     }}
                     className="text-gold font-medium hover:text-deepPurple transition-colors flex items-center"
                   >

@@ -104,24 +104,28 @@ const About = () => {
       const image = section.querySelector('.section-image');
       const content = section.querySelector('.section-content');
       
-      createScrollAnimation(
-        image,
-        { scale: 1.05, opacity: 0.8 },
-        { trigger: section, scrub: 0.5, start: "top bottom", end: "bottom center" }
-      );
+      if (image) {
+        createScrollAnimation(
+          image,
+          { scale: 1.05, opacity: 0.8 },
+          { trigger: section, scrub: 0.5, start: "top bottom", end: "bottom center" }
+        );
+      }
       
-      gsap.from(content, {
-        x: -50,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 70%",
-          end: "center center",
-          toggleActions: "play none none reverse"
-        }
-      });
+      if (content) {
+        gsap.from(content, {
+          x: -50,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+            end: "center center",
+            toggleActions: "play none none reverse"
+          }
+        });
+      }
     }
     
     // Timeline animations
