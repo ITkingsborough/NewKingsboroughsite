@@ -78,11 +78,12 @@ const sermonFormSchema = z.object({
   }),
   description: z.string().min(1, "Description is required"),
   series: z.string().optional(),
-  category: z.string().min(1, "Category is required"),
-  imageUrl: z.string().url("Valid image URL is required"),
-  videoUrl: z.string().url("Valid video URL is required").optional().or(z.literal("")),
-  audioUrl: z.string().url("Valid audio URL is required").optional().or(z.literal("")),
-  featuredOrder: z.coerce.number().optional(),
+  preacher: z.string().optional(),
+  image: z.string().url("Valid image URL is required"),
+  video_url: z.string().url("Valid video URL is required").optional().or(z.literal("")),
+  audio_url: z.string().url("Valid audio URL is required").optional().or(z.literal("")),
+  download_url: z.string().url("Valid download URL is required").optional().or(z.literal("")),
+  featured: z.boolean().optional(),
 });
 
 type SermonFormValues = z.infer<typeof sermonFormSchema>;
@@ -115,11 +116,12 @@ export default function SermonsPage() {
       date: new Date(),
       description: "",
       series: "",
-      category: "Sunday Service",
-      imageUrl: "",
-      videoUrl: "",
-      audioUrl: "",
-      featuredOrder: undefined,
+      preacher: "",
+      image: "",
+      video_url: "",
+      audio_url: "",
+      download_url: "",
+      featured: false,
     },
   });
 
@@ -217,11 +219,12 @@ export default function SermonsPage() {
       date: new Date(sermon.date),
       description: sermon.description,
       series: sermon.series || "",
-      category: sermon.category,
-      imageUrl: sermon.imageUrl,
-      videoUrl: sermon.videoUrl || "",
-      audioUrl: sermon.audioUrl || "",
-      featuredOrder: sermon.featuredOrder || undefined,
+      preacher: sermon.preacher || "",
+      image: sermon.image || "",
+      video_url: sermon.video_url || "",
+      audio_url: sermon.audio_url || "",
+      download_url: sermon.download_url || "",
+      featured: sermon.featured || false,
     });
     setDialogOpen(true);
   };
@@ -235,11 +238,12 @@ export default function SermonsPage() {
       date: new Date(),
       description: "",
       series: "",
-      category: "Sunday Service",
-      imageUrl: "",
-      videoUrl: "",
-      audioUrl: "",
-      featuredOrder: undefined,
+      preacher: "",
+      image: "",
+      video_url: "",
+      audio_url: "",
+      download_url: "",
+      featured: false,
     });
     setDialogOpen(true);
   };
@@ -465,28 +469,13 @@ export default function SermonsPage() {
 
                 <FormField
                   control={form.control}
-                  name="category"
+                  name="preacher"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Sunday Service">Sunday Service</SelectItem>
-                          <SelectItem value="Bible Study">Bible Study</SelectItem>
-                          <SelectItem value="Special Event">Special Event</SelectItem>
-                          <SelectItem value="Conference">Conference</SelectItem>
-                          <SelectItem value="Youth">Youth</SelectItem>
-                          <SelectItem value="Other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <FormLabel>Preacher</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter preacher name (optional)" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -508,20 +497,23 @@ export default function SermonsPage() {
 
                 <FormField
                   control={form.control}
-                  name="featuredOrder"
+                  name="featured"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Featured Order (Optional)</FormLabel>
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">
+                          Featured
+                        </FormLabel>
+                        <FormDescription>
+                          Mark sermon as featured to appear on homepage
+                        </FormDescription>
+                      </div>
                       <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Enter featured order (1, 2, 3...)"
-                          {...field}
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormDescription>
-                        Lower numbers will appear first in featured lists.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
