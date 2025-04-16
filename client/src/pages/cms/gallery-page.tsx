@@ -67,12 +67,12 @@ import { Badge } from "@/components/ui/badge";
 const galleryItemFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  imageUrl: z.string().url("Valid image URL is required"),
+  image: z.string().url("Valid image URL is required"),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
   date: z.date({
     required_error: "Date is required",
   }),
-  isFeatured: z.boolean().default(false),
+  featured: z.boolean().default(false),
   createdBy: z.number().optional(),
   updatedBy: z.number().optional(),
 });
@@ -111,10 +111,10 @@ export default function GalleryPage() {
     defaultValues: {
       title: "",
       description: "",
-      imageUrl: "",
+      image: "",
       tags: ["all"],
       date: new Date(),
-      isFeatured: false,
+      featured: false,
       createdBy: user?.id,
       updatedBy: user?.id,
     },
@@ -211,10 +211,10 @@ export default function GalleryPage() {
     form.reset({
       title: item.title,
       description: item.description || "",
-      imageUrl: item.imageUrl,
+      image: item.image,
       tags: item.tags,
       date: new Date(item.date),
-      isFeatured: item.isFeatured || false,
+      featured: item.featured || false,
       createdBy: item.createdBy || undefined,
       updatedBy: user?.id, // Set to current user's ID when editing
     });
@@ -227,10 +227,10 @@ export default function GalleryPage() {
     form.reset({
       title: "",
       description: "",
-      imageUrl: "",
+      image: "",
       tags: ["all"],
       date: new Date(),
-      isFeatured: false,
+      featured: false,
       createdBy: user?.id,
       updatedBy: user?.id,
     });
@@ -325,11 +325,11 @@ export default function GalleryPage() {
             <Card key={item.id} className="overflow-hidden">
               <div className="relative aspect-square">
                 <img
-                  src={item.imageUrl}
+                  src={item.image}
                   alt={item.title}
                   className="object-cover w-full h-full"
                 />
-                {item.isFeatured && (
+                {item.featured && (
                   <Badge className="absolute top-2 right-2" variant="secondary">
                     Featured
                   </Badge>
@@ -432,7 +432,7 @@ export default function GalleryPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="image"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Image URL</FormLabel>
@@ -547,7 +547,7 @@ export default function GalleryPage() {
 
               <FormField
                 control={form.control}
-                name="isFeatured"
+                name="featured"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                     <div className="space-y-0.5">
