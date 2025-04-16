@@ -76,18 +76,42 @@ const Magazines = () => {
               variants={index % 2 === 0 ? slideRight() : slideRight(0.3)}
               className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-16`}
             >
-              <div className="w-full lg:w-1/2">
-                <div className="relative group">
-                  <div className="absolute inset-0 bg-deepPurple rounded-lg transform translate-x-3 translate-y-3 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-300"></div>
-                  <img 
-                    src={magazine.coverImage}
-                    alt={`${magazine.title} Magazine Cover`}
-                    className="relative w-full h-auto rounded-lg shadow-xl z-10 transform group-hover:scale-105 transition-all duration-300"
-                  />
-                  <div className="absolute top-4 right-4 bg-gold text-white text-sm font-semibold py-1 px-3 rounded-full z-20">
-                    {magazine.date}
+              <div className="w-full lg:w-2/5">
+                <Link href={magazine.pdfUrl} className="block">
+                  <div className="relative group perspective-[1000px] cursor-pointer">
+                    {/* A4 aspect ratio container - 1:1.414 (width:height) */}
+                    <div className="aspect-[1/1.414] rounded-lg overflow-hidden transform group-hover:rotate-y-1 group-hover:rotate-z-1 transition-transform duration-500 z-10">
+                      {/* Spine effect */}
+                      <div className="absolute left-0 top-0 h-full w-3 bg-gray-700 z-20"></div>
+                      
+                      {/* Page effect */}
+                      <div className="absolute right-0 h-full w-[3px] bg-gradient-to-l from-gray-300 to-transparent z-20"></div>
+                      
+                      {/* Cover shadow effect */}
+                      <div className="absolute inset-0 bg-deepPurple rounded-lg transform translate-x-3 translate-y-3 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-300"></div>
+                      
+                      {/* Magazine cover with proper A4 aspect ratio */}
+                      <img 
+                        src={magazine.coverImage}
+                        alt={`${magazine.title} Magazine Cover`}
+                        className="relative w-full h-full object-cover rounded-lg shadow-xl z-10 transform group-hover:scale-105 transition-all duration-500"
+                      />
+                      
+                      {/* Realistic magazine cover effect with gloss and texture */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/20 mix-blend-overlay rounded-lg z-10"></div>
+                      
+                      {/* Date badge */}
+                      <div className="absolute top-4 right-4 bg-gold text-white text-sm font-semibold py-1 px-3 rounded-full z-30 shadow-md">
+                        {magazine.date}
+                      </div>
+                    </div>
+                    
+                    {/* Interactive hover effect hint */}
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 text-deepPurple text-xs px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 shadow-md">
+                      Click to read
+                    </div>
                   </div>
-                </div>
+                </Link>
               </div>
               
               <div className="w-full lg:w-1/2">
