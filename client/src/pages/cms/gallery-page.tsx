@@ -207,14 +207,19 @@ export default function GalleryPage() {
 
   // Handle edit gallery item
   const handleEditItem = (item: GalleryItem) => {
+    // Log the item to understand what's coming from the server
+    console.log("Gallery item from server:", item);
+    
     setEditingItem(item);
     form.reset({
       title: item.title,
       description: item.description || "",
-      image: item.image,
+      // Use the correct property name based on the server response
+      image: (item as any).image || (item as any).imageUrl,
       tags: item.tags,
       date: new Date(item.date),
-      featured: item.featured || false,
+      // Use the correct property name based on the server response
+      featured: (item as any).featured || (item as any).isFeatured || false,
       createdBy: item.createdBy || undefined,
       updatedBy: user?.id, // Set to current user's ID when editing
     });
@@ -325,11 +330,11 @@ export default function GalleryPage() {
             <Card key={item.id} className="overflow-hidden">
               <div className="relative aspect-square">
                 <img
-                  src={item.image}
+                  src={(item as any).image || (item as any).imageUrl}
                   alt={item.title}
                   className="object-cover w-full h-full"
                 />
-                {item.featured && (
+                {((item as any).featured || (item as any).isFeatured) && (
                   <Badge className="absolute top-2 right-2" variant="secondary">
                     Featured
                   </Badge>
