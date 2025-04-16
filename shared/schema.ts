@@ -153,9 +153,11 @@ export const galleryItems = pgTable("gallery_items", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
+  // Map image field to image_url column in database
   image: text("image_url").notNull(),
   tags: text("tags").array().notNull(),
   date: timestamp("date").notNull(),
+  // Map featured field to is_featured column in database
   featured: boolean("is_featured").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

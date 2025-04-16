@@ -198,10 +198,19 @@ export default function GalleryPage() {
 
   // Handle form submission
   const onSubmit = (values: GalleryItemFormValues) => {
+    // Map our form values to match the expected API structure
+    // This ensures that backend will receive the right field names
+    const transformedValues = {
+      ...values,
+      // Add both field names to ensure backward compatibility
+      imageUrl: values.image,
+      isFeatured: values.featured
+    };
+    
     if (editingItem) {
-      updateGalleryItemMutation.mutate({ id: editingItem.id, values });
+      updateGalleryItemMutation.mutate({ id: editingItem.id, values: transformedValues });
     } else {
-      createGalleryItemMutation.mutate(values);
+      createGalleryItemMutation.mutate(transformedValues);
     }
   };
 
