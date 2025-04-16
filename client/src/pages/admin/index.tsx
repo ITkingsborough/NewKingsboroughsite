@@ -191,14 +191,15 @@ const DashboardContent = () => {
           <CardContent>
             <div className="flex items-center justify-center py-8">
               <div className="flex items-center text-sm">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-8 border-amber-300 text-amber-700 hover:text-amber-800 hover:bg-amber-50 hover:border-amber-400"
-                  onClick={() => window.location.href = '/admin/magazines'}
-                >
-                  View All
-                </Button>
+                <Link href="/admin/magazines">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-8 border-amber-300 text-amber-700 hover:text-amber-800 hover:bg-amber-50 hover:border-amber-400"
+                  >
+                    View All
+                  </Button>
+                </Link>
               </div>
             </div>
           </CardContent>
@@ -216,14 +217,15 @@ const DashboardContent = () => {
           <CardContent>
             <div className="flex items-center justify-center py-8">
               <div className="flex items-center text-sm">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="h-8 border-purple-300 text-purple-700 hover:text-purple-800 hover:bg-purple-50 hover:border-purple-400"
-                  onClick={() => window.location.href = '/admin/contact'}
-                >
-                  View All
-                </Button>
+                <Link href="/admin/contact">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-8 border-purple-300 text-purple-700 hover:text-purple-800 hover:bg-purple-50 hover:border-purple-400"
+                  >
+                    View All
+                  </Button>
+                </Link>
               </div>
             </div>
           </CardContent>
@@ -248,13 +250,14 @@ const DashboardContent = () => {
                 <>
                   <MessageSquare className="h-16 w-16 text-amber-400 mx-auto" />
                   <p className="text-sm text-gray-500">Managing {subscribers.length} newsletter subscribers</p>
-                  <Button 
-                    variant="outline" 
-                    className="mt-4 border-amber-300 text-amber-700 hover:text-amber-800 hover:bg-amber-50 hover:border-amber-400"
-                    onClick={() => window.location.href = '/admin/subscribers'}
-                  >
-                    Manage Subscribers
-                  </Button>
+                  <Link href="/admin/subscribers">
+                    <Button 
+                      variant="outline" 
+                      className="mt-4 border-amber-300 text-amber-700 hover:text-amber-800 hover:bg-amber-50 hover:border-amber-400"
+                    >
+                      Manage Subscribers
+                    </Button>
+                  </Link>
                 </>
               ) : (
                 <>
@@ -329,19 +332,21 @@ export default function AdminDashboard() {
         <div className="flex-1 overflow-auto py-6">
           <nav className="flex flex-col space-y-1 px-3">
             {navItems.map((item) => (
-              <div key={item.id} 
-                onClick={() => window.location.href = item.path}
+              <Link 
+                key={item.id}
+                href={item.path as string}
                 className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm cursor-pointer ${
                   location === item.path
                     ? 'bg-amber-50 font-medium text-amber-600'
                     : 'text-gray-600 hover:bg-gray-50'
-                }`}>
+                }`}
+              >
                 <div className="flex items-center">
                   <item.icon className="mr-3 h-5 w-5" />
                   <span>{item.label}</span>
                 </div>
                 {location === item.path && <ChevronRight className="h-4 w-4" />}
-              </div>
+              </Link>
             ))}
           </nav>
         </div>
