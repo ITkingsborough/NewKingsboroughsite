@@ -14,8 +14,7 @@ export type RegisterData = {
   username: string;
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   role?: typeof userRoleEnum.enumValues[number];
 };
 

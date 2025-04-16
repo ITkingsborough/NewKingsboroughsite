@@ -16,8 +16,8 @@ async function setupDatabase() {
         username TEXT NOT NULL UNIQUE,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        first_name TEXT NOT NULL,
-        last_name TEXT NOT NULL,
+        firstname TEXT NOT NULL,
+        lastname TEXT NOT NULL,
         role TEXT NOT NULL DEFAULT 'editor',
         active BOOLEAN NOT NULL DEFAULT true,
         last_login TIMESTAMP,
@@ -83,7 +83,7 @@ async function setupDatabase() {
       const hashedPassword = await hashPassword("admin123");
       
       await db.execute(sql`
-        INSERT INTO users (username, email, password, first_name, last_name, role, active, created_at, updated_at)
+        INSERT INTO users (username, email, password, firstname, lastname, role, active, created_at, updated_at)
         VALUES ('admin', 'admin@kingsboroughchurch.org', ${hashedPassword}, 'Admin', 'User', 'admin', true, NOW(), NOW())
       `);
       

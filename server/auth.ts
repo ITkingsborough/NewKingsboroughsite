@@ -179,8 +179,7 @@ export function setupAuth(app: Express) {
         id: user.id,
         username: user.username,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
         role: user.role,
         createdAt: user.createdAt,
       };
@@ -227,8 +226,7 @@ export function setupAuth(app: Express) {
             id: user.id,
             username: user.username,
             email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            name: user.name,
             role: user.role,
           };
           
@@ -279,8 +277,7 @@ export function setupAuth(app: Express) {
       id: user.id,
       username: user.username,
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      name: user.name,
       role: user.role,
     };
     

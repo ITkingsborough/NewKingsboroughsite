@@ -9,10 +9,9 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
+  name: text("name").notNull(),
   role: userRoleEnum("role").notNull().default('editor'),
-  active: boolean("active").notNull().default(true),
+  active: boolean("active").default(true),
   lastLogin: timestamp("last_login"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -22,8 +21,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   email: true,
   password: true,
-  firstName: true,
-  lastName: true,
+  name: true,
   role: true,
 });
 
