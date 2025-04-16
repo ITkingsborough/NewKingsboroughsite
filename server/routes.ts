@@ -1009,7 +1009,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           cb(new Error('Only image files are allowed'));
         }
       }
-    }).single('file');
+    }).single('coverImage');
     
     upload(req, res, (err: any) => {
       if (err) {
@@ -1052,7 +1052,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           cb(new Error('Only PDF files are allowed'));
         }
       }
-    }).single('file');
+    }).single('pdfFile');
     
     upload(req, res, (err: any) => {
       if (err) {
