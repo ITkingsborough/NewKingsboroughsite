@@ -203,45 +203,92 @@ export default function MagazinesPage() {
     setIsSubmitting(true);
     
     try {
-      console.log("Creating form data...");
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description || "");
-      formData.append("date", date);
-      formData.append("type", type || "monthly");
-      formData.append("featured", featured.toString());
+      console.log("Uploading files separately...");
       
-      // Make sure files are properly attached with correct field names
-      if (coverImage) {
-        console.log("Adding cover image:", coverImage.name, coverImage.type, coverImage.size);
-        formData.append("coverImage", coverImage);
-      } else {
-        console.error("Cover image is missing");
-        throw new Error("Cover image is required");
+      // First upload the cover image
+      const coverFormData = new FormData();
+      coverFormData.append("file", coverImage);
+      
+      console.log("Uploading cover image...");
+      const coverResponse = await fetch("/api/upload/magazine-cover", {
+        method: "POST",
+        body: coverFormData
+      });
+      
+      if (!coverResponse.ok) {
+        throw new Error("Failed to upload cover image");
       }
       
-      if (pdfFile) {
-        console.log("Adding PDF file:", pdfFile.name, pdfFile.type, pdfFile.size);
-        formData.append("pdfFile", pdfFile);
-      } else {
-        console.error("PDF file is missing");
-        throw new Error("PDF file is required");
+      const coverData = await coverResponse.json();
+      const coverImagePath = coverData.filePath;
+      console.log("Cover image uploaded successfully:", coverImagePath);
+      
+      // Then upload the PDF file
+      const pdfFormData = new FormData();
+      pdfFormData.append("file", pdfFile);
+      
+      console.log("Uploading PDF file...");
+      const pdfResponse = await fetch("/api/upload/magazine-pdf", {
+        method: "POST",
+        body: pdfFormData
+      });
+      
+      if (!pdfResponse.ok) {
+        throw new Error("Failed to upload PDF file");
       }
       
-      // Log formData entries for debugging
-      console.log("FormData entries:");
-      for (const pair of (formData as any).entries()) {
-        console.log(pair[0], pair[1], typeof pair[1]);
+      const pdfData = await pdfResponse.json();
+      const pdfUrlPath = pdfData.filePath;
+      console.log("PDF file uploaded successfully:", pdfUrlPath);
+      
+      // Now create the magazine entry with the file paths
+      const magazineData = {
+        title,
+        description: description || "",
+        date,
+        type: type || "monthly",
+        featured: featured,
+        coverImage: coverImagePath,
+        pdfUrl: pdfUrlPath
+      };
+      
+      console.log("Creating magazine with data:", magazineData);
+      
+      // Use the API to create the magazine
+      const createResponse = await fetch("/api/cms/magazines", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(magazineData)
+      });
+      
+      if (!createResponse.ok) {
+        const errorText = await createResponse.text();
+        throw new Error(`Failed to create magazine: ${errorText}`);
       }
       
-      const result = await createMagazineMutation.mutateAsync(formData);
-      console.log("Create magazine result:", result);
+      const result = await createResponse.json();
+      console.log("Magazine created successfully:", result);
+      
+      // Refresh the magazines list
+      queryClient.invalidateQueries({ queryKey: ["/api/cms/magazines"] });
+      
+      // Close the modal and reset the form
+      resetForm();
+      setIsAddModalOpen(false);
+      
+      toast({
+        title: "Success!",
+        description: "Magazine has been created successfully.",
+        variant: "default",
+      });
     } catch (error) {
-      console.error("Error preparing form data:", error);
+      console.error("Error creating magazine:", error);
       setIsSubmitting(false);
       toast({
-        title: "Error preparing data",
-        description: "There was an error preparing the form data.",
+        title: "Error creating magazine",
+        description: error instanceof Error ? error.message : "Unknown error occurred",
         variant: "destructive",
       });
     }
@@ -262,34 +309,94 @@ export default function MagazinesPage() {
     setIsSubmitting(true);
     
     try {
-      console.log("Creating form data for update...");
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("date", date);
-      formData.append("type", type);
-      formData.append("featured", featured.toString());
+      console.log("Updating magazine...");
       
+      // Prepare the update data
+      const updateData: any = {
+        title,
+        description: description || "",
+        date,
+        type: type || selectedMagazine.type || "monthly",
+        featured
+      };
+      
+      // If a new cover image is selected, upload it first
       if (coverImage) {
-        console.log("Adding cover image for update:", coverImage);
-        formData.append("coverImage", coverImage);
+        console.log("Uploading new cover image...");
+        const coverFormData = new FormData();
+        coverFormData.append("file", coverImage);
+        
+        const coverResponse = await fetch("/api/upload/magazine-cover", {
+          method: "POST",
+          body: coverFormData
+        });
+        
+        if (!coverResponse.ok) {
+          throw new Error("Failed to upload cover image");
+        }
+        
+        const coverData = await coverResponse.json();
+        updateData.coverImage = coverData.filePath;
+        console.log("New cover image uploaded:", updateData.coverImage);
       }
       
+      // If a new PDF file is selected, upload it too
       if (pdfFile) {
-        console.log("Adding PDF file for update:", pdfFile);
-        formData.append("pdfFile", pdfFile);
+        console.log("Uploading new PDF file...");
+        const pdfFormData = new FormData();
+        pdfFormData.append("file", pdfFile);
+        
+        const pdfResponse = await fetch("/api/upload/magazine-pdf", {
+          method: "POST",
+          body: pdfFormData
+        });
+        
+        if (!pdfResponse.ok) {
+          throw new Error("Failed to upload PDF file");
+        }
+        
+        const pdfData = await pdfResponse.json();
+        updateData.pdfUrl = pdfData.filePath;
+        console.log("New PDF file uploaded:", updateData.pdfUrl);
       }
       
-      await updateMagazineMutation.mutateAsync({
-        id: selectedMagazine.id,
-        formData
+      console.log("Sending update request with data:", updateData);
+      
+      // Send the update request with all the data
+      const updateResponse = await fetch(`/api/cms/magazines/${selectedMagazine.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updateData)
+      });
+      
+      if (!updateResponse.ok) {
+        const errorText = await updateResponse.text();
+        throw new Error(`Failed to update magazine: ${errorText}`);
+      }
+      
+      const result = await updateResponse.json();
+      console.log("Magazine updated successfully:", result);
+      
+      // Refresh the magazines list
+      queryClient.invalidateQueries({ queryKey: ["/api/cms/magazines"] });
+      
+      // Close the modal and reset the form
+      resetForm();
+      setIsEditModalOpen(false);
+      
+      toast({
+        title: "Success!",
+        description: "Magazine has been updated successfully.",
+        variant: "default",
       });
     } catch (error) {
-      console.error("Error preparing form data for update:", error);
+      console.error("Error updating magazine:", error);
       setIsSubmitting(false);
       toast({
-        title: "Error preparing data",
-        description: "There was an error preparing the form data for update.",
+        title: "Error updating magazine",
+        description: error instanceof Error ? error.message : "Unknown error occurred",
         variant: "destructive",
       });
     }
