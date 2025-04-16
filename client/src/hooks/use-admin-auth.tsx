@@ -16,6 +16,11 @@ type AdminUserData = {
   createdAt: string;
 };
 
+type LoginData = {
+  username: string;
+  password: string;
+};
+
 type AdminAuthContextType = {
   user: AdminUserData | null;
   isLoading: boolean;
@@ -24,17 +29,14 @@ type AdminAuthContextType = {
   logoutMutation: UseMutationResult<void, Error, void>;
 };
 
-type LoginData = {
-  username: string;
-  password: string;
-};
-
 export const AdminAuthContext = createContext<AdminAuthContextType | null>(null);
 
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+
+  // Query to fetch the current admin user
   const {
-    data: user,
+    data: user = null,
     error,
     isLoading,
   } = useQuery<AdminUserData | null, Error>({
@@ -42,9 +44,14 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
+  // Mutation to login
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
       const res = await apiRequest("POST", "/api/admin/login", credentials);
+      if (!res.ok) {
+        const error = await res.text();
+        throw new Error(error || "Failed to login");
+      }
       return await res.json();
     },
     onSuccess: (user: AdminUserData) => {
@@ -63,9 +70,14 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Mutation to logout
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/admin/logout");
+      const res = await apiRequest("POST", "/api/admin/logout");
+      if (!res.ok) {
+        const error = await res.text();
+        throw new Error(error || "Failed to logout");
+      }
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/admin/me"], null);

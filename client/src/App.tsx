@@ -10,6 +10,8 @@ import Events from "@/pages/Events";
 import Sermons from "@/pages/Sermons";
 import Giving from "@/pages/Giving";
 import Contact from "@/pages/Contact";
+import AdminLoginPage from "@/pages/admin/login";
+import AdminDashboard from "@/pages/admin";
 import CookieConsent from "@/components/ui/CookieConsent";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import PageTransition from "@/components/ui/PageTransition";
@@ -17,6 +19,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useEffect } from "react";
 import { useSmoothScroll } from "./hooks/use-smooth-scroll";
+import { AdminAuthProvider } from "./hooks/use-admin-auth";
+import { ProtectedAdminRoute } from "./components/admin/ProtectedAdminRoute";
 
 function App() {
   // Initialize smooth scrolling
@@ -29,27 +33,50 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow">
-          <PageTransition>
-            <Switch>
-              <Route path="/" component={Home} />
-              <Route path="/about" component={About} />
-              <Route path="/ministries" component={Ministries} />
-              <Route path="/events" component={Events} />
-              <Route path="/sermons" component={Sermons} />
-              <Route path="/giving" component={Giving} />
-              <Route path="/contact" component={Contact} />
-              <Route component={NotFound} />
-            </Switch>
-          </PageTransition>
-        </main>
-        <Footer />
-        <CookieConsent />
-        <ScrollToTop />
-      </div>
-      <Toaster />
+      <AdminAuthProvider>
+        <Switch>
+          {/* Admin Routes */}
+          <Route path="/admin/login" component={AdminLoginPage} />
+          <ProtectedAdminRoute path="/admin" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/communities" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/sermons" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/events" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/magazines" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/leaders" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/contact" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/subscribers" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/pages" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/media" component={AdminDashboard} />
+          <ProtectedAdminRoute path="/admin/settings" component={AdminDashboard} />
+          
+          {/* Public Routes */}
+          <Route path="/:rest*">
+            {() => (
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">
+                  <PageTransition>
+                    <Switch>
+                      <Route path="/" component={Home} />
+                      <Route path="/about" component={About} />
+                      <Route path="/ministries" component={Ministries} />
+                      <Route path="/events" component={Events} />
+                      <Route path="/sermons" component={Sermons} />
+                      <Route path="/giving" component={Giving} />
+                      <Route path="/contact" component={Contact} />
+                      <Route component={NotFound} />
+                    </Switch>
+                  </PageTransition>
+                </main>
+                <Footer />
+                <CookieConsent />
+                <ScrollToTop />
+              </div>
+            )}
+          </Route>
+        </Switch>
+        <Toaster />
+      </AdminAuthProvider>
     </QueryClientProvider>
   );
 }
