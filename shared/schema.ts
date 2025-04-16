@@ -91,18 +91,17 @@ export const sermons = pgTable("sermons", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   speaker: text("speaker").notNull(),
-  date: timestamp("date").notNull(),
+  date: text("date").notNull(), // Changed from timestamp to text
   description: text("description").notNull(),
   series: text("series"),
-  category: text("category").notNull().default('Sunday Service'),
-  imageUrl: text("image_url").notNull(),
-  videoUrl: text("video_url"),
-  audioUrl: text("audio_url"),
-  featuredOrder: integer("featured_order"),
+  preacher: text("preacher"),
+  image: text("image"), // Changed from imageUrl to image
+  video_url: text("video_url"), // Kept as is
+  audio_url: text("audio_url"), // Kept as is
+  download_url: text("download_url"),
+  featured: boolean("featured").default(false), // Changed from featuredOrder to featured
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-  createdBy: integer("created_by").references(() => users.id),
-  updatedBy: integer("updated_by").references(() => users.id),
 });
 
 export const insertSermonSchema = createInsertSchema(sermons).pick({
@@ -111,13 +110,12 @@ export const insertSermonSchema = createInsertSchema(sermons).pick({
   date: true,
   description: true,
   series: true,
-  category: true,
-  imageUrl: true,
-  videoUrl: true,
-  audioUrl: true,
-  featuredOrder: true,
-  createdBy: true,
-  updatedBy: true,
+  preacher: true,
+  image: true,
+  video_url: true,
+  audio_url: true,
+  download_url: true,
+  featured: true,
 });
 
 export type InsertSermon = z.infer<typeof insertSermonSchema>;
@@ -127,18 +125,14 @@ export type Sermon = typeof sermons.$inferSelect;
 export const events = pgTable("events", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  date: timestamp("date").notNull(),
+  date: text("date").notNull(), // Changed from timestamp to text
   time: text("time").notNull(),
   location: text("location").notNull(),
   description: text("description").notNull(),
-  category: text("category").notNull().default('Service'),
-  imageUrl: text("image_url").notNull(),
-  registerUrl: text("register_url"),
-  isFeatured: boolean("is_featured").default(false),
+  image: text("image"), // Changed from imageUrl to image
+  featured: boolean("featured").default(false), // Changed from isFeatured to featured
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-  createdBy: integer("created_by").references(() => users.id),
-  updatedBy: integer("updated_by").references(() => users.id),
 });
 
 export const insertEventSchema = createInsertSchema(events).pick({
@@ -147,12 +141,8 @@ export const insertEventSchema = createInsertSchema(events).pick({
   time: true,
   location: true,
   description: true,
-  category: true,
-  imageUrl: true,
-  registerUrl: true,
-  isFeatured: true,
-  createdBy: true,
-  updatedBy: true,
+  image: true,
+  featured: true,
 });
 
 export type InsertEvent = z.infer<typeof insertEventSchema>;

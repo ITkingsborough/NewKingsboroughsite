@@ -187,9 +187,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getSermonsByCategory(category: string): Promise<Sermon[]> {
-    // Since category column doesn't exist in the database,
-    // we'll just return all sermons as a workaround
-    // TODO: Add category column to database or refactor this method
+    // Since the actual database doesn't have a category column,
+    // we'll just return all sermons
     return this.getAllSermons();
   }
 
@@ -225,17 +224,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFutureEvents(): Promise<Event[]> {
-    const now = new Date();
+    const now = new Date().toISOString().split('T')[0]; // Format as YYYY-MM-DD
     return db.select()
       .from(events)
-      .where(gte(events.date, now))
+      .where(sql`${events.date} >= ${now}`)
       .orderBy(asc(events.date));
   }
 
   async getFeaturedEvents(limit: number = 5): Promise<Event[]> {
     return db.select()
       .from(events)
-      .where(eq(events.isFeatured, true))
+      .where(eq(events.featured, true))
       .orderBy(asc(events.date))
       .limit(limit);
   }
@@ -285,7 +284,7 @@ export class DatabaseStorage implements IStorage {
   async getFeaturedGalleryItems(limit: number = 10): Promise<GalleryItem[]> {
     return db.select()
       .from(galleryItems)
-      .where(eq(galleryItems.isFeatured, true))
+      .where(eq(galleryItems.is_featured, true))
       .orderBy(desc(galleryItems.date))
       .limit(limit);
   }
