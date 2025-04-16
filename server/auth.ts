@@ -5,12 +5,14 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { User, insertUserSchema } from "@shared/schema";
+import { User as UserType, insertUserSchema } from "@shared/schema";
+import { AuthenticateCallback } from "passport";
 
 // Extend Express types to include user in the Request
 declare global {
   namespace Express {
-    interface User extends User {}
+    // Using type instead of interface to avoid circular reference
+    type User = UserType;
   }
 }
 
@@ -205,7 +207,7 @@ export function setupAuth(app: Express) {
   app.post(
     "/api/auth/login",
     (req, res, next) => {
-      passport.authenticate("local", (err, user, info) => {
+      passport.authenticate("local", (err: any, user: any, info: any) => {
         if (err) {
           return next(err);
         }
@@ -215,7 +217,7 @@ export function setupAuth(app: Express) {
             message: info?.message || "Invalid username or password",
           });
         }
-        req.login(user, (err) => {
+        req.login(user, (err: any) => {
           if (err) {
             return next(err);
           }
@@ -300,7 +302,7 @@ export function setupAuth(app: Express) {
   });
 
   // Middleware to check if user has admin role
-  export const requireAdmin = (req: Request, res: Response, next: NextFunction) => {
+  app.use("/api/cms/admin/*", (req, res, next) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({
         success: false,
@@ -316,5 +318,5 @@ export function setupAuth(app: Express) {
     }
     
     next();
-  };
+  });
 }
