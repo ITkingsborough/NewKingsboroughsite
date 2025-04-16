@@ -16,39 +16,33 @@ interface CommunityCardProps {
 
 const communityCards: CommunityCardProps[] = [
   {
-    title: "Small Groups",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Connect with others in a small, welcoming environment where you can grow in faith together.",
-    link: "/ministries"
-  },
-  {
-    title: "Volunteer Teams",
-    image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Use your gifts and talents to serve others and make a difference in our community.",
-    link: "/ministries"
-  },
-  {
-    title: "Youth Fellowship",
-    image: "https://images.unsplash.com/photo-1536337005238-94b997371b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "A vibrant community where youth can build relationships and grow in their faith journey.",
-    link: "/ministries"
-  },
-  {
-    title: "Family Ministries",
-    image: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Resources and activities designed to strengthen families and nurture spiritual growth at home.",
-    link: "/ministries"
-  },
-  {
-    title: "Outreach Programs",
+    title: "Hillingdon Foodbank",
     image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Serving our local and global community through compassionate action and support.",
+    description: "Supporting those in need with essential food and supplies in the Hillingdon community.",
     link: "/ministries"
   },
   {
-    title: "Prayer Circle",
+    title: "CMC Nursery",
+    image: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Providing nurturing childcare and early education in a Christ-centered environment.",
+    link: "/ministries"
+  },
+  {
+    title: "Hadassah",
     image: "https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "A dedicated group that meets regularly to pray for the church, community, and world needs.",
+    description: "A women's ministry empowering and supporting ladies through faith and fellowship.",
+    link: "/ministries"
+  },
+  {
+    title: "Kingsmen",
+    image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Men's fellowship focusing on faith, leadership and authentic Christian masculinity.",
+    link: "/ministries"
+  },
+  {
+    title: "The Crown",
+    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Youth ministry helping young people navigate life's challenges through faith and community.",
     link: "/ministries"
   }
 ];
