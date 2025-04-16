@@ -42,7 +42,7 @@ import {
   Phone,
   Clock,
   Loader2,
-  PrayingHands
+  Heart
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -212,7 +212,7 @@ export default function ContactPage() {
                   <TableCell>
                     {message.isPrayer ? (
                       <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">
-                        <PrayingHands className="h-3 w-3 mr-1" />
+                        <Heart className="h-3 w-3 mr-1" />
                         Prayer
                       </Badge>
                     ) : (
@@ -288,7 +288,7 @@ export default function ContactPage() {
             <DialogTitle className="flex items-center">
               {selectedMessage?.isPrayer ? (
                 <>
-                  <PrayingHands className="h-5 w-5 mr-2 text-purple-600" />
+                  <Heart className="h-5 w-5 mr-2 text-purple-600" />
                   Prayer Request
                 </>
               ) : (
@@ -300,7 +300,7 @@ export default function ContactPage() {
             </DialogTitle>
             <DialogDescription>
               Received on{" "}
-              {selectedMessage
+              {selectedMessage?.createdAt
                 ? format(new Date(selectedMessage.createdAt), "MMMM d, yyyy 'at' h:mm a")
                 : ""}
             </DialogDescription>

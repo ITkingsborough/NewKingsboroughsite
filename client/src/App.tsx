@@ -13,6 +13,10 @@ import Giving from "@/pages/Giving";
 import Contact from "@/pages/Contact";
 import LoginPage from "@/pages/auth/login-page";
 import DashboardPage from "@/pages/cms/dashboard-page";
+import SermonsPage from "@/pages/cms/sermons-page";
+import EventsPage from "@/pages/cms/events-page";
+import GalleryPage from "@/pages/cms/gallery-page";
+import ContactPage from "@/pages/cms/contact-page";
 import UnauthorizedPage from "@/pages/cms/unauthorized-page";
 import CookieConsent from "@/components/ui/CookieConsent";
 import ScrollToTop from "@/components/ui/ScrollToTop";
@@ -75,6 +79,30 @@ function App() {
             <Route path="/cms/dashboard">
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            </Route>
+            
+            <Route path="/cms/sermons">
+              <ProtectedRoute>
+                <SermonsPage />
+              </ProtectedRoute>
+            </Route>
+            
+            <Route path="/cms/events">
+              <ProtectedRoute>
+                <EventsPage />
+              </ProtectedRoute>
+            </Route>
+            
+            <Route path="/cms/gallery">
+              <ProtectedRoute>
+                <GalleryPage />
+              </ProtectedRoute>
+            </Route>
+            
+            <Route path="/cms/contact">
+              <ProtectedRoute>
+                <ContactPage />
               </ProtectedRoute>
             </Route>
             
