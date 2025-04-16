@@ -30,6 +30,7 @@ export default function DirectLoginPage() {
       });
       
       const data = await response.json();
+      console.log("Login response:", data);
       
       if (data.success) {
         toast({
@@ -37,25 +38,26 @@ export default function DirectLoginPage() {
           description: "Redirecting to dashboard...",
         });
         
+        // Wait for a second to ensure the cookie is properly set
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
         // Manually fetch user data instead of relying on cache
-        fetch('/api/auth/user', {
+        console.log("Fetching user data after login...");
+        const userResponse = await fetch('/api/auth/user', {
           credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(userData => {
-          // Now update the cache
-          if (userData.success) {
-            queryClient.setQueryData(["/api/auth/user"], userData);
-          }
-          
-          // Navigate to dashboard after successful login and user data fetch
-          navigate("/cms/dashboard");
-        })
-        .catch(err => {
-          console.error("Error fetching user data:", err);
-          // Try to navigate anyway
-          navigate("/cms/dashboard");
         });
+        const userData = await userResponse.json();
+        console.log("User data response:", userData);
+        
+        // Now update the cache
+        if (userData.success) {
+          queryClient.setQueryData(["/api/auth/user"], userData);
+          console.log("User data cached successfully");
+        }
+        
+        // Navigate to dashboard after successful login and user data fetch
+        console.log("Navigating to dashboard...");
+        navigate("/cms/dashboard");
       } else {
         throw new Error(data.message || "Login failed");
       }
