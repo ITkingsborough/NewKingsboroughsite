@@ -5,7 +5,8 @@ import {
   activityLogs, type ActivityLog, type InsertActivityLog,
   sermons, type Sermon, type InsertSermon,
   events, type Event, type InsertEvent,
-  galleryItems, type GalleryItem, type InsertGalleryItem
+  galleryItems, type GalleryItem, type InsertGalleryItem,
+  magazines, type Magazine, type InsertMagazine
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, asc, gte, isNull, and, or, inArray, like, sql } from "drizzle-orm";
@@ -57,6 +58,15 @@ export interface IStorage {
   getAllGalleryItems(): Promise<GalleryItem[]>;
   getGalleryItemsByTag(tag: string): Promise<GalleryItem[]>;
   getFeaturedGalleryItems(limit?: number): Promise<GalleryItem[]>;
+  
+  // Magazines
+  createMagazine(magazine: InsertMagazine): Promise<Magazine>;
+  updateMagazine(id: number, magazine: Partial<InsertMagazine>): Promise<Magazine>;
+  deleteMagazine(id: number): Promise<void>;
+  getMagazine(id: number): Promise<Magazine | undefined>;
+  getAllMagazines(): Promise<Magazine[]>;
+  getFeaturedMagazines(limit?: number): Promise<Magazine[]>;
+  getMagazinesByType(type: string): Promise<Magazine[]>;
   
   // Activity logs for CMS
   createActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
@@ -287,6 +297,52 @@ export class DatabaseStorage implements IStorage {
       .where(eq(galleryItems.featured, true))
       .orderBy(desc(galleryItems.date))
       .limit(limit);
+  }
+
+  // Magazine methods
+  async createMagazine(magazine: InsertMagazine): Promise<Magazine> {
+    const [newMagazine] = await db.insert(magazines).values(magazine).returning();
+    return newMagazine;
+  }
+
+  async updateMagazine(id: number, magazine: Partial<InsertMagazine>): Promise<Magazine> {
+    const [updatedMagazine] = await db
+      .update(magazines)
+      .set({
+        ...magazine,
+        updatedAt: new Date()
+      })
+      .where(eq(magazines.id, id))
+      .returning();
+    return updatedMagazine;
+  }
+
+  async deleteMagazine(id: number): Promise<void> {
+    await db.delete(magazines).where(eq(magazines.id, id));
+  }
+
+  async getMagazine(id: number): Promise<Magazine | undefined> {
+    const [magazine] = await db.select().from(magazines).where(eq(magazines.id, id));
+    return magazine;
+  }
+
+  async getAllMagazines(): Promise<Magazine[]> {
+    return db.select().from(magazines).orderBy(desc(magazines.date));
+  }
+
+  async getFeaturedMagazines(limit: number = 5): Promise<Magazine[]> {
+    return db.select()
+      .from(magazines)
+      .where(eq(magazines.featured, true))
+      .orderBy(desc(magazines.date))
+      .limit(limit);
+  }
+
+  async getMagazinesByType(type: string): Promise<Magazine[]> {
+    return db.select()
+      .from(magazines)
+      .where(eq(magazines.type, type))
+      .orderBy(desc(magazines.date));
   }
 }
 
