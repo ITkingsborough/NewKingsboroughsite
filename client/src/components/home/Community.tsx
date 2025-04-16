@@ -113,73 +113,8 @@ const Community = () => {
     const cardsWidth = cards.scrollWidth;
     const containerWidth = carouselRef.current.offsetWidth;
     
-    // For smoother performance
-    let isScrolling = false;
-    let scrollTimeout: number;
-    let targetScrollPosition = 0;
-    
-    // Horizontal mouse wheel scrolling
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      
-      // Clear any existing timeouts
-      clearTimeout(scrollTimeout);
-      
-      // Get current scroll position
-      const currentScroll = cards.scrollLeft;
-      
-      // Calculate maximum scroll position
-      const maxScroll = cardsWidth - containerWidth;
-      
-      // Calculate scroll amount with speed-based adaptive scrolling
-      // Larger delta values result in faster scrolling
-      const sensitivity = 0.8; // Adjust this value to change base scroll speed
-      const accelerationFactor = Math.min(1.0, Math.abs(e.deltaY) / 100); // Speed factor based on how fast user is scrolling
-      const scrollAmount = e.deltaY * sensitivity * (1 + accelerationFactor);
-      
-      // Update target position with momentum and limits
-      targetScrollPosition = Math.max(0, Math.min(currentScroll + scrollAmount, maxScroll));
-      
-      // If not already animating, start a new animation
-      if (!isScrolling) {
-        isScrolling = true;
-        
-        // Use GSAP ticker for smoother animation
-        gsap.ticker.add(updateScroll);
-      }
-      
-      // Set a timeout to stop the animation after a delay
-      scrollTimeout = window.setTimeout(() => {
-        gsap.ticker.remove(updateScroll);
-        isScrolling = false;
-      }, 200); // Animation continues briefly after user stops scrolling for smooth finish
-    };
-    
-    // Smooth scroll update function
-    const updateScroll = () => {
-      // Get current position
-      const currentPosition = cards.scrollLeft;
-      
-      // Calculate a step toward the target with easing
-      const ease = 0.15; // Lower value = smoother but slower animation
-      const step = (targetScrollPosition - currentPosition) * ease;
-      
-      // Only update if the step is significant
-      if (Math.abs(step) > 0.1) {
-        cards.scrollLeft = currentPosition + step;
-      } else {
-        // If we're very close to target, just set it directly and stop animating
-        cards.scrollLeft = targetScrollPosition;
-        gsap.ticker.remove(updateScroll);
-        isScrolling = false;
-      }
-    };
-
-    // Only enable wheel scrolling if content overflows
+    // Only enable dragging if content overflows
     if (cardsWidth > containerWidth) {
-      // Add event listener for wheel event
-      cards.addEventListener('wheel', handleWheel, { passive: false });
-      
       // Make cards draggable for smooth scrolling
       Draggable.create(cards, {
         type: "x",
@@ -207,7 +142,6 @@ const Community = () => {
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       Draggable.get(cards)?.kill();
-      cards.removeEventListener('wheel', handleWheel);
     };
   }, []);
 
@@ -280,7 +214,7 @@ const Community = () => {
 
           <div className="flex justify-center mt-6 space-x-2">
             <p className="text-sm text-gray-500 italic">
-              <span className="hidden sm:inline">Scroll horizontally using your mouse wheel or drag the cards</span>
+              <span className="hidden sm:inline">Drag the cards to explore more</span>
               <span className="inline sm:hidden">Swipe to see more</span>
             </p>
           </div>
