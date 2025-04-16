@@ -466,46 +466,25 @@ const Contact = () => {
             >
               {[
                 {
-                  name: "Pastor James Wilson",
-                  title: "Lead Pastor",
-                  email: "james@kingsboroughchurch.org",
+                  name: "Apostle Tunde Balogun",
+                  title: "Senior Pastor",
+                  email: "tunde@kingsboroughchurch.org",
                   phone: "(555) 123-4567 ext. 101",
-                  image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                  image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                 },
                 {
-                  name: "Sarah Martinez",
-                  title: "Worship Pastor",
-                  email: "sarah@kingsboroughchurch.org",
+                  name: "Toyin Balogun",
+                  title: "Co-Pastor",
+                  email: "toyin@kingsboroughchurch.org",
                   phone: "(555) 123-4567 ext. 102",
-                  image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                  image: "https://images.unsplash.com/photo-1531078215167-91fcfe45b39e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                 },
                 {
-                  name: "David Thompson",
-                  title: "Youth Pastor",
-                  email: "david@kingsboroughchurch.org",
-                  phone: "(555) 123-4567 ext. 103",
-                  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                },
-                {
-                  name: "Rebecca Chen",
-                  title: "Community Outreach",
-                  email: "rebecca@kingsboroughchurch.org",
-                  phone: "(555) 123-4567 ext. 104",
-                  image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                },
-                {
-                  name: "Michael Johnson",
-                  title: "Children's Ministry",
-                  email: "michael@kingsboroughchurch.org",
-                  phone: "(555) 123-4567 ext. 105",
-                  image: "https://images.unsplash.com/photo-1542740348-39501cd6e2b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                },
-                {
-                  name: "Jennifer Garcia",
-                  title: "Office Administrator",
-                  email: "jennifer@kingsboroughchurch.org",
-                  phone: "(555) 123-4567 ext. 100",
-                  image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                  name: "Church Office",
+                  title: "Office Hours: Mon-Fri 9am-5pm",
+                  email: "info@kingsboroughchurch.org",
+                  phone: "(555) 123-4567",
+                  image: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                 }
               ].map((staff, index) => (
                 <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
