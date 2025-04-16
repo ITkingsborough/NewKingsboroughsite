@@ -228,7 +228,7 @@ const Gallery = () => {
       </div>
       
       {/* Tag Filter Bar */}
-      <div className="py-6 bg-white sticky top-0 z-10 shadow-sm">
+      <div className="py-6 bg-deepPurple/5 sticky top-0 z-10 shadow-md border-b border-gold/20">
         <div className="container mx-auto px-4 lg:px-8">
           <div 
             ref={tagsRef}
@@ -242,7 +242,7 @@ const Gallery = () => {
                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors duration-300 ${
                   activeTag === tag
                     ? 'bg-gold text-white'
-                    : 'bg-slate-100 hover:bg-slate-200 text-gray-700 border border-transparent hover:border-gold/30'
+                    : 'border border-gold text-gold hover:bg-gold/10'
                 }`}
               >
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}
@@ -285,17 +285,21 @@ const Gallery = () => {
                       loading="lazy"
                     />
                     
+                    {/* Bottom tag bar - always visible */}
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-deepPurple/60 flex flex-wrap">
+                      {image.tags.map((tag, idx) => (
+                        <span 
+                          key={idx}
+                          className="inline-block bg-gold text-white text-xs px-2 py-1 rounded-full mr-2 mb-1"
+                        >
+                          {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                        </span>
+                      ))}
+                    </div>
+                    
                     {/* Overlay on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-deepPurple/80 via-deepPurple/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                       <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        {image.tags.map((tag, idx) => (
-                          <span 
-                            key={idx}
-                            className="inline-block bg-gold text-white text-xs px-2 py-1 rounded-full mr-2 mb-2"
-                          >
-                            {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                          </span>
-                        ))}
                         <p className="text-white text-sm font-medium mt-1">{image.caption}</p>
                       </div>
                     </div>
