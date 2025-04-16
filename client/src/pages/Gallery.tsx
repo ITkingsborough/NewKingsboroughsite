@@ -15,95 +15,90 @@ const galleryImages = [
     id: 1,
     src: "https://images.unsplash.com/photo-1508963493744-76fce69379c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     alt: "Sunday worship service with congregation raising hands",
-    tags: ["worship", "service"],
+    tags: ["service"],
     caption: "Sunday morning worship service"
   },
   {
     id: 2,
     src: "https://images.unsplash.com/photo-1515091943-9d5c0ad475af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     alt: "Church baptism ceremony",
-    tags: ["baptism", "service"],
+    tags: ["service"],
     caption: "Celebrating new beginnings through baptism"
   },
   {
     id: 3,
     src: "https://images.unsplash.com/photo-1603102859961-64b17d43580c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Community outreach feeding program",
-    tags: ["outreach", "community"],
-    caption: "Our monthly community feeding program"
+    alt: "Hadassah women's ministry meeting",
+    tags: ["hadassah"],
+    caption: "Hadassah women's ministry meeting"
   },
   {
     id: 4,
     src: "https://images.unsplash.com/photo-1647891941746-fe1d53ddc7a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", 
-    alt: "Children enjoying Sunday School activities",
-    tags: ["kids", "education"],
-    caption: "Sunday School fun and learning"
+    alt: "Youth group activity",
+    tags: ["youth"],
+    caption: "Youth group fellowship and learning"
   },
   {
     id: 5,
     src: "https://images.unsplash.com/photo-1541384959902-a2fa99a3daba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     alt: "Church music team during worship",
-    tags: ["worship", "music"],
+    tags: ["service"],
     caption: "Our worship team leading in praise"
   },
   {
     id: 6,
     src: "https://images.unsplash.com/photo-1471565661762-b9dfae862dbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     alt: "Youth group outdoor activity",
-    tags: ["youth", "community"],
+    tags: ["youth"],
     caption: "Youth group summer retreat"
   },
   {
     id: 7,
     src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Church anniversary celebration",
-    tags: ["events", "community"],
-    caption: "Celebrating our 25th church anniversary"
+    alt: "Kingsmen men's ministry event",
+    tags: ["kingsmen"],
+    caption: "Kingsmen men's retreat"
   },
   {
     id: 8,
     src: "https://images.unsplash.com/photo-1490349708435-19d432984978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Prayer meeting with people kneeling",
-    tags: ["prayer", "worship"],
-    caption: "Wednesday night prayer service"
+    alt: "Kingsmen prayer meeting",
+    tags: ["kingsmen"],
+    caption: "Kingsmen prayer breakfast"
   },
   {
     id: 9,
     src: "https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Women's conference group photo",
-    tags: ["women", "events"],
-    caption: "Annual women's conference"
+    alt: "Hadassah women's conference",
+    tags: ["hadassah"],
+    caption: "Annual Hadassah women's conference"
   },
   {
     id: 10,
     src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Church volunteers packing donation boxes",
-    tags: ["outreach", "community"],
-    caption: "Holiday gift box outreach preparation"
+    alt: "Hadassah outreach program",
+    tags: ["hadassah"],
+    caption: "Hadassah gift box outreach preparation"
   },
   {
     id: 11,
     src: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     alt: "Youth praise dance performance",
-    tags: ["youth", "worship"],
+    tags: ["youth"],
     caption: "Youth praise dance ministry"
   },
   {
     id: 12,
     src: "https://images.unsplash.com/photo-1445273037325-2aa8c163f6eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Church small group meeting in home",
-    tags: ["community", "prayer"],
-    caption: "Home small group gathering"
+    alt: "Kingsmen ministry meeting",
+    tags: ["kingsmen"],
+    caption: "Kingsmen leadership development"
   }
 ];
 
-// Extract unique tags from images - for debugging, add manually if array is empty
-let extractedTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
-// If no tags were extracted, provide some defaults
-if (extractedTags.length === 0) {
-  extractedTags = ["worship", "service", "baptism", "community", "prayer", "outreach"];
-}
-const allTags = ["all", ...extractedTags];
+// Use specific ministry categories as requested
+const allTags = ["all", "hadassah", "kingsmen", "youth", "service"];
 
 // Log to ensure tags are present
 console.log("Gallery tags:", allTags);
