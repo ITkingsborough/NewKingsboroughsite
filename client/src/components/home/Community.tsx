@@ -177,6 +177,13 @@ const Community = () => {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300"></div>
                         </div>
                         
+                        {/* Description on hover */}
+                        <div className="absolute inset-0 flex items-center justify-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <p className="text-gold text-center text-sm md:text-base font-medium max-w-xs bg-black/70 p-3 rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            {card.description}
+                          </p>
+                        </div>
+                        
                         {/* Title at the bottom */}
                         <div className="absolute bottom-0 left-0 right-0 px-6 py-4 text-center">
                           <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white group-hover:text-gold transition-colors duration-300">
