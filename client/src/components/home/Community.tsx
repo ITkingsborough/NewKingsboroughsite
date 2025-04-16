@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger, Draggable } from 'gsap/all';
+import { ScrollTrigger } from 'gsap/all';
 import { Link } from 'wouter';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, Draggable);
+gsap.registerPlugin(ScrollTrigger);
 
 interface CommunityCardProps {
   title: string;
@@ -53,15 +54,33 @@ const communityCards: CommunityCardProps[] = [
 ];
 
 const Community = () => {
+  const [currentPage, setCurrentPage] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Calculate total number of pages (showing 2 items per page)
+  const totalPages = Math.ceil(communityCards.length / 2);
+
+  // Navigate to the next page
+  const nextPage = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages);
+  };
+
+  // Navigate to the previous page
+  const prevPage = () => {
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+  };
+
+  // Get current page items (2 per page)
+  const getCurrentPageItems = () => {
+    const startIndex = currentPage * 2;
+    return communityCards.slice(startIndex, startIndex + 2);
+  };
 
   useEffect(() => {
-    if (!sectionRef.current || !carouselRef.current || !cardsRef.current) return;
+    if (!sectionRef.current) return;
 
     // Heading and text animations
     const tl = gsap.timeline({
@@ -83,84 +102,28 @@ const Community = () => {
       "-=0.5"
     );
 
-    // Card animations
-    cardRefs.current.forEach((card, index) => {
-      if (!card) return;
-      
-      gsap.fromTo(
-        card,
-        { 
-          x: 50, 
-          opacity: 0 
-        },
-        { 
-          x: 0, 
-          opacity: 1, 
-          duration: 0.6, 
-          delay: 0.2 + (index * 0.1), 
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none"
-          }
-        }
-      );
-    });
-
-    // Horizontal scroll interaction
-    const cards = cardsRef.current;
-    const cardsWidth = cards.scrollWidth;
-    const containerWidth = carouselRef.current.offsetWidth;
-    
-    // Only enable dragging if content overflows
-    if (cardsWidth > containerWidth) {
-      // Make cards draggable for smooth scrolling
-      Draggable.create(cards, {
-        type: "x",
-        bounds: {
-          minX: -cardsWidth + containerWidth,
-          maxX: 0
-        },
-        inertia: true,
-        dragClickables: true,
-        edgeResistance: 0.9,
-        throwResistance: 2500, // Lower value = more slide after release
-        overshootTolerance: 0.5,
-        snap: { // Snap to card boundaries for a cleaner end position
-          x: function(endValue) {
-            // Calculate card width including gap
-            const cardWidth = 320 + 20; // Card width + gap
-            // Snap to the closest card boundary
-            return Math.round(endValue / cardWidth) * cardWidth;
-          }
-        }
-      });
-    }
-
-    // Clean up
+    // Clean up ScrollTrigger instances
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      Draggable.get(cards)?.kill();
     };
   }, []);
 
   return (
     <section
       ref={sectionRef} 
-      className="py-20 bg-slate-50"
+      className="py-20 bg-slate-50 overflow-hidden"
     >
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="text-center mb-14">
           <h2 
             ref={headingRef}
-            className="text-3xl md:text-4xl font-montserrat font-bold mb-4 text-deepPurple opacity-0"
+            className="text-3xl md:text-4xl font-montserrat font-bold mb-4 text-deepPurple"
           >
             Find Your Community
           </h2>
           <p 
             ref={textRef}
-            className="text-lg max-w-2xl mx-auto text-darkGray opacity-0"
+            className="text-lg max-w-2xl mx-auto text-darkGray"
           >
             At Kingsborough Church, we believe that life is better when we do it together. 
             Browse our community groups and find the perfect place to belong.
@@ -171,52 +134,79 @@ const Community = () => {
           ref={carouselRef}
           className="relative"
         >
-          <div 
-            ref={cardsRef}
-            className="flex space-x-5 pb-4 cursor-grab active:cursor-grabbing overflow-x-auto scrollbar-hide"
-            style={{ 
-              willChange: "transform",
-              touchAction: "pan-y",
-              scrollBehavior: "smooth", 
-              scrollbarWidth: "none", /* Firefox */
-              WebkitOverflowScrolling: "touch", /* iOS momentum scrolling */
-              transform: "translate3d(0,0,0)", /* Hardware acceleration */
-              perspective: "1000px",
-              backfaceVisibility: "hidden" as "hidden"
-            }}
+          {/* Navigation Arrows */}
+          <button 
+            onClick={prevPage}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/80 hover:bg-gold/90 shadow-lg text-deepPurple hover:text-white transition-colors -ml-4 lg:-ml-6"
+            aria-label="Previous communities"
           >
-            {communityCards.map((card, index) => (
-              <div 
-                key={index}
-                ref={el => cardRefs.current[index] = el}
-                className="flex-shrink-0 w-80 bg-white rounded-lg shadow-md overflow-hidden opacity-0 transition-all duration-200 hover:shadow-lg"
-              >
-                <div className="h-48 overflow-hidden">
-                  <img 
-                    src={card.image} 
-                    alt={card.title} 
-                    className="w-full h-full object-cover transform transition-transform duration-500 hover:scale-110"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-montserrat font-semibold mb-2">{card.title}</h3>
-                  <p className="text-darkGray mb-4">{card.description}</p>
-                  <Link 
-                    href={card.link}
-                    className="text-gold font-medium hover:text-deepPurple transition-colors"
-                  >
-                    Learn More →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <button 
+            onClick={nextPage}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/80 hover:bg-gold/90 shadow-lg text-deepPurple hover:text-white transition-colors -mr-4 lg:-mr-6"
+            aria-label="Next communities"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
 
-          <div className="flex justify-center mt-6 space-x-2">
-            <p className="text-sm text-gray-500 italic">
-              <span className="hidden sm:inline">Drag the cards to explore more</span>
-              <span className="inline sm:hidden">Swipe to see more</span>
-            </p>
+          {/* Carousel Content */}
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentPage}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="px-8 py-4"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {getCurrentPageItems().map((card, index) => (
+                  <Link href={card.link} key={index} className="block">
+                    <div className="group cursor-pointer transition-all duration-300 transform hover:translate-y-[-10px]">
+                      <div className="relative overflow-hidden rounded-lg shadow-lg">
+                        {/* Image container with overlay */}
+                        <div className="h-64 md:h-80 overflow-hidden">
+                          {/* Background image */}
+                          <img 
+                            src={card.image} 
+                            alt={card.title}
+                            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                          />
+                          
+                          {/* Overlay gradient */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300"></div>
+                        </div>
+                        
+                        {/* Title at the bottom */}
+                        <div className="absolute bottom-0 left-0 right-0 px-6 py-4 text-center">
+                          <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white group-hover:text-gold transition-colors duration-300">
+                            {card.title}
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Carousel indicators */}
+          <div className="flex justify-center mt-10 space-x-2">
+            {Array.from({ length: totalPages }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentPage(idx)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${idx === currentPage ? 'bg-gold w-8' : 'bg-gray-300 hover:bg-gold/50'}`}
+                aria-label={`Go to page ${idx + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>
