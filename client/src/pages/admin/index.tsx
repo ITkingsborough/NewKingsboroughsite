@@ -306,12 +306,7 @@ export default function AdminDashboard() {
     logoutMutation.mutate();
   };
   
-  // Function to go to the public website
-  const goToPublicSite = () => {
-    // Ensure we're using the full URL with origin to avoid relative path issues
-    const origin = window.location.origin;
-    window.open(`${origin}/`, '_blank');
-  };
+  // We no longer need this function since we're using a direct link
 
   return (
     <div className="flex h-screen bg-gray-50 text-gray-900">
@@ -393,20 +388,17 @@ export default function AdminDashboard() {
             </h2>
           </div>
           <div className="ml-auto">
-            <a 
-              href="/"
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex"
+            <Button 
+              variant="outline" 
+              className="mr-2 text-amber-600 hover:bg-amber-50 hover:text-amber-700 border-amber-200"
+              onClick={() => {
+                // Use window.location directly to navigate to the top level
+                window.location.href = '/';
+              }}
             >
-              <Button 
-                variant="outline" 
-                className="mr-2 text-amber-600 hover:bg-amber-50 hover:text-amber-700 border-amber-200"
-              >
-                <Church className="mr-2 h-4 w-4" />
-                View Website
-              </Button>
-            </a>
+              <Church className="mr-2 h-4 w-4" />
+              View Website
+            </Button>
           </div>
         </header>
         
