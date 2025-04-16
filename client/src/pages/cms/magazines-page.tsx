@@ -249,6 +249,7 @@ export default function MagazinesPage() {
         type: type || "monthly",
         featured: featured,
         coverImage: coverImagePath,
+        summary: description || "No summary available", // Use description as summary or provide a default
         pdfUrl: pdfUrlPath
       };
       
@@ -317,7 +318,8 @@ export default function MagazinesPage() {
         description: description || "",
         date,
         type: type || selectedMagazine.type || "monthly",
-        featured
+        featured, 
+        summary: description || selectedMagazine.summary || "No summary available" // Use description as summary or keep existing
       };
       
       // If a new cover image is selected, upload it first
@@ -344,7 +346,7 @@ export default function MagazinesPage() {
       if (pdfFile) {
         console.log("Uploading new PDF file...");
         const pdfFormData = new FormData();
-        pdfFormData.append("file", pdfFile);
+        pdfFormData.append("pdfFile", pdfFile);  // Changed from "file" to "pdfFile"
         
         const pdfResponse = await fetch("/api/upload/magazine-pdf", {
           method: "POST",

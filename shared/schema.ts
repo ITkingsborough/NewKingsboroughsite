@@ -188,6 +188,7 @@ export const magazines = pgTable("magazines", {
   type: text("type").notNull().default('monthly'),
   date: text("date").notNull(), // Publication date as text (e.g., "June 2023")
   coverImage: text("cover_image").notNull(), // Cover image path
+  summary: text("summary").notNull(), // Summary of the magazine
   pdfUrl: text("pdf_url").notNull(), // PDF file path
   featured: boolean("featured").default(false),
   createdAt: timestamp("created_at").defaultNow(),
@@ -202,6 +203,7 @@ export const insertMagazineSchema = createInsertSchema(magazines).pick({
   type: true,
   date: true,
   coverImage: true,
+  summary: true,
   pdfUrl: true,
   featured: true,
   createdBy: true,
