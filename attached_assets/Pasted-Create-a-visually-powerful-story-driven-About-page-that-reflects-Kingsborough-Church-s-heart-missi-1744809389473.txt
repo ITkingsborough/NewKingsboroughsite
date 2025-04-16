@@ -1,0 +1,88 @@
+Create a visually powerful, story-driven About page that reflects Kingsborough Church’s heart, mission, and spiritual foundation — using modern layout, elegant typography, and scroll-triggered motion.
+
+🎨 Color Palette:
+Gold (#D4AF37): For key highlights and accents.
+
+Lilac (#C8A2C8): For soft section backgrounds and overlays.
+
+White (#FFFFFF): Dominant color for clarity and balance.
+
+Optional Black or Deep Charcoal for text-heavy sections to create contrast.
+
+📐 Page Structure (Mirroring JoinCCI Flow):
+1. Intro Section (Full-Screen Hero)
+Large, bold mission statement or church motto (e.g., “We are a light in the city”)
+
+Subtext with 1-2 lines about Kingsborough’s identity
+
+Background: Subtle gold-tinted video loop or parallax image of worship/service
+
+Animated scroll-down indicator
+
+2. “Who We Are” Split Layout
+Left: Large heading + short 3–4 sentence description
+
+Right: Full-height background image or looping muted video
+
+Smooth scroll reveal effects on text
+
+Optional: Add logo watermark in background using low opacity
+
+3. Our Story (Timeline Style Section)
+Horizontal or vertical timeline (GSAP-style or progressive scroll)
+
+Each milestone animates into view
+
+Use lilac blocks with gold text accents
+
+Include 2–4 key moments in the church’s journey
+
+4. Our Vision & Mission
+Full-width layout
+
+Bold typography: “Our Vision” and “Our Mission” side-by-side or stacked
+
+Add parallax scrolling text or gold hover underline effect
+
+5. Core Values Grid / Cards
+Card-based section with 3 to 6 values (e.g., Love, Service, Growth, Community)
+
+Hover effects: color glow or subtle scale-up
+
+Optionally animate in each card as user scrolls
+
+6. Meet the Team
+Stylish image cards for Pastors and Ministry Leads
+
+On hover: name + role fade in, or flip card to show a short bio
+
+Consistent gold/lilac border or shadow for cohesion
+
+7. Join Our Story (Call to Action)
+Full-screen call-to-action
+
+“Join the Vision. Walk the Journey. Be the Light.” (custom message)
+
+Large gold button: “Plan a Visit” / “Watch a Service” / “Meet the Team”
+
+✨ Visual/UX Touches:
+Subtle scroll-triggered fades and transitions
+
+Parallax backgrounds on 2-3 sections
+
+Use of decorative golden lines/dividers for section transitions
+
+Fixed navigation that updates as user scrolls
+
+Elegant serif headings paired with readable sans-serif body font
+
+Animated text overlays or SVG icons to complement value sections
+
+🧑‍💻 Technical Considerations:
+Mobile-optimized (stacked layout, collapsible team cards)
+
+Lazy-loaded images for performance
+
+Scroll animation via Framer Motion, GSAP, or locomotive-scroll
+
+CMS-friendly structure for updating team members or story milestones
