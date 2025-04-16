@@ -34,15 +34,24 @@ const ParallaxSection = ({
         trigger: sectionRef.current,
         start: 'top bottom',
         end: 'bottom top',
-        scrub: true
+        scrub: 0.5, // More responsive parallax effect
+        markers: false, // Set to true for debugging
+        invalidateOnRefresh: true // Handle resize events properly
       }
     });
 
     // Move background slower than scroll speed to create parallax
-    parallaxTl.to(backgroundRef.current, {
-      y: `${30 * speed}%`,
-      ease: 'none'
-    });
+    parallaxTl.fromTo(backgroundRef.current, 
+      { y: `-${15 * speed}%` }, 
+      { 
+        y: `${50 * speed}%`, 
+        ease: 'none',
+        immediateRender: false
+      }
+    );
+    
+    // Debug info - uncomment to see what's happening with the animation
+    // console.log(`Parallax effect from ${-15 * speed}% to ${50 * speed}% with speed ${speed}`);
 
     // Cleanup
     return () => {
@@ -62,7 +71,12 @@ const ParallaxSection = ({
       <div 
         ref={backgroundRef}
         className="absolute inset-0 bg-center bg-no-repeat bg-cover"
-        style={{ backgroundImage: `url('${backgroundUrl}')`, transform: 'translateY(0)' }}
+        style={{ 
+          backgroundImage: `url('${backgroundUrl}')`, 
+          transform: 'translateY(0)', 
+          height: '120%',  // Extra height to ensure no gaps during parallax
+          top: '-10%'      // Offset to center the background
+        }}
       />
       
       {/* Optional overlay */}

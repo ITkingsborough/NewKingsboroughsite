@@ -69,7 +69,7 @@ const Hero = () => {
       id="home" 
       backgroundUrl="https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
       overlayClass="overlay-purple"
-      speed={0.3}
+      speed={0.8}
       className="h-screen flex items-center"
     >
       <div className="container mx-auto px-4 lg:px-8">

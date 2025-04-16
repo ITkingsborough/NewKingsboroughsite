@@ -66,7 +66,7 @@ const Quote = () => {
     <ParallaxSection 
       backgroundUrl="https://images.unsplash.com/photo-1455044372794-d981761b5bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
       overlayClass="overlay-gold"
-      speed={0.4}
+      speed={1.0}
       className="h-96 flex items-center justify-center"
     >
       <div className="container mx-auto px-4 lg:px-8 text-center">
