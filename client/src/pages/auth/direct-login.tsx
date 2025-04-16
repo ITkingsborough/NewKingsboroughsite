@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { queryClient } from "@/lib/queryClient";
 
 export default function DirectLoginPage() {
   const { loginMutation } = useAuth();
@@ -17,18 +18,46 @@ export default function DirectLoginPage() {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      await loginMutation.mutateAsync({ 
-        username, 
-        password 
+      // Make direct fetch instead of using mutation to ensure cookies are set properly
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Important for cookies
+        body: JSON.stringify({ username, password }),
       });
       
-      // If we get here, login was successful
-      toast({
-        title: "Login successful",
-        description: "Redirecting to dashboard...",
-      });
+      const data = await response.json();
       
-      navigate("/cms/dashboard");
+      if (data.success) {
+        toast({
+          title: "Login successful",
+          description: "Redirecting to dashboard...",
+        });
+        
+        // Manually fetch user data instead of relying on cache
+        fetch('/api/auth/user', {
+          credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(userData => {
+          // Now update the cache
+          if (userData.success) {
+            queryClient.setQueryData(["/api/auth/user"], userData);
+          }
+          
+          // Navigate to dashboard after successful login and user data fetch
+          navigate("/cms/dashboard");
+        })
+        .catch(err => {
+          console.error("Error fetching user data:", err);
+          // Try to navigate anyway
+          navigate("/cms/dashboard");
+        });
+      } else {
+        throw new Error(data.message || "Login failed");
+      }
     } catch (error) {
       console.error("Login error:", error);
       toast({

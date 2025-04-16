@@ -64,8 +64,8 @@ export function setupAuth(app: Express) {
   // Session configuration
   const sessionSettings: session.SessionOptions = {
     secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     store: storage.sessionStore,
     cookie: {
       secure: process.env.NODE_ENV === "production",
@@ -213,19 +213,26 @@ export function setupAuth(app: Express) {
             return next(err);
           }
           
-          // Return safe user object (without password)
-          const safeUser = {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
-          
-          return res.status(200).json({
-            success: true,
-            message: "Login successful",
-            user: safeUser,
+          // Explicitly save the session to ensure it's stored
+          req.session.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            
+            // Return safe user object (without password)
+            const safeUser = {
+              id: user.id,
+              username: user.username,
+              email: user.email,
+              name: user.name,
+              role: user.role,
+            };
+            
+            return res.status(200).json({
+              success: true,
+              message: "Login successful",
+              user: safeUser,
+            });
           });
         });
       })(req, res, next);
