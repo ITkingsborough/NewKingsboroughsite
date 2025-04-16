@@ -136,6 +136,10 @@ const DashboardContent = () => {
     queryKey: ['/api/admin/subscribers'],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
+  
+  // Website stats
+  const visitsThisMonth = 0; // Placeholder until we implement analytics
+  const pageViews = 0;       // Placeholder until we implement analytics
 
   return (
     <div className="p-6 space-y-6">
@@ -298,6 +302,11 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     logoutMutation.mutate();
   };
+  
+  // Function to go to the public website
+  const goToPublicSite = () => {
+    window.open('/', '_blank');
+  };
 
   return (
     <div className="flex h-screen bg-gray-50 text-gray-900">
@@ -375,6 +384,16 @@ export default function AdminDashboard() {
             <h2 className="text-xl font-medium text-gray-800">
               {navItems.find((item) => item.path === location)?.label || 'Dashboard'}
             </h2>
+          </div>
+          <div className="ml-auto">
+            <Button 
+              variant="outline" 
+              className="mr-2 text-amber-600 hover:bg-amber-50 hover:text-amber-700 border-amber-200"
+              onClick={goToPublicSite}
+            >
+              <Church className="mr-2 h-4 w-4" />
+              View Website
+            </Button>
           </div>
         </header>
         
