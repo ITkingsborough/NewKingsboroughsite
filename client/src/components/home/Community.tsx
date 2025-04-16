@@ -95,10 +95,40 @@ const Community = () => {
       { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
       "-=0.5"
     );
+    
+    // Set up hover animations for community cards
+    const setupHoverAnimations = () => {
+      const teamCards = document.querySelectorAll('.team-card');
+      
+      teamCards.forEach((card) => {
+        const img = card.querySelector('img');
+        const content = card.querySelector('.hover-content');
+        
+        if (img && content) {
+          card.addEventListener('mouseenter', () => {
+            gsap.to(img, { scale: 1.1, duration: 0.4 });
+            gsap.to(content, { opacity: 1, y: 0, duration: 0.3 });
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            gsap.to(img, { scale: 1, duration: 0.4 });
+            gsap.to(content, { opacity: 0, y: 20, duration: 0.3 });
+          });
+        }
+      });
+    };
+    
+    // Setup initial hover animations
+    setupHoverAnimations();
+    
+    // Re-setup hover animations when the page changes
+    const observer = new MutationObserver(setupHoverAnimations);
+    observer.observe(sectionRef.current, { childList: true, subtree: true });
 
-    // Clean up ScrollTrigger instances
+    // Clean up ScrollTrigger instances and observer
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      observer.disconnect();
     };
   }, []);
 
@@ -162,33 +192,33 @@ const Community = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {getCurrentPageItems().map((card, index) => (
                   <Link href={card.link} key={index} className="block">
-                    <div className="group cursor-pointer transition-all duration-300 transform hover:translate-y-[-10px]">
-                      <div className="relative overflow-hidden rounded-lg shadow-lg">
-                        {/* Image container with overlay */}
-                        <div className="h-64 md:h-80 overflow-hidden">
-                          {/* Background image */}
-                          <img 
-                            src={card.image} 
-                            alt={card.title}
-                            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                          />
-                          
-                          {/* Overlay gradient */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300"></div>
-                        </div>
-                        
-                        {/* Description on hover */}
-                        <div className="absolute inset-0 flex items-center justify-center px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <p className="text-gold text-center text-sm md:text-base font-medium max-w-xs bg-black/70 p-3 rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                            {card.description}
-                          </p>
-                        </div>
-                        
-                        {/* Title at the bottom */}
-                        <div className="absolute bottom-0 left-0 right-0 px-6 py-4 text-center">
-                          <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white group-hover:text-gold transition-colors duration-300">
-                            {card.title}
-                          </h3>
+                    <div className="team-card relative rounded-xl overflow-hidden shadow-xl group cursor-pointer">
+                      {/* Image container */}
+                      <div className="h-64 md:h-80 overflow-hidden">
+                        <img 
+                          src={card.image} 
+                          alt={card.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                      </div>
+                      
+                      {/* Gold border overlay on hover */}
+                      <div className="absolute inset-0 border-0 group-hover:border-4 border-gold transition-all duration-300 pointer-events-none"></div>
+                      
+                      {/* Card content - visible always */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6">
+                        <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white group-hover:text-gold transition-colors duration-300">
+                          {card.title}
+                        </h3>
+                      </div>
+                      
+                      {/* Hover content - Description text */}
+                      <div className="hover-content absolute inset-0 bg-deepPurple/85 flex items-center opacity-0 translate-y-10">
+                        <div className="p-8 text-center">
+                          <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white mb-3">{card.title}</h3>
+                          <div className="h-0.5 w-16 bg-gold mx-auto mb-5"></div>
+                          <p className="text-white/90 leading-relaxed">{card.description}</p>
                         </div>
                       </div>
                     </div>
