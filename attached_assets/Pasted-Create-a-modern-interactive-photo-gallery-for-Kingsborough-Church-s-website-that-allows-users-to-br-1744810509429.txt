@@ -1,0 +1,73 @@
+Create a modern, interactive photo gallery for Kingsborough Church’s website that allows users to browse event photos and ministry highlights. The gallery should feel elegant, smooth, and intuitive — with tag-based filtering, responsive design, and scroll/reveal animations.
+
+🎨 Aesthetic Guidelines:
+Color Scheme:
+
+Gold accents for tags or hover highlights
+
+Lilac as background overlays or filter chips
+
+White and deep grey for clean image contrast
+
+Font: Elegant sans-serif (e.g., Inter, Poppins, or DM Sans)
+
+📐 Gallery Structure:
+1. Header Section
+Title: “Moments Captured” or “Our Gallery”
+
+Subtitle: Short welcoming message (e.g., “Experience the joy, the worship, the community.”)
+
+Smooth fade-in on load
+
+2. Tag Filter Bar
+Horizontal scrollable tag chips (e.g., All, Worship, Outreach, Baptism, Kids, Events)
+
+Gold chip outline on active filter
+
+Tags animate in on page load
+
+Clicking a tag filters the images instantly (smooth transition/fade)
+
+3. Image Grid Layout
+Responsive Masonry Grid (3–4 columns on desktop, 2 on tablet, 1 on mobile)
+
+Smooth scale-up and fade-in as images scroll into view
+
+Each image tile includes:
+
+Hover overlay with category tag
+
+Optional lightbox on click (larger view with image caption and next/prev)
+
+4. Lightbox/Modal View
+Opens on image click
+
+Dark lilac or black overlay background
+
+Navigation: left/right arrows to slide through gallery
+
+Show category tags and brief description (if provided)
+
+✨ Animations & Interactions:
+Use Framer Motion, GSAP, or AOS (Animate on Scroll) for:
+
+Fade-up/slide-in on image load
+
+Tag filters with smooth transition (e.g., fade out filtered items, fade in new)
+
+Hover effects (image zoom, overlay slide, soft glow)
+
+Optional: subtle parallax background behind the image grid
+
+🔧 Technical Requirements:
+Fully responsive on all devices
+
+Filterable tags implemented via JavaScript or framework (React recommended)
+
+Lazy loading for performance (load images only as they scroll into view)
+
+Lightbox support with swipe navigation on mobile
+
+SEO-friendly image alt tags
+
+Option to load images dynamically from CMS or JSON file
