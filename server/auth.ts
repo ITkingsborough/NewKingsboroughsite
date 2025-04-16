@@ -11,8 +11,8 @@ import { AuthenticateCallback } from "passport";
 // Extend Express types to include user in the Request
 declare global {
   namespace Express {
-    // Using type instead of interface to avoid circular reference
-    type User = UserType;
+    // Using interface extension to avoid type collision
+    interface User extends UserType {}
   }
 }
 

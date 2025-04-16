@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Redirect, useLocation } from "wouter";
+import { ReactNode, useEffect } from "react";
+import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
 
@@ -17,9 +17,37 @@ export function ProtectedRoute({
   requireMediaManager = false,
 }: ProtectedRouteProps) {
   const { user, isLoading, isAdmin, isEditor, isMediaManager } = useAuth();
-  const [, setLocation] = useLocation();
+  const [, navigate] = useLocation();
 
-  // Show loading state while authentication is being checked
+  useEffect(() => {
+    if (!isLoading) {
+      // If not logged in, redirect to login
+      if (!user) {
+        navigate("/auth/login");
+        return;
+      }
+
+      // Check role requirements
+      if (
+        (requireAdmin && !isAdmin) ||
+        (requireEditor && !isEditor) ||
+        (requireMediaManager && !isMediaManager)
+      ) {
+        navigate("/cms/unauthorized");
+      }
+    }
+  }, [
+    user,
+    isLoading,
+    isAdmin,
+    isEditor,
+    isMediaManager,
+    requireAdmin,
+    requireEditor,
+    requireMediaManager,
+    navigate,
+  ]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -28,24 +56,15 @@ export function ProtectedRoute({
     );
   }
 
-  // If not authenticated, redirect to login
-  if (!user) {
-    return <Redirect to="/auth/login" />;
+  // If not authenticated or doesn't have required roles, return null
+  // (useEffect will handle navigation)
+  if (!user || 
+      (requireAdmin && !isAdmin) ||
+      (requireEditor && !isEditor) ||
+      (requireMediaManager && !isMediaManager)) {
+    return null;
   }
 
-  // Check role-based permissions
-  if (requireAdmin && !isAdmin) {
-    return <Redirect to="/cms/unauthorized" />;
-  }
-
-  if (requireEditor && !isEditor) {
-    return <Redirect to="/cms/unauthorized" />;
-  }
-
-  if (requireMediaManager && !isMediaManager) {
-    return <Redirect to="/cms/unauthorized" />;
-  }
-
-  // User is authenticated and has appropriate permissions
+  // User is authenticated and has required roles
   return <>{children}</>;
 }
