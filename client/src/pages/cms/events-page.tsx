@@ -77,10 +77,8 @@ const eventFormSchema = z.object({
   time: z.string().min(1, "Time is required"),
   location: z.string().min(1, "Location is required"),
   description: z.string().min(1, "Description is required"),
-  category: z.string().min(1, "Category is required"),
-  imageUrl: z.string().url("Valid image URL is required"),
-  registerUrl: z.string().url("Valid registration URL is required").optional().or(z.literal("")),
-  isFeatured: z.boolean().default(false),
+  image: z.string().url("Valid image URL is required"),
+  featured: z.boolean().default(false),
 });
 
 type EventFormValues = z.infer<typeof eventFormSchema>;
@@ -113,10 +111,8 @@ export default function EventsPage() {
       time: "",
       location: "",
       description: "",
-      category: "Service",
-      imageUrl: "",
-      registerUrl: "",
-      isFeatured: false,
+      image: "",
+      featured: false,
     },
   });
 
@@ -214,10 +210,8 @@ export default function EventsPage() {
       time: event.time,
       location: event.location,
       description: event.description,
-      category: event.category,
-      imageUrl: event.imageUrl,
-      registerUrl: event.registerUrl || "",
-      isFeatured: event.isFeatured,
+      image: event.image || "",
+      featured: event.featured || false,
     });
     setDialogOpen(true);
   };
@@ -231,10 +225,8 @@ export default function EventsPage() {
       time: "",
       location: "",
       description: "",
-      category: "Service",
-      imageUrl: "",
-      registerUrl: "",
-      isFeatured: false,
+      image: "",
+      featured: false,
     });
     setDialogOpen(true);
   };

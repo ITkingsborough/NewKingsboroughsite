@@ -309,7 +309,6 @@ export default function SermonsPage() {
                 <TableHead>Title</TableHead>
                 <TableHead>Speaker</TableHead>
                 <TableHead>Date</TableHead>
-                <TableHead>Category</TableHead>
                 <TableHead>Series</TableHead>
                 <TableHead>Featured</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -321,10 +320,9 @@ export default function SermonsPage() {
                   <TableCell className="font-medium">{sermon.title}</TableCell>
                   <TableCell>{sermon.speaker}</TableCell>
                   <TableCell>{format(new Date(sermon.date), "MMM d, yyyy")}</TableCell>
-                  <TableCell>{sermon.category}</TableCell>
                   <TableCell>{sermon.series || "-"}</TableCell>
                   <TableCell>
-                    {sermon.featuredOrder ? (
+                    {sermon.featured ? (
                       <CheckCircle className="h-4 w-4 text-green-500" />
                     ) : (
                       <XCircle className="h-4 w-4 text-muted-foreground" />
@@ -541,7 +539,7 @@ export default function SermonsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="image"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Image URL</FormLabel>
@@ -555,7 +553,7 @@ export default function SermonsPage() {
 
                 <FormField
                   control={form.control}
-                  name="videoUrl"
+                  name="video_url"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Video URL (Optional)</FormLabel>
@@ -569,12 +567,26 @@ export default function SermonsPage() {
 
                 <FormField
                   control={form.control}
-                  name="audioUrl"
+                  name="audio_url"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Audio URL (Optional)</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter audio URL" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="download_url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Download URL (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter download URL" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
