@@ -207,7 +207,7 @@ export default function MagazinesPage() {
       
       // First upload the cover image
       const coverFormData = new FormData();
-      coverFormData.append("file", coverImage);
+      coverFormData.append("coverImage", coverImage);  // Changed from "file" to "coverImage"
       
       console.log("Uploading cover image...");
       const coverResponse = await fetch("/api/upload/magazine-cover", {
@@ -225,7 +225,7 @@ export default function MagazinesPage() {
       
       // Then upload the PDF file
       const pdfFormData = new FormData();
-      pdfFormData.append("file", pdfFile);
+      pdfFormData.append("pdfFile", pdfFile);  // Changed from "file" to "pdfFile"
       
       console.log("Uploading PDF file...");
       const pdfResponse = await fetch("/api/upload/magazine-pdf", {
@@ -326,7 +326,7 @@ export default function MagazinesPage() {
       if (coverImage) {
         console.log("Uploading new cover image...");
         const coverFormData = new FormData();
-        coverFormData.append("file", coverImage);
+        coverFormData.append("coverImage", coverImage);  // Changed from "file" to "coverImage"
         
         const coverResponse = await fetch("/api/upload/magazine-cover", {
           method: "POST",
