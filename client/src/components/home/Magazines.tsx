@@ -155,7 +155,7 @@ const Magazines = () => {
                   className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-8"
                 >
                   <div className="w-full lg:w-2/5">
-                    <Link href={currentMagazine.pdfUrl} className="block">
+                    <a href={currentMagazine.pdfUrl} target="_blank" rel="noopener noreferrer" className="block">
                       <div className="relative group perspective-[1000px] cursor-pointer">
                         {/* A4 aspect ratio container - 1:1.414 (width:height) */}
                         <div className="aspect-[1/1.414] rounded-lg overflow-hidden transform group-hover:rotate-y-1 group-hover:rotate-z-1 transition-transform duration-500 z-10 max-w-sm mx-auto">
@@ -185,11 +185,15 @@ const Magazines = () => {
                         </div>
                         
                         {/* Interactive hover effect hint */}
-                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 text-deepPurple text-xs px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 shadow-md">
-                          Click to read
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 text-deepPurple text-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 shadow-md flex items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                            <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                          </svg>
+                          Open PDF
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   </div>
                   
                   <div className="w-full lg:w-1/2">
@@ -199,12 +203,18 @@ const Magazines = () => {
                     <p className="text-darkGray mb-8 text-lg leading-relaxed">
                       {currentMagazine.summary}
                     </p>
-                    <Link href={currentMagazine.pdfUrl} className="inline-flex items-center justify-center bg-gold hover:bg-deepPurple text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300 transform hover:scale-105">
+                    <a 
+                      href={currentMagazine.pdfUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center bg-gold hover:bg-deepPurple text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300 transform hover:scale-105"
+                    >
                       Read Now
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                        <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
                       </svg>
-                    </Link>
+                    </a>
                   </div>
                 </motion.div>
               </AnimatePresence>
