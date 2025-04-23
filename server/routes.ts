@@ -15,6 +15,7 @@ import {
 import { setupAuth, logUserActivity } from "./auth";
 import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
 import path from "path";
+import { getLatestVideos, getVideoDetails } from "./youtubeService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
