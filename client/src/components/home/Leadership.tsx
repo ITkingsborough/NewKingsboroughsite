@@ -34,21 +34,14 @@ const Leadership = () => {
             variants={slideUp(0.1)}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Styled div with gradient background instead of image */}
-              <div className="rounded-xl overflow-hidden border-4 border-gold shadow-xl aspect-[4/3]">
-                <div 
-                  className="w-full h-full flex items-center justify-center bg-gradient-to-br from-deepPurple to-purple-900 p-6"
-                >
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gold/20 flex items-center justify-center">
-                      <i className="fas fa-church text-gold text-3xl"></i>
-                    </div>
-                    <h4 className="text-white text-xl font-medium mb-2">Serving Since 2001</h4>
-                    <p className="text-white/80 text-sm">
-                      Leading with vision, wisdom, and compassion
-                    </p>
-                  </div>
-                </div>
+              {/* Actual image with pastoral team */}
+              <div className="rounded-xl overflow-hidden border-4 border-gold shadow-xl">
+                <img 
+                  src="/pastor-couple.png"
+                  alt="Apostle Tunde & Toyin Balogun"
+                  className="w-full"
+                  loading="lazy"
+                />
               </div>
               
               {/* Caption overlay at bottom */}
