@@ -415,7 +415,7 @@ const Sermons = () => {
               transition={{ duration: 0.6 }}
             >
               <YouTubeVideoList 
-                channelId="UCi7GJNg51C3jgmYTUwqoUXA" 
+                channelId="KingsboroughLiveTv" 
                 maxVideos={9} 
               />
             </motion.div>
