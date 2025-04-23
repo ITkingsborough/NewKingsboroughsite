@@ -72,7 +72,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-montserrat font-semibold mb-1">Visit Us</h3>
-                  <p>123 Main Street<br />Anytown, CA 90210</p>
+                  <p>No 4, New Windsor Street<br />Uxbridge , UB8 2TU</p>
                 </div>
               </div>
               <div className="flex items-start">
@@ -81,7 +81,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-montserrat font-semibold mb-1">Service Times</h3>
-                  <p>Sundays at 9:00 AM & 11:00 AM</p>
+                  <p>Sundays at 10:00 AM - 12:00 PM</p>
                 </div>
               </div>
               <div className="flex items-start">
@@ -90,7 +90,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-montserrat font-semibold mb-1">Call Us</h3>
-                  <p>(555) 123-4567</p>
+                  <p>01895252224 or 07848237072 (Monday to Friday) </p>
                 </div>
               </div>
               <div className="flex items-start">
@@ -108,7 +108,7 @@ const Contact = () => {
               <h3 className="text-lg font-montserrat font-semibold mb-4">Connect With Us</h3>
               <div className="flex space-x-4">
                 <a 
-                  href="https://facebook.com" 
+                  href="https://www.facebook.com/kingsboroughuk/?locale=en_GB" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-white hover:bg-opacity-90 transition-all duration-300"
@@ -117,7 +117,7 @@ const Contact = () => {
                   <i className="fab fa-facebook-f"></i>
                 </a>
                 <a 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/kingsboroughuk/?hl=en-gb" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-white hover:bg-opacity-90 transition-all duration-300"
@@ -126,7 +126,7 @@ const Contact = () => {
                   <i className="fab fa-instagram"></i>
                 </a>
                 <a 
-                  href="https://youtube.com" 
+                  href="https://www.youtube.com/@KingsboroughLiveTv" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-white hover:bg-opacity-90 transition-all duration-300"

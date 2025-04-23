@@ -42,13 +42,6 @@ const Giving = () => {
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <i className="fas fa-mobile-alt text-gold mt-1 mr-3"></i>
-                  <div>
-                    <p className="font-semibold">Text to Give</p>
-                    <p className="text-sm">Text "GIVE" to 555-123-4567</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
                   <i className="fas fa-calendar-check text-gold mt-1 mr-3"></i>
                   <div>
                     <p className="font-semibold">Recurring Giving</p>

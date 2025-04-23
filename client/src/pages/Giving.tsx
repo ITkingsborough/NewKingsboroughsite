@@ -160,17 +160,10 @@ const Giving = () => {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <i className="fas fa-mobile-alt text-gold mt-1 mr-3"></i>
-                        <div>
-                          <p className="font-semibold">Text to Give</p>
-                          <p className="text-sm">Text "GIVE" to 555-123-4567 with the amount you'd like to donate.</p>
-                        </div>
-                      </li>
-                      <li className="flex items-start">
                         <i className="fas fa-envelope text-gold mt-1 mr-3"></i>
                         <div>
                           <p className="font-semibold">Mail</p>
-                          <p className="text-sm">Send checks to: Kingsborough Church, 123 Main Street, Anytown, CA 90210</p>
+                          <p className="text-sm">Send checks to: Kingsborough Church, No 4 , New Windsor Street, Uxbridge , UB8 2TU</p>
                         </div>
                       </li>
                     </ul>
@@ -207,8 +200,8 @@ const Giving = () => {
                         </p>
                         <p className="text-lg font-medium mb-8">
                           {donationForm.amount === 'custom' 
-                            ? `$${donationForm.customAmount}` 
-                            : `$${donationForm.amount}`} 
+                            ? `£${donationForm.customAmount}` 
+                            : `£${donationForm.amount}`} 
                           {donationForm.frequency === 'one-time' ? '' : ` ${donationForm.frequency}`}
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -244,7 +237,7 @@ const Giving = () => {
                                   }`}
                                   onClick={() => setDonationForm(prev => ({ ...prev, amount }))}
                                 >
-                                  ${amount}
+                                  £{amount}
                                 </button>
                               ))}
                             </div>
@@ -262,7 +255,7 @@ const Giving = () => {
                               </button>
                               {donationForm.amount === 'custom' && (
                                 <div className="mt-2 flex items-center">
-                                  <span className="absolute ml-3 text-gray-500">$</span>
+                                  <span className="absolute ml-3 text-gray-500">£</span>
                                   <input
                                     type="number"
                                     name="customAmount"
@@ -537,8 +530,8 @@ const Giving = () => {
                           
                           <button type="submit" className="btn-primary w-full text-lg py-4">
                             {donationForm.frequency === 'one-time' 
-                              ? `Donate ${donationForm.amount === 'custom' ? `$${donationForm.customAmount || '0'}` : `$${donationForm.amount}`}` 
-                              : `Give ${donationForm.amount === 'custom' ? `$${donationForm.customAmount || '0'}` : `$${donationForm.amount}`} ${donationForm.frequency}`}
+                              ? `Donate ${donationForm.amount === 'custom' ? `£${donationForm.customAmount || '0'}` : `£${donationForm.amount}`}` 
+                              : `Give ${donationForm.amount === 'custom' ? `£${donationForm.customAmount || '0'}` : `£${donationForm.amount}`} ${donationForm.frequency}`}
                           </button>
                           
                           <p className="text-center text-sm text-gray-500 mt-4">
