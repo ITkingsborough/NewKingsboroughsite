@@ -141,17 +141,29 @@ const Sermons = () => {
       
       {/* Hero Section */}
       <div ref={heroRef} className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Parallax Background with Overlay */}
+        {/* Parallax Background with Overlay - Bible Image */}
         <div 
           className="parallax-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1601065300289-84f1d99fab1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=85')` }}
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=85')` }}
         ></div>
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-deepPurple/60 to-black/80"></div>
+        {/* Gradient Overlay - Warm tones to complement the Bible image */}
+        <div className="absolute inset-0 bg-gradient-to-b from-deepPurple/70 via-amber-900/60 to-black/80"></div>
         
         {/* Content */}
         <div className="container relative z-10 px-4 lg:px-8 text-center">
+          {/* Bible Icon Element */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="w-20 h-20 mx-auto mb-6"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0M3 6v13M12 6v13M21 6v13"></path>
+            </svg>
+          </motion.div>
+          
           <motion.div
             initial="hidden"
             animate="visible"
