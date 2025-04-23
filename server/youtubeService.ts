@@ -289,11 +289,11 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
     const item = typedResponse.items[0];
     
     // Ensure snippet exists
-    if (!item || typeof item !== 'object' || !item.id || typeof item.snippet !== 'object') {
+    if (!item || typeof item !== 'object' || !('id' in item) || !('snippet' in item) || typeof item.snippet !== 'object') {
       return null;
     }
     
-    const snippet = item.snippet;
+    const snippet = item.snippet as Record<string, any>;
     
     return {
       id: item.id,

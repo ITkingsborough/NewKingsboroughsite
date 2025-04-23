@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { slideUp, staggerContainer } from '@/lib/animations';
@@ -22,6 +23,9 @@ interface YouTubeVideo {
 }
 
 const Sermons = () => {
+  const [page, setPage] = useState(0);
+  const videosPerPage = 3;
+  
   const { 
     data, 
     isLoading, 
@@ -29,7 +33,7 @@ const Sermons = () => {
   } = useQuery<{ success: boolean, data: YouTubeVideo[] }>({
     queryKey: ['/api/youtube/videos', 'UCGYKC04rR0F7ajcuVQqupRQ', 'home'],
     queryFn: async () => {
-      const response = await fetch(`/api/youtube/videos?channelId=UCGYKC04rR0F7ajcuVQqupRQ&maxResults=3`);
+      const response = await fetch(`/api/youtube/videos?channelId=UCGYKC04rR0F7ajcuVQqupRQ&maxResults=9`);
       if (!response.ok) {
         throw new Error('Failed to fetch YouTube videos');
       }
@@ -37,7 +41,17 @@ const Sermons = () => {
     },
   });
 
-  const videos = data?.data || [];
+  const allVideos = data?.data || [];
+  const totalPages = Math.ceil(allVideos.length / videosPerPage);
+  const videos = allVideos.slice(page * videosPerPage, (page + 1) * videosPerPage);
+  
+  const handlePreviousPage = () => {
+    setPage((prev: number) => Math.max(0, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setPage((prev: number) => Math.min(totalPages - 1, prev + 1));
+  };
   
   // For formatting relative time (e.g., "2 days ago")
   const formatPublishedAt = (dateString: string) => {
@@ -165,8 +179,42 @@ const Sermons = () => {
           </motion.div>
         )}
         
+        {totalPages > 1 && (
+          <motion.div 
+            className="flex justify-center mt-8 mb-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={slideUp(0.3)}
+          >
+            <div className="flex space-x-4">
+              <button 
+                className={`px-5 py-2 rounded-lg flex items-center ${page === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-deepPurple text-white hover:bg-deepPurple/90'}`}
+                onClick={handlePreviousPage}
+                disabled={page === 0}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+              </button>
+              
+              <button 
+                className={`px-5 py-2 rounded-lg flex items-center ${page >= totalPages - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-deepPurple text-white hover:bg-deepPurple/90'}`}
+                onClick={handleNextPage}
+                disabled={page >= totalPages - 1}
+              >
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        )}
+        
         <motion.div 
-          className="text-center mt-12"
+          className="text-center mt-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
