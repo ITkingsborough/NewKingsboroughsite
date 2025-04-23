@@ -115,17 +115,12 @@ const Sermons = () => {
                   transition: { duration: 0.3 }
                 }}
               >
-                <div className="h-48 overflow-hidden relative bg-gray-200">
-                  {console.log("Rendering thumbnail:", video.id, video.thumbnails)}
+                <div className="h-48 overflow-hidden relative">
                   <img 
-                    src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                    src={video.thumbnails.high.url || video.thumbnails.medium.url} 
                     alt={video.title} 
                     className="w-full h-full object-cover"
                     loading="lazy"
-                    onError={(e) => {
-                      console.error("Failed to load image:", e);
-                      e.currentTarget.src = video.thumbnails?.medium?.url || '';
-                    }}
                   />
                   <div className="absolute inset-0 bg-deepPurple bg-opacity-40 flex items-center justify-center">
                     <button 
