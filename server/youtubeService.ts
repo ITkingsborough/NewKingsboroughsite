@@ -89,21 +89,33 @@ export async function getLatestVideos(
       throw new Error('Invalid response from YouTube API: not an object');
     }
     
-    if (!Array.isArray(responseData.items)) {
+    const typedResponse = responseData as { items?: unknown[] };
+    
+    if (!typedResponse.items || !Array.isArray(typedResponse.items)) {
       throw new Error('Invalid response from YouTube API: items is not an array');
     }
     
     // Transform the response into our video format
     const videos: YouTubeVideo[] = [];
     
-    for (const item of responseData.items) {
-      if (item && typeof item === 'object' && item.id && typeof item.id === 'object' && 
-          item.id.videoId && typeof item.snippet === 'object') {
+    for (const item of typedResponse.items) {
+      const videoItem = item as { 
+        id?: { videoId?: string },
+        snippet?: { 
+          title?: string; 
+          description?: string; 
+          publishedAt?: string; 
+          thumbnails?: any; 
+          channelTitle?: string; 
+        } 
+      };
+      
+      if (videoItem && videoItem.id?.videoId && videoItem.snippet) {
         
-        const snippet = item.snippet;
+        const snippet = videoItem.snippet;
         
         videos.push({
-          id: item.id.videoId,
+          id: videoItem.id.videoId || '',
           title: snippet.title || 'Untitled',
           description: snippet.description || '',
           publishedAt: snippet.publishedAt || new Date().toISOString(),
@@ -168,12 +180,18 @@ export async function findChannel(query: string): Promise<any[]> {
     const responseData = await response.json();
     
     // Type safety check
-    if (!responseData || typeof responseData !== 'object' || !Array.isArray(responseData.items)) {
+    if (!responseData || typeof responseData !== 'object') {
+      return [];
+    }
+    
+    const typedResponse = responseData as { items?: unknown[] };
+    
+    if (!typedResponse.items || !Array.isArray(typedResponse.items)) {
       return [];
     }
     
     // Return the channel details from search results
-    return responseData.items.map((item: any) => ({
+    return typedResponse.items.map((item: any) => ({
       id: item.id.channelId,
       title: item.snippet.title,
       description: item.snippet.description,
