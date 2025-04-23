@@ -24,27 +24,37 @@ const Quote = () => {
       }
     });
 
-    // Create text reveal animation using character-by-character approach
+    // Create text reveal animation using word-by-word approach instead of character-by-character
     const quoteText = quoteRef.current.textContent || '';
     
     // Clear the quote text temporarily
     quoteRef.current.textContent = '';
     
-    // Create individual spans for each character
-    const chars = Array.from(quoteText).map(char => {
+    // Split into words and create spans for each word
+    const words = quoteText.split(' ').filter(word => word.length > 0);
+    const wordSpans = words.map((word, index) => {
       const span = document.createElement('span');
-      span.textContent = char;
+      span.textContent = word;
       span.style.opacity = '0';
       span.style.display = 'inline-block';
+      
+      // Add the word to the quote
       quoteRef.current?.appendChild(span);
+      
+      // Add a space after each word except the last one
+      if (index < words.length - 1) {
+        const space = document.createTextNode(' ');
+        quoteRef.current?.appendChild(space);
+      }
+      
       return span;
     });
     
-    // Animate each character with a stagger effect
-    tl.to(chars, {
+    // Animate each word with a stagger effect
+    tl.to(wordSpans, {
       opacity: 1,
-      stagger: 0.03, // Time between each character animation
-      duration: 0.1,
+      stagger: 0.15, // Time between each word animation
+      duration: 0.2,
       ease: 'power2.out',
     })
     .fromTo(
