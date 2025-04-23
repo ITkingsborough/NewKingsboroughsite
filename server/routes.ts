@@ -1308,6 +1308,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // YouTube API Integration
+  
+  // Get latest videos from YouTube channel
+  app.get('/api/youtube/videos', async (req, res) => {
+    try {
+      // Default channel ID - replace with the actual church's YouTube channel ID
+      const channelId = req.query.channelId as string || 'UCpuDxVLCZ7h_JQpKqAuaOLg'; // Example: Kingsborough placeholder
+      const maxResults = parseInt(req.query.maxResults as string || '10', 10);
+      
+      const videos = await getLatestVideos(channelId, maxResults);
+      
+      return res.json({
+        success: true,
+        data: videos
+      });
+    } catch (error) {
+      console.error('Error fetching YouTube videos:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch YouTube videos',
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+  
+  // Get details for a specific YouTube video
+  app.get('/api/youtube/videos/:videoId', async (req, res) => {
+    try {
+      const videoId = req.params.videoId;
+      const video = await getVideoDetails(videoId);
+      
+      if (!video) {
+        return res.status(404).json({
+          success: false,
+          message: 'Video not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: video
+      });
+    } catch (error) {
+      console.error('Error fetching YouTube video details:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch YouTube video details',
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
   // Configure Express to serve static files from the public folder
   app.use('/uploads', (req, res, next) => {
     // Make sure the file being accessed is from the uploads directory

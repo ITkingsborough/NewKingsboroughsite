@@ -65,21 +65,36 @@ export async function getLatestVideos(
     );
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`YouTube API error: ${JSON.stringify(error)}`);
+      const errorData = await response.json();
+      throw new Error(`YouTube API error: ${JSON.stringify(errorData)}`);
     }
 
-    const data = await response.json();
+    // Parse the response
+    const responseData = await response.json() as any;
+    
+    // Type safety check
+    if (!responseData || !Array.isArray(responseData.items)) {
+      throw new Error('Invalid response from YouTube API');
+    }
     
     // Transform the response into our video format
-    const videos: YouTubeVideo[] = data.items.map((item: any) => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      publishedAt: item.snippet.publishedAt,
-      thumbnails: item.snippet.thumbnails,
-      channelTitle: item.snippet.channelTitle
-    }));
+    const videos: YouTubeVideo[] = [];
+    for (const item of responseData.items as any[]) {
+      if (item && item.id && item.id.videoId && item.snippet) {
+        videos.push({
+          id: item.id.videoId,
+          title: item.snippet.title || 'Untitled',
+          description: item.snippet.description || '',
+          publishedAt: item.snippet.publishedAt || new Date().toISOString(),
+          thumbnails: item.snippet.thumbnails || {
+            default: { url: '', width: 120, height: 90 },
+            medium: { url: '', width: 320, height: 180 },
+            high: { url: '', width: 480, height: 360 }
+          },
+          channelTitle: item.snippet.channelTitle || 'Unknown Channel'
+        });
+      }
+    }
 
     // Update cache
     videoCache = {
@@ -112,24 +127,36 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
     );
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`YouTube API error: ${JSON.stringify(error)}`);
+      const errorData = await response.json();
+      throw new Error(`YouTube API error: ${JSON.stringify(errorData)}`);
     }
 
-    const data = await response.json();
+    // Parse the response
+    const responseData = await response.json();
     
-    if (!data.items || data.items.length === 0) {
+    // Type safety check
+    if (!responseData || !Array.isArray(responseData.items) || responseData.items.length === 0) {
       return null;
     }
 
-    const item = data.items[0];
+    const item = responseData.items[0];
+    
+    // Ensure snippet exists
+    if (!item || !item.id || !item.snippet) {
+      return null;
+    }
+    
     return {
       id: item.id,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      publishedAt: item.snippet.publishedAt,
-      thumbnails: item.snippet.thumbnails,
-      channelTitle: item.snippet.channelTitle
+      title: item.snippet.title || 'Untitled',
+      description: item.snippet.description || '',
+      publishedAt: item.snippet.publishedAt || new Date().toISOString(),
+      thumbnails: item.snippet.thumbnails || {
+        default: { url: '', width: 120, height: 90 },
+        medium: { url: '', width: 320, height: 180 },
+        high: { url: '', width: 480, height: 360 }
+      },
+      channelTitle: item.snippet.channelTitle || 'Unknown Channel'
     };
   } catch (error) {
     console.error('Error fetching YouTube video details:', error);
