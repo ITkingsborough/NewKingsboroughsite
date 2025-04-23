@@ -7,7 +7,7 @@ export const leaders: LeaderItem[] = [
     name: "Apostle Tunde & Toyin Balogun",
     role: "Senior Pastors",
     bio: "With over two decades of ministry experience, Apostle Tunde and Toyin Balogun lead Kingsborough Church with wisdom, integrity, and genuine compassion. Their visionary leadership has transformed countless lives through powerful teaching, prophetic ministry, and a heart for community service. Together, they create an atmosphere of faith and love where people discover their purpose and grow in their relationship with God.",
-    image: "/attached_assets/4c3859a5-846d-4ce7-92c1-e9156c93273c.png"
+    image: "/images/pastoral-team.png"
   }
 ];
 
