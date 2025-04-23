@@ -16,6 +16,7 @@ import {
   Users,
   X,
   FileText,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -147,6 +148,12 @@ function Sidebar({ className }: { className?: string }) {
               icon={<FileText className="h-4 w-4" />}
               label="Magazines"
               active={location.startsWith("/cms/magazines")}
+            />
+            <SidebarLink
+              href="/cms/community"
+              icon={<Heart className="h-4 w-4" />}
+              label="Community"
+              active={location.startsWith("/cms/community")}
             />
           </div>
           

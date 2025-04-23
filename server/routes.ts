@@ -1531,14 +1531,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const member = await storage.createMember(validatedData);
-      await logUserActivity({
-        userId: req.user.id,
-        action: "create",
-        entityType: "member",
-        entityId: member.id,
-        details: `Created new member: ${member.firstName} ${member.lastName}`,
-        req
-      });
+      if (req.user) {
+        await logUserActivity({
+          userId: req.user.id,
+          action: "create",
+          entityType: "member",
+          entityId: member.id,
+          details: `Created new member: ${member.firstName} ${member.lastName}`,
+          req
+        });
+      }
       
       return res.status(201).json({
         success: true,
@@ -1581,14 +1583,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       const updatedMember = await storage.updateMember(id, validatedData);
-      await logUserActivity({
-        userId: req.user.id,
-        action: "update",
-        entityType: "member",
-        entityId: id,
-        details: `Updated member: ${updatedMember.firstName} ${updatedMember.lastName}`,
-        req
-      });
+      if (req.user) {
+        await logUserActivity({
+          userId: req.user.id,
+          action: "update",
+          entityType: "member",
+          entityId: id,
+          details: `Updated member: ${updatedMember.firstName} ${updatedMember.lastName}`,
+          req
+        });
+      }
       
       return res.json({
         success: true,
@@ -1618,14 +1622,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       await storage.deleteMember(id);
-      await logUserActivity({
-        userId: req.user.id,
-        action: "delete",
-        entityType: "member",
-        entityId: id,
-        details: `Deleted member: ${member.firstName} ${member.lastName}`,
-        req
-      });
+      if (req.user) {
+        await logUserActivity({
+          userId: req.user.id,
+          action: "delete",
+          entityType: "member",
+          entityId: id,
+          details: `Deleted member: ${member.firstName} ${member.lastName}`,
+          req
+        });
+      }
       
       return res.json({
         success: true,
@@ -1807,14 +1813,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertMinistryGroupSchema.parse(req.body);
       
       const group = await storage.createMinistryGroup(validatedData);
-      await logUserActivity({
-        userId: req.user.id,
-        action: "create",
-        entityType: "ministry_group",
-        entityId: group.id,
-        details: `Created ministry group: ${group.name}`,
-        req
-      });
+      if (req.user) {
+        await logUserActivity({
+          userId: req.user.id,
+          action: "create",
+          entityType: "ministry_group",
+          entityId: group.id,
+          details: `Created ministry group: ${group.name}`,
+          req
+        });
+      }
       
       return res.status(201).json({
         success: true,
@@ -1867,14 +1875,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
       const groupMember = await storage.addMemberToGroup(memberData);
-      await logUserActivity({
-        userId: req.user.id,
-        action: "add_member",
-        entityType: "ministry_group",
-        entityId: groupId,
-        details: `Added member ${memberData.memberId} to group ${groupId} with role ${role}`,
-        req
-      });
+      if (req.user) {
+        await logUserActivity({
+          userId: req.user.id,
+          action: "add_member",
+          entityType: "ministry_group",
+          entityId: groupId,
+          details: `Added member ${memberData.memberId} to group ${groupId} with role ${role}`,
+          req
+        });
+      }
       
       return res.status(201).json({
         success: true,
