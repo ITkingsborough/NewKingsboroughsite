@@ -77,25 +77,27 @@ const Quote = () => {
       backgroundUrl="https://images.unsplash.com/photo-1455044372794-d981761b5bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
       overlayClass="overlay-gold"
       speed={1.0}
-      className="h-96 flex items-center justify-center"
+      className="h-[500px] flex items-center justify-center"
     >
-      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-center h-full">
+      <div className="absolute inset-0 flex items-center justify-center">
         <div 
           ref={containerRef}
-          className="max-w-3xl mx-auto text-center"
+          className="w-full max-w-3xl px-6"
         >
-          <blockquote 
-            ref={quoteRef}
-            className="font-playfair text-2xl md:text-4xl text-white italic mb-6 text-shadow leading-relaxed"
-          >
-            "For where two or three gather in my name, there am I with them."
-          </blockquote>
-          <p 
-            ref={sourceRef}
-            className="text-white text-lg font-montserrat opacity-0"
-          >
-            Matthew 18:20
-          </p>
+          <div className="text-center">
+            <blockquote 
+              ref={quoteRef}
+              className="font-playfair text-3xl md:text-5xl text-white italic mb-8 text-shadow leading-relaxed mx-auto"
+            >
+              "For where two or three gather in my name, there am I with them."
+            </blockquote>
+            <p 
+              ref={sourceRef}
+              className="text-white text-xl font-montserrat opacity-0"
+            >
+              Matthew 18:20
+            </p>
+          </div>
         </div>
       </div>
     </ParallaxSection>
