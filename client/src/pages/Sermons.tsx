@@ -395,175 +395,90 @@ const Sermons = () => {
       <section id="sermon-list" className="py-16 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-6xl mx-auto">
-            {/* Title with active filters */}
+            {/* Title */}
             <div className="mb-12">
-              <h2 className="text-3xl font-montserrat font-bold text-deepPurple mb-2">
-                {activeSeries ? `${activeSeries} Series` : 'All Messages'}
+              <h2 className="text-3xl font-montserrat font-bold text-deepPurple mb-4">
+                Latest YouTube Sermons
               </h2>
-              {activeSeries && (
-                <button 
-                  onClick={() => setActiveSeries(null)}
-                  className="text-gold hover:text-deepPurple transition-colors flex items-center mb-6"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-                  Back to all sermons
-                </button>
-              )}
+              <div className="w-20 h-1 bg-gold mb-6"></div>
+              <p className="text-lg text-gray-600 max-w-2xl">
+                Watch our latest sermons streamed directly from our YouTube channel
+              </p>
             </div>
 
-            {/* Search and Filter Controls */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
-              <div className="flex flex-wrap gap-2">
-                {categories.map(category => (
-                  <button
-                    key={category.id}
-                    className={`px-4 py-2 rounded-full text-sm font-medium ${
-                      activeFilter === category.id
-                        ? 'bg-gold text-white shadow-md'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                    onClick={() => setActiveFilter(category.id)}
-                  >
-                    {category.name}
-                  </button>
-                ))}
-              </div>
-              
-              <div className="w-full md:w-auto flex">
-                <input
-                  type="text"
-                  placeholder="Search messages..."
-                  className="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button 
-                  className="bg-gold text-white px-4 py-2 rounded-r-lg hover:bg-opacity-90"
-                  onClick={() => {}} // Search is already live as you type
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Sermon Cards Grid */}
+            {/* YouTube Video Component */}
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={staggerContainer()}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              className="w-full"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
-              {filteredSermons.length > 0 ? (
-                filteredSermons.map((sermon, index) => (
-                  <motion.div 
-                    key={sermon.id} 
-                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                    variants={slideUp((index % 3 + 1) * 0.1)}
-                  >
-                    <div className="relative">
-                      <div className="h-48 overflow-hidden">
-                        <img 
-                          src={sermon.image} 
-                          alt={sermon.title} 
-                          className="w-full h-full object-cover transform transition-transform duration-700 hover:scale-110"
-                          loading="lazy"
-                        />
-                      </div>
-                      
-                      {/* Play button overlay */}
-                      <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                        <button 
-                          onClick={() => setActiveSermon(sermon.id)}
-                          className="w-14 h-14 rounded-full bg-gold flex items-center justify-center transform transition-transform duration-300 hover:scale-110"
-                          aria-label="Play sermon"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </button>
-                      </div>
-                      
-                      {/* Series badge */}
-                      {sermon.series && (
-                        <div className="absolute top-4 right-4 z-10">
-                          <span className="text-xs bg-white text-deepPurple px-3 py-1 rounded-full shadow-md">
-                            {sermon.series}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="p-6">
-                      <h3 className="text-xl font-montserrat font-semibold mb-3 text-deepPurple hover:text-gold transition-colors duration-300">
-                        {sermon.title}
-                      </h3>
-                      
-                      <div className="flex items-center mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gold mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        <span className="text-sm text-gray-600">{sermon.speaker}</span>
-                      </div>
-                      
-                      <div className="flex items-center mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gold mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span className="text-sm text-gray-600">{sermon.date}</span>
-                      </div>
-                      
-                      <p className="text-sm text-gray-700 mb-5 line-clamp-2">{sermon.description}</p>
-                      
-                      <div className="flex space-x-4">
-                        <button 
-                          className="text-gold font-medium hover:text-deepPurple transition-colors flex items-center"
-                          onClick={() => setActiveSermon(sermon.id)}
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          Watch
-                        </button>
-                        
-                        <button className="text-gold font-medium hover:text-deepPurple transition-colors flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                          </svg>
-                          Download
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))
-              ) : (
-                <div className="col-span-full flex flex-col items-center justify-center py-12">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">No sermons found</h3>
-                  <p className="text-gray-500 text-center max-w-md">
-                    We couldn't find any sermons matching your search criteria. Please try different keywords or filters.
-                  </p>
+              <YouTubeVideoList 
+                channelId="UCi7GJNg51C3jgmYTUwqoUXA" 
+                maxVideos={9} 
+              />
+            </motion.div>
+            
+            {/* Original Content - To be available for reference if needed */}
+            {false && (
+            <div className="hidden">
+              {/* Title with active filters */}
+              <div className="mb-12">
+                <h2 className="text-3xl font-montserrat font-bold text-deepPurple mb-2">
+                  {activeSeries ? `${activeSeries} Series` : 'All Messages'}
+                </h2>
+                {activeSeries && (
                   <button 
-                    onClick={() => {
-                      setSearchQuery('');
-                      setActiveFilter('all');
-                      setActiveSeries(null);
-                    }}
-                    className="mt-4 px-4 py-2 bg-gold text-white rounded-lg hover:bg-deepPurple transition-colors"
+                    onClick={() => setActiveSeries(null)}
+                    className="text-gold hover:text-deepPurple transition-colors flex items-center mb-6"
                   >
-                    Clear all filters
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to all sermons
+                  </button>
+                )}
+              </div>
+
+              {/* Search and Filter Controls */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+                <div className="flex flex-wrap gap-2">
+                  {categories.map(category => (
+                    <button
+                      key={category.id}
+                      className={`px-4 py-2 rounded-full text-sm font-medium ${
+                        activeFilter === category.id
+                          ? 'bg-gold text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                      onClick={() => setActiveFilter(category.id)}
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+                
+                <div className="w-full md:w-auto flex">
+                  <input
+                    type="text"
+                    placeholder="Search messages..."
+                    className="px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <button 
+                    className="bg-gold text-white px-4 py-2 rounded-r-lg hover:bg-opacity-90"
+                    onClick={() => {}} // Search is already live as you type
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
                   </button>
                 </div>
-              )}
-            </motion.div>
+              </div>
+            </div>
+            )}
           </div>
         </div>
       </section>
