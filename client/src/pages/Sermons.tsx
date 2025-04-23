@@ -7,6 +7,7 @@ import { useGsapAnimations } from '@/hooks/use-gsap-animations';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import YouTubeVideoList from '@/components/sermons/YouTubeVideoList';
+import YouTubeLatestVideo from '@/components/sermons/YouTubeLatestVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
