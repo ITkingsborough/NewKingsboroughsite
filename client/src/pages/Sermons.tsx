@@ -164,27 +164,7 @@ const Sermons = () => {
             <p className="text-xl md:text-2xl text-white/90 font-light max-w-2xl mx-auto mb-10">
               Explore transformative messages that will inspire your faith journey and bring spiritual renewal.
             </p>
-            <motion.div 
-              className="flex flex-wrap justify-center gap-4"
-              variants={staggerContainer(0.1)}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.a 
-                href="#latest-sermons" 
-                className="btn-primary-lg"
-                variants={fadeIn(0.2)}
-              >
-                Latest Messages
-              </motion.a>
-              <motion.a 
-                href="#series" 
-                className="btn-outline-white-lg"
-                variants={fadeIn(0.3)}
-              >
-                Browse by Series
-              </motion.a>
-            </motion.div>
+            {/* Links removed as they're no longer needed */}
           </motion.div>
         </div>
         
