@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { PlayCircle, Calendar, ChevronRight, ChevronLeft } from 'lucide-react';
+import { PlayCircle, Calendar, ChevronRight, ChevronLeft, ExternalLink } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';

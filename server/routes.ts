@@ -15,7 +15,7 @@ import {
 import { setupAuth, logUserActivity } from "./auth";
 import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
 import path from "path";
-import { getLatestVideos, getVideoDetails } from "./youtubeService";
+import { getLatestVideos, getVideoDetails, findChannel } from "./youtubeService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -1310,6 +1310,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // YouTube API Integration
   
+  // Search for YouTube channels
+  app.get('/api/youtube/channels', async (req, res) => {
+    try {
+      const query = req.query.q as string || 'Kingsborough Church';
+      console.log(`[YouTube API] Search request for channels with query: ${query}`);
+      
+      const channels = await findChannel(query);
+      console.log(`[YouTube API] Found ${channels.length} channels for query: ${query}`);
+      
+      return res.json({
+        success: true,
+        data: channels
+      });
+    } catch (error) {
+      console.error('Error searching for YouTube channels:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to search for YouTube channels',
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+  
   // Get latest videos from YouTube channel
   app.get('/api/youtube/videos', async (req, res) => {
     try {
@@ -1334,8 +1357,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log(`[YouTube API] Error with provided channel ID: ${e instanceof Error ? e.message : String(e)}`);
       }
       
-      // Second attempt - try with exact channel ID if we know it
-      const exactChannelId = 'UCiHLwJSddkUS-qG4XSVFsPA'; // Try a specific channel ID if we know it
+      // Second attempt - try with exact channel ID for KingsboroughLiveTv
+      const exactChannelId = 'UCGYKC04rR0F7ajcuVQqupRQ'; // Correct channel ID found via search
       try {
         console.log(`[YouTube API] Attempting with exact channel ID: ${exactChannelId}`);
         const videos = await getLatestVideos(exactChannelId, maxResults);

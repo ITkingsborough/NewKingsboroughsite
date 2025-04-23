@@ -136,6 +136,56 @@ export async function getLatestVideos(
  * @param videoId - The YouTube video ID
  * @returns Video details object
  */
+/**
+ * Find YouTube channels by search term or channel name
+ * @param query - The search term to look for (e.g., "Kingsborough Church")
+ * @returns Array of channel objects
+ */
+export async function findChannel(query: string): Promise<any[]> {
+  try {
+    const apiKey = process.env.YOUTUBE_API_KEY;
+    if (!apiKey) {
+      throw new Error('YouTube API key is not configured');
+    }
+
+    console.log(`[YouTube API] Searching for channel with query: ${query}`);
+    
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=channel&key=${apiKey}`
+    );
+
+    if (!response.ok) {
+      let errorMessage = `YouTube API error: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        errorMessage += ` - ${JSON.stringify(errorData)}`;
+      } catch (e) {
+        // If we can't parse the error as JSON, just use the status text
+      }
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    
+    // Type safety check
+    if (!responseData || typeof responseData !== 'object' || !Array.isArray(responseData.items)) {
+      return [];
+    }
+    
+    // Return the channel details from search results
+    return responseData.items.map((item: any) => ({
+      id: item.id.channelId,
+      title: item.snippet.title,
+      description: item.snippet.description,
+      thumbnails: item.snippet.thumbnails
+    }));
+    
+  } catch (error) {
+    console.error('Error searching for YouTube channel:', error);
+    return [];
+  }
+}
+
 export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | null> {
   try {
     const apiKey = process.env.YOUTUBE_API_KEY;
