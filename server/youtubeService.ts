@@ -52,9 +52,16 @@ export async function getLatestVideos(
     // Make the API request to get videos from channel
     let response;
     try {
-      response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=${maxResults}&order=date&type=video&key=${apiKey}`
-      );
+      // Check if channelId is a UC-prefixed ID or a username
+      const isChannelId = channelId.startsWith('UC');
+      const params = isChannelId 
+        ? `channelId=${channelId}`
+        : `forUsername=${channelId}`;
+      
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${params}&maxResults=${maxResults}&order=date&type=video&key=${apiKey}`;
+      console.log(`[YouTube API] Fetching videos with params: ${params}`);
+        
+      response = await fetch(url);
     } catch (fetchError) {
       throw new Error(`Failed to connect to YouTube API: ${String(fetchError)}`);
     }

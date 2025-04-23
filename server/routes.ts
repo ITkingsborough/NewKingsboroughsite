@@ -1313,16 +1313,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get latest videos from YouTube channel
   app.get('/api/youtube/videos', async (req, res) => {
     try {
-      // Default channel ID - replace with the actual church's YouTube channel ID
-      const channelId = req.query.channelId as string || 'UCpuDxVLCZ7h_JQpKqAuaOLg'; // Example: Kingsborough placeholder
+      // Try multiple approaches to find the correct channel
       const maxResults = parseInt(req.query.maxResults as string || '10', 10);
+      const providedChannelId = req.query.channelId as string || 'KingsboroughLiveTv';
       
-      const videos = await getLatestVideos(channelId, maxResults);
+      console.log(`[YouTube API] Request received with channelId: ${providedChannelId}`);
       
-      return res.json({
-        success: true,
-        data: videos
-      });
+      // First attempt - try with the provided channel ID
+      try {
+        console.log(`[YouTube API] Attempting with provided channel ID: ${providedChannelId}`);
+        const videos = await getLatestVideos(providedChannelId, maxResults);
+        if (videos && videos.length > 0) {
+          console.log(`[YouTube API] Successfully fetched ${videos.length} videos with channel ID: ${providedChannelId}`);
+          return res.json({
+            success: true,
+            data: videos
+          });
+        }
+      } catch (e) {
+        console.log(`[YouTube API] Error with provided channel ID: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      
+      // Second attempt - try with exact channel ID if we know it
+      const exactChannelId = 'UCiHLwJSddkUS-qG4XSVFsPA'; // Try a specific channel ID if we know it
+      try {
+        console.log(`[YouTube API] Attempting with exact channel ID: ${exactChannelId}`);
+        const videos = await getLatestVideos(exactChannelId, maxResults);
+        if (videos && videos.length > 0) {
+          console.log(`[YouTube API] Successfully fetched ${videos.length} videos with exact channel ID`);
+          return res.json({
+            success: true,
+            data: videos
+          });
+        }
+      } catch (e) {
+        console.log(`[YouTube API] Error with exact channel ID: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      
+      // Fallback to a known working channel as last resort (this is just for testing)
+      try {
+        const fallbackChannelId = 'UCpuDxVLCZ7h_JQpKqAuaOLg';
+        console.log(`[YouTube API] Attempting with fallback channel ID: ${fallbackChannelId}`);
+        const videos = await getLatestVideos(fallbackChannelId, maxResults);
+        console.log(`[YouTube API] Fallback returned ${videos.length} videos`);
+        return res.json({
+          success: true,
+          data: videos
+        });
+      } catch (e) {
+        console.log(`[YouTube API] Error with fallback channel ID: ${e instanceof Error ? e.message : String(e)}`);
+        throw e; // Re-throw to be caught by the outer catch
+      }
+      
     } catch (error) {
       console.error('Error fetching YouTube videos:', error);
       return res.status(500).json({

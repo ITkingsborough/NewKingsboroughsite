@@ -107,8 +107,20 @@ export default function YouTubeVideoList({
   if (videos.length === 0) {
     return (
       <div className="text-center p-6 bg-amber-50 rounded-lg border border-amber-200">
-        <h3 className="text-lg font-medium text-amber-800">No sermons available</h3>
-        <p className="text-amber-600">Please check back later for new content.</p>
+        <h3 className="text-lg font-medium text-amber-800">No YouTube videos found</h3>
+        <p className="text-amber-600 mb-4">
+          We couldn't find videos from the Kingsborough Church YouTube channel. 
+          Please check back later or visit our YouTube channel directly.
+        </p>
+        <a 
+          href="https://www.youtube.com/@KingsboroughLiveTv" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-flex items-center px-4 py-2 bg-gold text-white rounded-lg shadow-md hover:bg-gold/90 transition-colors"
+        >
+          <ExternalLink className="w-4 h-4 mr-2" />
+          Visit YouTube Channel
+        </a>
       </div>
     );
   }
