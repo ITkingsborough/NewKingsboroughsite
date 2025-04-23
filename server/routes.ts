@@ -10,9 +10,13 @@ import {
   insertEventSchema,
   insertGalleryItemSchema,
   insertMagazineSchema,
-  insertActivityLogSchema
+  insertActivityLogSchema,
+  insertMemberSchema,
+  insertAttendanceSchema,
+  insertMinistryGroupSchema,
+  insertMinistryGroupMemberSchema
 } from "@shared/schema";
-import { setupAuth, logUserActivity } from "./auth";
+import { setupAuth, logUserActivity, requireAuth } from "./auth";
 import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
 import path from "path";
 import { getLatestVideos, getVideoDetails, findChannel } from "./youtubeService";
@@ -1433,6 +1437,486 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     next();
   }, express.static(path.join(process.cwd(), 'public', 'uploads')));
+
+  // ==================================================================================
+  // COMMUNITY ENGAGEMENT DASHBOARD API ROUTES
+  // ==================================================================================
+
+  // Member Management
+  app.get('/api/community/members', requireAuth, async (req, res) => {
+    try {
+      const members = await storage.getAllMembers();
+      return res.json({
+        success: true,
+        data: members
+      });
+    } catch (error) {
+      console.error('Error fetching members:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch members'
+      });
+    }
+  });
+
+  app.get('/api/community/members/recent', requireAuth, async (req, res) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
+      const members = await storage.getRecentMembers(limit);
+      return res.json({
+        success: true,
+        data: members
+      });
+    } catch (error) {
+      console.error('Error fetching recent members:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch recent members'
+      });
+    }
+  });
+
+  app.get('/api/community/members/stats', requireAuth, async (req, res) => {
+    try {
+      const stats = await storage.getMemberStats();
+      return res.json({
+        success: true,
+        data: stats
+      });
+    } catch (error) {
+      console.error('Error fetching member stats:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch member statistics'
+      });
+    }
+  });
+
+  app.get('/api/community/members/:id', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const member = await storage.getMember(id);
+      
+      if (!member) {
+        return res.status(404).json({
+          success: false,
+          message: 'Member not found'
+        });
+      }
+      
+      return res.json({
+        success: true,
+        data: member
+      });
+    } catch (error) {
+      console.error('Error fetching member:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch member'
+      });
+    }
+  });
+
+  app.post('/api/community/members', requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertMemberSchema.parse(req.body);
+      
+      // Check if email already exists
+      const existingMember = await storage.getMemberByEmail(validatedData.email);
+      if (existingMember) {
+        return res.status(400).json({
+          success: false,
+          message: 'A member with this email already exists'
+        });
+      }
+      
+      const member = await storage.createMember(validatedData);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "create",
+        entityType: "member",
+        entityId: member.id,
+        details: `Created new member: ${member.firstName} ${member.lastName}`,
+        req
+      });
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Member created successfully',
+        data: member
+      });
+    } catch (error) {
+      console.error('Error creating member:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create member',
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  app.put('/api/community/members/:id', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const member = await storage.getMember(id);
+      
+      if (!member) {
+        return res.status(404).json({
+          success: false,
+          message: 'Member not found'
+        });
+      }
+      
+      const validatedData = insertMemberSchema.partial().parse(req.body);
+      
+      // If email is being changed, check if it already exists
+      if (validatedData.email && validatedData.email !== member.email) {
+        const existingMember = await storage.getMemberByEmail(validatedData.email);
+        if (existingMember && existingMember.id !== id) {
+          return res.status(400).json({
+            success: false,
+            message: 'A member with this email already exists'
+          });
+        }
+      }
+      
+      const updatedMember = await storage.updateMember(id, validatedData);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "update",
+        entityType: "member",
+        entityId: id,
+        details: `Updated member: ${updatedMember.firstName} ${updatedMember.lastName}`,
+        req
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Member updated successfully',
+        data: updatedMember
+      });
+    } catch (error) {
+      console.error('Error updating member:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to update member',
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  app.delete('/api/community/members/:id', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const member = await storage.getMember(id);
+      
+      if (!member) {
+        return res.status(404).json({
+          success: false,
+          message: 'Member not found'
+        });
+      }
+      
+      await storage.deleteMember(id);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "delete",
+        entityType: "member",
+        entityId: id,
+        details: `Deleted member: ${member.firstName} ${member.lastName}`,
+        req
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Member deleted successfully'
+      });
+    } catch (error) {
+      console.error('Error deleting member:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete member'
+      });
+    }
+  });
+
+  // Attendance Management
+  app.get('/api/community/attendance', requireAuth, async (req, res) => {
+    try {
+      const records = await storage.getAllAttendanceRecords();
+      return res.json({
+        success: true,
+        data: records
+      });
+    } catch (error) {
+      console.error('Error fetching attendance records:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch attendance records'
+      });
+    }
+  });
+
+  app.get('/api/community/attendance/stats', requireAuth, async (req, res) => {
+    try {
+      const stats = await storage.getAttendanceStats();
+      return res.json({
+        success: true,
+        data: stats
+      });
+    } catch (error) {
+      console.error('Error fetching attendance stats:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch attendance statistics'
+      });
+    }
+  });
+
+  app.get('/api/community/attendance/date-range', requireAuth, async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+      
+      if (!startDate || !endDate) {
+        return res.status(400).json({
+          success: false,
+          message: 'Start date and end date are required'
+        });
+      }
+      
+      const records = await storage.getAttendanceByDateRange(
+        new Date(startDate as string),
+        new Date(endDate as string)
+      );
+      
+      return res.json({
+        success: true,
+        data: records
+      });
+    } catch (error) {
+      console.error('Error fetching attendance by date range:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch attendance records'
+      });
+    }
+  });
+
+  app.post('/api/community/attendance', requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertAttendanceSchema.parse(req.body);
+      
+      const record = await storage.createAttendanceRecord(validatedData);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "create",
+        entityType: "attendance",
+        entityId: record.id,
+        details: `Created attendance record for ${record.serviceDate}`,
+        req
+      });
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Attendance record created successfully',
+        data: record
+      });
+    } catch (error) {
+      console.error('Error creating attendance record:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create attendance record',
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  app.put('/api/community/attendance/:id', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id, 10);
+      const record = await storage.getAttendanceRecord(id);
+      
+      if (!record) {
+        return res.status(404).json({
+          success: false,
+          message: 'Attendance record not found'
+        });
+      }
+      
+      const validatedData = insertAttendanceSchema.partial().parse(req.body);
+      
+      const updatedRecord = await storage.updateAttendanceRecord(id, validatedData);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "update",
+        entityType: "attendance",
+        entityId: id,
+        details: `Updated attendance record for ${updatedRecord.serviceDate}`,
+        req
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Attendance record updated successfully',
+        data: updatedRecord
+      });
+    } catch (error) {
+      console.error('Error updating attendance record:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to update attendance record'
+      });
+    }
+  });
+
+  // Ministry Groups Management
+  app.get('/api/community/ministry-groups', requireAuth, async (req, res) => {
+    try {
+      const groups = await storage.getAllMinistryGroups();
+      return res.json({
+        success: true,
+        data: groups
+      });
+    } catch (error) {
+      console.error('Error fetching ministry groups:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch ministry groups'
+      });
+    }
+  });
+
+  app.get('/api/community/ministry-groups/active', requireAuth, async (req, res) => {
+    try {
+      const groups = await storage.getActiveMinistryGroups();
+      return res.json({
+        success: true,
+        data: groups
+      });
+    } catch (error) {
+      console.error('Error fetching active ministry groups:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch active ministry groups'
+      });
+    }
+  });
+
+  app.post('/api/community/ministry-groups', requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertMinistryGroupSchema.parse(req.body);
+      
+      const group = await storage.createMinistryGroup(validatedData);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "create",
+        entityType: "ministry_group",
+        entityId: group.id,
+        details: `Created ministry group: ${group.name}`,
+        req
+      });
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Ministry group created successfully',
+        data: group
+      });
+    } catch (error) {
+      console.error('Error creating ministry group:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to create ministry group'
+      });
+    }
+  });
+
+  app.get('/api/community/ministry-groups/:id/members', requireAuth, async (req, res) => {
+    try {
+      const groupId = parseInt(req.params.id, 10);
+      const members = await storage.getMembersByMinistryGroup(groupId);
+      
+      return res.json({
+        success: true,
+        data: members
+      });
+    } catch (error) {
+      console.error('Error fetching ministry group members:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch ministry group members'
+      });
+    }
+  });
+
+  app.post('/api/community/ministry-groups/:id/members', requireAuth, async (req, res) => {
+    try {
+      const groupId = parseInt(req.params.id, 10);
+      const { memberId, role } = req.body;
+      
+      if (!memberId || !role) {
+        return res.status(400).json({
+          success: false,
+          message: 'Member ID and role are required'
+        });
+      }
+      
+      const memberData = insertMinistryGroupMemberSchema.parse({
+        groupId,
+        memberId: parseInt(memberId, 10),
+        role
+      });
+      
+      const groupMember = await storage.addMemberToGroup(memberData);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "add_member",
+        entityType: "ministry_group",
+        entityId: groupId,
+        details: `Added member ${memberData.memberId} to group ${groupId} with role ${role}`,
+        req
+      });
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Member added to ministry group successfully',
+        data: groupMember
+      });
+    } catch (error) {
+      console.error('Error adding member to ministry group:', error);
+      return res.status(400).json({
+        success: false,
+        message: 'Failed to add member to ministry group'
+      });
+    }
+  });
+
+  app.delete('/api/community/ministry-groups/:groupId/members/:memberId', requireAuth, async (req, res) => {
+    try {
+      const groupId = parseInt(req.params.groupId, 10);
+      const memberId = parseInt(req.params.memberId, 10);
+      
+      await storage.removeMemberFromGroup(groupId, memberId);
+      await logUserActivity({
+        userId: req.user.id,
+        action: "remove_member",
+        entityType: "ministry_group",
+        entityId: groupId,
+        details: `Removed member ${memberId} from group ${groupId}`,
+        req
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Member removed from ministry group successfully'
+      });
+    } catch (error) {
+      console.error('Error removing member from ministry group:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to remove member from ministry group'
+      });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

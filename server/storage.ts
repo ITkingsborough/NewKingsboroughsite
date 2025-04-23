@@ -475,7 +475,7 @@ export class DatabaseStorage implements IStorage {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     
     const recentMembers = allMembers.filter(m => 
-      new Date(m.createdAt) >= thirtyDaysAgo
+      m.createdAt ? new Date(m.createdAt) >= thirtyDaysAgo : false
     );
     
     return {
