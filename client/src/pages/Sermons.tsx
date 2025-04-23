@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { useGsapAnimations } from '@/hooks/use-gsap-animations';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
+import YouTubeVideoList from '@/components/sermons/YouTubeVideoList';
 
 gsap.registerPlugin(ScrollTrigger);
 
