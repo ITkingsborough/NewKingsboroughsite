@@ -116,7 +116,7 @@ const Sermons = () => {
                 }}
               >
                 <div className="h-48 overflow-hidden relative bg-gray-200">
-                  {/* Rendering YouTube thumbnail for video */}
+                  {console.log("Rendering thumbnail:", video.id, video.thumbnails)}
                   <img 
                     src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
                     alt={video.title} 

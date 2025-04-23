@@ -243,13 +243,11 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
       return null;
     }
     
-    const typedResponse = responseData as { items?: unknown[] };
-    
-    if (!typedResponse.items || !Array.isArray(typedResponse.items) || typedResponse.items.length === 0) {
+    if (!Array.isArray(responseData.items) || responseData.items.length === 0) {
       return null;
     }
 
-    const item = typedResponse.items[0];
+    const item = responseData.items[0];
     
     // Ensure snippet exists
     if (!item || typeof item !== 'object' || !item.id || typeof item.snippet !== 'object') {
