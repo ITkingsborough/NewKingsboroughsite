@@ -94,7 +94,7 @@ export default function YouTubeLatestVideo({ channelId }: YouTubeLatestVideoProp
       <div className="grid grid-cols-1 lg:grid-cols-5">
         {/* Large Featured Image (3/5 width on large screens) */}
         <div className="featured-image lg:col-span-3 h-80 lg:h-auto overflow-hidden relative bg-gray-200">
-          {console.log("Rendering featured thumbnail:", video.id, video.thumbnails)}
+          {/* YouTube featured video thumbnail */}
           <img 
             src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
             alt={video.title}
