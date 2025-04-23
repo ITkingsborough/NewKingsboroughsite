@@ -16,16 +16,6 @@ export interface YouTubeVideo {
   channelTitle: string;
 }
 
-export interface YouTubeApiResponse {
-  items: YouTubeVideo[];
-  nextPageToken?: string;
-  prevPageToken?: string;
-  pageInfo: {
-    totalResults: number;
-    resultsPerPage: number;
-  };
-}
-
 // Cache to reduce API calls
 let videoCache: {
   videos: YouTubeVideo[];
@@ -60,38 +50,62 @@ export async function getLatestVideos(
     }
 
     // Make the API request to get videos from channel
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=${maxResults}&order=date&type=video&key=${apiKey}`
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`YouTube API error: ${JSON.stringify(errorData)}`);
+    let response;
+    try {
+      response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=${maxResults}&order=date&type=video&key=${apiKey}`
+      );
+    } catch (fetchError) {
+      throw new Error(`Failed to connect to YouTube API: ${String(fetchError)}`);
     }
 
-    // Parse the response
-    const responseData = await response.json() as any;
+    if (!response.ok) {
+      let errorMessage = `YouTube API error: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        errorMessage += ` - ${JSON.stringify(errorData)}`;
+      } catch (e) {
+        // If we can't parse the error as JSON, just use the status text
+      }
+      throw new Error(errorMessage);
+    }
+
+    let responseData;
+    try {
+      responseData = await response.json();
+    } catch (jsonError) {
+      throw new Error(`Failed to parse YouTube API response: ${String(jsonError)}`);
+    }
     
     // Type safety check
-    if (!responseData || !Array.isArray(responseData.items)) {
-      throw new Error('Invalid response from YouTube API');
+    if (!responseData || typeof responseData !== 'object') {
+      throw new Error('Invalid response from YouTube API: not an object');
+    }
+    
+    if (!Array.isArray(responseData.items)) {
+      throw new Error('Invalid response from YouTube API: items is not an array');
     }
     
     // Transform the response into our video format
     const videos: YouTubeVideo[] = [];
-    for (const item of responseData.items as any[]) {
-      if (item && item.id && item.id.videoId && item.snippet) {
+    
+    for (const item of responseData.items) {
+      if (item && typeof item === 'object' && item.id && typeof item.id === 'object' && 
+          item.id.videoId && typeof item.snippet === 'object') {
+        
+        const snippet = item.snippet;
+        
         videos.push({
           id: item.id.videoId,
-          title: item.snippet.title || 'Untitled',
-          description: item.snippet.description || '',
-          publishedAt: item.snippet.publishedAt || new Date().toISOString(),
-          thumbnails: item.snippet.thumbnails || {
+          title: snippet.title || 'Untitled',
+          description: snippet.description || '',
+          publishedAt: snippet.publishedAt || new Date().toISOString(),
+          thumbnails: snippet.thumbnails || {
             default: { url: '', width: 120, height: 90 },
             medium: { url: '', width: 320, height: 180 },
             high: { url: '', width: 480, height: 360 }
           },
-          channelTitle: item.snippet.channelTitle || 'Unknown Channel'
+          channelTitle: snippet.channelTitle || 'Unknown Channel'
         });
       }
     }
@@ -122,41 +136,62 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
       throw new Error('YouTube API key is not configured');
     }
 
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`YouTube API error: ${JSON.stringify(errorData)}`);
+    let response;
+    try {
+      response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`
+      );
+    } catch (fetchError) {
+      throw new Error(`Failed to connect to YouTube API: ${String(fetchError)}`);
     }
 
-    // Parse the response
-    const responseData = await response.json();
+    if (!response.ok) {
+      let errorMessage = `YouTube API error: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        errorMessage += ` - ${JSON.stringify(errorData)}`;
+      } catch (e) {
+        // If we can't parse the error as JSON, just use the status text
+      }
+      throw new Error(errorMessage);
+    }
+
+    let responseData;
+    try {
+      responseData = await response.json();
+    } catch (jsonError) {
+      throw new Error(`Failed to parse YouTube API response: ${String(jsonError)}`);
+    }
     
     // Type safety check
-    if (!responseData || !Array.isArray(responseData.items) || responseData.items.length === 0) {
+    if (!responseData || typeof responseData !== 'object') {
+      return null;
+    }
+    
+    if (!Array.isArray(responseData.items) || responseData.items.length === 0) {
       return null;
     }
 
     const item = responseData.items[0];
     
     // Ensure snippet exists
-    if (!item || !item.id || !item.snippet) {
+    if (!item || typeof item !== 'object' || !item.id || typeof item.snippet !== 'object') {
       return null;
     }
     
+    const snippet = item.snippet;
+    
     return {
       id: item.id,
-      title: item.snippet.title || 'Untitled',
-      description: item.snippet.description || '',
-      publishedAt: item.snippet.publishedAt || new Date().toISOString(),
-      thumbnails: item.snippet.thumbnails || {
+      title: snippet.title || 'Untitled',
+      description: snippet.description || '',
+      publishedAt: snippet.publishedAt || new Date().toISOString(),
+      thumbnails: snippet.thumbnails || {
         default: { url: '', width: 120, height: 90 },
         medium: { url: '', width: 320, height: 180 },
         high: { url: '', width: 480, height: 360 }
       },
-      channelTitle: item.snippet.channelTitle || 'Unknown Channel'
+      channelTitle: snippet.channelTitle || 'Unknown Channel'
     };
   } catch (error) {
     console.error('Error fetching YouTube video details:', error);
