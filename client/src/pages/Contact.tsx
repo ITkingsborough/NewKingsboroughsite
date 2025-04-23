@@ -103,8 +103,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Visit Us</h3>
-                      <p className="mb-1">123 Main Street</p>
-                      <p>Anytown, CA 90210</p>
+                      <p className="mb-1">No 4, New Windsor Street </p>
+                      <p>Uxbridge, UB8 2TU</p>
                     </div>
                   </div>
                   
@@ -116,7 +116,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Service Times</h3>
-                      <p className="mb-1"><strong>Sunday Services:</strong> 9:00 AM & 11:00 AM</p>
+                      <p className="mb-1"><strong>Sunday Services:</strong> 10:00 AM - 12:00 PM</p>
                       <p><strong>Wednesday Bible Study:</strong> 7:00 PM</p>
                     </div>
                   </div>
@@ -129,8 +129,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Call Us</h3>
-                      <p className="mb-1"><strong>Main Office:</strong> (555) 123-4567</p>
-                      <p><strong>After Hours:</strong> (555) 987-6543</p>
+                      <p className="mb-1"><strong>Main Office:</strong> 01895252224</p>
                     </div>
                   </div>
                   
@@ -143,7 +142,6 @@ const Contact = () => {
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Email Us</h3>
                       <p className="mb-1"><strong>General Inquiries:</strong> info@kingsboroughchurch.org</p>
-                      <p><strong>Prayer Requests:</strong> prayer@kingsboroughchurch.org</p>
                     </div>
                   </div>
                 </div>
@@ -544,7 +542,7 @@ const Contact = () => {
                 {[
                   {
                     question: "What time are your Sunday services?",
-                    answer: "We have two Sunday morning services at 9:00 AM and 11:00 AM. Both services include worship and teaching. Children's ministry is available at both services for kids from birth through 5th grade."
+                    answer: "Our Sunday services at 10:00 AM - 12:00 PM. Both services include worship and teaching. Children's ministry is available at both services for kids from birth through 5th grade."
                   },
                   {
                     question: "Where should I park when I visit?",

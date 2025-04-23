@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { slideUp, staggerContainer } from '@/lib/animations';
+import { slideUp, slideRight } from '@/lib/animations';
 import { leaders } from '@/lib/data';
 
 const Leadership = () => {
@@ -14,44 +14,77 @@ const Leadership = () => {
           variants={slideUp()}
         >
           <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
-            Our Leadership Team
+            Our Pastoral Leadership
           </h2>
           <p className="text-lg max-w-3xl mx-auto">
-            Meet the dedicated individuals who guide our church with wisdom, compassion, and a heart for serving our community.
+            Meet the dedicated leaders who guide our church with wisdom, compassion, and a heart for serving our community.
           </p>
         </motion.div>
         
+        {/* Featured pastoral team with text on right */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-          variants={staggerContainer()}
+          className="flex flex-col lg:flex-row gap-12 mb-16 items-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {leaders.map((leader, index) => (
-            <motion.div 
-              key={leader.id} 
-              className="card-hover"
-              variants={slideUp((index + 1) * 0.1)}
-              whileHover={{ 
-                y: -5,
-                boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <div className="rounded-lg overflow-hidden mb-4">
+          {/* Left column - Image */}
+          <motion.div 
+            className="lg:w-1/2 relative"
+            variants={slideUp(0.1)}
+          >
+            <div className="relative max-w-lg mx-auto">
+              {/* Main image with colored border */}
+              <div className="rounded-xl overflow-hidden border-4 border-gold shadow-xl">
                 <img 
-                  src={leader.image} 
-                  alt={leader.name} 
-                  className="w-full h-72 object-cover"
+                  src={leaders[0].image}
+                  alt={leaders[0].name}
+                  className="w-full"
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-xl font-montserrat font-semibold mb-1">{leader.name}</h3>
-              <p className="text-gold mb-3">{leader.role}</p>
-              <p className="text-sm">{leader.bio}</p>
-            </motion.div>
-          ))}
+              
+              {/* Caption overlay at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 bg-deepPurple/80 text-center py-4 px-4">
+                <h3 className="text-2xl md:text-3xl font-montserrat font-bold text-white mb-1">
+                  {leaders[0].name}
+                </h3>
+                <p className="text-gold text-lg font-medium">
+                  ({leaders[0].role})
+                </p>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Right column - Text content */}
+          <motion.div 
+            className="lg:w-1/2"
+            variants={slideRight(0.2)}
+          >
+            <div className="max-w-lg">
+              <h3 className="text-2xl md:text-3xl font-montserrat font-bold mb-6 text-deepPurple">
+                Visionary Leadership
+              </h3>
+              
+              <div className="space-y-6 text-lg">
+                <p>
+                  Under the anointed leadership of Apostle Tunde and Toyin Balogun, Kingsborough Church has flourished as a beacon of hope, faith, and transformation in our community.
+                </p>
+                
+                <p>
+                  Their passion for God's Word, prophetic insight, and heart for people has created a church where lives are changed, families are restored, and disciples are raised to impact the world.
+                </p>
+                
+                <p>
+                  With over two decades of ministry experience, they lead with integrity, compassion, and a compelling vision to see people discover their purpose and walk in divine destiny.
+                </p>
+                
+                <p className="italic text-deepPurple font-medium">
+                  "Our mission is to create an atmosphere where God's presence transforms lives, equipping believers to fulfill their God-given purpose and make a difference in their world."
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

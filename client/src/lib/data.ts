@@ -4,17 +4,10 @@ import { EventItem, SermonItem, MinistryItem, LeaderItem, MagazineItem } from '.
 export const leaders: LeaderItem[] = [
   {
     id: 1,
-    name: "Apostle Tunde Balogun",
-    role: "Senior Pastor",
-    bio: "Leading with vision, wisdom and compassion, Apostle Tunde Balogun is devoted to helping people discover their purpose and grow in their faith journey.",
-    image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    id: 2,
-    name: "Toyin Balogun",
-    role: "Co-Pastor",
-    bio: "With a heart for ministry and a passion for leading people into God's presence, Pastor Toyin serves alongside her husband to shepherd the Kingsborough Church family.",
-    image: "https://images.unsplash.com/photo-1531078215167-91fcfe45b39e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    name: "Apostle Tunde & Toyin Balogun",
+    role: "Senior Pastors",
+    bio: "With over two decades of ministry experience, Apostle Tunde and Toyin Balogun lead Kingsborough Church with wisdom, integrity, and genuine compassion. Their visionary leadership has transformed countless lives through powerful teaching, prophetic ministry, and a heart for community service. Together, they create an atmosphere of faith and love where people discover their purpose and grow in their relationship with God.",
+    image: "/attached_assets/4c3859a5-846d-4ce7-92c1-e9156c93273c.png"
   }
 ];
 

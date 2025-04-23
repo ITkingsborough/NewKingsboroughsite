@@ -17,7 +17,7 @@ const Footer = () => {
             <p className="mb-4 text-gray-300">A place to belong, believe, and become</p>
             <div className="flex space-x-4">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/kingsboroughuk/?locale=en_GB" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-white hover:text-gold transition-colors duration-300"
@@ -26,7 +26,7 @@ const Footer = () => {
                 <i className="fab fa-facebook-f"></i>
               </a>
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/kingsboroughuk/?hl=en-gb" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-white hover:text-gold transition-colors duration-300"
@@ -35,7 +35,7 @@ const Footer = () => {
                 <i className="fab fa-instagram"></i>
               </a>
               <a 
-                href="https://youtube.com" 
+                href="https://www.youtube.com/@KingsboroughLiveTv" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-white hover:text-gold transition-colors duration-300"
@@ -43,15 +43,7 @@ const Footer = () => {
               >
                 <i className="fab fa-youtube"></i>
               </a>
-              <a 
-                href="https://spotify.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-white hover:text-gold transition-colors duration-300"
-                aria-label="Spotify"
-              >
-                <i className="fab fa-spotify"></i>
-              </a>
+      
             </div>
           </motion.div>
           
@@ -103,12 +95,12 @@ const Footer = () => {
             variants={slideUp(0.2)}
           >
             <h3 className="text-gold font-montserrat font-semibold text-lg mb-4">Visit Us</h3>
-            <p className="text-gray-300 mb-2">123 Main Street<br/>Anytown, CA 90210</p>
+            <p className="text-gray-300 mb-2">No 4, New Windsor Street <br/>Uxbridge, UB8 2TU</p>
             <p className="text-gray-300 mb-4">
-              <strong>Sunday Services:</strong><br/>9:00 AM & 11:00 AM
+              <strong>Sunday Services:</strong><br/>10:00 AM - 12:00 PM
             </p>
             <p className="text-gray-300">
-              <strong>Office Hours:</strong><br/>Mon-Fri: 9:00 AM - 5:00 PM
+              <strong>Office Hours:</strong><br/>Mon-Fri: 9:00 AM - 6:00 PM
             </p>
           </motion.div>
           
@@ -120,7 +112,7 @@ const Footer = () => {
           >
             <h3 className="text-gold font-montserrat font-semibold text-lg mb-4">Contact</h3>
             <p className="text-gray-300 mb-2">
-              <i className="fas fa-phone mr-2"></i> (555) 123-4567
+              <i className="fas fa-phone mr-2"></i> 01895252224 or 07848237072 (Monday to Friday)
             </p>
             <p className="text-gray-300 mb-4">
               <i className="fas fa-envelope mr-2"></i> info@kingsboroughchurch.org
