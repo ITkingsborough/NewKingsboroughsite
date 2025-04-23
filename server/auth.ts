@@ -36,25 +36,49 @@ export async function comparePasswords(supplied: string, stored: string): Promis
 
 // Helper function to log user activity
 export async function logUserActivity(
-  userId: number, 
-  action: string, 
+  userId: number | { userId: number; action: string; entityType: string; entityId?: number; details?: string; req?: Request }, 
+  action?: string, 
   entityType: string = "auth", 
   entityId?: number, 
   details?: string,
   req?: Request
 ) {
   try {
-    await storage.createActivityLog({
-      userId,
-      action,
-      entityType,
-      entityId,
-      details,
-      ipAddress: req?.ip,
-    });
+    // Handle both function signatures for backward compatibility
+    if (typeof userId === 'object') {
+      const params = userId;
+      await storage.createActivityLog({
+        userId: params.userId,
+        action: params.action,
+        entityType: params.entityType,
+        entityId: params.entityId,
+        details: params.details,
+        ipAddress: params.req?.ip,
+      });
+    } else {
+      await storage.createActivityLog({
+        userId,
+        action: action!,
+        entityType,
+        entityId,
+        details,
+        ipAddress: req?.ip,
+      });
+    }
   } catch (error) {
     console.error("Error logging user activity:", error);
   }
+}
+
+// Middleware to check if user is authenticated
+export function requireAuth(req: Request, res: Response, next: NextFunction) {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({
+      success: false,
+      message: "Authentication required",
+    });
+  }
+  next();
 }
 
 export function setupAuth(app: Express) {
