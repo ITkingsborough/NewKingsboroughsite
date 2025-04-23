@@ -228,85 +228,15 @@ const Sermons = () => {
             </motion.p>
           </div>
 
-          <div className="max-w-6xl mx-auto relative overflow-hidden rounded-xl shadow-2xl group">
-            <div className="grid grid-cols-1 lg:grid-cols-5">
-              {/* Large Featured Image (3/5 width on large screens) */}
-              <div className="featured-image lg:col-span-3 h-80 lg:h-auto overflow-hidden relative">
-                <img 
-                  src={extendedSermons[0].image}
-                  alt={extendedSermons[0].title}
-                  className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Play button overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button 
-                    onClick={() => setActiveSermon(extendedSermons[0].id)}
-                    className="w-20 h-20 rounded-full bg-gold flex items-center justify-center transform transition-transform duration-300 hover:scale-110"
-                    aria-label="Play sermon"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              
-              {/* Content (2/5 width on large screens) */}
-              <div className="featured-content lg:col-span-2 p-8 bg-white flex flex-col justify-center">
-                <div className="flex flex-wrap items-center gap-2 mb-4">
-                  <span className="bg-gold text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider">
-                    Latest
-                  </span>
-                  {extendedSermons[0].series && (
-                    <span className="text-xs bg-deepPurple/10 text-deepPurple px-3 py-1 rounded-full">
-                      {extendedSermons[0].series}
-                    </span>
-                  )}
-                </div>
-                
-                <h3 className="text-2xl md:text-3xl font-montserrat font-bold mb-3 text-deepPurple group-hover:text-gold transition-colors duration-300">
-                  {extendedSermons[0].title}
-                </h3>
-                
-                <p className="text-sm text-gray-600 mb-2 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  {extendedSermons[0].speaker}
-                </p>
-                
-                <p className="text-sm text-gray-600 mb-4 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {extendedSermons[0].date}
-                </p>
-                
-                <p className="mb-6 text-gray-700">{extendedSermons[0].description}</p>
-                
-                <div className="flex flex-wrap gap-3">
-                  <button 
-                    className="px-6 py-3 bg-gold text-white rounded-lg shadow-md hover:bg-deepPurple transition-colors duration-300 flex items-center"
-                    onClick={() => setActiveSermon(extendedSermons[0].id)}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Watch Now
-                  </button>
-                  
-                  <button className="px-6 py-3 border-2 border-deepPurple text-deepPurple rounded-lg hover:bg-deepPurple hover:text-white transition-colors duration-300 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    Download
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <motion.div 
+            className="max-w-6xl mx-auto featured-image"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <YouTubeLatestVideo channelId="UCGYKC04rR0F7ajcuVQqupRQ" />
+          </motion.div>
         </div>
       </section>
 
