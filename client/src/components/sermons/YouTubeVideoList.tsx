@@ -28,7 +28,7 @@ interface YouTubeVideoListProps {
 }
 
 export default function YouTubeVideoList({ 
-  channelId = 'KingsboroughLiveTv', // Default channel ID for Kingsborough Church
+  channelId = 'UCGYKC04rR0F7ajcuVQqupRQ', // Default channel ID for Kingsborough Church
   maxVideos = 6 
 }: YouTubeVideoListProps) {
   const [currentVideo, setCurrentVideo] = useState<YouTubeVideo | null>(null);
