@@ -1906,14 +1906,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const memberId = parseInt(req.params.memberId, 10);
       
       await storage.removeMemberFromGroup(groupId, memberId);
-      await logUserActivity({
-        userId: req.user.id,
-        action: "remove_member",
-        entityType: "ministry_group",
-        entityId: groupId,
-        details: `Removed member ${memberId} from group ${groupId}`,
-        req
-      });
+      if (req.user) {
+        await logUserActivity({
+          userId: req.user.id,
+          action: "remove_member",
+          entityType: "ministry_group",
+          entityId: groupId,
+          details: `Removed member ${memberId} from group ${groupId}`,
+          req
+        });
+      }
       
       return res.json({
         success: true,
