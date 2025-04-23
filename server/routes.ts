@@ -1708,11 +1708,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const record = await storage.createAttendanceRecord(validatedData);
       await logUserActivity({
-        userId: req.user.id,
+        userId: req.user!.id,
         action: "create",
         entityType: "attendance",
         entityId: record.id,
-        details: `Created attendance record for ${record.serviceDate}`,
+        details: `Created attendance record for ${record.date.toISOString().split('T')[0]}`,
         req
       });
       
@@ -1747,11 +1747,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const updatedRecord = await storage.updateAttendanceRecord(id, validatedData);
       await logUserActivity({
-        userId: req.user.id,
+        userId: req.user!.id,
         action: "update",
         entityType: "attendance",
         entityId: id,
-        details: `Updated attendance record for ${updatedRecord.serviceDate}`,
+        details: `Updated attendance record for ${updatedRecord.date.toISOString().split('T')[0]}`,
         req
       });
       

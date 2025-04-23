@@ -13,7 +13,7 @@ import {
   ministryGroupMembers, type MinistryGroupMember, type InsertMinistryGroupMember
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, asc, gte, isNull, and, or, inArray, like, sql } from "drizzle-orm";
+import { eq, desc, asc, gte, lte, isNull, and, or, inArray, like, sql } from "drizzle-orm";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
@@ -546,7 +546,7 @@ export class DatabaseStorage implements IStorage {
     const lowestAttendance = Math.min(...records.map(r => r.totalCount));
     const averageAttendance = Math.round(totalAttendance / records.length);
     
-    const totalNewVisitors = records.reduce((sum, record) => sum + record.newVisitorsCount, 0);
+    const totalNewVisitors = records.reduce((sum, record) => sum + (record.newVisitorsCount || 0), 0);
     const newVisitorAverage = Math.round(totalNewVisitors / records.length);
     
     // Get records for just the last 12 weeks
