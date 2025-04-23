@@ -28,29 +28,36 @@ const Leadership = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {/* Left column - Image */}
+          {/* Left column - Styled div instead of image */}
           <motion.div 
             className="lg:w-1/2 relative"
             variants={slideUp(0.1)}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Main image with colored border */}
-              <div className="rounded-xl overflow-hidden border-4 border-gold shadow-xl">
-                <img 
-                  src={leaders[0].image}
-                  alt={leaders[0].name}
-                  className="w-full"
-                  loading="lazy"
-                />
+              {/* Styled div with gradient background instead of image */}
+              <div className="rounded-xl overflow-hidden border-4 border-gold shadow-xl aspect-[4/3]">
+                <div 
+                  className="w-full h-full flex items-center justify-center bg-gradient-to-br from-deepPurple to-purple-900 p-6"
+                >
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gold/20 flex items-center justify-center">
+                      <i className="fas fa-church text-gold text-3xl"></i>
+                    </div>
+                    <h4 className="text-white text-xl font-medium mb-2">Serving Since 2001</h4>
+                    <p className="text-white/80 text-sm">
+                      Leading with vision, wisdom, and compassion
+                    </p>
+                  </div>
+                </div>
               </div>
               
               {/* Caption overlay at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 bg-deepPurple/80 text-center py-4 px-4">
+              <div className="absolute bottom-0 left-0 right-0 bg-deepPurple/90 text-center py-4 px-4">
                 <h3 className="text-2xl md:text-3xl font-montserrat font-bold text-white mb-1">
-                  {leaders[0].name}
+                  Apostle Tunde & Toyin Balogun
                 </h3>
                 <p className="text-gold text-lg font-medium">
-                  ({leaders[0].role})
+                  (Senior Pastors)
                 </p>
               </div>
             </div>
