@@ -23,45 +23,18 @@ const Quote = () => {
         toggleActions: 'play none none none'
       }
     });
-
-    // Create text reveal animation using word-by-word approach instead of character-by-character
-    const quoteText = quoteRef.current.textContent || '';
     
-    // Clear the quote text temporarily
-    quoteRef.current.textContent = '';
-    
-    // Split into words and create spans for each word
-    const words = quoteText.split(' ').filter(word => word.length > 0);
-    const wordSpans = words.map((word, index) => {
-      const span = document.createElement('span');
-      span.textContent = word;
-      span.style.opacity = '0';
-      span.style.display = 'inline-block';
-      
-      // Add the word to the quote
-      quoteRef.current?.appendChild(span);
-      
-      // Add a space after each word except the last one
-      if (index < words.length - 1) {
-        const space = document.createTextNode(' ');
-        quoteRef.current?.appendChild(space);
-      }
-      
-      return span;
-    });
-    
-    // Animate each word with a stagger effect
-    tl.to(wordSpans, {
-      opacity: 1,
-      stagger: 0.15, // Time between each word animation
-      duration: 0.2,
-      ease: 'power2.out',
-    })
+    // Simple fade-in animation for the entire quote
+    tl.fromTo(
+      quoteRef.current,
+      { opacity: 0, x: -20 },
+      { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out' }
+    )
     .fromTo(
       sourceRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-      '-=0.2' // Start slightly before the quote finishes
+      { opacity: 0, x: 20 },
+      { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.3' // Start slightly before the quote finishes
     );
 
     // Clean up
@@ -77,25 +50,25 @@ const Quote = () => {
       backgroundUrl="https://images.unsplash.com/photo-1455044372794-d981761b5bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
       overlayClass="overlay-gold"
       speed={1.0}
-      className="h-[500px] flex items-center justify-center"
+      className="h-64 flex items-center justify-center"
     >
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="container mx-auto flex items-center justify-center">
         <div 
           ref={containerRef}
-          className="w-full max-w-3xl px-6"
+          className="text-center w-full max-w-4xl mx-auto px-4"
         >
-          <div className="text-center">
+          <div className="flex flex-col md:flex-row items-center justify-center md:space-x-4">
             <blockquote 
               ref={quoteRef}
-              className="font-playfair text-3xl md:text-5xl text-white italic mb-8 text-shadow leading-relaxed mx-auto"
+              className="font-playfair text-xl md:text-3xl text-white italic text-shadow mb-2 md:mb-0"
             >
               "For where two or three gather in my name, there am I with them."
             </blockquote>
             <p 
               ref={sourceRef}
-              className="text-white text-xl font-montserrat opacity-0"
+              className="text-white text-lg md:text-xl font-montserrat opacity-0 whitespace-nowrap shrink-0"
             >
-              Matthew 18:20
+              - Matthew 18:20
             </p>
           </div>
         </div>
