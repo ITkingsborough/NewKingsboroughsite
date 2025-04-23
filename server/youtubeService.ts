@@ -58,8 +58,9 @@ export async function getLatestVideos(
         ? `channelId=${channelId}`
         : `forUsername=${channelId}`;
       
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${params}&maxResults=${maxResults}&order=date&type=video&key=${apiKey}`;
-      console.log(`[YouTube API] Fetching videos with params: ${params}`);
+      // Exclude live videos by only fetching completed uploads - 'type=video' and 'eventType=completed'
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${params}&maxResults=${maxResults}&order=date&type=video&eventType=completed&key=${apiKey}`;
+      console.log(`[YouTube API] Fetching videos with params: ${params} (excluding live streams)`);
         
       response = await fetch(url);
     } catch (fetchError) {
@@ -89,14 +90,16 @@ export async function getLatestVideos(
       throw new Error('Invalid response from YouTube API: not an object');
     }
     
-    if (!Array.isArray(responseData.items)) {
+    const typedResponse = responseData as { items?: unknown[] };
+    const items = typedResponse.items && Array.isArray(typedResponse.items) ? typedResponse.items : null;
+    if (!Array.isArray(items)) {
       throw new Error('Invalid response from YouTube API: items is not an array');
     }
     
     // Transform the response into our video format
     const videos: YouTubeVideo[] = [];
     
-    for (const item of responseData.items) {
+    for (const item of items) {
       if (item && typeof item === 'object' && item.id && typeof item.id === 'object' && 
           item.id.videoId && typeof item.snippet === 'object') {
         
@@ -168,12 +171,15 @@ export async function findChannel(query: string): Promise<any[]> {
     const responseData = await response.json();
     
     // Type safety check
-    if (!responseData || typeof responseData !== 'object' || !Array.isArray(responseData.items)) {
+    if (!responseData || typeof responseData !== 'object') {
       return [];
     }
     
+    const typedResponse = responseData as { items?: unknown[] };
+    const items = typedResponse.items && Array.isArray(typedResponse.items) ? typedResponse.items : [];
+    
     // Return the channel details from search results
-    return responseData.items.map((item: any) => ({
+    return items.map((item: any) => ({
       id: item.id.channelId,
       title: item.snippet.title,
       description: item.snippet.description,
@@ -225,11 +231,13 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
       return null;
     }
     
-    if (!Array.isArray(responseData.items) || responseData.items.length === 0) {
+    const typedResponse = responseData as { items?: unknown[] };
+    const items = typedResponse.items && Array.isArray(typedResponse.items) ? typedResponse.items : [];
+    if (items.length === 0) {
       return null;
     }
 
-    const item = responseData.items[0];
+    const item = items[0];
     
     // Ensure snippet exists
     if (!item || typeof item !== 'object' || !item.id || typeof item.snippet !== 'object') {
