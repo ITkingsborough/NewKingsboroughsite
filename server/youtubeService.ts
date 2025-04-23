@@ -52,16 +52,28 @@ export async function getLatestVideos(
     // Make the API request to get videos from channel
     let response;
     try {
-      // Check if channelId is a UC-prefixed ID or a username
-      const isChannelId = channelId.startsWith('UC');
-      const params = isChannelId 
-        ? `channelId=${channelId}`
-        : `forUsername=${channelId}`;
+      console.log(`[YouTube API] Attempting with provided channel ID: ${channelId}`);
       
-      // Exclude live videos by only fetching completed uploads - 'type=video' and 'eventType=completed'
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${params}&maxResults=${maxResults}&order=date&type=video&eventType=completed&key=${apiKey}`;
-      console.log(`[YouTube API] Fetching videos with params: ${params} (excluding live streams)`);
-        
+      // First, get the uploads playlist ID from the channel
+      const channelUrl = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`;
+      const channelResponse = await fetch(channelUrl);
+      
+      if (!channelResponse.ok) {
+        throw new Error(`Channel API error: ${channelResponse.status} ${channelResponse.statusText}`);
+      }
+      
+      const channelData = await channelResponse.json() as any;
+      if (!channelData.items || !channelData.items[0] || !channelData.items[0].contentDetails) {
+        throw new Error('Invalid channel response');
+      }
+      
+      const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+      console.log(`[YouTube API] Found uploads playlist ID: ${uploadsPlaylistId}`);
+      
+      // Now fetch videos from that playlist
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${maxResults}&playlistId=${uploadsPlaylistId}&key=${apiKey}`;
+      console.log(`[YouTube API] Fetching videos from uploads playlist`);
+      
       response = await fetch(url);
     } catch (fetchError) {
       throw new Error(`Failed to connect to YouTube API: ${String(fetchError)}`);
@@ -100,23 +112,33 @@ export async function getLatestVideos(
     const videos: YouTubeVideo[] = [];
     
     for (const item of items) {
-      if (item && typeof item === 'object' && item.id && typeof item.id === 'object' && 
-          item.id.videoId && typeof item.snippet === 'object') {
+      if (item && typeof item === 'object') {
+        // Cast item to get proper type hints
+        const typedItem = item as any;
         
-        const snippet = item.snippet;
-        
-        videos.push({
-          id: item.id.videoId,
-          title: snippet.title || 'Untitled',
-          description: snippet.description || '',
-          publishedAt: snippet.publishedAt || new Date().toISOString(),
-          thumbnails: snippet.thumbnails || {
-            default: { url: '', width: 120, height: 90 },
-            medium: { url: '', width: 320, height: 180 },
-            high: { url: '', width: 480, height: 360 }
-          },
-          channelTitle: snippet.channelTitle || 'Unknown Channel'
-        });
+        // PlaylistItems API returns snippet.resourceId.videoId instead of id.videoId
+        if (typedItem.snippet && typedItem.snippet.resourceId && typedItem.snippet.resourceId.videoId) {
+          const snippet = typedItem.snippet;
+          
+          // Skip live streams
+          if (snippet.liveBroadcastContent === 'live') {
+            console.log('[YouTube API] Skipping live stream:', snippet.title);
+            continue;
+          }
+          
+          videos.push({
+            id: snippet.resourceId.videoId,
+            title: snippet.title || 'Untitled',
+            description: snippet.description || '',
+            publishedAt: snippet.publishedAt || new Date().toISOString(),
+            thumbnails: snippet.thumbnails || {
+              default: { url: '', width: 120, height: 90 },
+              medium: { url: '', width: 320, height: 180 },
+              high: { url: '', width: 480, height: 360 }
+            },
+            channelTitle: snippet.channelTitle || 'Unknown Channel'
+          });
+        }
       }
     }
 
@@ -237,7 +259,8 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
       return null;
     }
 
-    const item = items[0];
+    // Cast item to any for type safety
+    const item = items[0] as any;
     
     // Ensure snippet exists
     if (!item || typeof item !== 'object' || !item.id || typeof item.snippet !== 'object') {
