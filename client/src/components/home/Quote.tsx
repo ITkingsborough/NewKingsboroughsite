@@ -79,14 +79,14 @@ const Quote = () => {
       speed={1.0}
       className="h-96 flex items-center justify-center"
     >
-      <div className="container mx-auto px-4 lg:px-8 text-center">
+      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-center h-full">
         <div 
           ref={containerRef}
-          className="max-w-3xl mx-auto"
+          className="max-w-3xl mx-auto text-center"
         >
           <blockquote 
             ref={quoteRef}
-            className="font-playfair text-2xl md:text-4xl text-white italic mb-6 text-shadow"
+            className="font-playfair text-2xl md:text-4xl text-white italic mb-6 text-shadow leading-relaxed"
           >
             "For where two or three gather in my name, there am I with them."
           </blockquote>
