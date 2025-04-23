@@ -93,11 +93,16 @@ export default function YouTubeLatestVideo({ channelId }: YouTubeLatestVideoProp
     <div className="relative overflow-hidden rounded-xl shadow-2xl group">
       <div className="grid grid-cols-1 lg:grid-cols-5">
         {/* Large Featured Image (3/5 width on large screens) */}
-        <div className="featured-image lg:col-span-3 h-80 lg:h-auto overflow-hidden relative">
+        <div className="featured-image lg:col-span-3 h-80 lg:h-auto overflow-hidden relative bg-gray-200">
+          {console.log("Rendering featured thumbnail:", video.id, video.thumbnails)}
           <img 
-            src={video.thumbnails.high.url || video.thumbnails.medium.url}
+            src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
             alt={video.title}
             className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+            onError={(e) => {
+              console.log("Using fallback thumbnail for:", video.id);
+              e.currentTarget.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+            }}
           />
           {/* Play button overlay */}
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
