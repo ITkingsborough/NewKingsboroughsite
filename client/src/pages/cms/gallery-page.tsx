@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { DashboardLayout } from "@/components/cms/DashboardLayout";
 import { GalleryItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -67,7 +68,7 @@ import { Badge } from "@/components/ui/badge";
 const galleryItemFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  image: z.string().url("Valid image URL is required"),
+  image: z.string().min(1, "Image is required"),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
   date: z.date({
     required_error: "Date is required",
@@ -104,6 +105,105 @@ export default function GalleryPage() {
     queryKey: ["/api/cms/gallery"],
     refetchOnWindowFocus: false,
   });
+
+  // References and state for file upload
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [uploadError, setUploadError] = useState("");
+
+  // Upload image mutation
+  const uploadImageMutation = useMutation({
+    mutationFn: async (file: File) => {
+      setIsUploading(true);
+      setUploadProgress(0);
+      setUploadError("");
+      
+      const formData = new FormData();
+      formData.append("galleryImage", file);
+      
+      try {
+        // Simulate progress - in a real-world scenario, you might use XMLHttpRequest for progress
+        const interval = setInterval(() => {
+          setUploadProgress(prev => {
+            if (prev >= 90) {
+              clearInterval(interval);
+              return 90;
+            }
+            return prev + 10;
+          });
+        }, 300);
+        
+        const response = await fetch("/api/upload/gallery-image", {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        });
+        
+        clearInterval(interval);
+        setUploadProgress(100);
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to upload image");
+        }
+        
+        const data = await response.json();
+        return data.filePath;
+      } catch (error) {
+        throw error;
+      } finally {
+        setIsUploading(false);
+      }
+    },
+    onSuccess: (filePath) => {
+      setUploadedImageUrl(filePath);
+      form.setValue("image", filePath);
+      toast({
+        title: "Image uploaded",
+        description: "The image has been uploaded successfully.",
+        variant: "default",
+      });
+    },
+    onError: (error: Error) => {
+      setUploadError(error.message || "Failed to upload image");
+      toast({
+        title: "Upload failed",
+        description: error.message || "Failed to upload image",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Handle file change for uploads
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      toast({
+        title: "Invalid file type",
+        description: "Please select an image file (JPEG, PNG, etc.)",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please select an image smaller than 5MB",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Upload the file
+    uploadImageMutation.mutate(file);
+  };
 
   // Form initialization
   const form = useForm<GalleryItemFormValues>({
@@ -219,12 +319,21 @@ export default function GalleryPage() {
     // Log the item to understand what's coming from the server
     console.log("Gallery item from server:", item);
     
+    // Reset upload-related state
+    setIsUploading(false);
+    setUploadProgress(0);
+    setUploadError("");
+    
+    // Set image url to display preview
+    const imageUrl = (item as any).image || (item as any).imageUrl;
+    setUploadedImageUrl(imageUrl);
+    
     setEditingItem(item);
     form.reset({
       title: item.title,
       description: item.description || "",
       // Use the correct property name based on the server response
-      image: (item as any).image || (item as any).imageUrl,
+      image: imageUrl,
       tags: item.tags,
       date: new Date(item.date),
       // Use the correct property name based on the server response
@@ -237,6 +346,12 @@ export default function GalleryPage() {
 
   // Handle new gallery item
   const handleNewItem = () => {
+    // Reset upload-related state
+    setIsUploading(false);
+    setUploadProgress(0);
+    setUploadError("");
+    setUploadedImageUrl("");
+    
     setEditingItem(null);
     form.reset({
       title: "",
@@ -449,10 +564,85 @@ export default function GalleryPage() {
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Image URL</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter image URL" {...field} />
-                      </FormControl>
+                      <FormLabel>Image</FormLabel>
+                      <div className="space-y-4">
+                        {/* File upload interface */}
+                        <div 
+                          className={cn(
+                            "border-2 border-dashed rounded-lg p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors",
+                            uploadError ? "border-destructive" : "border-muted"
+                          )}
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          <input 
+                            type="file"
+                            ref={fileInputRef}
+                            className="hidden"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                          />
+                          
+                          <div className="flex flex-col items-center justify-center gap-1 py-4">
+                            {isUploading ? (
+                              <>
+                                <Loader2 className="h-10 w-10 animate-spin text-muted-foreground mb-2" />
+                                <p className="text-sm text-muted-foreground">Uploading image...</p>
+                                <div className="w-full max-w-xs h-2 bg-muted rounded-full overflow-hidden mt-2">
+                                  <div 
+                                    className="h-full bg-primary transition-all duration-300 ease-in-out"
+                                    style={{ width: `${uploadProgress}%` }}
+                                  />
+                                </div>
+                              </>
+                            ) : field.value ? (
+                              <div className="space-y-2">
+                                <div className="relative w-32 h-32 mx-auto border rounded-md overflow-hidden">
+                                  <img 
+                                    src={field.value} 
+                                    alt="Uploaded preview" 
+                                    className="object-cover w-full h-full"
+                                  />
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                  Image uploaded successfully
+                                  <CheckCircle className="inline-block ml-1 h-4 w-4 text-green-500" />
+                                </p>
+                                <p className="text-xs text-muted-foreground">(Click to replace)</p>
+                              </div>
+                            ) : (
+                              <>
+                                <Image className="h-10 w-10 text-muted-foreground mb-2" />
+                                <p className="font-medium">Click to upload an image</p>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  PNG, JPG or GIF up to 5MB
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Manual URL input option */}
+                        <div>
+                          <FormLabel className="text-xs">Or enter image URL</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Enter image URL" 
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e);
+                                setUploadedImageUrl(e.target.value);
+                              }}
+                            />
+                          </FormControl>
+                        </div>
+                        
+                        {uploadError && (
+                          <div className="text-sm text-destructive flex items-center">
+                            <XCircle className="h-4 w-4 mr-1" />
+                            {uploadError}
+                          </div>
+                        )}
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -639,6 +829,4 @@ export default function GalleryPage() {
   );
 }
 
-function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
-}
+// Using the imported cn function from utils
