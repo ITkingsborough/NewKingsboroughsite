@@ -532,6 +532,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+  // Upload gallery image
+  app.post('/api/upload/gallery-image', (req: Request, res: Response) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ success: false, message: 'Not authenticated' });
+    }
+    
+    const upload = multer({
+      storage: multer.diskStorage({
+        destination: (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+          cb(null, path.join(process.cwd(), 'public', 'uploads', 'gallery'));
+        },
+        filename: (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+          const extension = path.extname(file.originalname);
+          const filename = `${uuidv4()}${extension}`;
+          cb(null, filename);
+        }
+      }),
+      fileFilter: (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+        if (file.mimetype.startsWith('image/')) {
+          cb(null, true);
+        } else {
+          cb(new Error('Only image files are allowed'));
+        }
+      }
+    }).single('galleryImage');
+    
+    upload(req, res, (err: any) => {
+      if (err) {
+        return res.status(400).json({ success: false, message: err.message });
+      }
+      
+      if (!req.file) {
+        return res.status(400).json({ success: false, message: 'No image file uploaded' });
+      }
+      
+      const filePath = `/uploads/gallery/${req.file.filename}`;
+      
+      // Log the activity
+      if (req.user) {
+        logUserActivity({
+          userId: req.user.id,
+          action: "upload",
+          entityType: "gallery",
+          details: `Uploaded gallery image: ${req.file.originalname}`,
+          req
+        });
+      }
+      
+      return res.json({
+        success: true,
+        filePath: filePath
+      });
+    });
+  });
 
   app.get('/api/cms/gallery/:id', async (req, res) => {
     try {
