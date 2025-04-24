@@ -302,6 +302,8 @@ export default function GalleryPage() {
     // This ensures that backend will receive the right field names
     const transformedValues = {
       ...values,
+      // Convert date to ISO string for API transmission
+      date: values.date.toISOString(),
       // Add both field names to ensure backward compatibility
       imageUrl: values.image,
       isFeatured: values.featured
