@@ -29,11 +29,15 @@ const CACHE_DURATION = 60 * 60 * 1000;
  * Fetch latest videos from a YouTube channel
  * @param channelId - The YouTube channel ID
  * @param maxResults - Maximum number of results to return (default: 10)
+ * @param eventType - Type of videos to fetch ('live', 'completed', 'upcoming', or undefined for all)
+ * @param order - Order to sort results ('date', 'relevance', 'title', 'viewCount', 'rating')
  * @returns Array of video objects
  */
 export async function getLatestVideos(
   channelId: string,
-  maxResults: number = 10
+  maxResults: number = 10,
+  eventType?: 'live' | 'completed' | 'upcoming',
+  order: string = 'date'
 ): Promise<YouTubeVideo[]> {
   // Check cache first
   if (
@@ -54,12 +58,19 @@ export async function getLatestVideos(
     try {
       // Check if channelId is a UC-prefixed ID or a username
       const isChannelId = channelId.startsWith('UC');
-      const params = isChannelId 
+      const channelParam = isChannelId 
         ? `channelId=${channelId}`
         : `forUsername=${channelId}`;
       
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${params}&maxResults=${maxResults}&order=date&type=video&key=${apiKey}`;
-      console.log(`[YouTube API] Fetching videos with params: ${params}`);
+      // Build URL with additional parameters for live videos
+      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=${maxResults}&order=${order}&type=video&key=${apiKey}`;
+      
+      // Add eventType parameter if specified
+      if (eventType) {
+        url += `&eventType=${eventType}`;
+      }
+      
+      console.log(`[YouTube API] Fetching videos with params: ${channelParam}, eventType: ${eventType || 'all'}, order: ${order}`);
         
       response = await fetch(url);
     } catch (fetchError) {
@@ -296,7 +307,7 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideo | n
     const snippet = item.snippet as Record<string, any>;
     
     return {
-      id: item.id,
+      id: typeof item.id === 'string' ? item.id : String(item.id),
       title: snippet.title || 'Untitled',
       description: snippet.description || '',
       publishedAt: snippet.publishedAt || new Date().toISOString(),

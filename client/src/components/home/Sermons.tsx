@@ -33,7 +33,7 @@ const Sermons = () => {
   } = useQuery<{ success: boolean, data: YouTubeVideo[] }>({
     queryKey: ['/api/youtube/videos', 'UCGYKC04rR0F7ajcuVQqupRQ', 'home'],
     queryFn: async () => {
-      const response = await fetch(`/api/youtube/videos?channelId=UCGYKC04rR0F7ajcuVQqupRQ&maxResults=9`);
+      const response = await fetch(`/api/youtube/videos?channelId=UCGYKC04rR0F7ajcuVQqupRQ&type=video&eventType=live&order=date&maxResults=9`);
       if (!response.ok) {
         throw new Error('Failed to fetch YouTube videos');
       }

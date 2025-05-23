@@ -1395,16 +1395,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get latest videos from YouTube channel
   app.get('/api/youtube/videos', async (req, res) => {
     try {
-      // Try multiple approaches to find the correct channel
+      // Parse query parameters
       const maxResults = parseInt(req.query.maxResults as string || '10', 10);
       const providedChannelId = req.query.channelId as string || 'KingsboroughLiveTv';
+      const eventType = req.query.eventType as 'live' | 'completed' | 'upcoming' | undefined;
+      const order = req.query.order as string || 'date';
       
       console.log(`[YouTube API] Request received with channelId: ${providedChannelId}`);
       
       // First attempt - try with the provided channel ID
       try {
         console.log(`[YouTube API] Attempting with provided channel ID: ${providedChannelId}`);
-        const videos = await getLatestVideos(providedChannelId, maxResults);
+        const videos = await getLatestVideos(providedChannelId, maxResults, eventType, order);
         if (videos && videos.length > 0) {
           console.log(`[YouTube API] Successfully fetched ${videos.length} videos with channel ID: ${providedChannelId}`);
           return res.json({
