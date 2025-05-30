@@ -56,32 +56,44 @@ export async function getLatestVideos(
       console.log(`[YouTube API] Searching for live videos with params: ${channelParam}`);
       
       // First, try to get currently live videos
-      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=${maxResults}&order=${order}&type=video&eventType=live&key=${apiKey}`;
+      let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=50&order=${order}&type=video&eventType=live&key=${apiKey}`;
       let response = await fetch(url);
       
       if (response.ok) {
         const liveData = await response.json() as any;
         if (liveData.items && liveData.items.length > 0) {
           console.log(`[YouTube API] Found ${liveData.items.length} live videos`);
-          return processVideoItems(liveData.items);
+          const filteredVideos = processVideoItems(liveData.items, true);
+          return filteredVideos.slice(0, maxResults);
         }
       }
       
       // If no live videos, try completed live streams
       console.log(`[YouTube API] No live videos found, trying completed live streams`);
-      url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=${maxResults}&order=${order}&type=video&eventType=completed&key=${apiKey}`;
+      url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=50&order=${order}&type=video&eventType=completed&key=${apiKey}`;
       response = await fetch(url);
       
       if (response.ok) {
         const completedData = await response.json() as any;
         if (completedData.items && completedData.items.length > 0) {
           console.log(`[YouTube API] Found ${completedData.items.length} completed live streams`);
-          return processVideoItems(completedData.items);
+          const filteredVideos = processVideoItems(completedData.items, true);
+          return filteredVideos.slice(0, maxResults);
         }
       }
       
-      // If still no results, fall back to all videos
-      console.log(`[YouTube API] No live streams found, falling back to all videos`);
+      // If still no results, fall back to all videos but filter for live content
+      console.log(`[YouTube API] No live streams found, falling back to all videos with live filtering`);
+      const allUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=50&order=${order}&type=video&key=${apiKey}`;
+      const allResponse = await fetch(allUrl);
+      
+      if (allResponse.ok) {
+        const allData = await allResponse.json() as any;
+        if (allData.items && allData.items.length > 0) {
+          const filteredVideos = processVideoItems(allData.items, true);
+          return filteredVideos.slice(0, maxResults);
+        }
+      }
     }
     
     // Build URL for regular video search or other event types
@@ -117,7 +129,7 @@ export async function getLatestVideos(
       throw new Error('Invalid response from YouTube API: items is not an array');
     }
     
-    return processVideoItems(responseData.items);
+    return processVideoItems(responseData.items, false);
 
   } catch (error) {
     console.error('Error fetching YouTube videos:', error);
@@ -128,8 +140,10 @@ export async function getLatestVideos(
 
 /**
  * Process video items from YouTube API response
+ * @param items - YouTube API response items
+ * @param filterForLiveContent - Whether to filter for live stream content only
  */
-function processVideoItems(items: any[]): YouTubeVideo[] {
+function processVideoItems(items: any[], filterForLiveContent: boolean = false): YouTubeVideo[] {
   const videos: YouTubeVideo[] = [];
   
   for (const item of items) {
@@ -146,11 +160,44 @@ function processVideoItems(items: any[]): YouTubeVideo[] {
     
     if (videoItem && videoItem.id?.videoId && videoItem.snippet) {
       const snippet = videoItem.snippet;
+      const title = snippet.title || '';
+      const description = snippet.description || '';
+      
+      // Filter out YouTube Shorts and non-live content when requested
+      if (filterForLiveContent) {
+        // Skip if it's likely a YouTube Short (very short duration videos)
+        // Look for keywords that indicate live streams or services
+        const liveKeywords = ['service', 'live', 'sunday', 'church', 'worship', 'sermon', 'prayer'];
+        const shortsKeywords = ['short', '#shorts', 'clip', 'snippet'];
+        
+        const titleLower = title.toLowerCase();
+        const descriptionLower = description.toLowerCase();
+        
+        // Skip if it contains shorts keywords
+        const isShort = shortsKeywords.some(keyword => 
+          titleLower.includes(keyword) || descriptionLower.includes(keyword)
+        );
+        
+        if (isShort) {
+          continue; // Skip this video
+        }
+        
+        // Prefer videos with live/service keywords
+        const hasLiveKeywords = liveKeywords.some(keyword => 
+          titleLower.includes(keyword) || descriptionLower.includes(keyword)
+        );
+        
+        // If filtering for live content, prioritize videos with live keywords
+        // or videos that are longer format (likely not shorts)
+        if (!hasLiveKeywords && titleLower.length < 20) {
+          continue; // Skip very short titles that are likely shorts
+        }
+      }
       
       videos.push({
         id: videoItem.id.videoId || '',
-        title: snippet.title || 'Untitled',
-        description: snippet.description || '',
+        title: title,
+        description: description,
         publishedAt: snippet.publishedAt || new Date().toISOString(),
         thumbnails: snippet.thumbnails || {
           default: { url: '', width: 120, height: 90 },
