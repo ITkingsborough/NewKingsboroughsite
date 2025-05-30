@@ -55,6 +55,8 @@ export async function getLatestVideos(
 
     // Make the API request to get videos from channel
     let response;
+    let finalVideos: YouTubeVideo[] = [];
+    
     try {
       // Check if channelId is a UC-prefixed ID or a username
       const isChannelId = channelId.startsWith('UC');
@@ -62,11 +64,79 @@ export async function getLatestVideos(
         ? `channelId=${channelId}`
         : `forUsername=${channelId}`;
       
-      // Build URL with additional parameters for live videos
+      // Strategy for getting live videos: try multiple approaches
+      if (eventType === 'live') {
+        console.log(`[YouTube API] Searching for live videos with params: ${channelParam}`);
+        
+        // First, try to get currently live videos
+        let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=${maxResults}&order=${order}&type=video&eventType=live&key=${apiKey}`;
+        response = await fetch(url);
+        
+        if (response.ok) {
+          const liveData = await response.json() as any;
+          if (liveData.items && liveData.items.length > 0) {
+            console.log(`[YouTube API] Found ${liveData.items.length} live videos`);
+            // Process live videos and return early
+            for (const item of liveData.items) {
+              const videoItem = item as any;
+              if (videoItem && videoItem.id?.videoId && videoItem.snippet) {
+                finalVideos.push({
+                  id: videoItem.id.videoId,
+                  title: videoItem.snippet.title || 'Untitled',
+                  description: videoItem.snippet.description || '',
+                  publishedAt: videoItem.snippet.publishedAt || new Date().toISOString(),
+                  thumbnails: videoItem.snippet.thumbnails || {
+                    default: { url: '', width: 120, height: 90 },
+                    medium: { url: '', width: 320, height: 180 },
+                    high: { url: '', width: 480, height: 360 }
+                  },
+                  channelTitle: videoItem.snippet.channelTitle || 'Unknown Channel'
+                });
+              }
+            }
+            return finalVideos;
+          }
+        }
+        
+        // If no live videos, try completed live streams
+        console.log(`[YouTube API] No live videos found, trying completed live streams`);
+        url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=${maxResults}&order=${order}&type=video&eventType=completed&key=${apiKey}`;
+        response = await fetch(url);
+        
+        if (response.ok) {
+          const completedData = await response.json() as any;
+          if (completedData.items && completedData.items.length > 0) {
+            console.log(`[YouTube API] Found ${completedData.items.length} completed live streams`);
+            // Process completed live videos and return
+            for (const item of completedData.items) {
+              const videoItem = item as any;
+              if (videoItem && videoItem.id?.videoId && videoItem.snippet) {
+                finalVideos.push({
+                  id: videoItem.id.videoId,
+                  title: videoItem.snippet.title || 'Untitled',
+                  description: videoItem.snippet.description || '',
+                  publishedAt: videoItem.snippet.publishedAt || new Date().toISOString(),
+                  thumbnails: videoItem.snippet.thumbnails || {
+                    default: { url: '', width: 120, height: 90 },
+                    medium: { url: '', width: 320, height: 180 },
+                    high: { url: '', width: 480, height: 360 }
+                  },
+                  channelTitle: videoItem.snippet.channelTitle || 'Unknown Channel'
+                });
+              }
+            }
+            return finalVideos;
+          }
+        }
+        
+        // If still no results, fall back to all videos but filter for likely live content
+        console.log(`[YouTube API] No completed live streams found, falling back to all videos`);
+      }
+      
+      // Build URL for regular video search or other event types
       let url = `https://www.googleapis.com/youtube/v3/search?part=snippet&${channelParam}&maxResults=${maxResults}&order=${order}&type=video&key=${apiKey}`;
       
-      // Add eventType parameter if specified
-      if (eventType) {
+      if (eventType && eventType !== 'live') {
         url += `&eventType=${eventType}`;
       }
       
@@ -106,8 +176,8 @@ export async function getLatestVideos(
       throw new Error('Invalid response from YouTube API: items is not an array');
     }
     
-    // Transform the response into our video format
-    const videos: YouTubeVideo[] = [];
+    // Transform the response into our video format if not already done
+    if (videos.length === 0) {
     
     for (const item of typedResponse.items) {
       const videoItem = item as { 
