@@ -153,13 +153,7 @@ const Header = () => {
           >
             Gallery
           </Link>
-          <Link 
-            href="/kingsmen" 
-            onClick={closeMenu}
-            className={`block font-montserrat font-medium py-2 ${isActive('/kingsmen') ? 'text-gold' : 'hover:text-gold'}`}
-          >
-            Kingsmen
-          </Link>
+
           <Link 
             href="/contact" 
             onClick={closeMenu}
