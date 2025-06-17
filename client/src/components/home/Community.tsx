@@ -31,7 +31,7 @@ const communityCards: CommunityCardProps[] = [
     title: "Hadassah",
     image: "https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "A women's ministry empowering and supporting ladies through faith and fellowship.",
-    link: "/ministries"
+    link: "/hadassah"
   },
   {
     title: "Kingsmen",
