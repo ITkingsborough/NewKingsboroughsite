@@ -88,6 +88,12 @@ const Header = () => {
             Gallery
           </Link>
           <Link 
+            href="/hadassah" 
+            className={`font-montserrat font-medium transition-colors duration-300 ${isActive('/hadassah') ? 'text-gold' : 'hover:text-gold'}`}
+          >
+            Hadassah
+          </Link>
+          <Link 
             href="/contact" 
             className={`font-montserrat font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : 'hover:text-gold'}`}
           >
@@ -146,6 +152,13 @@ const Header = () => {
             className={`block font-montserrat font-medium py-2 ${isActive('/gallery') ? 'text-gold' : 'hover:text-gold'}`}
           >
             Gallery
+          </Link>
+          <Link 
+            href="/hadassah" 
+            onClick={closeMenu}
+            className={`block font-montserrat font-medium py-2 ${isActive('/hadassah') ? 'text-gold' : 'hover:text-gold'}`}
+          >
+            Hadassah
           </Link>
           <Link 
             href="/contact" 
