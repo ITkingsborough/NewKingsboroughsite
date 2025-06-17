@@ -233,8 +233,168 @@ const Hadassah = () => {
           </div>
         </section>
 
-        {/* Meeting Times Section */}
+        {/* Gallery Section */}
         <section className="py-20 bg-white">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={slideUp()}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-6 text-deepPurple">
+                Our Journey Together
+              </h2>
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+                Take a look at some of our memorable moments, outings, and fellowship gatherings
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp()}
+                className="relative group overflow-hidden rounded-lg shadow-lg"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Hadassah Fellowship Gathering" 
+                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">Fellowship Gathering</h3>
+                    <p className="text-sm opacity-90">Monthly sisterhood meeting</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp(0.1)}
+                className="relative group overflow-hidden rounded-lg shadow-lg"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Hadassah Prayer Circle" 
+                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">Prayer Circle</h3>
+                    <p className="text-sm opacity-90">United in prayer and worship</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp(0.2)}
+                className="relative group overflow-hidden rounded-lg shadow-lg"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Hadassah Bible Study" 
+                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">Bible Study</h3>
+                    <p className="text-sm opacity-90">Growing in God's Word together</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp(0.3)}
+                className="relative group overflow-hidden rounded-lg shadow-lg"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Hadassah Community Outreach" 
+                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">Community Outreach</h3>
+                    <p className="text-sm opacity-90">Serving our local community</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp(0.4)}
+                className="relative group overflow-hidden rounded-lg shadow-lg"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1522621032211-ac0031dfab5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Hadassah Retreat Weekend" 
+                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">Annual Retreat</h3>
+                    <p className="text-sm opacity-90">Weekend of renewal and rest</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp(0.5)}
+                className="relative group overflow-hidden rounded-lg shadow-lg"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Hadassah Social Event" 
+                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">Social Fellowship</h3>
+                    <p className="text-sm opacity-90">Building lasting friendships</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={slideUp(0.6)}
+              className="text-center mt-12"
+            >
+              <p className="text-lg text-gray-600 mb-6">
+                Want to see more of our community in action? Visit our main gallery page.
+              </p>
+              <a 
+                href="/gallery" 
+                className="btn-outline"
+              >
+                View Full Gallery
+              </a>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Meeting Times Section */}
+        <section className="py-20 bg-lightLilac">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
