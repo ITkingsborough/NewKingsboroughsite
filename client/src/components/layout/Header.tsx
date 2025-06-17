@@ -154,13 +154,6 @@ const Header = () => {
             Gallery
           </Link>
           <Link 
-            href="/hadassah" 
-            onClick={closeMenu}
-            className={`block font-montserrat font-medium py-2 ${isActive('/hadassah') ? 'text-gold' : 'hover:text-gold'}`}
-          >
-            Hadassah
-          </Link>
-          <Link 
             href="/kingsmen" 
             onClick={closeMenu}
             className={`block font-montserrat font-medium py-2 ${isActive('/kingsmen') ? 'text-gold' : 'hover:text-gold'}`}
