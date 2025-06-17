@@ -87,12 +87,7 @@ const Header = () => {
           >
             Gallery
           </Link>
-          <Link 
-            href="/hadassah" 
-            className={`font-montserrat font-medium transition-colors duration-300 ${isActive('/hadassah') ? 'text-gold' : 'hover:text-gold'}`}
-          >
-            Hadassah
-          </Link>
+
           <Link 
             href="/contact" 
             className={`font-montserrat font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : 'hover:text-gold'}`}
