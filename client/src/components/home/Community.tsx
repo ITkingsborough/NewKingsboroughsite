@@ -37,7 +37,7 @@ const communityCards: CommunityCardProps[] = [
     title: "Kingsmen",
     image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "Men's fellowship focusing on faith, leadership and authentic Christian masculinity.",
-    link: "/ministries"
+    link: "/kingsmen"
   },
   {
     title: "The Crown",

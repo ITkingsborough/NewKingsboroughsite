@@ -12,6 +12,7 @@ import Gallery from "@/pages/Gallery";
 import Giving from "@/pages/Giving";
 import Contact from "@/pages/Contact";
 import Hadassah from "@/pages/Hadassah";
+import Kingsmen from "@/pages/Kingsmen";
 import LoginPage from "@/pages/auth/login-page";
 import DirectLoginPage from "@/pages/auth/direct-login";
 import DashboardPage from "@/pages/cms/dashboard-page";
@@ -65,6 +66,7 @@ function App() {
                   <Route path="/giving" component={Giving} />
                   <Route path="/contact" component={Contact} />
                   <Route path="/hadassah" component={Hadassah} />
+                  <Route path="/kingsmen" component={Kingsmen} />
                   <Route path="/auth/login" component={LoginPage} />
                   <Route path="/direct-login" component={DirectLoginPage} />
                   <Route component={NotFound} />
