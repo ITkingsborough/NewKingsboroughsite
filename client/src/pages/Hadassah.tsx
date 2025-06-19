@@ -1,8 +1,42 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { slideUp, staggerContainer } from '@/lib/animations';
+import { useState, useEffect } from 'react';
 
 const Hadassah = () => {
+  // Slideshow images for Our Purpose section
+  const purposeImages = [
+    {
+      src: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Women in fellowship"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Women in prayer circle"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Women's Bible study"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1522621032211-ac0031dfab5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      alt: "Women's retreat gathering"
+    }
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Auto-advance slideshow every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % purposeImages.length
+      );
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [purposeImages.length]);
+
   return (
     <>
       <Helmet>
@@ -63,12 +97,47 @@ const Hadassah = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
                 variants={slideUp()}
+                className="relative"
               >
-                <img 
-                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                  alt="Women in fellowship" 
-                  className="rounded-lg shadow-lg w-full"
-                />
+                <div className="relative overflow-hidden rounded-lg shadow-lg">
+                  {purposeImages.map((image, index) => (
+                    <motion.img
+                      key={index}
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-80 object-cover"
+                      initial={{ opacity: 0 }}
+                      animate={{ 
+                        opacity: index === currentImageIndex ? 1 : 0,
+                        scale: index === currentImageIndex ? 1 : 1.1
+                      }}
+                      transition={{ duration: 1, ease: "easeInOut" }}
+                      style={{
+                        position: index === 0 ? 'relative' : 'absolute',
+                        top: index === 0 ? 'auto' : 0,
+                        left: index === 0 ? 'auto' : 0,
+                        right: index === 0 ? 'auto' : 0,
+                        bottom: index === 0 ? 'auto' : 0
+                      }}
+                    />
+                  ))}
+                  
+                  {/* Slideshow indicators */}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    {purposeImages.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImageIndex(index)}
+                        className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                          index === currentImageIndex 
+                            ? 'bg-white' 
+                            : 'bg-white/50 hover:bg-white/70'
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </motion.div>
               
               <motion.div
