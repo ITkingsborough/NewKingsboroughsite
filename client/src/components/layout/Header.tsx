@@ -87,7 +87,12 @@ const Header = () => {
           >
             Gallery
           </Link>
-
+          <Link 
+            href="/shop" 
+            className={`font-montserrat font-medium transition-colors duration-300 ${isActive('/shop') ? 'text-gold' : 'hover:text-gold'}`}
+          >
+            Shop
+          </Link>
           <Link 
             href="/contact" 
             className={`font-montserrat font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : 'hover:text-gold'}`}
@@ -148,7 +153,13 @@ const Header = () => {
           >
             Gallery
           </Link>
-
+          <Link 
+            href="/shop" 
+            onClick={closeMenu}
+            className={`block font-montserrat font-medium py-2 ${isActive('/shop') ? 'text-gold' : 'hover:text-gold'}`}
+          >
+            Shop
+          </Link>
           <Link 
             href="/contact" 
             onClick={closeMenu}

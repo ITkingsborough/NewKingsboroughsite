@@ -134,6 +134,10 @@ The application uses PostgreSQL with the following main entities:
 
 ```
 Changelog:
+- June 26, 2025. Added Church Shop page with e-commerce functionality
+- June 26, 2025. Created Kingsmen men's ministry page with gallery
+- June 26, 2025. Created Hadassah women's ministry page with interactive slideshow
+- June 26, 2025. Enhanced ministry pages with dedicated galleries and meeting information
 - June 17, 2025. Initial setup
 ```
 
