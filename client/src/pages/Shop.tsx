@@ -2,12 +2,18 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import { slideUp, staggerContainer } from '@/lib/animations';
 import { useState } from 'react';
-import { ShoppingCart, Star, Filter, Search, BookOpen, Music, Gift } from 'lucide-react';
+import { ShoppingCart, Star, Filter, Search, BookOpen, Music, Gift, X, Plus, Minus, Trash2 } from 'lucide-react';
+
+interface CartItem {
+  productId: number;
+  quantity: number;
+}
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [cartItems, setCartItems] = useState<number[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const categories = [
     { id: 'all', name: 'All Items', icon: Gift },
@@ -120,10 +126,52 @@ const Shop = () => {
   });
 
   const addToCart = (productId: number) => {
-    setCartItems(prev => [...prev, productId]);
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.productId === productId);
+      if (existingItem) {
+        return prev.map(item =>
+          item.productId === productId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { productId, quantity: 1 }];
+    });
   };
 
-  const getCartItemCount = () => cartItems.length;
+  const removeFromCart = (productId: number) => {
+    setCartItems(prev => prev.filter(item => item.productId !== productId));
+  };
+
+  const updateQuantity = (productId: number, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+    setCartItems(prev =>
+      prev.map(item =>
+        item.productId === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
+  const getCartItemCount = () => cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  const getCartTotal = () => {
+    return cartItems.reduce((total, item) => {
+      const product = products.find(p => p.id === item.productId);
+      return total + (product ? product.price * item.quantity : 0);
+    }, 0);
+  };
+
+  const getCartItems = () => {
+    return cartItems.map(item => {
+      const product = products.find(p => p.id === item.productId);
+      return { ...item, product };
+    }).filter(item => item.product);
+  };
 
   return (
     <>
@@ -148,7 +196,7 @@ const Shop = () => {
             <motion.div
               initial="hidden"
               animate="visible"
-              variants={staggerContainer}
+              variants={staggerContainer()}
               className="text-center"
             >
               <motion.h1 
@@ -158,20 +206,23 @@ const Shop = () => {
                 Church Shop
               </motion.h1>
               <motion.p 
-                variants={slideUp(0.1)}
+                variants={slideUp()}
                 className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto"
               >
                 Discover inspiring books, worship music, and faith-based gifts to strengthen your spiritual journey
               </motion.p>
               
               <motion.div
-                variants={slideUp(0.2)}
+                variants={slideUp()}
                 className="flex items-center justify-center space-x-4"
               >
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center">
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center hover:bg-white/30 transition-colors duration-300"
+                >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   <span className="font-medium">{getCartItemCount()} items in cart</span>
-                </div>
+                </button>
               </motion.div>
             </motion.div>
           </div>
@@ -366,6 +417,99 @@ const Shop = () => {
             </motion.div>
           </div>
         </section>
+
+        {/* Cart Modal */}
+        {isCartOpen && (
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+              <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onClick={() => setIsCartOpen(false)}></div>
+              
+              <div className="inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-montserrat font-bold text-deepPurple">Shopping Cart</h3>
+                  <button
+                    onClick={() => setIsCartOpen(false)}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-300"
+                  >
+                    <X className="w-6 h-6 text-gray-500" />
+                  </button>
+                </div>
+
+                {getCartItems().length === 0 ? (
+                  <div className="text-center py-12">
+                    <ShoppingCart className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+                    <h4 className="text-xl font-montserrat font-semibold text-gray-600 mb-2">Your cart is empty</h4>
+                    <p className="text-gray-500 mb-6">Add some items to get started</p>
+                    <button
+                      onClick={() => setIsCartOpen(false)}
+                      className="bg-deepPurple hover:bg-lilac text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300"
+                    >
+                      Continue Shopping
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="max-h-96 overflow-y-auto mb-6">
+                      {getCartItems().map((item) => (
+                        <div key={item.productId} className="flex items-center space-x-4 py-4 border-b border-gray-200">
+                          <img
+                            src={item.product!.image}
+                            alt={item.product!.name}
+                            className="w-16 h-16 object-cover rounded-lg"
+                          />
+                          <div className="flex-1">
+                            <h4 className="font-montserrat font-semibold text-deepPurple">{item.product!.name}</h4>
+                            <p className="text-sm text-gray-600">{item.product!.author}</p>
+                            <p className="text-lg font-bold text-deepPurple">£{item.product!.price}</p>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                              className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-300"
+                            >
+                              <Minus className="w-4 h-4 text-gray-600" />
+                            </button>
+                            <span className="w-8 text-center font-medium">{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                              className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-300"
+                            >
+                              <Plus className="w-4 h-4 text-gray-600" />
+                            </button>
+                          </div>
+                          <button
+                            onClick={() => removeFromCart(item.productId)}
+                            className="p-2 hover:bg-red-50 rounded-full transition-colors duration-300"
+                          >
+                            <Trash2 className="w-5 h-5 text-red-500" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="border-t border-gray-200 pt-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xl font-montserrat font-semibold text-deepPurple">Total:</span>
+                        <span className="text-2xl font-bold text-deepPurple">£{getCartTotal().toFixed(2)}</span>
+                      </div>
+                      <div className="flex space-x-4">
+                        <button
+                          onClick={() => setIsCartOpen(false)}
+                          className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium transition-colors duration-300"
+                        >
+                          Continue Shopping
+                        </button>
+                        <button className="flex-1 bg-deepPurple hover:bg-lilac text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300">
+                          Checkout
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Contact Information */}
         <section className="py-12 bg-white">
