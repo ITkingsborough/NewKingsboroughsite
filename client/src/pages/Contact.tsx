@@ -129,7 +129,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Call Us</h3>
-                      <p className="mb-1"><strong>Main Office:</strong> 01895252224</p>
+                      <p className="mb-1">01895252224</p>
                     </div>
                   </div>
                   
@@ -141,7 +141,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Email Us</h3>
-                      <p className="mb-1"><strong>General Inquiries:</strong> info@kingsboroughchurch.org</p>
+                      <p className="mb-1">info@kingsboroughchurch.org</p>
                     </div>
                   </div>
                 </div>
