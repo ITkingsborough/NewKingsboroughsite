@@ -14,6 +14,7 @@ import Contact from "@/pages/Contact";
 import Hadassah from "@/pages/Hadassah";
 import Kingsmen from "@/pages/Kingsmen";
 import Crown from "@/pages/Crown";
+import Community from "@/pages/Community";
 import Shop from "@/pages/Shop";
 import LoginPage from "@/pages/auth/login-page";
 import DirectLoginPage from "@/pages/auth/direct-login";
@@ -70,6 +71,7 @@ function App() {
                   <Route path="/hadassah" component={Hadassah} />
                   <Route path="/kingsmen" component={Kingsmen} />
                   <Route path="/crown" component={Crown} />
+                  <Route path="/community" component={Community} />
                   <Route path="/shop" component={Shop} />
                   <Route path="/auth/login" component={LoginPage} />
                   <Route path="/direct-login" component={DirectLoginPage} />
