@@ -42,8 +42,8 @@ const communityCards: CommunityCardProps[] = [
   {
     title: "The Crown",
     image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Youth ministry helping young people navigate life's challenges through faith and community.",
-    link: "/ministries"
+    description: "Young adults ministry pursuing purpose, passion, and the presence of God.",
+    link: "/crown"
   }
 ];
 
