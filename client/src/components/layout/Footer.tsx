@@ -133,7 +133,7 @@ const Footer = () => {
               href="/" 
               className="text-gold hover:text-white transition-colors duration-300"
             >
-              Return to Homepage
+        
             </Link>
           </p>
         </div>
