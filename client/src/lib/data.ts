@@ -4,10 +4,45 @@ import { EventItem, SermonItem, MinistryItem, LeaderItem, MagazineItem } from '.
 export const leaders: LeaderItem[] = [
   {
     id: 1,
-    name: "Apostle Tunde & Toyin Balogun",
-    role: "Senior Pastors",
-    bio: "With over two decades of ministry experience, Apostle Tunde and Toyin Balogun lead Kingsborough Church with wisdom, integrity, and genuine compassion. Their visionary leadership has transformed countless lives through powerful teaching, prophetic ministry, and a heart for community service. Together, they create an atmosphere of faith and love where people discover their purpose and grow in their relationship with God.",
-    image: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+    name: "Apostle Tunde Balogun",
+    role: "Senior Pastor & Founder",
+    bio: "With over two decades of ministry experience, Apostle Tunde Balogun leads Kingsborough Church with wisdom, integrity, and genuine compassion. His visionary leadership has transformed countless lives through powerful teaching, prophetic ministry, and a heart for community service. He creates an atmosphere of faith and love where people discover their purpose and grow in their relationship with God.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 2,
+    name: "Pastor Toyin Balogun",
+    role: "Co-Senior Pastor",
+    bio: "Pastor Toyin Balogun is a dynamic teacher and compassionate leader who brings a unique blend of spiritual insight and practical wisdom to her ministry. She oversees women's ministries and pastoral care, creating spaces where people experience healing, growth, and authentic community. Her heart for worship and excellence inspires everyone around her.",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 3,
+    name: "Pastor David Adewale",
+    role: "Executive Pastor",
+    bio: "Pastor David oversees the day-to-day operations and strategic direction of the church. With a background in business administration and theology, he brings organizational excellence and spiritual depth to leadership. His passion is equipping believers to live out their faith in every area of life and building systems that support sustainable growth.",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 4,
+    name: "Pastor Grace Okonkwo",
+    role: "Youth & Young Adults Pastor",
+    bio: "Pastor Grace is passionate about raising up the next generation of believers who are bold, authentic, and deeply rooted in their faith. She leads The Crown young adults ministry and youth programs with creativity and energy. Her relatable teaching style and genuine care for young people create an environment where they thrive spiritually and socially.",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 5,
+    name: "Pastor Samuel Okafor",
+    role: "Worship & Creative Arts Pastor",
+    bio: "Pastor Samuel leads our worship ministry with a heart for God's presence and excellence in creativity. A gifted musician and songwriter, he trains and mentors worship teams across our campuses. His vision is to create worship experiences that draw people into authentic encounters with God and express the beauty of His kingdom through the arts.",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    id: 6,
+    name: "Pastor Blessing Chukwu",
+    role: "Community Outreach Pastor",
+    bio: "Pastor Blessing leads our community outreach initiatives including the Hillingdon Foodbank and partnership programs. Her compassion for the marginalized and commitment to social justice inspire our congregation to live out the gospel through practical service. She believes the church should be the hands and feet of Jesus in every neighborhood.",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
   }
 ];
 

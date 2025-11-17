@@ -535,18 +535,18 @@ const About = () => {
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {leaders.map((leader, index) => (
               <motion.div 
                 key={leader.id}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                variants={slideUp(index * 0.2)}
-                className="team-card relative rounded-xl overflow-hidden shadow-xl group"
+                variants={slideUp(index * 0.1)}
+                className="team-card relative rounded-xl overflow-hidden shadow-xl group cursor-pointer"
               >
                 {/* Team member image */}
-                <div className="h-96 overflow-hidden">
+                <div className="h-80 overflow-hidden">
                   <img 
                     src={leader.image} 
                     alt={leader.name} 
@@ -559,18 +559,18 @@ const About = () => {
                 <div className="absolute inset-0 border-0 group-hover:border-4 border-gold transition-all duration-300 pointer-events-none"></div>
                 
                 {/* Card content - visible always */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6">
-                  <h3 className="text-2xl font-montserrat font-bold text-white mb-1">{leader.name}</h3>
-                  <p className="text-gold font-medium">{leader.role}</p>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6">
+                  <h3 className="text-xl font-montserrat font-bold text-white mb-1">{leader.name}</h3>
+                  <p className="text-gold font-medium text-sm">{leader.role}</p>
                 </div>
                 
                 {/* Hover content - Bio text */}
-                <div className="hover-content absolute inset-0 bg-deepPurple/85 flex items-center opacity-0 translate-y-10">
-                  <div className="p-8">
-                    <h3 className="text-2xl font-montserrat font-bold text-white mb-3">{leader.name}</h3>
-                    <p className="text-gold font-medium mb-4">{leader.role}</p>
-                    <div className="h-0.5 w-16 bg-gold mb-5"></div>
-                    <p className="text-white/90 leading-relaxed">{leader.bio}</p>
+                <div className="hover-content absolute inset-0 bg-deepPurple/95 flex items-center opacity-0 translate-y-10">
+                  <div className="p-6">
+                    <h3 className="text-xl font-montserrat font-bold text-white mb-2">{leader.name}</h3>
+                    <p className="text-gold font-medium mb-3 text-sm">{leader.role}</p>
+                    <div className="h-0.5 w-12 bg-gold mb-4"></div>
+                    <p className="text-white/90 leading-relaxed text-sm">{leader.bio}</p>
                   </div>
                 </div>
               </motion.div>
