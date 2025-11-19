@@ -27,7 +27,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-lilac bg-opacity-10">
+    <section id="about" className="py-20 bg-deepPurple">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center">
           <motion.div 
@@ -37,16 +37,16 @@ const About = () => {
             viewport={{ once: true, amount: 0.3 }}
             variants={slideUp()}
           >
-            <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
+            <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-white">
               Our Story
             </h2>
-            <p className="text-lg leading-relaxed mb-6">
+            <p className="text-lg leading-relaxed mb-6 text-white/90">
               Founded in 1985, Kingsborough Church began as a small gathering in a living room with a vision to create a church that welcomes everyone, regardless of their background or journey.
             </p>
-            <p className="text-lg leading-relaxed mb-6">
+            <p className="text-lg leading-relaxed mb-6 text-white/90">
               What started with just 12 dedicated members has grown into a vibrant community of believers passionate about making a difference in our city and beyond.
             </p>
-            <p className="text-lg leading-relaxed mb-10">
+            <p className="text-lg leading-relaxed mb-10 text-white/90">
               Our mission remains the same: to help people know God, find freedom, discover purpose, and make a difference.
             </p>
             <Link href="/about" className="btn-primary">Learn More About Us</Link>
