@@ -71,14 +71,14 @@
 
   .overlay-purple {
     @apply absolute inset-0;
-    background: linear-gradient(45deg, rgba(74, 48, 109, 0.8), rgba(74, 48, 109, 0.2));
+    background: linear-gradient(45deg, rgba(76, 0, 109, 0.8), rgba(76, 0, 109, 0.2));
   }
 }
 
 :root {
   --gold: 46 59% 51%;
   --lilac: 300 20% 70%;
-  --deepPurple: 270 30% 30%;
+  --deepPurple: 282 100% 21%;
   --darkGray: 0 0% 20%;
   --lightGray: 0 0% 96%;
 }
