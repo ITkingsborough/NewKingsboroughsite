@@ -499,7 +499,7 @@ const About = () => {
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
                 className="value-card bg-white rounded-xl p-6 shadow-lg border border-gray-100 flex flex-col items-center text-center"
               >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-lilac/20 mb-5">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-deepPurple/20 mb-5">
                   <i className={`${value.icon} text-gold text-2xl`}></i>
                 </div>
                 <h3 className="text-2xl font-montserrat font-bold mb-3 text-deepPurple">
