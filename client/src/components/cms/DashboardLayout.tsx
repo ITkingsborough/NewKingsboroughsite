@@ -1,22 +1,16 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import {
-  AlertCircle,
   Calendar,
-  File,
-  Grid,
   Home,
   Image,
   LogOut,
   Menu,
-  MessageSquare,
   Mic,
   Settings,
   Users,
-  X,
   FileText,
-  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -138,22 +132,10 @@ function Sidebar({ className }: { className?: string }) {
               active={location.startsWith("/cms/gallery")}
             />
             <SidebarLink
-              href="/cms/contact"
-              icon={<MessageSquare className="h-4 w-4" />}
-              label="Contact Messages"
-              active={location.startsWith("/cms/contact")}
-            />
-            <SidebarLink
               href="/cms/magazines"
               icon={<FileText className="h-4 w-4" />}
               label="Magazines"
               active={location.startsWith("/cms/magazines")}
-            />
-            <SidebarLink
-              href="/cms/community"
-              icon={<Heart className="h-4 w-4" />}
-              label="Community"
-              active={location.startsWith("/cms/community")}
             />
           </div>
           
