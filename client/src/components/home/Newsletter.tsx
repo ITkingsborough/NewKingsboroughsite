@@ -48,10 +48,10 @@ const Newsletter = () => {
           viewport={{ once: true, amount: 0.3 }}
           variants={slideUp()}
         >
-          <h2 className="text-3xl font-montserrat font-bold mb-4 text-deepPurple">
+          <h2 className="text-3xl font-montserrat font-bold mb-4 text-white">
             Stay Connected
           </h2>
-          <p className="text-lg mb-8">
+          <p className="text-lg mb-8 text-white">
             Subscribe to our newsletter for updates, devotionals, and church news.
           </p>
           <form 

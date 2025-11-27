@@ -17,7 +17,7 @@ const Welcome = () => {
     {
       icon: "fas fa-church",
       title: "Sunday Services",
-      description: "Join us at 9:00 AM and 11:00 AM for worship that inspires and messages that transform."
+      description: "Join us at 10:00 AM for worship that inspires and messages that transform."
     },
     {
       icon: "fas fa-hands-helping",

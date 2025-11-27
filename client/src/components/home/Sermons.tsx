@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'wouter';
-import { slideUp, staggerContainer } from '@/lib/animations';
-import { useQuery } from '@tanstack/react-query';
-import { PlayCircle, Calendar } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { Skeleton } from '@/components/ui/skeleton';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "wouter";
+import { slideUp, staggerContainer } from "@/lib/animations";
+import { useQuery } from "@tanstack/react-query";
+import { PlayCircle, Calendar } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface YouTubeVideo {
   id: string;
@@ -25,17 +25,18 @@ interface YouTubeVideo {
 const Sermons = () => {
   const [page, setPage] = useState(0);
   const videosPerPage = 3;
-  
-  const { 
-    data, 
-    isLoading, 
-    isError 
-  } = useQuery<{ success: boolean, data: YouTubeVideo[] }>({
-    queryKey: ['/api/youtube/videos', 'UCGYKC04rR0F7ajcuVQqupRQ', 'home'],
+
+  const { data, isLoading, isError } = useQuery<{
+    success: boolean;
+    data: YouTubeVideo[];
+  }>({
+    queryKey: ["/api/youtube/videos", "UCGYKC04rR0F7ajcuVQqupRQ", "home"],
     queryFn: async () => {
-      const response = await fetch(`/api/youtube/videos?channelId=UCGYKC04rR0F7ajcuVQqupRQ&type=video&eventType=live&order=date&maxResults=9`);
+      const response = await fetch(
+        `/api/youtube/videos?channelId=UCGYKC04rR0F7ajcuVQqupRQ&type=video&eventType=live&order=date&maxResults=9`,
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch YouTube videos');
+        throw new Error("Failed to fetch YouTube videos");
       }
       return response.json();
     },
@@ -43,8 +44,11 @@ const Sermons = () => {
 
   const allVideos = data?.data || [];
   const totalPages = Math.ceil(allVideos.length / videosPerPage);
-  const videos = allVideos.slice(page * videosPerPage, (page + 1) * videosPerPage);
-  
+  const videos = allVideos.slice(
+    page * videosPerPage,
+    (page + 1) * videosPerPage,
+  );
+
   const handlePreviousPage = () => {
     setPage((prev: number) => Math.max(0, prev - 1));
   };
@@ -52,66 +56,76 @@ const Sermons = () => {
   const handleNextPage = () => {
     setPage((prev: number) => Math.min(totalPages - 1, prev + 1));
   };
-  
+
   // For formatting relative time (e.g., "2 days ago")
   const formatPublishedAt = (dateString: string) => {
     try {
       return formatDistanceToNow(new Date(dateString), { addSuffix: true });
     } catch (error) {
-      return 'Date unknown';
+      return "Date unknown";
     }
   };
 
   const handleWatchClick = (videoId: string) => {
-    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
   };
 
   return (
-    <section id="sermons" className="py-20 bg-lilac bg-opacity-10">
+    <section id="sermons" className="py-20 bg-gold bg-opacity-60">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={slideUp()}
         >
-          <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
+          <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-white">
             Recent Sermons
           </h2>
-          <p className="text-lg max-w-3xl mx-auto">
-            Missed a Sunday? Catch up on our latest messages or explore our sermon archive.
+          <p className="text-lg max-w-3xl mx-auto text-white">
+            Missed a Sunday? Catch up on our latest messages or explore our
+            sermon archive.
           </p>
         </motion.div>
-        
+
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array(3).fill(0).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Skeleton className="h-48 w-full" />
-                <div className="p-6">
-                  <Skeleton className="h-6 w-3/4 mb-3" />
-                  <Skeleton className="h-4 w-1/2 mb-2" />
-                  <Skeleton className="h-4 w-1/2 mb-4" />
-                  <Skeleton className="h-16 w-full mb-4" />
-                  <div className="flex gap-2">
-                    <Skeleton className="h-8 w-24" />
-                    <Skeleton className="h-8 w-24" />
+            {Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                >
+                  <Skeleton className="h-48 w-full" />
+                  <div className="p-6">
+                    <Skeleton className="h-6 w-3/4 mb-3" />
+                    <Skeleton className="h-4 w-1/2 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-4" />
+                    <Skeleton className="h-16 w-full mb-4" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-8 w-24" />
+                      <Skeleton className="h-8 w-24" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         ) : isError ? (
           <div className="text-center p-6 bg-red-50 rounded-lg">
-            <h3 className="text-lg font-medium text-red-800">Failed to load sermons</h3>
+            <h3 className="text-lg font-medium text-red-800">
+              Failed to load sermons
+            </h3>
             <p className="text-red-600 mb-4">
               We couldn't fetch the latest videos from our YouTube channel.
             </p>
-            <Link href="/sermons" className="btn-primary">Go to Sermons Page</Link>
+            <Link href="/sermons" className="btn-primary">
+              Go to Sermons Page
+            </Link>
           </div>
         ) : (
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={staggerContainer()}
             initial="hidden"
@@ -119,25 +133,27 @@ const Sermons = () => {
             viewport={{ once: true, amount: 0.1 }}
           >
             {videos.map((video, index) => (
-              <motion.div 
-                key={video.id} 
+              <motion.div
+                key={video.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden card-hover"
                 variants={slideUp((index + 1) * 0.1)}
-                whileHover={{ 
+                whileHover={{
                   y: -5,
                   boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-                  transition: { duration: 0.3 }
+                  transition: { duration: 0.3 },
                 }}
               >
                 <div className="h-48 overflow-hidden relative">
-                  <img 
-                    src={video.thumbnails.high.url || video.thumbnails.medium.url} 
-                    alt={video.title} 
+                  <img
+                    src={
+                      video.thumbnails.high.url || video.thumbnails.medium.url
+                    }
+                    alt={video.title}
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-deepPurple bg-opacity-40 flex items-center justify-center">
-                    <button 
+                    <button
                       onClick={() => handleWatchClick(video.id)}
                       className="text-white bg-gold bg-opacity-90 rounded-full w-14 h-14 flex items-center justify-center transform transition-transform duration-300 hover:scale-110"
                       aria-label="Play sermon"
@@ -148,23 +164,28 @@ const Sermons = () => {
                 </div>
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-montserrat font-semibold line-clamp-2">{video.title}</h3>
+                    <h3 className="text-xl font-montserrat font-semibold line-clamp-2">
+                      {video.title}
+                    </h3>
                     <span className="text-xs whitespace-nowrap bg-lilac bg-opacity-30 text-deepPurple px-2 py-1 rounded">
                       {formatPublishedAt(video.publishedAt)}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3 flex items-center">
-                    <Calendar className="w-4 h-4 mr-2" /> {formatPublishedAt(video.publishedAt)}
+                    <Calendar className="w-4 h-4 mr-2" />{" "}
+                    {formatPublishedAt(video.publishedAt)}
                   </p>
-                  <p className="mb-6 text-sm line-clamp-3">{video.description}</p>
+                  <p className="mb-6 text-sm line-clamp-3">
+                    {video.description}
+                  </p>
                   <div className="flex space-x-3">
-                    <button 
+                    <button
                       onClick={() => handleWatchClick(video.id)}
                       className="text-gold font-montserrat font-medium hover:underline inline-flex items-center"
                     >
                       <PlayCircle className="w-5 h-5 mr-1" /> Watch
                     </button>
-                    <a 
+                    <a
                       href={`https://www.youtube.com/channel/UCGYKC04rR0F7ajcuVQqupRQ`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -178,9 +199,9 @@ const Sermons = () => {
             ))}
           </motion.div>
         )}
-        
+
         {totalPages > 1 && (
-          <motion.div 
+          <motion.div
             className="flex justify-center mt-8 mb-8"
             initial="hidden"
             whileInView="visible"
@@ -188,39 +209,63 @@ const Sermons = () => {
             variants={slideUp(0.3)}
           >
             <div className="flex space-x-4">
-              <button 
-                className={`px-5 py-2 rounded-lg flex items-center ${page === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-deepPurple text-white hover:bg-deepPurple/90'}`}
+              <button
+                className={`px-5 py-2 rounded-lg flex items-center ${page === 0 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-deepPurple text-white hover:bg-deepPurple/90"}`}
                 onClick={handlePreviousPage}
                 disabled={page === 0}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
                 Previous
               </button>
-              
-              <button 
-                className={`px-5 py-2 rounded-lg flex items-center ${page >= totalPages - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-deepPurple text-white hover:bg-deepPurple/90'}`}
+
+              <button
+                className={`px-5 py-2 rounded-lg flex items-center ${page >= totalPages - 1 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-deepPurple text-white hover:bg-deepPurple/90"}`}
                 onClick={handleNextPage}
                 disabled={page >= totalPages - 1}
               >
                 Next
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 ml-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
           </motion.div>
         )}
-        
-        <motion.div 
+
+        <motion.div
           className="text-center mt-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           variants={slideUp(0.3)}
         >
-          <Link href="/sermons" className="btn-primary">View Sermon Archive</Link>
+          <Link href="/sermons" className="btn-primary">
+            View Sermon Archive
+          </Link>
         </motion.div>
       </div>
     </section>

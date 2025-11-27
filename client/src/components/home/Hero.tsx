@@ -86,10 +86,20 @@ const Hero = () => {
           
           <p 
             ref={paragraphRef}
-            className="text-xl md:text-2xl text-white opacity-0 mb-8 font-light"
+            className="text-xl md:text-2xl text-white opacity-0 mb-6 font-light"
           >
             A place to belong, believe, and become.
           </p>
+          
+          <div className="flex items-center mb-8 text-white">
+            <div className="bg-gold/20 backdrop-blur-sm border border-gold/30 rounded-lg px-6 py-3 inline-flex items-center">
+              <i className="fas fa-clock text-gold mr-3"></i>
+              <div>
+                <span className="font-semibold">Sunday Service:</span>
+                <span className="ml-2">10:00 AM</span>
+              </div>
+            </div>
+          </div>
           
           <div 
             ref={buttonsRef}
