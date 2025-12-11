@@ -1,14 +1,33 @@
 import { motion } from 'framer-motion';
 import { slideUp, staggerContainer } from '@/lib/animations';
-import { events } from '@/lib/data';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
+
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  image: string | null;
+  featured: boolean;
+}
 
 const Events = () => {
   const [location] = useLocation();
   const searchParams = new URLSearchParams(location.split('?')[1]);
   const eventId = searchParams.get('id');
+
+  // Fetch events from API
+  const { data: eventsData, isLoading } = useQuery<{ success: boolean; data: Event[] }>({
+    queryKey: ['/api/events'],
+  });
+
+  const events = eventsData?.data || [];
 
   const selectedEvent = eventId 
     ? events.find(e => e.id === parseInt(eventId)) 
@@ -73,7 +92,20 @@ const Events = () => {
           </div>
         </section>
 
-        {selectedEvent ? (
+        {isLoading ? (
+          <section className="py-20 bg-white">
+            <div className="container mx-auto px-4 lg:px-8 flex justify-center items-center">
+              <Loader2 className="h-12 w-12 animate-spin text-gold" />
+            </div>
+          </section>
+        ) : events.length === 0 ? (
+          <section className="py-20 bg-white">
+            <div className="container mx-auto px-4 lg:px-8 text-center">
+              <h2 className="text-2xl font-montserrat font-bold text-deepPurple mb-4">No Events Yet</h2>
+              <p className="text-gray-600">Check back soon for upcoming events!</p>
+            </div>
+          </section>
+        ) : selectedEvent ? (
           // Single Event View
           <section className="py-20 bg-white">
             <div className="container mx-auto px-4 lg:px-8">
@@ -94,7 +126,7 @@ const Events = () => {
                 
                 <div className="rounded-lg overflow-hidden mb-8 h-96 relative">
                   <img 
-                    src={selectedEvent.image} 
+                    src={selectedEvent.image || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'} 
                     alt={selectedEvent.title} 
                     className="w-full h-full object-cover"
                   />
@@ -311,7 +343,7 @@ const Events = () => {
                   >
                     <div className="h-48 overflow-hidden relative">
                       <img 
-                        src={event.image} 
+                        src={event.image || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'} 
                         alt={event.title} 
                         className="w-full h-full object-cover"
                         loading="lazy"
@@ -428,10 +460,10 @@ const Events = () => {
                 viewport={{ once: true, amount: 0.3 }}
                 variants={slideUp(0.4)}
               >
-                <h3 className="text-2xl md:text-3xl font-montserrat font-bold mb-4 text-deepPurple">
+                <h3 className="text-2xl md:text-3xl font-montserrat font-bold mb-4 text-gold">
                   Plan Your Visit
                 </h3>
-                <p className="text-lg mb-8 max-w-2xl mx-auto">
+                <p className="text-lg mb-8 max-w-2xl mx-auto text-white">
                   Whether you're joining us for a Sunday service or a special event, 
                   we want to make your visit as enjoyable as possible.
                 </p>
