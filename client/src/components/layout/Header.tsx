@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
+import churchLogo from '@assets/Untitled_design_(43)_1765446173985.png';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,6 +37,7 @@ const Header = () => {
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link href="/" onClick={closeMenu} className="flex items-center">
+          <img src={churchLogo} alt="Kingsborough Church Logo" className="h-10 w-auto mr-2" />
           <span className="text-gold font-montserrat font-bold text-2xl tracking-tight">Kingsborough</span>
           <span className="font-montserrat ml-1 text-deepPurple font-bold text-2xl">Church</span>
         </Link>
