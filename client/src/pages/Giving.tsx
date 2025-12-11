@@ -391,10 +391,10 @@ const Giving = () => {
                             <h3 className="text-lg font-semibold mb-4 border-b pb-2">Payment Information</h3>
                             <div className="mb-4">
                               <label className="block text-gray-700 mb-2">Payment Method</label>
-                              <div className="flex space-x-4">
+                              <div className="grid grid-cols-2 gap-3">
                                 <button
                                   type="button"
-                                  className={`px-4 py-2 rounded-md flex items-center ${
+                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
                                     donationForm.paymentMethod === 'card'
                                       ? 'bg-gold text-white'
                                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -405,7 +405,7 @@ const Giving = () => {
                                 </button>
                                 <button
                                   type="button"
-                                  className={`px-4 py-2 rounded-md flex items-center ${
+                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
                                     donationForm.paymentMethod === 'ach'
                                       ? 'bg-gold text-white'
                                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -413,6 +413,28 @@ const Giving = () => {
                                   onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'ach' }))}
                                 >
                                   <i className="fas fa-university mr-2"></i> Bank Account
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
+                                    donationForm.paymentMethod === 'paypal'
+                                      ? 'bg-gold text-white'
+                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                  }`}
+                                  onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'paypal' }))}
+                                >
+                                  <i className="fab fa-paypal mr-2"></i> PayPal
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
+                                    donationForm.paymentMethod === 'googlepay'
+                                      ? 'bg-gold text-white'
+                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                  }`}
+                                  onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'googlepay' }))}
+                                >
+                                  <i className="fab fa-google-pay mr-2"></i> Google Pay
                                 </button>
                               </div>
                             </div>
@@ -510,6 +532,38 @@ const Giving = () => {
                                     <option value="checking">Checking</option>
                                     <option value="savings">Savings</option>
                                   </select>
+                                </div>
+                              </div>
+                            )}
+
+                            {donationForm.paymentMethod === 'paypal' && (
+                              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+                                <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
+                                  <i className="fab fa-paypal text-white text-3xl"></i>
+                                </div>
+                                <h4 className="text-lg font-semibold text-blue-900 mb-2">Pay with PayPal</h4>
+                                <p className="text-blue-700 text-sm mb-4">
+                                  You will be redirected to PayPal to complete your secure donation.
+                                </p>
+                                <div className="flex items-center justify-center space-x-2 text-xs text-blue-600">
+                                  <i className="fas fa-lock"></i>
+                                  <span>Secure PayPal checkout</span>
+                                </div>
+                              </div>
+                            )}
+
+                            {donationForm.paymentMethod === 'googlepay' && (
+                              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+                                <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-md">
+                                  <i className="fab fa-google-pay text-gray-800 text-3xl"></i>
+                                </div>
+                                <h4 className="text-lg font-semibold text-gray-900 mb-2">Pay with Google Pay</h4>
+                                <p className="text-gray-600 text-sm mb-4">
+                                  Use your saved payment methods for a fast and secure donation.
+                                </p>
+                                <div className="flex items-center justify-center space-x-2 text-xs text-gray-500">
+                                  <i className="fas fa-shield-alt"></i>
+                                  <span>Protected by Google</span>
                                 </div>
                               </div>
                             )}
