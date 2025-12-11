@@ -111,59 +111,59 @@ const Giving = () => {
                     Why We Give
                   </h2>
                   
-                  <p className="text-lg mb-6">
+                  <p className="text-lg mb-6 text-white">
                     Giving is an act of worship and a response to God's generosity towards us. Your contributions help us fulfill our mission to reach people with the love of Christ and make a difference in our community and beyond.
                   </p>
                   
                   <div className="mb-10">
-                    <h3 className="text-xl font-montserrat font-semibold mb-4">Where Your Gift Goes</h3>
+                    <h3 className="text-xl font-montserrat font-semibold mb-4 text-gold">Where Your Gift Goes</h3>
                     <ul className="space-y-4">
                       <li className="flex items-start">
                         <i className="fas fa-hands-helping text-gold mt-1 mr-3"></i>
                         <div>
-                          <p className="font-semibold">Local Outreach</p>
-                          <p className="text-sm">Supporting those in need in our community through food pantries, assistance programs, and community events.</p>
+                          <p className="font-semibold text-gold">Local Outreach</p>
+                          <p className="text-sm text-white">Supporting those in need in our community through food pantries, assistance programs, and community events.</p>
                         </div>
                       </li>
                       <li className="flex items-start">
                         <i className="fas fa-globe-americas text-gold mt-1 mr-3"></i>
                         <div>
-                          <p className="font-semibold">Global Missions</p>
-                          <p className="text-sm">Partnering with missionaries and organizations around the world to share God's love and meet physical needs.</p>
+                          <p className="font-semibold text-gold">Global Missions</p>
+                          <p className="text-sm text-white">Partnering with missionaries and organizations around the world to share God's love and meet physical needs.</p>
                         </div>
                       </li>
                       <li className="flex items-start">
                         <i className="fas fa-church text-gold mt-1 mr-3"></i>
                         <div>
-                          <p className="font-semibold">Church Operations</p>
-                          <p className="text-sm">Maintaining our facilities, supporting staff, and creating environments where people can connect with God and others.</p>
+                          <p className="font-semibold text-gold">Church Operations</p>
+                          <p className="text-sm text-white">Maintaining our facilities, supporting staff, and creating environments where people can connect with God and others.</p>
                         </div>
                       </li>
                       <li className="flex items-start">
                         <i className="fas fa-child text-gold mt-1 mr-3"></i>
                         <div>
-                          <p className="font-semibold">Next Generation</p>
-                          <p className="text-sm">Investing in children, youth, and young adult ministries to help the next generation grow in their faith.</p>
+                          <p className="font-semibold text-gold">Next Generation</p>
+                          <p className="text-sm text-white">Investing in children, youth, and young adult ministries to help the next generation grow in their faith.</p>
                         </div>
                       </li>
                     </ul>
                   </div>
                   
                   <div className="mb-10">
-                    <h3 className="text-xl font-montserrat font-semibold mb-4">Ways to Give</h3>
+                    <h3 className="text-xl font-montserrat font-semibold mb-4 text-gold">Ways to Give</h3>
                     <ul className="space-y-4">
                       <li className="flex items-start">
                         <i className="fas fa-church text-gold mt-1 mr-3"></i>
                         <div>
-                          <p className="font-semibold">In Person</p>
-                          <p className="text-sm">During our Sunday services or at the church office Monday-Friday, 9am-5pm.</p>
+                          <p className="font-semibold text-gold">In Person</p>
+                          <p className="text-sm text-white">During our Sunday services or at the church office Monday-Friday, 9am-5pm.</p>
                         </div>
                       </li>
                       <li className="flex items-start">
                         <i className="fas fa-envelope text-gold mt-1 mr-3"></i>
                         <div>
-                          <p className="font-semibold">Mail</p>
-                          <p className="text-sm">Send checks to: Kingsborough Church, No 4 , New Windsor Street, Uxbridge , UB8 2TU</p>
+                          <p className="font-semibold text-gold">Mail</p>
+                          <p className="text-sm text-white">Send checks to: Kingsborough Church, No 4 , New Windsor Street, Uxbridge , UB8 2TU</p>
                         </div>
                       </li>
                     </ul>
@@ -175,7 +175,7 @@ const Giving = () => {
                       If you have any questions about giving or would like more information about our finances, please contact our finance team.
                     </p>
                     <a href="mailto:finance@kingsboroughchurch.org" className="text-gold font-medium hover:underline">
-                      finance@kingsboroughchurch.org
+                      accounts@kingsborough.org.uk
                     </a>
                   </div>
                 </motion.div>
@@ -391,7 +391,7 @@ const Giving = () => {
                             <h3 className="text-lg font-semibold mb-4 border-b pb-2">Payment Information</h3>
                             <div className="mb-4">
                               <label className="block text-gray-700 mb-2">Payment Method</label>
-                              <div className="grid grid-cols-2 gap-3">
+                              <div className="grid grid-cols-3 gap-3">
                                 <button
                                   type="button"
                                   className={`px-4 py-3 rounded-md flex items-center justify-center ${
@@ -402,17 +402,6 @@ const Giving = () => {
                                   onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'card' }))}
                                 >
                                   <i className="far fa-credit-card mr-2"></i> Credit Card
-                                </button>
-                                <button
-                                  type="button"
-                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
-                                    donationForm.paymentMethod === 'ach'
-                                      ? 'bg-gold text-white'
-                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                  }`}
-                                  onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'ach' }))}
-                                >
-                                  <i className="fas fa-university mr-2"></i> Bank Account
                                 </button>
                                 <button
                                   type="button"
@@ -491,51 +480,6 @@ const Giving = () => {
                               </div>
                             )}
                             
-                            {donationForm.paymentMethod === 'ach' && (
-                              <div>
-                                <div className="mb-4">
-                                  <label className="block text-gray-700 mb-1" htmlFor="routingNumber">
-                                    Routing Number
-                                  </label>
-                                  <input
-                                    type="text"
-                                    id="routingNumber"
-                                    name="routingNumber"
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                    placeholder="000000000"
-                                    required={donationForm.paymentMethod === 'ach'}
-                                  />
-                                </div>
-                                <div className="mb-4">
-                                  <label className="block text-gray-700 mb-1" htmlFor="accountNumber">
-                                    Account Number
-                                  </label>
-                                  <input
-                                    type="text"
-                                    id="accountNumber"
-                                    name="accountNumber"
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                    placeholder="000000000000"
-                                    required={donationForm.paymentMethod === 'ach'}
-                                  />
-                                </div>
-                                <div className="mb-4">
-                                  <label className="block text-gray-700 mb-1" htmlFor="accountType">
-                                    Account Type
-                                  </label>
-                                  <select
-                                    id="accountType"
-                                    name="accountType"
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                    required={donationForm.paymentMethod === 'ach'}
-                                  >
-                                    <option value="checking">Checking</option>
-                                    <option value="savings">Savings</option>
-                                  </select>
-                                </div>
-                              </div>
-                            )}
-
                             {donationForm.paymentMethod === 'paypal' && (
                               <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
                                 <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
@@ -629,8 +573,8 @@ const Giving = () => {
                   <div className="w-16 h-16 rounded-full bg-gold bg-opacity-20 flex items-center justify-center mb-4">
                     <i className="fas fa-hand-holding-heart text-gold text-2xl"></i>
                   </div>
-                  <h3 className="text-xl font-montserrat font-semibold mb-3">Non-Cash Gifts</h3>
-                  <p className="mb-4">
+                  <h3 className="text-xl font-montserrat font-semibold mb-3 text-gold">Non-Cash Gifts</h3>
+                  <p className="mb-4 text-white">
                     Donate stocks, mutual funds, or other securities for potential tax benefits while supporting our mission.
                   </p>
                   <a href="#" className="text-gold font-montserrat font-medium hover:underline">Learn More</a>
@@ -646,8 +590,8 @@ const Giving = () => {
                   <div className="w-16 h-16 rounded-full bg-gold bg-opacity-20 flex items-center justify-center mb-4">
                     <i className="fas fa-file-signature text-gold text-2xl"></i>
                   </div>
-                  <h3 className="text-xl font-montserrat font-semibold mb-3">Legacy Giving</h3>
-                  <p className="mb-4">
+                  <h3 className="text-xl font-montserrat font-semibold mb-3 text-gold">Legacy Giving</h3>
+                  <p className="mb-4 text-white">
                     Include Kingsborough Church in your will or estate plan to leave a lasting impact for generations to come.
                   </p>
                   <a href="#" className="text-gold font-montserrat font-medium hover:underline">Learn More</a>
@@ -663,8 +607,8 @@ const Giving = () => {
                   <div className="w-16 h-16 rounded-full bg-gold bg-opacity-20 flex items-center justify-center mb-4">
                     <i className="fas fa-handshake text-gold text-2xl"></i>
                   </div>
-                  <h3 className="text-xl font-montserrat font-semibold mb-3">Matching Gifts</h3>
-                  <p className="mb-4">
+                  <h3 className="text-xl font-montserrat font-semibold mb-3 text-gold">Matching Gifts</h3>
+                  <p className="mb-4 text-white">
                     Many employers match charitable donations. Check if your company has a matching gift program to double your impact.
                   </p>
                   <a href="#" className="text-gold font-montserrat font-medium hover:underline">Learn More</a>
