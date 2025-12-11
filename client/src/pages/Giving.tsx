@@ -107,7 +107,7 @@ const Giving = () => {
                   viewport={{ once: true, amount: 0.3 }}
                   variants={slideUp()}
                 >
-                  <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-8 text-deepPurple">
+                  <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-8 text-white">
                     Why We Give
                   </h2>
                   
