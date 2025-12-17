@@ -16,6 +16,10 @@ import Kingsmen from "@/pages/Kingsmen";
 import Crown from "@/pages/Crown";
 import Community from "@/pages/Community";
 import Shop from "@/pages/Shop";
+import WorshipMinistry from "@/pages/WorshipMinistry";
+import KidsMinistry from "@/pages/KidsMinistry";
+import CommunityOutreach from "@/pages/CommunityOutreach";
+import PrayerMinistry from "@/pages/PrayerMinistry";
 import LoginPage from "@/pages/auth/login-page";
 import DirectLoginPage from "@/pages/auth/direct-login";
 import DashboardPage from "@/pages/cms/dashboard-page";
@@ -73,6 +77,10 @@ function App() {
                   <Route path="/crown" component={Crown} />
                   <Route path="/community" component={Community} />
                   <Route path="/shop" component={Shop} />
+                  <Route path="/worship-ministry" component={WorshipMinistry} />
+                  <Route path="/kids-ministry" component={KidsMinistry} />
+                  <Route path="/community-outreach" component={CommunityOutreach} />
+                  <Route path="/prayer-ministry" component={PrayerMinistry} />
                   <Route path="/auth/login" component={LoginPage} />
                   <Route path="/direct-login" component={DirectLoginPage} />
                   <Route component={NotFound} />

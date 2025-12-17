@@ -4,6 +4,23 @@ import { ministries } from '@/lib/data';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'wouter';
 
+const getMinistryLink = (ministry: { id: number; title: string }) => {
+  switch (ministry.title) {
+    case "Worship Ministry":
+      return "/worship-ministry";
+    case "Kids Ministry":
+      return "/kids-ministry";
+    case "Youth Ministry":
+      return "/crown";
+    case "Community Outreach":
+      return "/community-outreach";
+    case "Prayer Ministry":
+      return "/prayer-ministry";
+    default:
+      return `/ministries?id=${ministry.id}`;
+  }
+};
+
 const Ministries = () => {
   const [location] = useLocation();
   const searchParams = new URLSearchParams(location.split('?')[1]);
@@ -145,7 +162,7 @@ const Ministries = () => {
                       <h3 className="text-xl font-montserrat font-semibold mb-3">{ministry.title}</h3>
                       <p className="mb-4">{ministry.description}</p>
                       <a 
-                        href={`/ministries?id=${ministry.id}`}
+                        href={getMinistryLink(ministry)}
                         className="text-gold font-montserrat font-medium hover:underline inline-flex items-center"
                       >
                         Learn More <i className="fas fa-arrow-right ml-2 text-sm"></i>
