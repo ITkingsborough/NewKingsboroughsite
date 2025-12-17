@@ -33,7 +33,30 @@ const Events = () => {
   }
 
   if (events.length === 0) {
-    return null;
+    return (
+      <section id="events" className="py-20 bg-white">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={slideUp()}
+          >
+            <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
+              Upcoming Events
+            </h2>
+            <p className="text-lg max-w-3xl mx-auto">
+              Join us for these special gatherings and become part of our vibrant community.
+            </p>
+          </motion.div>
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg mb-6">No upcoming events at the moment. Check back soon!</p>
+            <Link href="/events" className="btn-primary">View All Events</Link>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
