@@ -1,9 +1,41 @@
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { slideUp, staggerContainer } from '@/lib/animations';
-import { events } from '@/lib/data';
+import { useQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
+
+interface Event {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  image: string | null;
+  featured: boolean;
+}
 
 const Events = () => {
+  const { data: eventsData, isLoading } = useQuery<{ success: boolean; data: Event[] }>({
+    queryKey: ['/api/events/upcoming'],
+  });
+
+  const events = eventsData?.data || [];
+
+  if (isLoading) {
+    return (
+      <section id="events" className="py-20 bg-white">
+        <div className="container mx-auto px-4 lg:px-8 flex justify-center">
+          <Loader2 className="h-12 w-12 animate-spin text-gold" />
+        </div>
+      </section>
+    );
+  }
+
+  if (events.length === 0) {
+    return null;
+  }
+
   return (
     <section id="events" className="py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
@@ -42,7 +74,7 @@ const Events = () => {
             >
               <div className="h-48 overflow-hidden relative">
                 <img 
-                  src={event.image} 
+                  src={event.image || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'} 
                   alt={event.title} 
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -59,13 +91,7 @@ const Events = () => {
                 <p className="text-sm text-gray-600 mb-4">
                   <i className="fas fa-map-marker-alt mr-2"></i> {event.location}
                 </p>
-                <p className="mb-6">{event.description}</p>
-                <Link 
-                  href={`/events?id=${event.id}`}
-                  className="btn-outline"
-                >
-                  Learn More
-                </Link>
+                <p>{event.description}</p>
               </div>
             </motion.div>
           ))}
