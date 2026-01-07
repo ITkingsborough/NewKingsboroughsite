@@ -87,7 +87,7 @@ const KidsMinistry = () => {
           ref={heroRef}
           className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
           style={{
-            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('/Kids.JPG')`,
             backgroundPosition: "50% 50%"
           }}
         >
