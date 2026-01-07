@@ -119,6 +119,48 @@ const KidsMinistry = () => {
           </div>
         </section>
 
+        <div className="overflow-hidden bg-deepPurple py-0">
+          <div className="infinite-scroll-container flex">
+            {[...Array(2)].map((_, setIndex) => (
+              <div key={setIndex} className="infinite-scroll-track flex shrink-0">
+                {[
+                  "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1560800452-f2d475982b96?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=400&h=300&fit=crop",
+                  "https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=400&h=300&fit=crop",
+                ].map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`Kids ministry ${index + 1}`}
+                    className="h-48 md:h-64 w-auto object-cover"
+                    style={{ margin: 0, padding: 0 }}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+          <style>{`
+            .infinite-scroll-container {
+              animation: scroll 30s linear infinite;
+            }
+            .infinite-scroll-track {
+              gap: 0;
+            }
+            .infinite-scroll-track img {
+              display: block;
+            }
+            @keyframes scroll {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+          `}</style>
+        </div>
+
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
