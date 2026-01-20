@@ -85,7 +85,8 @@ const Header = () => {
           </button>
         </div>
         
-        <nav className="hidden lg:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center">
+          <div className="flex items-center space-x-6 bg-gray-100 rounded-full px-6 py-2">
           <Link 
             href="/" 
             className={`font-montserrat text-sm font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
@@ -183,6 +184,7 @@ const Header = () => {
           >
             Contact
           </Link>
+          </div>
           
           <div className="flex items-center space-x-3 ml-4">
             <Link 
