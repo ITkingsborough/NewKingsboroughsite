@@ -60,10 +60,11 @@ const Header = () => {
   ];
 
   return (
-    <header className={`fixed top-0 w-full z-50 bg-white transition-all duration-300 ${
-      scrolled ? 'py-2 shadow-md' : 'py-3'
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      scrolled ? 'py-2' : 'py-4'
     }`}>
-      <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="container mx-auto px-4">
+        <div className="bg-white rounded-full shadow-lg px-6 py-3 flex justify-between items-center">
         <Link href="/" onClick={closeMenu} className="flex items-center">
           <img src={churchLogo} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
           <div className="flex flex-col">
@@ -85,8 +86,7 @@ const Header = () => {
           </button>
         </div>
         
-        <nav className="hidden lg:flex items-center">
-          <div className="flex items-center space-x-6 bg-gray-100 rounded-full px-6 py-2">
+        <nav className="hidden lg:flex items-center space-x-6">
           <Link 
             href="/" 
             className={`font-montserrat text-sm font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
@@ -184,9 +184,8 @@ const Header = () => {
           >
             Contact
           </Link>
-          </div>
           
-          <div className="flex items-center space-x-3 ml-4">
+          <div className="flex items-center space-x-3 ml-2">
             <Link 
               href="/shop" 
               className="px-5 py-2 border-2 border-deepPurple text-deepPurple font-montserrat text-sm font-semibold rounded-full hover:bg-deepPurple hover:text-white transition-colors"
@@ -201,6 +200,7 @@ const Header = () => {
             </Link>
           </div>
         </nav>
+        </div>
       </div>
       
       <AnimatePresence>
