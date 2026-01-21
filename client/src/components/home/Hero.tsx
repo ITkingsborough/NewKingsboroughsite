@@ -2,14 +2,12 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'wouter';
 import { gsap } from 'gsap';
 import ParallaxSection from '@/components/ui/ParallaxSection';
-import { scrollToElement } from '@/hooks/use-smooth-scroll';
 
 const Hero = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-  const scrollIconRef = useRef<HTMLDivElement>(null);
 
   // Set up GSAP animations for the hero content
   useEffect(() => {
@@ -36,33 +34,13 @@ const Hero = () => {
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8 },
       0.8
-    )
-    .fromTo(
-      scrollIconRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 1 },
-      1.2
     );
-
-    // Create the bouncing animation for the scroll icon
-    gsap.to(scrollIconRef.current, {
-      y: 10,
-      duration: 0.8,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
 
     // Cleanup
     return () => {
       tl.kill();
     };
   }, []);
-
-  // Handle scroll down button click
-  const handleScrollDown = () => {
-    scrollToElement('welcome', 1.2, 80);
-  };
 
   return (
     <ParallaxSection 
@@ -113,14 +91,6 @@ const Hero = () => {
             </Link>
           </div>
         </div>
-      </div>
-      
-      <div 
-        ref={scrollIconRef}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white cursor-pointer opacity-0"
-        onClick={handleScrollDown}
-      >
-        <i className="fas fa-chevron-down"></i>
       </div>
     </ParallaxSection>
   );
