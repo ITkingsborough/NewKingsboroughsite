@@ -19,13 +19,13 @@ const communityCards: CommunityCardProps[] = [
     title: "Hillingdon Foodbank",
     image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "Supporting those in need with essential food and supplies in the Hillingdon community.",
-    link: "/ministries"
+    link: "https://hillingdon.foodbank.org.uk/"
   },
   {
     title: "CMC Nursery",
     image: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "Providing nurturing childcare and early education in a Christ-centered environment.",
-    link: "/ministries"
+    link: "https://test.cmcnursery.co.uk/"
   },
   {
     title: "Hadassah",
@@ -190,10 +190,11 @@ const Community = () => {
               className="px-8 py-4"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {getCurrentPageItems().map((card, index) => (
-                  <Link href={card.link} key={index} className="block">
+                {getCurrentPageItems().map((card, index) => {
+                  const isExternal = card.link.startsWith('http');
+                  
+                  const cardContent = (
                     <div className="team-card relative rounded-xl overflow-hidden shadow-xl group cursor-pointer">
-                      {/* Image container */}
                       <div className="h-64 md:h-80 overflow-hidden">
                         <img 
                           src={card.image} 
@@ -202,18 +203,12 @@ const Community = () => {
                           loading="lazy"
                         />
                       </div>
-                      
-                      {/* Gold border overlay on hover */}
                       <div className="absolute inset-0 border-0 group-hover:border-4 border-gold transition-all duration-300 pointer-events-none"></div>
-                      
-                      {/* Card content - visible always */}
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6">
                         <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white group-hover:text-gold transition-colors duration-300">
                           {card.title}
                         </h3>
                       </div>
-                      
-                      {/* Hover content - Description text */}
                       <div className="hover-content absolute inset-0 bg-deepPurple/85 flex items-center opacity-0 translate-y-10">
                         <div className="p-8 text-center">
                           <h3 className="text-xl md:text-2xl font-montserrat font-bold text-white mb-3">{card.title}</h3>
@@ -222,8 +217,18 @@ const Community = () => {
                         </div>
                       </div>
                     </div>
-                  </Link>
-                ))}
+                  );
+                  
+                  return isExternal ? (
+                    <a key={index} href={card.link} target="_blank" rel="noopener noreferrer" className="block">
+                      {cardContent}
+                    </a>
+                  ) : (
+                    <Link key={index} href={card.link} className="block">
+                      {cardContent}
+                    </Link>
+                  );
+                })}
               </div>
             </motion.div>
           </AnimatePresence>
