@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'wouter';
 import { gsap } from 'gsap';
-import ParallaxSection from '@/components/ui/ParallaxSection';
+import heroVideo from '@assets/Background_video_1768994478570.mp4';
 
 const Hero = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -9,14 +9,11 @@ const Hero = () => {
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
 
-  // Set up GSAP animations for the hero content
   useEffect(() => {
     if (!contentRef.current) return;
 
-    // Create a timeline for entrance animations
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-    // Animate elements sequentially
     tl.fromTo(
       headingRef.current,
       { y: 40, opacity: 0 },
@@ -36,28 +33,33 @@ const Hero = () => {
       0.8
     );
 
-    // Cleanup
     return () => {
       tl.kill();
     };
   }, []);
 
   return (
-    <ParallaxSection 
-      id="home" 
-      backgroundUrl="https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-      overlayClass="bg-black/30"
-      speed={0.8}
-      className="h-screen flex items-center justify-center"
-    >
-      <div className="container mx-auto px-4 lg:px-8">
+    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
+      
+      <div className="absolute inset-0 bg-black/30"></div>
+      
+      <div className="relative z-10 container mx-auto px-4 lg:px-8">
         <div 
           ref={contentRef}
           className="max-w-3xl mx-auto text-center"
         >
           <h1 
             ref={headingRef}
-            className="text-4xl md:text-6xl font-montserrat font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
+            className="text-4xl md:text-6xl font-anton font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
           >
             Welcome to Kingsborough Church
           </h1>
@@ -92,7 +94,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </ParallaxSection>
+    </section>
   );
 };
 
