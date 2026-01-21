@@ -1,18 +1,32 @@
 import { useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/all';
 
-// Register the ScrollToPlugin with GSAP
 gsap.registerPlugin(ScrollToPlugin);
 
-/**
- * A hook that provides smooth scrolling functionality using GSAP.
- */
 export function useSmoothScroll() {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Function to handle anchor link clicks for smooth scrolling
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      touchMultiplier: 2,
+    });
+
+    lenisRef.current = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
     const handleAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchor = target.closest('a');
@@ -21,7 +35,6 @@ export function useSmoothScroll() {
       
       const href = anchor.getAttribute('href');
       
-      // Only handle anchor links that start with "#"
       if (href && href.startsWith('#')) {
         e.preventDefault();
         
@@ -29,38 +42,26 @@ export function useSmoothScroll() {
         const targetElement = document.getElementById(targetId);
         
         if (targetElement) {
-          // Use GSAP to animate scroll
-          gsap.to(window, {
-            duration: 1, // Animation duration in seconds
-            scrollTo: {
-              y: targetElement,
-              offsetY: 80 // Offset to account for fixed header
-            },
-            ease: 'power2.out' // Smooth easing function
+          lenis.scrollTo(targetElement, {
+            offset: -80,
+            duration: 1.2,
           });
         }
       }
     };
 
-    // Add event listener for anchor clicks
     document.addEventListener('click', handleAnchorClick);
     
-    // Clean up event listener on component unmount
     return () => {
       document.removeEventListener('click', handleAnchorClick);
+      lenis.destroy();
     };
   }, []);
 
-  return scrollRef;
+  return lenisRef;
 }
 
-/**
- * A function to programmatically scroll to an element with animation
- * @param elementId - The ID of the element to scroll to
- * @param duration - Animation duration in seconds (default: 1)
- * @param offset - Offset from the top in pixels (default: 80)
- */
-export function scrollToElement(elementId: string, duration = 1, offset = 80) {
+export function scrollToElement(elementId: string, duration = 1.2, offset = -80) {
   const targetElement = document.getElementById(elementId);
   
   if (targetElement) {
@@ -68,7 +69,7 @@ export function scrollToElement(elementId: string, duration = 1, offset = 80) {
       duration,
       scrollTo: {
         y: targetElement,
-        offsetY: offset
+        offsetY: Math.abs(offset)
       },
       ease: 'power2.out'
     });
