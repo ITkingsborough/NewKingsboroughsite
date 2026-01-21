@@ -19,9 +19,13 @@
   }
 
   body {
-    @apply font-opensans antialiased bg-background text-foreground;
+    @apply font-montserrat antialiased bg-background text-foreground;
     color: #333333;
     overflow-x: hidden;
+  }
+  
+  h1, h2, h3 {
+    @apply font-anton;
   }
 
   html {

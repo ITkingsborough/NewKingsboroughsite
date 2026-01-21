@@ -6,9 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'opensans': ['Open Sans', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
-        'playfair': ['Playfair Display', 'serif'],
+        'anton': ['Anton', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
