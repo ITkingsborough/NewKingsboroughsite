@@ -68,14 +68,14 @@ const Hero = () => {
     <ParallaxSection 
       id="home" 
       backgroundUrl="https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-      overlayClass="overlay-purple"
+      overlayClass="bg-black/30"
       speed={0.8}
-      className="h-screen flex items-center"
+      className="h-screen flex items-center justify-center"
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div 
           ref={contentRef}
-          className="max-w-3xl"
+          className="max-w-3xl mx-auto text-center"
         >
           <h1 
             ref={headingRef}
@@ -91,7 +91,7 @@ const Hero = () => {
             A place to belong, believe, and become.
           </p>
           
-          <div className="flex items-center mb-8 text-white">
+          <div className="flex items-center justify-center mb-8 text-white">
             <div className="bg-gold/20 backdrop-blur-sm border border-gold/30 rounded-lg px-6 py-3 inline-flex items-center">
               <i className="fas fa-clock text-gold mr-3"></i>
               <div>
@@ -103,7 +103,7 @@ const Hero = () => {
           
           <div 
             ref={buttonsRef}
-            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 opacity-0"
+            className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 opacity-0"
           >
             <Link href="/about" className="btn-primary">
               Learn More
