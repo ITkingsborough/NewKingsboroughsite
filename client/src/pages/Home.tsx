@@ -6,7 +6,10 @@ import Ministries from '@/components/home/Ministries';
 import Community from '@/components/home/Community';
 import Quote from '@/components/home/Quote';
 import Events from '@/components/home/Events';
-import HorizontalScrollSection from '@/components/home/HorizontalScrollSection';
+import Sermons from '@/components/home/Sermons';
+import Magazines from '@/components/home/Magazines';
+import Giving from '@/components/home/Giving';
+import Contact from '@/components/home/Contact';
 import Newsletter from '@/components/home/Newsletter';
 import { Helmet } from 'react-helmet';
 
@@ -26,7 +29,10 @@ const Home = () => {
         <Community />
         <Quote />
         <Events />
-        <HorizontalScrollSection />
+        <Sermons />
+        <Magazines />
+        <Giving />
+        <Contact />
         <Newsletter />
       </div>
     </>
