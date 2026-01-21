@@ -59,7 +59,7 @@ const Hero = () => {
         >
           <h1 
             ref={headingRef}
-            className="text-4xl md:text-6xl font-anton font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
+            className="text-4xl md:text-6xl font-montserrat font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
           >
             Welcome to Kingsborough Church
           </h1>
