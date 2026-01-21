@@ -419,16 +419,16 @@ const Contact = () => {
                 
                 {/* Additional Contact Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  <div className="bg-lilac bg-opacity-10 p-6 rounded-lg">
-                    <h3 className="text-lg font-montserrat font-semibold mb-3">Join a Small Group</h3>
-                    <p className="mb-4">Connect with others in a small group setting for fellowship and growth.</p>
+                  <div className="bg-deepPurple p-6 rounded-lg">
+                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">Join a Small Group</h3>
+                    <p className="mb-4 text-white">Connect with others in a small group setting for fellowship and growth.</p>
                     <a href="#" className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
                       Find a Group <i className="fas fa-arrow-right ml-2 text-sm"></i>
                     </a>
                   </div>
-                  <div className="bg-lilac bg-opacity-10 p-6 rounded-lg">
-                    <h3 className="text-lg font-montserrat font-semibold mb-3">Volunteer Opportunities</h3>
-                    <p className="mb-4">Discover ways to serve and make a difference in our church and community.</p>
+                  <div className="bg-deepPurple p-6 rounded-lg">
+                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">Volunteer Opportunities</h3>
+                    <p className="mb-4 text-white">Discover ways to serve and make a difference in our church and community.</p>
                     <a href="#" className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
                       Get Involved <i className="fas fa-arrow-right ml-2 text-sm"></i>
                     </a>
@@ -487,10 +487,10 @@ const Contact = () => {
                 ].map((faq, index) => (
                   <div 
                     key={index} 
-                    className="bg-lilac bg-opacity-5 rounded-lg p-6"
+                    className="bg-deepPurple rounded-lg p-6"
                   >
-                    <h3 className="text-lg font-montserrat font-semibold mb-3">{faq.question}</h3>
-                    <p>{faq.answer}</p>
+                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">{faq.question}</h3>
+                    <p className="text-white">{faq.answer}</p>
                   </div>
                 ))}
               </div>
