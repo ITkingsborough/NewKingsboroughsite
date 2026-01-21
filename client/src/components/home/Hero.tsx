@@ -83,10 +83,10 @@ const Hero = () => {
             ref={buttonsRef}
             className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 opacity-0"
           >
-            <Link href="/about" className="btn-primary">
+            <Link href="/about" className="px-8 py-3 bg-gold text-white font-montserrat font-semibold rounded-full hover:bg-gold/90 transition-colors">
               Learn More
             </Link>
-            <Link href="/events" className="btn-outline">
+            <Link href="/events" className="px-8 py-3 border-2 border-white text-white font-montserrat font-semibold rounded-full hover:bg-white hover:text-deepPurple transition-colors">
               Join Us This Week
             </Link>
           </div>
