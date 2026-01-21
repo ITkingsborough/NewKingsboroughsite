@@ -419,16 +419,16 @@ const Contact = () => {
                 
                 {/* Additional Contact Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  <div className="bg-deepPurple p-6 rounded-lg">
-                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">Join a Small Group</h3>
-                    <p className="mb-4 text-white">Connect with others in a small group setting for fellowship and growth.</p>
+                  <div className="bg-lilac bg-opacity-10 p-6 rounded-lg">
+                    <h3 className="text-lg font-montserrat font-semibold mb-3">Join a Small Group</h3>
+                    <p className="mb-4">Connect with others in a small group setting for fellowship and growth.</p>
                     <a href="#" className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
                       Find a Group <i className="fas fa-arrow-right ml-2 text-sm"></i>
                     </a>
                   </div>
-                  <div className="bg-deepPurple p-6 rounded-lg">
-                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">Volunteer Opportunities</h3>
-                    <p className="mb-4 text-white">Discover ways to serve and make a difference in our church and community.</p>
+                  <div className="bg-lilac bg-opacity-10 p-6 rounded-lg">
+                    <h3 className="text-lg font-montserrat font-semibold mb-3">Volunteer Opportunities</h3>
+                    <p className="mb-4">Discover ways to serve and make a difference in our church and community.</p>
                     <a href="#" className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
                       Get Involved <i className="fas fa-arrow-right ml-2 text-sm"></i>
                     </a>
@@ -436,6 +436,82 @@ const Contact = () => {
                 </div>
               </motion.div>
             </div>
+          </div>
+        </section>
+        
+        {/* Staff Directory Section */}
+        <section className="py-16 bg-lilac bg-opacity-10">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div 
+              className="text-center mb-12"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={slideUp()}
+            >
+              <h2 className="text-3xl font-montserrat font-bold mb-4 text-deepPurple">Staff Directory</h2>
+              <p className="text-lg max-w-3xl mx-auto">
+                Meet our team and find the right person to contact for specific needs or questions.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={slideUp(0.2)}
+            >
+              {[
+                {
+                  name: "Apostle Tunde Balogun",
+                  title: "Senior Pastor",
+                  email: "tunde@kingsboroughchurch.org",
+                  phone: "(555) 123-4567 ext. 101",
+                  image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                  name: "Toyin Balogun",
+                  title: "Co-Pastor",
+                  email: "toyin@kingsboroughchurch.org",
+                  phone: "(555) 123-4567 ext. 102",
+                  image: "https://images.unsplash.com/photo-1531078215167-91fcfe45b39e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                  name: "Church Office",
+                  title: "Office Hours: Mon-Fri 9am-5pm",
+                  email: "info@kingsboroughchurch.org",
+                  phone: "(555) 123-4567",
+                  image: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                }
+              ].map((staff, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={staff.image} 
+                      alt={staff.name} 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-5 flex-grow">
+                    <h3 className="text-lg font-montserrat font-semibold mb-1">{staff.name}</h3>
+                    <p className="text-gold mb-3">{staff.title}</p>
+                    <p className="text-sm mb-1">
+                      <i className="fas fa-envelope mr-2 text-deepPurple"></i> {staff.email}
+                    </p>
+                    <p className="text-sm">
+                      <i className="fas fa-phone mr-2 text-deepPurple"></i> {staff.phone}
+                    </p>
+                  </div>
+                  <div className="p-5 pt-0">
+                    <button className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
+                      Contact <i className="fas fa-arrow-right ml-2 text-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </section>
         
@@ -487,10 +563,10 @@ const Contact = () => {
                 ].map((faq, index) => (
                   <div 
                     key={index} 
-                    className="bg-deepPurple rounded-lg p-6"
+                    className="bg-lilac bg-opacity-5 rounded-lg p-6"
                   >
-                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">{faq.question}</h3>
-                    <p className="text-white">{faq.answer}</p>
+                    <h3 className="text-lg font-montserrat font-semibold mb-3">{faq.question}</h3>
+                    <p>{faq.answer}</p>
                   </div>
                 ))}
               </div>
