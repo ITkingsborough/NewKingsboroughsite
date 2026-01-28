@@ -35,6 +35,7 @@ import ScrollToTop from "@/components/ui/ScrollToTop";
 import PageTransition from "@/components/ui/PageTransition";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SocialSidebar from "@/components/layout/SocialSidebar";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useEffect } from "react";
@@ -61,6 +62,7 @@ function App() {
           // Main website layout
           <div className="flex flex-col min-h-screen">
             <Header />
+            <SocialSidebar />
             <main className="flex-grow">
               <PageTransition>
                 <Switch>
