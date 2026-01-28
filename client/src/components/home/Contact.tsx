@@ -81,6 +81,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-montserrat font-semibold mb-1">Service Times</h3>
+                  <p>Wednesday at 07:00 PM - 08:30 PM</p>
+                  <p>Bible Study on Sunday at 9:15 PM</p>
                   <p>Sundays at 10:00 AM - 12:00 PM</p>
                 </div>
               </div>
