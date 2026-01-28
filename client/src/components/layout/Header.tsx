@@ -64,8 +64,8 @@ const Header = () => {
       scrolled ? 'py-2' : 'py-4'
     }`}>
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-full shadow-lg px-6 py-3 flex justify-between items-center">
-        <Link href="/" onClick={closeMenu} className="flex items-center">
+        <div className="bg-white rounded-full shadow-lg px-6 py-3 flex items-center">
+        <Link href="/" onClick={closeMenu} className="flex items-center flex-shrink-0">
           <img src={churchLogo} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
           <div className="flex flex-col">
             <div className="flex items-baseline">
@@ -76,7 +76,7 @@ const Header = () => {
           </div>
         </Link>
         
-        <div className="lg:hidden">
+        <div className="lg:hidden ml-auto">
           <button 
             onClick={toggleMobileMenu} 
             className="text-gray-700 p-2"
@@ -86,16 +86,16 @@ const Header = () => {
           </button>
         </div>
         
-        <nav className="hidden lg:flex items-center space-x-6">
+        <nav className="hidden lg:flex items-center justify-center flex-1 space-x-8">
           <Link 
             href="/" 
-            className={`font-montserrat text-sm font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
           >
             Home
           </Link>
           <Link 
             href="/about" 
-            className={`font-montserrat text-sm font-medium transition-colors duration-300 ${isActive('/about') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/about') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
           >
             About
           </Link>
@@ -103,7 +103,7 @@ const Header = () => {
           <div className="relative" ref={mediaRef}>
             <button 
               onClick={() => { setMediaOpen(!mediaOpen); setInvolvedOpen(false); }}
-              className={`flex items-center font-montserrat text-sm font-medium transition-colors duration-300 ${
+              className={`flex items-center font-montserrat text-base font-medium transition-colors duration-300 ${
                 isActive('/sermons') || isActive('/gallery') ? 'text-gold' : 'text-gray-700 hover:text-gold'
               }`}
             >
@@ -139,7 +139,7 @@ const Header = () => {
           <div className="relative" ref={involvedRef}>
             <button 
               onClick={() => { setInvolvedOpen(!involvedOpen); setMediaOpen(false); }}
-              className={`flex items-center font-montserrat text-sm font-medium transition-colors duration-300 ${
+              className={`flex items-center font-montserrat text-base font-medium transition-colors duration-300 ${
                 isActive('/ministries') || isActive('/community') ? 'text-gold' : 'text-gray-700 hover:text-gold'
               }`}
             >
@@ -174,13 +174,13 @@ const Header = () => {
           
           <Link 
             href="/events" 
-            className={`font-montserrat text-sm font-medium transition-colors duration-300 ${isActive('/events') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/events') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
           >
             Events
           </Link>
           <Link 
             href="/contact" 
-            className={`font-montserrat text-sm font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
           >
             Contact
           </Link>

@@ -116,7 +116,7 @@ const KidsMinistry = () => {
               variants={slideUp(0.1)}
               className="text-5xl md:text-7xl font-montserrat font-bold mb-6"
             >
-              Kids Ministry
+              KingsKids
             </motion.h1>
             <motion.p
               initial="hidden"
@@ -140,7 +140,7 @@ const KidsMinistry = () => {
                 variants={slideUp()}
               >
                 <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-8 text-deepPurple">
-                  About Kids Ministry
+                  About KingsKids
                 </h2>
                 <p className="text-xl text-gray-700 leading-relaxed mb-6">
                   At Kingsborough Kids, we believe that children are not just
