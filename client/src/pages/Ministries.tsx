@@ -8,7 +8,7 @@ const getMinistryLink = (ministry: { id: number; title: string }) => {
   switch (ministry.title) {
     case "Worship Ministry":
       return "/worship-ministry";
-    case "Kingkids":
+    case "KingsKid":
       return "/kids-ministry";
     case "Youth Ministry":
       return "/crown";
