@@ -235,7 +235,7 @@ export default function DashboardPage() {
                   <a className="flex items-center gap-4 p-2 hover:bg-muted rounded-md border transition-colors">
                     <MessageSquare className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="font-medium">View Contact Messages</p>
+                      <p className="font-medium">View Enquiries</p>
                       <p className="text-xs text-muted-foreground">Respond to contact requests and prayer needs</p>
                     </div>
                   </a>

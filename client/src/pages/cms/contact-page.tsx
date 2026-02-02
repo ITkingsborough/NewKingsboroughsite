@@ -149,7 +149,7 @@ export default function ContactPage() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            Failed to load contact messages. Please try again later.
+            Failed to load enquiries. Please try again later.
           </AlertDescription>
         </Alert>
       </DashboardLayout>
@@ -160,7 +160,7 @@ export default function ContactPage() {
     <DashboardLayout>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Contact Messages</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Enquiries</h1>
           <p className="text-muted-foreground">
             View and manage contact form submissions and prayer requests
           </p>
@@ -273,10 +273,10 @@ export default function ContactPage() {
           <h3 className="text-lg font-medium">No messages found</h3>
           <p className="text-muted-foreground mt-1">
             {activeTab === "all"
-              ? "There are no contact messages yet."
+              ? "There are no enquiries yet."
               : activeTab === "prayer"
               ? "There are no prayer requests yet."
-              : "There are no general contact messages yet."}
+              : "There are no general enquiries yet."}
           </p>
         </div>
       )}

@@ -35,7 +35,7 @@ export const leaders: LeaderItem[] = [
     id: 4,
     name: "Pastor Segun Oyinloye",
     role: "Youth & Young Adults Pastor",
-    bio: "Pastor Grace is passionate about raising up the next generation of believers who are bold, authentic, and deeply rooted in their faith. She leads The Crown young adults ministry and youth programs with creativity and energy. Her relatable teaching style and genuine care for young people create an environment where they thrive spiritually and socially.",
+    bio: "Pastor Grace is passionate about raising up the next generation of believers who are bold, authentic, and deeply rooted in their faith. She leads the Centre Point young adults ministry and youth programs with creativity and energy. Her relatable teaching style and genuine care for young people create an environment where they thrive spiritually and socially.",
     image:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
   },

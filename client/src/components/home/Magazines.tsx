@@ -84,7 +84,7 @@ const Magazines = () => {
             ref={headingRef}
             className="text-3xl md:text-4xl font-montserrat font-bold mb-4 text-deepPurple"
           >
-            Monthly Magazines
+            Connect Magazine
           </h2>
           <p 
             ref={textRef}

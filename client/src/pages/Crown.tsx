@@ -50,7 +50,7 @@ const Crown = () => {
             variants={slideUp()}
             className="text-5xl md:text-7xl font-montserrat font-bold mb-6"
           >
-            The Crown
+            Centre Point
           </motion.h1>
           <motion.p 
             initial="hidden"
@@ -73,10 +73,10 @@ const Crown = () => {
               variants={slideUp()}
             >
               <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-8 text-deepPurple">
-                About The Crown
+                About Centre Point
               </h2>
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-                The Crown is a vibrant young adults ministry at Kingsborough Church, designed for 
+                Centre Point is a vibrant young adults ministry at Kingsborough Church, designed for 
                 individuals ages 18-35 who are passionate about growing in their faith and making 
                 a difference in the world. We believe that young adulthood is a crucial season of 
                 discovering identity, purpose, and calling in Christ.
@@ -239,7 +239,7 @@ const Crown = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-6 text-deepPurple">
-              The Crown Community
+              Centre Point Community
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
               See our young adults ministry in action through worship, fellowship, and life-changing moments
@@ -398,10 +398,10 @@ const Crown = () => {
               variants={slideUp()}
             >
               <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-8 text-deepPurple">
-                Join The Crown
+                Join Centre Point
               </h2>
               <p className="text-xl text-gray-700 leading-relaxed mb-8">
-                Whether you're new to faith or have been walking with Jesus for years, The Crown 
+                Whether you're new to faith or have been walking with Jesus for years, Centre Point 
                 welcomes you to join our community. Come and experience a young adults ministry 
                 where you can belong, grow, and make a real impact.
               </p>
@@ -488,10 +488,10 @@ const Crown = () => {
             variants={slideUp()}
           >
             <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-6">
-              Ready to Wear The Crown?
+              Ready to Wear Centre Point?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Take the next step in your spiritual journey. Connect with The Crown and discover 
+              Take the next step in your spiritual journey. Connect with Centre Point and discover 
               a community where you can grow in faith, build lasting friendships, and live with purpose.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
