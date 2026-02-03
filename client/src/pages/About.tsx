@@ -284,7 +284,7 @@ const About = () => {
           ref={parallaxBgRef}
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')`,
+            backgroundImage: `url('/uploads/about-hero.jpg')`,
             backgroundAttachment: "fixed",
           }}
         ></div>
