@@ -329,7 +329,7 @@ const Giving = () => {
                               <option value="general">General Fund</option>
                               <option value="missions">Missions Fund</option>
                               <option value="building">Building Fund</option>
-                              <option value="youth">Youth Ministry</option>
+                              <option value="youth">Centre Point</option>
                               <option value="outreach">Community Outreach</option>
                             </select>
                           </div>

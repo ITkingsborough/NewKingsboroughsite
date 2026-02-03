@@ -10,7 +10,7 @@ const getMinistryLink = (ministry: { id: number; title: string }) => {
       return "/worship-ministry";
     case "KingsKid":
       return "/kids-ministry";
-    case "Youth Ministry":
+    case "Centre Point":
       return "/crown";
     case "Community Outreach":
       return "/community-outreach";

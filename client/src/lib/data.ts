@@ -77,9 +77,9 @@ export const ministries: MinistryItem[] = [
   },
   {
     id: 3,
-    title: "Youth Ministry",
+    title: "Centre Point",
     description:
-      "A dynamic community where teens connect with each other and grow in their faith through relevant teaching.",
+      "A dynamic community where young adults connect with each other and grow in their faith through relevant teaching.",
     image:
       "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
   },
