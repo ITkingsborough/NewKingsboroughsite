@@ -163,7 +163,7 @@ const Giving = () => {
                         <i className="fas fa-envelope text-gold mt-1 mr-3"></i>
                         <div>
                           <p className="font-semibold text-gold">Mail</p>
-                          <p className="text-sm text-white">Send checks to: Kingsborough Church, No 4 , New Windsor Street, Uxbridge , UB8 2TU</p>
+                          <p className="text-sm text-white">Send checks to: Kingsborough Church, 215 High Street, Yiewsley, West Drayton, UB7 7QP</p>
                         </div>
                       </li>
                     </ul>

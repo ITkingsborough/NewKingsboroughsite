@@ -451,8 +451,8 @@ const Kingsmen = () => {
                     </h3>
                     <p className="text-gray-600">
                       Kingsborough Church<br />
-                      No 4, New Windsor Street<br />
-                      Uxbridge, UB8 2TU
+                      215 High Street, Yiewsley<br />
+                      West Drayton, UB7 7QP
                     </p>
                   </div>
                 </div>

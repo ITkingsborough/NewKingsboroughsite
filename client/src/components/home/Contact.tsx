@@ -72,7 +72,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-montserrat font-semibold mb-1">Visit Us</h3>
-                  <p>No 4, New Windsor Street<br />Uxbridge , UB8 2TU</p>
+                  <p>215 High Street, Yiewsley<br />West Drayton, UB7 7QP</p>
                 </div>
               </div>
               <div className="flex items-start">

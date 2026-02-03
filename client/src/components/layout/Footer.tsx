@@ -95,7 +95,7 @@ const Footer = () => {
             variants={slideUp(0.2)}
           >
             <h3 className="text-gold font-montserrat font-semibold text-lg mb-4">Visit Us</h3>
-            <p className="text-gray-300 mb-2">No 4, New Windsor Street <br/>Uxbridge, UB8 2TU</p>
+            <p className="text-gray-300 mb-2">215 High Street, Yiewsley<br/>West Drayton, UB7 7QP</p>
             <p className="text-gray-300 mb-4">
               <strong>Sunday Services:</strong><br/>10:00 AM - 12:00 PM
             </p>

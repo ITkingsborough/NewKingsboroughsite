@@ -507,7 +507,7 @@ const Hadassah = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Location</h3>
-                      <p className="text-gray-700">Kingsborough Church<br />No 4, New Windsor Street, Uxbridge UB8 2TU</p>
+                      <p className="text-gray-700">Kingsborough Church<br />215 High Street, Yiewsley, West Drayton, UB7 7QP</p>
                     </div>
                   </div>
                 </div>

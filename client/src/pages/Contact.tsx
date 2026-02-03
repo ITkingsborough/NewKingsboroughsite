@@ -103,8 +103,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Visit Us</h3>
-                      <p className="mb-1">No 4, New Windsor Street </p>
-                      <p>Uxbridge, UB8 2TU</p>
+                      <p className="mb-1">215 High Street, Yiewsley</p>
+                      <p>West Drayton, UB7 7QP</p>
                     </div>
                   </div>
                   
