@@ -70,6 +70,16 @@ const Sermons = () => {
     window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
   };
 
+  const getThumbnailUrl = (video: YouTubeVideo): string => {
+    const thumbnails = video.thumbnails;
+    if (thumbnails?.maxres?.url) return thumbnails.maxres.url;
+    if (thumbnails?.standard?.url) return thumbnails.standard.url;
+    if (thumbnails?.high?.url) return thumbnails.high.url;
+    if (thumbnails?.medium?.url) return thumbnails.medium.url;
+    if (thumbnails?.default?.url) return thumbnails.default.url;
+    return `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+  };
+
   return (
     <section id="sermons" data-nav-theme="dark" className="py-20 bg-gold bg-opacity-60">
       <div className="container mx-auto px-4 lg:px-8">
@@ -145,12 +155,14 @@ const Sermons = () => {
               >
                 <div className="h-48 overflow-hidden relative">
                   <img
-                    src={
-                      video.thumbnails.high.url || video.thumbnails.medium.url
-                    }
+                    src={getThumbnailUrl(video)}
                     alt={video.title}
                     className="w-full h-full object-cover"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+                    }}
                   />
                   <div className="absolute inset-0 bg-deepPurple bg-opacity-40 flex items-center justify-center">
                     <button
