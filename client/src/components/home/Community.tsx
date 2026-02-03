@@ -54,8 +54,10 @@ const Community = () => {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
-  // Calculate total number of pages (showing 2 items per page)
-  const totalPages = Math.ceil(communityCards.length / 2);
+  // Calculate total number of pages (showing 1 item on mobile, 2 on larger screens)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const itemsPerPage = isMobile ? 1 : 2;
+  const totalPages = Math.ceil(communityCards.length / itemsPerPage);
 
   // Navigate to the next page
   const nextPage = () => {
@@ -67,10 +69,10 @@ const Community = () => {
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
   };
 
-  // Get current page items (2 per page)
+  // Get current page items (1 on mobile, 2 on larger screens)
   const getCurrentPageItems = () => {
-    const startIndex = currentPage * 2;
-    return communityCards.slice(startIndex, startIndex + 2);
+    const startIndex = currentPage * itemsPerPage;
+    return communityCards.slice(startIndex, startIndex + itemsPerPage);
   };
 
   useEffect(() => {
@@ -189,7 +191,7 @@ const Community = () => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="px-8 py-4"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 gap-6 md:gap-8">
                 {getCurrentPageItems().map((card, index) => {
                   const isExternal = card.link.startsWith('http');
                   
