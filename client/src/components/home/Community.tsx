@@ -137,6 +137,7 @@ const Community = () => {
   return (
     <section
       ref={sectionRef} 
+      data-nav-theme="light"
       className="py-20 bg-slate-50 overflow-hidden"
     >
       <div className="container mx-auto px-4 lg:px-8">

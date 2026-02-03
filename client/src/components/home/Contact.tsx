@@ -48,7 +48,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" data-nav-theme="light" className="py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-start">
           <motion.div 

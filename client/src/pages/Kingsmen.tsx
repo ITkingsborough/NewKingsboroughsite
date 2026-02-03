@@ -39,6 +39,7 @@ const Kingsmen = () => {
       {/* Hero Section */}
       <section 
         ref={heroRef}
+        data-nav-theme="dark"
         className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,

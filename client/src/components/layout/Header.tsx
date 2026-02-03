@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
@@ -9,13 +9,37 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mediaOpen, setMediaOpen] = useState(false);
   const [involvedOpen, setInvolvedOpen] = useState(false);
+  const [isDarkBackground, setIsDarkBackground] = useState(true);
   const [location] = useLocation();
   const mediaRef = useRef<HTMLDivElement>(null);
   const involvedRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+
+  const checkBackgroundColor = useCallback(() => {
+    if (!headerRef.current) return;
+    
+    const headerRect = headerRef.current.getBoundingClientRect();
+    const headerMiddle = headerRect.top + headerRect.height / 2;
+    
+    const sections = Array.from(document.querySelectorAll('[data-nav-theme]'));
+    
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= headerMiddle && rect.bottom >= headerMiddle) {
+        const theme = section.getAttribute('data-nav-theme');
+        setIsDarkBackground(theme === 'dark');
+        return;
+      }
+    }
+    
+    setIsDarkBackground(window.scrollY < 100);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      checkBackgroundColor();
     };
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -27,13 +51,15 @@ const Header = () => {
       }
     };
 
+    checkBackgroundColor();
+    
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [checkBackgroundColor]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -60,26 +86,31 @@ const Header = () => {
   ];
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'py-2' : 'py-4'
-    }`}>
+    <header 
+      ref={headerRef}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'py-2' : 'py-4'
+      }`}
+    >
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-full shadow-lg px-6 py-3 flex items-center">
+        <div className={`rounded-full shadow-lg px-6 py-3 flex items-center transition-all duration-500 ${
+          isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'
+        }`}>
         <Link href="/" onClick={closeMenu} className="flex items-center flex-shrink-0">
           <img src={churchLogo} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
           <div className="flex flex-col">
             <div className="flex items-baseline">
               <span className="text-gold font-montserrat font-bold text-xl tracking-tight">Kingsborough</span>
-              <span className="font-montserrat ml-1 text-deepPurple font-bold text-xl">Church</span>
+              <span className={`font-montserrat ml-1 font-bold text-xl transition-colors duration-500 ${isDarkBackground ? 'text-deepPurple' : 'text-white'}`}>Church</span>
             </div>
-            <span className="text-xs text-gray-500 font-light italic hidden sm:block">Transforming Lives, Shaping Destinies</span>
+            <span className={`text-xs font-light italic hidden sm:block transition-colors duration-500 ${isDarkBackground ? 'text-gray-500' : 'text-white/70'}`}>Transforming Lives, Shaping Destinies</span>
           </div>
         </Link>
         
         <div className="lg:hidden ml-auto">
           <button 
             onClick={toggleMobileMenu} 
-            className="text-gray-700 p-2"
+            className={`p-2 transition-colors duration-500 ${isDarkBackground ? 'text-gray-700' : 'text-white'}`}
             aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -89,13 +120,13 @@ const Header = () => {
         <nav className="hidden lg:flex items-center justify-center flex-1 space-x-8">
           <Link 
             href="/" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
           >
             Home
           </Link>
           <Link 
             href="/about" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/about') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/about') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
           >
             About
           </Link>
@@ -104,7 +135,7 @@ const Header = () => {
             <button 
               onClick={() => { setMediaOpen(!mediaOpen); setInvolvedOpen(false); }}
               className={`flex items-center font-montserrat text-base font-medium transition-colors duration-300 ${
-                isActive('/sermons') || isActive('/gallery') ? 'text-gold' : 'text-gray-700 hover:text-gold'
+                isActive('/sermons') || isActive('/gallery') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'
               }`}
             >
               Media
@@ -140,7 +171,7 @@ const Header = () => {
             <button 
               onClick={() => { setInvolvedOpen(!involvedOpen); setMediaOpen(false); }}
               className={`flex items-center font-montserrat text-base font-medium transition-colors duration-300 ${
-                isActive('/ministries') || isActive('/community') ? 'text-gold' : 'text-gray-700 hover:text-gold'
+                isActive('/ministries') || isActive('/community') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'
               }`}
             >
               Get Involved
@@ -174,13 +205,13 @@ const Header = () => {
           
           <Link 
             href="/events" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/events') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/events') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
           >
             Events
           </Link>
           <Link 
             href="/contact" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : 'text-gray-700 hover:text-gold'}`}
+            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
           >
             Contact
           </Link>
@@ -188,7 +219,11 @@ const Header = () => {
           <div className="flex items-center space-x-3 ml-2">
             <Link 
               href="/shop" 
-              className="px-5 py-2 border-2 border-deepPurple text-deepPurple font-montserrat text-sm font-semibold rounded-full hover:bg-deepPurple hover:text-white transition-colors"
+              className={`px-5 py-2 border-2 font-montserrat text-sm font-semibold rounded-full transition-colors ${
+                isDarkBackground 
+                  ? 'border-deepPurple text-deepPurple hover:bg-deepPurple hover:text-white' 
+                  : 'border-white text-white hover:bg-white hover:text-deepPurple'
+              }`}
             >
               Shop
             </Link>

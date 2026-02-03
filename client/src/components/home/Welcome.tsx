@@ -83,7 +83,7 @@ const Welcome = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="welcome" className="py-20 bg-white">
+    <section ref={sectionRef} id="welcome" data-nav-theme="light" className="py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 

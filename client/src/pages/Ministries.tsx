@@ -42,6 +42,7 @@ const Ministries = () => {
       <div className="pt-24">
         {/* Hero Section */}
         <section
+          data-nav-theme="dark"
           className="relative h-80 md:h-96 flex items-center parallax"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')`,

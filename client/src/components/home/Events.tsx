@@ -36,7 +36,7 @@ const Events = () => {
 
   if (isLoading) {
     return (
-      <section id="events" className="py-20 bg-black/90 relative overflow-hidden">
+      <section id="events" data-nav-theme="dark" className="py-20 bg-black/90 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&q=80')] bg-cover bg-center opacity-20" />
         <div className="container mx-auto px-4 lg:px-8 flex justify-center relative z-10">
           <Loader2 className="h-12 w-12 animate-spin text-gold" />
@@ -47,7 +47,7 @@ const Events = () => {
 
   if (events.length === 0) {
     return (
-      <section id="events" className="py-20 bg-black/90 relative overflow-hidden">
+      <section id="events" data-nav-theme="dark" className="py-20 bg-black/90 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&q=80')] bg-cover bg-center opacity-20" />
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div 
@@ -77,7 +77,7 @@ const Events = () => {
   }
 
   return (
-    <section id="events" className="py-20 bg-black/90 relative overflow-hidden">
+    <section id="events" data-nav-theme="dark" className="py-20 bg-black/90 relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&q=80')] bg-cover bg-center opacity-20" />
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">

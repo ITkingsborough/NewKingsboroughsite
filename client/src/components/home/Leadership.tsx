@@ -4,7 +4,7 @@ import { leaders } from '@/lib/data';
 
 const Leadership = () => {
   return (
-    <section className="py-20 bg-white">
+    <section data-nav-theme="light" className="py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div 
           className="text-center mb-16"

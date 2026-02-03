@@ -140,7 +140,7 @@ const Sermons = () => {
       </Helmet>
       
       {/* Hero Section */}
-      <div ref={heroRef} className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+      <div ref={heroRef} data-nav-theme="dark" className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Parallax Background with Overlay - Bible Image */}
         <div 
           className="parallax-bg absolute inset-0 bg-cover bg-center bg-no-repeat"

@@ -276,6 +276,7 @@ const About = () => {
       {/* 1. Full-Screen Hero Section */}
       <div
         ref={heroRef}
+        data-nav-theme="dark"
         className="relative h-screen flex items-center justify-center overflow-hidden"
       >
         {/* Parallax Background Video/Image */}

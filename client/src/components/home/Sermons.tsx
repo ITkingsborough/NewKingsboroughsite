@@ -71,7 +71,7 @@ const Sermons = () => {
   };
 
   return (
-    <section id="sermons" className="py-20 bg-gold bg-opacity-60">
+    <section id="sermons" data-nav-theme="dark" className="py-20 bg-gold bg-opacity-60">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div
           className="text-center mb-16"

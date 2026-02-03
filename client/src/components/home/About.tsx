@@ -27,7 +27,7 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-deepPurple">
+    <section id="about" data-nav-theme="dark" className="py-20 bg-deepPurple">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center">
           <motion.div

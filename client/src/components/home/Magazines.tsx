@@ -76,6 +76,7 @@ const Magazines = () => {
   return (
     <section
       ref={sectionRef}
+      data-nav-theme="light"
       className="py-24 bg-white overflow-hidden"
     >
       <div className="container mx-auto px-4 lg:px-8">

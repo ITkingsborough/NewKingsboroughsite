@@ -39,7 +39,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" data-nav-theme="dark" className="relative h-screen flex items-center justify-center overflow-hidden">
       <video
         autoPlay
         muted

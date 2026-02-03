@@ -62,7 +62,7 @@ const Contact = () => {
       </Helmet>
       <div className="pt-24">
         {/* Hero Section */}
-        <section className="relative h-80 md:h-96 flex items-center parallax" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1486848538113-ce1a4923fbc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` }}>
+        <section data-nav-theme="dark" className="relative h-80 md:h-96 flex items-center parallax" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1486848538113-ce1a4923fbc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` }}>
           <div className="absolute inset-0 overlay-lilac"></div>
           <div className="container mx-auto px-4 lg:px-8 z-10">
             <motion.div

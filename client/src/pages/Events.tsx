@@ -84,6 +84,7 @@ const Events = () => {
       
       <div className="min-h-screen">
         <section 
+          data-nav-theme="dark"
           className="relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-cover bg-center"
           style={{ 
             backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` 
@@ -100,7 +101,7 @@ const Events = () => {
         </section>
 
         {isLoading ? (
-          <section className="py-20 bg-gray-50">
+          <section data-nav-theme="light" className="py-20 bg-gray-50">
             <div className="container mx-auto px-4 flex justify-center">
               <Loader2 className="h-12 w-12 animate-spin text-gold" />
             </div>

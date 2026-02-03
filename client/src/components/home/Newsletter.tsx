@@ -39,7 +39,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-16 bg-lilac bg-opacity-10">
+    <section data-nav-theme="light" className="py-16 bg-lilac bg-opacity-10">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div 
           className="max-w-4xl mx-auto text-center"

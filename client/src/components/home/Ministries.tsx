@@ -5,7 +5,7 @@ import { ministries } from "@/lib/data";
 
 const Ministries = () => {
   return (
-    <section id="ministries" className="py-20 bg-lilac bg-opacity-10">
+    <section id="ministries" data-nav-theme="dark" className="py-20 bg-lilac bg-opacity-10">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div
           className="text-center mb-16"
