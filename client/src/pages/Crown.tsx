@@ -46,7 +46,7 @@ const Crown = () => {
         ref={heroRef}
         className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: `url('/public/uploads/gallery/IMG_7839%20(1).jpg')`,
+          backgroundImage: `url('/uploads/gallery/IMG_7839%20(1).jpg')`,
           backgroundPosition: "50% 50%",
         }}
       >
