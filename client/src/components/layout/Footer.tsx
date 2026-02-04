@@ -85,6 +85,11 @@ const Footer = () => {
                   Prayer Requests
                 </Link>
               </li>
+              <li>
+                <Link href="/venue-hire" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  Venue Hire
+                </Link>
+              </li>
             </ul>
           </motion.div>
           
