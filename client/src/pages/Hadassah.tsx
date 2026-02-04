@@ -7,19 +7,19 @@ const Hadassah = () => {
   // Slideshow images for Our Purpose section
   const purposeImages = [
     {
-      src: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg",
       alt: "Women in fellowship",
     },
     {
-      src: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg",
       alt: "Women in prayer circle",
     },
     {
-      src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.27.jpeg",
       alt: "Women's Bible study",
     },
     {
-      src: "/client/public/Kids.JPG",
+      src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg",
       alt: "Women's retreat gathering",
     },
   ];
