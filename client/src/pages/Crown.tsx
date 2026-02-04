@@ -284,7 +284,7 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg"
                 alt="Crown Worship Night"
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -306,7 +306,7 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/IMG_7832.JPG"
                 alt="Crown Life Group"
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -328,7 +328,7 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg"
                 alt="Crown Community Service"
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -350,7 +350,7 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/HOP.jpg"
                 alt="Crown Social Event"
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -370,7 +370,7 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/HOP2.JPG"
                 alt="Crown Leadership Training"
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -392,7 +392,7 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/IMG_1177.JPG"
                 alt="Crown Annual Conference"
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -507,7 +507,7 @@ const Crown = () => {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/IMG_7839 (1).jpg"
                 alt="Young adults in worship and prayer"
                 className="rounded-lg shadow-xl w-full"
               />

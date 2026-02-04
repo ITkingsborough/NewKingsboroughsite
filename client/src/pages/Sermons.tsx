@@ -39,7 +39,7 @@ const Sermons = () => {
       date: "March 24, 2024",
       series: "Kingdom Series",
       description: "Discover how adopting a Kingdom mindset transforms your perspective on life's challenges and opportunities.",
-      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "/uploads/gallery/PS.jpg"
     },
     {
       id: 5,
@@ -48,7 +48,7 @@ const Sermons = () => {
       date: "March 17, 2024",
       series: "Abundance Series",
       description: "Learn how to live from God's abundance rather than striving from a place of lack.",
-      image: "https://images.unsplash.com/photo-1532189416128-e304152d65dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "/uploads/gallery/PC.jpg"
     },
     {
       id: 6,
@@ -57,7 +57,7 @@ const Sermons = () => {
       date: "March 10, 2024",
       series: "Breakthrough Series",
       description: "Understanding and overcoming the spiritual barriers that prevent you from reaching your divine destiny.",
-      image: "https://images.unsplash.com/photo-1545128485-c400e7702796?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "/uploads/gallery/PE.jpg"
     }
   ];
   
@@ -144,7 +144,7 @@ const Sermons = () => {
         {/* Parallax Background with Overlay - Bible Image */}
         <div 
           className="parallax-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=85')` }}
+          style={{ backgroundImage: `url('/uploads/gallery/HOP.jpg')` }}
         ></div>
         
         {/* Gradient Overlay - Warm tones to complement the Bible image */}
@@ -397,7 +397,7 @@ const Sermons = () => {
                 className="relative"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1589903308904-1010c2294adc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                  src="/uploads/gallery/HOP2.JPG" 
                   alt="Person listening to podcast" 
                   className="rounded-xl shadow-2xl"
                 />

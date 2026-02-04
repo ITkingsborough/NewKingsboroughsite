@@ -42,7 +42,7 @@ const Kingsmen = () => {
         data-nav-theme="dark"
         className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('/uploads/gallery/HOP2.JPG')`,
           backgroundPosition: "50% 50%"
         }}
       >
@@ -101,7 +101,7 @@ const Kingsmen = () => {
               className="relative"
             >
               <img 
-                src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/HOP.jpg" 
                 alt="Men in prayer and fellowship" 
                 className="rounded-lg shadow-xl w-full"
               />
@@ -261,7 +261,7 @@ const Kingsmen = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img 
-                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/IMG_7832.JPG" 
                 alt="Kingsmen Fellowship Meeting" 
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -281,7 +281,7 @@ const Kingsmen = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img 
-                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/prayer22.jpg" 
                 alt="Kingsmen Bible Study" 
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -301,7 +301,7 @@ const Kingsmen = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img 
-                src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg" 
                 alt="Kingsmen Service Project" 
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -321,7 +321,7 @@ const Kingsmen = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img 
-                src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/IMG_1177.JPG" 
                 alt="Kingsmen Adventure Activity" 
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -341,7 +341,7 @@ const Kingsmen = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img 
-                src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/HOP2.JPG" 
                 alt="Kingsmen Sports Event" 
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -361,7 +361,7 @@ const Kingsmen = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img 
-                src="https://images.unsplash.com/photo-1522621032211-ac0031dfab5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg" 
                 alt="Kingsmen Annual Retreat" 
                 className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
               />
@@ -477,7 +477,7 @@ const Kingsmen = () => {
               className="relative"
             >
               <img 
-                src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                src="/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg" 
                 alt="Men in prayer" 
                 className="rounded-lg shadow-xl w-full"
               />

@@ -47,7 +47,7 @@ const Quote = () => {
 
   return (
     <ParallaxSection 
-      backgroundUrl="https://images.unsplash.com/photo-1455044372794-d981761b5bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+      backgroundUrl="/uploads/gallery/HOP2.JPG"
       overlayClass="overlay-gold"
       speed={1.0}
       className="h-64 flex items-center justify-center"

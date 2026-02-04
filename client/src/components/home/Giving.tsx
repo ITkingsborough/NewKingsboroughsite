@@ -7,7 +7,7 @@ const Giving = () => {
     <section 
       id="giving" 
       className="parallax py-24 relative" 
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1504025468847-0e438279542c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` }}
+      style={{ backgroundImage: `url('/uploads/gallery/HOP.jpg')` }}
     >
       <div className="absolute inset-0 overlay-purple"></div>
       <div className="container mx-auto px-4 lg:px-8 z-10 relative">

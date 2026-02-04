@@ -32,7 +32,7 @@ const communityGroups: CommunityGroup[] = [
     title: "Hillingdon Foodbank",
     description: "Supporting those in need with essential food and supplies",
     fullDescription: "Our Hillingdon Foodbank is dedicated to fighting hunger and poverty in our local community. We provide emergency food parcels to individuals and families facing crisis, offering not just practical support but also compassion and dignity. Volunteers work together to collect, sort, and distribute food donations, making a real difference in people's lives during their most difficult times.",
-    image: "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
     icon: Heart,
     hasPage: false
   },
@@ -40,7 +40,7 @@ const communityGroups: CommunityGroup[] = [
     title: "CMC Nursery",
     description: "Nurturing childcare and early education in a Christ-centered environment",
     fullDescription: "CMC Nursery provides quality childcare and early years education rooted in Christian values. We create a safe, loving environment where children can learn, play, and develop. Our experienced staff focus on nurturing each child's physical, emotional, social, and spiritual growth through age-appropriate activities, play-based learning, and gentle guidance in faith.",
-    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/uploads/gallery/IMG_1177.JPG",
     icon: Baby,
     hasPage: false
   },
@@ -103,7 +103,7 @@ const Community = () => {
           ref={heroRef}
           className="relative h-96 flex items-center justify-center bg-cover bg-center bg-fixed"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('/uploads/gallery/HOP.jpg')`,
             backgroundPosition: "50% 50%"
           }}
         >

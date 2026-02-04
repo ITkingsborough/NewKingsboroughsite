@@ -659,7 +659,7 @@ const About = () => {
         <div
           className="cta-bg absolute inset-0 bg-cover bg-center brightness-50"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')`,
+            backgroundImage: `url('/uploads/gallery/HOP.jpg')`,
           }}
         ></div>
 

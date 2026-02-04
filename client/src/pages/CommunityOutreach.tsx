@@ -76,7 +76,7 @@ const CommunityOutreach = () => {
           ref={heroRef}
           className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
           style={{
-            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg')`,
             backgroundPosition: "50% 50%"
           }}
         >
@@ -140,7 +140,7 @@ const CommunityOutreach = () => {
                 className="relative"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="/uploads/gallery/HOP.jpg" 
                   alt="Volunteers serving community" 
                   className="rounded-lg shadow-xl w-full"
                 />
@@ -238,7 +238,7 @@ const CommunityOutreach = () => {
                 className="relative order-2 lg:order-1"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg" 
                   alt="Foodbank distribution" 
                   className="rounded-lg shadow-xl w-full"
                 />

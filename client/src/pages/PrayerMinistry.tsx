@@ -118,7 +118,7 @@ const PrayerMinistry = () => {
           ref={heroRef}
           className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
           style={{
-            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('/uploads/gallery/prayer22.jpg')`,
             backgroundPosition: "50% 50%"
           }}
         >
@@ -182,7 +182,7 @@ const PrayerMinistry = () => {
                 className="relative"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="/uploads/gallery/HOP2.JPG" 
                   alt="People praying together" 
                   className="rounded-lg shadow-xl w-full"
                 />

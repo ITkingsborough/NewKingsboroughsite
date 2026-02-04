@@ -87,7 +87,7 @@ const Events = () => {
           data-nav-theme="dark"
           className="relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-cover bg-center"
           style={{ 
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')` 
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('/uploads/gallery/HOP.jpg')` 
           }}
         >
           <motion.h1
@@ -125,7 +125,7 @@ const Events = () => {
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                   <div className="relative">
                     <img 
-                      src={selectedEvent.image || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'} 
+                      src={selectedEvent.image || '/uploads/gallery/HOP2.JPG'} 
                       alt={selectedEvent.title} 
                       className="w-full h-80 md:h-[500px] object-cover"
                     />
@@ -248,7 +248,7 @@ const Events = () => {
                         <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
                           <div className="relative">
                             <img 
-                              src={event.image || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
+                              src={event.image || '/uploads/gallery/HOP2.JPG'} 
                               alt={event.title} 
                               className="w-full h-64 md:h-72 object-cover group-hover:scale-105 transition-transform duration-500"
                             />

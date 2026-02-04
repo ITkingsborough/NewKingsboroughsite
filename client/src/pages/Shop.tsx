@@ -30,7 +30,7 @@ const Shop = () => {
       price: 15.99,
       originalPrice: 19.99,
       category: 'books',
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/HOP.jpg",
       rating: 4.8,
       reviews: 127,
       description: "A spiritual journey to discover your purpose in life",
@@ -42,7 +42,7 @@ const Shop = () => {
       author: "Kingsborough Church",
       price: 12.99,
       category: 'music',
-      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg",
       rating: 4.9,
       reviews: 89,
       description: "Inspiring worship songs from our Sunday services",
@@ -55,7 +55,7 @@ const Shop = () => {
       price: 13.99,
       originalPrice: 16.99,
       category: 'books',
-      image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/prayer22.jpg",
       rating: 4.7,
       reviews: 203,
       description: "Daily devotions for a deeper relationship with Jesus"
@@ -66,7 +66,7 @@ const Shop = () => {
       author: "Faith Collection",
       price: 24.99,
       category: 'gifts',
-      image: "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/IMG_1177.JPG",
       rating: 4.6,
       reviews: 45,
       description: "Beautiful set of 2 mugs with inspirational verses"
@@ -77,7 +77,7 @@ const Shop = () => {
       author: "Hillsong United",
       price: 16.99,
       category: 'music',
-      image: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/HOP2.JPG",
       rating: 4.9,
       reviews: 156,
       description: "Collection of powerful worship anthems"
@@ -89,7 +89,7 @@ const Shop = () => {
       price: 14.99,
       originalPrice: 17.99,
       category: 'books',
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/PS.jpg",
       rating: 4.8,
       reviews: 178,
       description: "A journalist's investigation into the evidence for Jesus"
@@ -100,7 +100,7 @@ const Shop = () => {
       author: "Blessed Home",
       price: 29.99,
       category: 'gifts',
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/PC.jpg",
       rating: 4.7,
       reviews: 67,
       description: "Beautiful canvas print with faith-based scripture"
@@ -111,7 +111,7 @@ const Shop = () => {
       author: "Bethel Music",
       price: 15.99,
       category: 'music',
-      image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      image: "/uploads/gallery/PE.jpg",
       rating: 4.8,
       reviews: 134,
       description: "Live worship recording from Bethel Church"
@@ -186,7 +186,7 @@ const Shop = () => {
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-r from-deepPurple/90 to-lilac/90"></div>
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+              src="/uploads/gallery/HOP.jpg" 
               alt="Books and faith items" 
               className="w-full h-full object-cover opacity-20"
             />

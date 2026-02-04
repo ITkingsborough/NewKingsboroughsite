@@ -37,7 +37,7 @@ const Events = () => {
   if (isLoading) {
     return (
       <section id="events" data-nav-theme="dark" className="py-20 bg-black/90 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&q=80')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/uploads/gallery/HOP.jpg')] bg-cover bg-center opacity-20" />
         <div className="container mx-auto px-4 lg:px-8 flex justify-center relative z-10">
           <Loader2 className="h-12 w-12 animate-spin text-gold" />
         </div>
@@ -48,7 +48,7 @@ const Events = () => {
   if (events.length === 0) {
     return (
       <section id="events" data-nav-theme="dark" className="py-20 bg-black/90 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&q=80')] bg-cover bg-center opacity-20" />
+        <div className="absolute inset-0 bg-[url('/uploads/gallery/HOP.jpg')] bg-cover bg-center opacity-20" />
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <motion.div 
             className="text-center mb-16"
@@ -78,7 +78,7 @@ const Events = () => {
 
   return (
     <section id="events" data-nav-theme="dark" className="py-20 bg-black/90 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&q=80')] bg-cover bg-center opacity-20" />
+      <div className="absolute inset-0 bg-[url('/uploads/gallery/HOP.jpg')] bg-cover bg-center opacity-20" />
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <motion.div 
@@ -112,7 +112,7 @@ const Events = () => {
               >
                 <div className="rounded-lg overflow-hidden shadow-2xl bg-gray-900 hover:scale-[1.02] transition-transform duration-300">
                   <img 
-                    src={event.image || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'} 
+                    src={event.image || '/uploads/gallery/HOP2.JPG'} 
                     alt={event.title} 
                     className="w-full h-64 md:h-80 object-cover"
                     loading="lazy"

@@ -13,84 +13,84 @@ gsap.registerPlugin(ScrollTrigger);
 const galleryImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1508963493744-76fce69379c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/HOP.jpg",
     alt: "Sunday worship service with congregation raising hands",
     tags: ["service"],
     caption: "Sunday morning worship service"
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1515091943-9d5c0ad475af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Church baptism ceremony",
+    src: "/uploads/gallery/HOP2.JPG",
+    alt: "Church celebration",
     tags: ["service"],
-    caption: "Celebrating new beginnings through baptism"
+    caption: "Celebrating new beginnings together"
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1603102859961-64b17d43580c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg",
     alt: "Hadassah women's ministry meeting",
     tags: ["hadassah"],
     caption: "Hadassah women's ministry meeting"
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1647891941746-fe1d53ddc7a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", 
+    src: "/uploads/gallery/IMG_7832.JPG", 
     alt: "Youth group activity",
     tags: ["youth"],
     caption: "Youth group fellowship and learning"
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1541384959902-a2fa99a3daba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg",
     alt: "Church music team during worship",
     tags: ["service"],
     caption: "Our worship team leading in praise"
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1471565661762-b9dfae862dbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    alt: "Youth group outdoor activity",
+    src: "/uploads/gallery/IMG_7839 (1).jpg",
+    alt: "Youth group activity",
     tags: ["youth"],
-    caption: "Youth group summer retreat"
+    caption: "Youth group fellowship"
   },
   {
     id: 7,
-    src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/IMG_1177.JPG",
     alt: "Kingsmen men's ministry event",
     tags: ["kingsmen"],
-    caption: "Kingsmen men's retreat"
+    caption: "Kingsmen men's gathering"
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1490349708435-19d432984978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
     alt: "Kingsmen prayer meeting",
     tags: ["kingsmen"],
     caption: "Kingsmen prayer breakfast"
   },
   {
     id: 9,
-    src: "https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg",
     alt: "Hadassah women's conference",
     tags: ["hadassah"],
     caption: "Annual Hadassah women's conference"
   },
   {
     id: 10,
-    src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.27.jpeg",
     alt: "Hadassah outreach program",
     tags: ["hadassah"],
     caption: "Hadassah gift box outreach preparation"
   },
   {
     id: 11,
-    src: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg",
     alt: "Youth praise dance performance",
     tags: ["youth"],
-    caption: "Youth praise dance ministry"
+    caption: "Youth ministry"
   },
   {
     id: 12,
-    src: "https://images.unsplash.com/photo-1445273037325-2aa8c163f6eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg",
     alt: "Kingsmen ministry meeting",
     tags: ["kingsmen"],
     caption: "Kingsmen leadership development"

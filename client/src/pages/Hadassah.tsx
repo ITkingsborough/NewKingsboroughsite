@@ -375,7 +375,7 @@ const Hadassah = () => {
                 className="relative group overflow-hidden rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg"
                   alt="Hadassah Fellowship Gathering"
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -397,7 +397,7 @@ const Hadassah = () => {
                 className="relative group overflow-hidden rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg"
                   alt="Hadassah Prayer Circle"
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -419,7 +419,7 @@ const Hadassah = () => {
                 className="relative group overflow-hidden rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.27.jpeg"
                   alt="Hadassah Bible Study"
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -441,7 +441,7 @@ const Hadassah = () => {
                 className="relative group overflow-hidden rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg"
                   alt="Hadassah Community Outreach"
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -463,7 +463,7 @@ const Hadassah = () => {
                 className="relative group overflow-hidden rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1522621032211-ac0031dfab5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/HOP2.JPG"
                   alt="Hadassah Retreat Weekend"
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -485,7 +485,7 @@ const Hadassah = () => {
                 className="relative group overflow-hidden rounded-lg shadow-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/HOP.jpg"
                   alt="Hadassah Social Event"
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -591,7 +591,7 @@ const Hadassah = () => {
                 variants={slideUp(0.2)}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg"
                   alt="Women praying together"
                   className="rounded-lg shadow-lg w-full"
                 />

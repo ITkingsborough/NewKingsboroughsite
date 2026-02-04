@@ -165,7 +165,7 @@ const KidsMinistry = () => {
                 className="relative"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="/uploads/gallery/IMG_1177.JPG"
                   alt="Children learning and playing"
                   className="rounded-lg shadow-xl w-full"
                 />
@@ -279,14 +279,14 @@ const KidsMinistry = () => {
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="scroll-track-left flex shrink-0">
                 {[
-                  "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1560800452-f2d475982b96?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=300&h=200&fit=crop",
+                  "/uploads/gallery/IMG_1177.JPG",
+                  "/uploads/gallery/HOP.jpg",
+                  "/uploads/gallery/HOP2.JPG",
+                  "/uploads/gallery/IMG_7839 (1).jpg",
+                  "/uploads/gallery/IMG_7832.JPG",
+                  "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
+                  "/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg",
+                  "/uploads/gallery/e8a4e5b7-56e3-43c5-ab64-f36ff2011ef4.png",
                 ].map((img, index) => (
                   <img
                     key={index}
@@ -303,14 +303,14 @@ const KidsMinistry = () => {
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="scroll-track-right flex shrink-0">
                 {[
-                  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=300&h=200&fit=crop",
-                  "https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=300&h=200&fit=crop",
+                  "/uploads/gallery/prayer22.jpg",
+                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg",
+                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg",
+                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.27.jpeg",
+                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg",
+                  "/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg",
+                  "/uploads/gallery/PC.jpg",
+                  "/uploads/gallery/PS.jpg",
                 ].map((img, index) => (
                   <img
                     key={index}

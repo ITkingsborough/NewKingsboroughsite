@@ -5,22 +5,22 @@ import { slideUp } from "@/lib/animations";
 const About = () => {
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      src: "/uploads/gallery/HOP.jpg",
       alt: "Church community",
       className: "h-64 overflow-hidden rounded-lg",
     },
     {
-      src: "https://images.unsplash.com/photo-1507274301387-7702e1fbfbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      src: "/uploads/gallery/HOP2.JPG",
       alt: "Church worship",
       className: "h-64 overflow-hidden rounded-lg mt-12",
     },
     {
-      src: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      src: "/uploads/gallery/IMG_1177.JPG",
       alt: "Church event",
       className: "h-64 overflow-hidden rounded-lg",
     },
     {
-      src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      src: "/uploads/gallery/IMG_7839 (1).jpg",
       alt: "Church service",
       className: "h-64 overflow-hidden rounded-lg mt-12",
     },
