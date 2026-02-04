@@ -63,9 +63,9 @@ const communityGroups: CommunityGroup[] = [
     hasPage: true
   },
   {
-    title: "The Crown",
+    title: "Centre Point",
     description: "Young adults pursuing purpose, passion, and the presence of God",
-    fullDescription: "The Crown is our dynamic young adults ministry for individuals ages 18-35 who are passionate about growing in their faith and making a difference. We create a space where young adults can ask hard questions, build authentic friendships, and experience God's presence through worship nights, life groups, service projects, and social events. Here, you'll find a community that supports you in discovering your identity, purpose, and calling in Christ.",
+    fullDescription: "Centre Point is our dynamic young adults ministry for individuals ages 18-35 who are passionate about growing in their faith and making a difference. We create a space where young adults can ask hard questions, build authentic friendships, and experience God's presence through worship nights, life groups, service projects, and social events. Here, you'll find a community that supports you in discovering your identity, purpose, and calling in Christ.",
     image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     icon: CrownIcon,
     link: "/crown",
