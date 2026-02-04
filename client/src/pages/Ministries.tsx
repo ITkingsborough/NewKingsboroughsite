@@ -127,7 +127,7 @@ const Ministries = () => {
                         {selectedMinistry.title
                           .toLowerCase()
                           .replace(/\s+/g, "")}
-                        @kingsboroughchurch.org
+                        @kingsborough.org.uk
                       </span>
                     </li>
                   </ul>

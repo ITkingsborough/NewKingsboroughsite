@@ -50,7 +50,6 @@ const Crown = () => {
           backgroundPosition: "50% 50%",
         }}
       >
-        
         <div className="text-center text-white px-4 max-w-4xl mx-auto">
           <motion.h1
             initial="hidden"
@@ -107,7 +106,7 @@ const Crown = () => {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg"
                 alt="Young adults in worship"
                 className="rounded-lg shadow-xl w-full"
               />

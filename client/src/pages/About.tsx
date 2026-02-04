@@ -407,7 +407,7 @@ const About = () => {
             {/* Right: Full-height Image */}
             <div className="w-full lg:w-1/2 relative rounded-lg overflow-hidden shadow-2xl h-96 lg:h-auto section-image">
               <img
-                src="https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                src="/uploads/gallery/IMG_1177.JPG"
                 alt="Kingsborough Church community worship service"
                 className="w-full h-full object-cover"
               />

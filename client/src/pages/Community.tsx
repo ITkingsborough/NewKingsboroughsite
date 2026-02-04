@@ -48,7 +48,7 @@ const communityGroups: CommunityGroup[] = [
     title: "Hadassah",
     description: "Women's ministry empowering ladies through faith and fellowship",
     fullDescription: "Hadassah is our vibrant women's ministry that creates a safe space for women to grow in faith, build authentic friendships, and support one another through all seasons of life. Through Bible studies, prayer meetings, social events, and service projects, we encourage women to discover their identity in Christ and live out their calling with confidence and purpose.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg",
     icon: Heart,
     link: "/hadassah",
     hasPage: true
@@ -57,7 +57,7 @@ const communityGroups: CommunityGroup[] = [
     title: "Kingsmen",
     description: "Men's fellowship focusing on faith, leadership and authentic Christian masculinity",
     fullDescription: "Kingsmen is our men's ministry dedicated to building authentic Christian masculinity through fellowship, discipleship, and service. We believe men are called to be leaders, protectors, and servants in their families, communities, and the kingdom of God. Through Bible studies, service projects, adventure activities, and mentorship programs, we help men grow in their faith and fulfill their God-given purpose.",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/uploads/gallery/image (2).png",
     icon: Shield,
     link: "/kingsmen",
     hasPage: true
@@ -66,7 +66,7 @@ const communityGroups: CommunityGroup[] = [
     title: "Centre Point",
     description: "Young adults pursuing purpose, passion, and the presence of God",
     fullDescription: "Centre Point is our dynamic young adults ministry for individuals ages 18-35 who are passionate about growing in their faith and making a difference. We create a space where young adults can ask hard questions, build authentic friendships, and experience God's presence through worship nights, life groups, service projects, and social events. Here, you'll find a community that supports you in discovering your identity, purpose, and calling in Christ.",
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/uploads/gallery/IMG_7839 (1).jpg",
     icon: CrownIcon,
     link: "/crown",
     hasPage: true

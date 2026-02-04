@@ -29,7 +29,7 @@ const communityCards: CommunityCardProps[] = [
   },
   {
     title: "Hadassah",
-    image: "https://images.unsplash.com/photo-1505455184862-554165e5f6ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg",
     description: "A women's ministry empowering and supporting ladies through faith and fellowship.",
     link: "/hadassah"
   },
@@ -41,7 +41,7 @@ const communityCards: CommunityCardProps[] = [
   },
   {
     title: "Centre Point",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "/uploads/gallery/IMG_7832.JPG",
     description: "Young adults ministry pursuing purpose, passion, and the presence of God.",
     link: "/crown"
   }

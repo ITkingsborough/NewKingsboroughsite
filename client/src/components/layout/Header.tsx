@@ -213,7 +213,7 @@ const Header = () => {
             href="/contact" 
             className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
           >
-            Contact
+            Enquiries
           </Link>
           
           <div className="flex items-center space-x-3 ml-2">
@@ -308,7 +308,7 @@ const Header = () => {
                   onClick={closeMenu}
                   className={`block font-montserrat font-medium py-3 px-2 rounded ${isActive('/contact') ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'}`}
                 >
-                  Contact
+                  Enquiries
                 </Link>
               </div>
               
