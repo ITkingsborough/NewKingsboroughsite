@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
-import { SiFacebook, SiInstagram, SiYoutube, SiTiktok } from 'react-icons/si';
+import { SiFacebook, SiInstagram, SiYoutube } from 'react-icons/si';
 
 const socialLinks = [
-  { icon: SiFacebook, href: 'https://facebook.com', label: 'Facebook', color: 'hover:bg-[#1877F2]' },
-  { icon: SiInstagram, href: 'https://instagram.com', label: 'Instagram', color: 'hover:bg-[#E4405F]' },
-  { icon: SiYoutube, href: 'https://youtube.com', label: 'YouTube', color: 'hover:bg-[#FF0000]' },
-  { icon: SiTiktok, href: 'https://tiktok.com', label: 'TikTok', color: 'hover:bg-[#000000]' },
+  { icon: SiFacebook, href: 'https://www.facebook.com/kingsboroughuk', label: 'Facebook', color: 'hover:bg-[#1877F2]' },
+  { icon: SiInstagram, href: 'https://www.instagram.com/kingsboroughuk/', label: 'Instagram', color: 'hover:bg-[#E4405F]' },
+  { icon: SiYoutube, href: 'https://www.youtube.com/@KingsboroughLiveTv', label: 'YouTube', color: 'hover:bg-[#FF0000]' },
 ];
 
 const SocialSidebar = () => {
