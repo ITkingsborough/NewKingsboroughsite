@@ -115,12 +115,12 @@ const Footer = () => {
             viewport={{ once: true, amount: 0.3 }}
             variants={slideUp(0.3)}
           >
-            <h3 className="text-gold font-montserrat font-semibold text-lg mb-4">Contact</h3>
+            <h3 className="text-gold font-montserrat font-semibold text-lg mb-4">Enquiries</h3>
             <p className="text-gray-300 mb-2">
               <i className="fas fa-phone mr-2"></i> 01895252224 or 07848237072 (Monday to Friday)
             </p>
             <p className="text-gray-300 mb-4">
-              <i className="fas fa-envelope mr-2"></i> info@kingsboroughchurch.org
+              <i className="fas fa-envelope mr-2"></i> info@kingsborough.org.uk
             </p>
             <Link 
               href="/contact" 

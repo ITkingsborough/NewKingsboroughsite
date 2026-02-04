@@ -42,7 +42,7 @@ const Kingsmen = () => {
         data-nav-theme="dark"
         className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('/uploads/gallery/HOP2.JPG')`,
+          backgroundImage: `url('/uploads/gallery/Kingsmen.png')`,
           backgroundPosition: "50% 50%"
         }}
       >
@@ -101,7 +101,7 @@ const Kingsmen = () => {
               className="relative"
             >
               <img 
-                src="/uploads/gallery/HOP.jpg" 
+                src="/uploads/gallery/Kingsmen.png" 
                 alt="Men in prayer and fellowship" 
                 className="rounded-lg shadow-xl w-full"
               />

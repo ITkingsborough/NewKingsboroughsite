@@ -35,10 +35,10 @@ const fadeIn = (delay: number = 0) => ({
 });
 
 const venueImages = [
-  "/uploads/gallery/IMG_1177.JPG",
-  "/uploads/gallery/IMG_7839 (1).jpg",
-  "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
-  "/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg",
+  "/uploads/gallery/New Audi (1).jpeg",
+  "/uploads/gallery/New Audi (2).jpeg",
+  "/uploads/gallery/New Audi (3).jpeg",
+  ,
 ];
 
 const facilities = [
@@ -109,7 +109,7 @@ const VenueHire = () => {
         ref={heroRef}
         className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: `url('/uploads/gallery/IMG_1177.JPG')`,
+          backgroundImage: `url('/uploads/gallery/New Audi (1).jpeg')`,
           backgroundPosition: "50% 50%",
         }}
       >
@@ -289,7 +289,7 @@ const VenueHire = () => {
               className="relative"
             >
               <img
-                src="/uploads/gallery/IMG_7839 (1).jpg"
+                src="/uploads/gallery/New Audi 4.jpeg"
                 alt="Event space"
                 className="w-full h-96 object-cover rounded-2xl shadow-xl"
               />

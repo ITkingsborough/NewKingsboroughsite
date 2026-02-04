@@ -17,13 +17,13 @@ interface CommunityCardProps {
 const communityCards: CommunityCardProps[] = [
   {
     title: "Hillingdon Foodbank",
-    image: "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
+    image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "Supporting those in need with essential food and supplies in the Hillingdon community.",
     link: "https://hillingdon.foodbank.org.uk/"
   },
   {
     title: "CMC Nursery",
-    image: "/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg",
+    image: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "Providing nurturing childcare and early education in a Christ-centered environment.",
     link: "https://test.cmcnursery.co.uk/"
   },
@@ -35,7 +35,7 @@ const communityCards: CommunityCardProps[] = [
   },
   {
     title: "Kingsmen",
-    image: "/uploads/gallery/HOP2.JPG",
+    image: "/uploads/gallery/Kingsmen.png",
     description: "Men's fellowship focusing on faith, leadership and authentic Christian masculinity.",
     link: "/kingsmen"
   },

@@ -101,7 +101,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-montserrat font-semibold mb-1">Email Us</h3>
-                  <p>info@kingsboroughchurch.org</p>
+                  <p>info@kingsborough.org.uk</p>
                 </div>
               </div>
             </div>

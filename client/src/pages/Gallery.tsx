@@ -57,14 +57,14 @@ const galleryImages = [
     id: 7,
     src: "/uploads/gallery/IMG_1177.JPG",
     alt: "Kingsmen men's ministry event",
-    tags: ["kingsmen"],
+    tags: ["hadassah"],
     caption: "Kingsmen men's gathering"
   },
   {
     id: 8,
     src: "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
     alt: "Kingsmen prayer meeting",
-    tags: ["kingsmen"],
+    tags: ["hadassah"],
     caption: "Kingsmen prayer breakfast"
   },
   {
@@ -85,14 +85,14 @@ const galleryImages = [
     id: 11,
     src: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg",
     alt: "Youth praise dance performance",
-    tags: ["youth"],
-    caption: "Youth ministry"
+    tags: ["hadassah"],
+    caption: "Women of God"
   },
   {
     id: 12,
     src: "/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg",
     alt: "Kingsmen ministry meeting",
-    tags: ["kingsmen"],
+    tags: ["hadassah"],
     caption: "Kingsmen leadership development"
   }
 ];

@@ -89,7 +89,7 @@ export const ministries: MinistryItem[] = [
     description:
       "Connect with others in weekly gatherings where you can build relationships, study Scripture, and support one another.",
     image:
-      "/uploads/gallery/HOP.jpg",
+      "/uploads/gallery/MEDIA.jpg",
   },
   {
     id: 5,
@@ -97,7 +97,7 @@ export const ministries: MinistryItem[] = [
     description:
       "Serving our local community through various initiatives including food drives, homeless ministry, and community events.",
     image:
-      "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
+      "/uploads/gallery/outtt.jpg",
   },
   {
     id: 6,
