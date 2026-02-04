@@ -50,6 +50,7 @@ const Crown = () => {
           backgroundPosition: "50% 50%",
         }}
       >
+        
         <div className="text-center text-white px-4 max-w-4xl mx-auto">
           <motion.h1
             initial="hidden"
