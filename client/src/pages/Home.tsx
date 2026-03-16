@@ -5,6 +5,7 @@ import Leadership from '@/components/home/Leadership';
 import Ministries from '@/components/home/Ministries';
 import Community from '@/components/home/Community';
 import Quote from '@/components/home/Quote';
+import FeaturedContent from '@/components/home/FeaturedContent';
 import Events from '@/components/home/Events';
 import Sermons from '@/components/home/Sermons';
 import Magazines from '@/components/home/Magazines';
@@ -28,6 +29,7 @@ const Home = () => {
         <Ministries />
         <Community />
         <Quote />
+        <FeaturedContent />
         <Events />
         <Sermons />
         <Magazines />

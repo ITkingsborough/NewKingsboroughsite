@@ -134,6 +134,10 @@ The application uses PostgreSQL with the following main entities:
 
 ```
 Changelog:
+- March 16, 2026. Added "Featured Content" homepage section: Theme of the Month + Life Ever After Marriage latest video
+  - New theme_of_month database table with full CMS management at /cms/theme
+  - Public API at /api/theme-of-month; Admin APIs at /api/cms/theme-of-month
+  - Life Ever After Marriage YouTube channel: UClrk3wKBN-M5Y-NNXpdeNaA
 - June 26, 2025. Added Church Shop page with e-commerce functionality
 - June 26, 2025. Created Kingsmen men's ministry page with gallery
 - June 26, 2025. Created Hadassah women's ministry page with interactive slideshow

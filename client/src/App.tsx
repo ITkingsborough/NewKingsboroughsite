@@ -30,6 +30,7 @@ import GalleryPage from "@/pages/cms/gallery-page";
 import MagazinesPage from "@/pages/cms/magazines-page";
 import ContactPage from "@/pages/cms/contact-page";
 import CommunityDashboard from "@/pages/cms/community-dashboard";
+import ThemePage from "@/pages/cms/theme-page";
 import UnauthorizedPage from "@/pages/cms/unauthorized-page";
 import CookieConsent from "@/components/ui/CookieConsent";
 import ScrollToTop from "@/components/ui/ScrollToTop";
@@ -147,6 +148,12 @@ function App() {
             <Route path="/cms/community">
               <ProtectedRoute>
                 <CommunityDashboard />
+              </ProtectedRoute>
+            </Route>
+            
+            <Route path="/cms/theme">
+              <ProtectedRoute>
+                <ThemePage />
               </ProtectedRoute>
             </Route>
             

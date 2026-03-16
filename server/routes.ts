@@ -14,7 +14,8 @@ import {
   insertMemberSchema,
   insertAttendanceSchema,
   insertMinistryGroupSchema,
-  insertMinistryGroupMemberSchema
+  insertMinistryGroupMemberSchema,
+  insertThemeOfMonthSchema
 } from "@shared/schema";
 import { setupAuth, logUserActivity, requireAuth } from "./auth";
 import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
@@ -1984,6 +1985,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false,
         message: 'Failed to remove member from ministry group'
       });
+    }
+  });
+
+  // ── Theme of the Month ─────────────────────────────────────────────────────
+  // Public: get active theme
+  app.get('/api/theme-of-month', async (req, res) => {
+    try {
+      const theme = await storage.getActiveTheme();
+      return res.json({ success: true, data: theme || null });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: 'Failed to fetch theme' });
+    }
+  });
+
+  // Admin: list all themes
+  app.get('/api/cms/theme-of-month', requireAuth, async (req, res) => {
+    try {
+      const themes = await storage.getAllThemes();
+      return res.json({ success: true, data: themes });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: 'Failed to fetch themes' });
+    }
+  });
+
+  // Admin: create theme
+  app.post('/api/cms/theme-of-month', requireAuth, async (req, res) => {
+    try {
+      const data = insertThemeOfMonthSchema.parse(req.body);
+      const theme = await storage.createTheme(data);
+      return res.status(201).json({ success: true, data: theme });
+    } catch (error) {
+      return res.status(400).json({ success: false, message: 'Invalid theme data', error: String(error) });
+    }
+  });
+
+  // Admin: update theme
+  app.put('/api/cms/theme-of-month/:id', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const data = insertThemeOfMonthSchema.partial().parse(req.body);
+      const theme = await storage.updateTheme(id, data);
+      return res.json({ success: true, data: theme });
+    } catch (error) {
+      return res.status(400).json({ success: false, message: 'Failed to update theme', error: String(error) });
+    }
+  });
+
+  // Admin: set a theme as active
+  app.post('/api/cms/theme-of-month/:id/activate', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const theme = await storage.setActiveTheme(id);
+      return res.json({ success: true, data: theme });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: 'Failed to activate theme' });
+    }
+  });
+
+  // Admin: delete theme
+  app.delete('/api/cms/theme-of-month/:id', requireAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteTheme(id);
+      return res.json({ success: true, message: 'Theme deleted' });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: 'Failed to delete theme' });
     }
   });
 

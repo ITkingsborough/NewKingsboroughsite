@@ -10,7 +10,8 @@ import {
   members, type Member, type InsertMember,
   attendance, type Attendance, type InsertAttendance,
   ministryGroups, type MinistryGroup, type InsertMinistryGroup,
-  ministryGroupMembers, type MinistryGroupMember, type InsertMinistryGroupMember
+  ministryGroupMembers, type MinistryGroupMember, type InsertMinistryGroupMember,
+  themeOfMonth, type ThemeOfMonth, type InsertThemeOfMonth
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, asc, gte, lte, isNull, and, or, inArray, like, sql } from "drizzle-orm";
@@ -110,6 +111,15 @@ export interface IStorage {
   removeMemberFromGroup(groupId: number, memberId: number): Promise<void>;
   updateMemberGroupRole(groupId: number, memberId: number, role: string): Promise<MinistryGroupMember>;
   
+  // Theme of the Month
+  getActiveTheme(): Promise<ThemeOfMonth | undefined>;
+  getAllThemes(): Promise<ThemeOfMonth[]>;
+  getTheme(id: number): Promise<ThemeOfMonth | undefined>;
+  createTheme(theme: InsertThemeOfMonth): Promise<ThemeOfMonth>;
+  updateTheme(id: number, theme: Partial<InsertThemeOfMonth>): Promise<ThemeOfMonth>;
+  deleteTheme(id: number): Promise<void>;
+  setActiveTheme(id: number): Promise<ThemeOfMonth>;
+
   // Session store
   sessionStore: session.Store;
 }
@@ -703,6 +713,50 @@ export class DatabaseStorage implements IStorage {
     }
     
     return updatedRelation;
+  }
+
+  // Theme of the Month
+  async getActiveTheme(): Promise<ThemeOfMonth | undefined> {
+    const [theme] = await db.select().from(themeOfMonth)
+      .where(eq(themeOfMonth.isActive, true))
+      .orderBy(desc(themeOfMonth.createdAt))
+      .limit(1);
+    return theme;
+  }
+
+  async getAllThemes(): Promise<ThemeOfMonth[]> {
+    return db.select().from(themeOfMonth).orderBy(desc(themeOfMonth.createdAt));
+  }
+
+  async getTheme(id: number): Promise<ThemeOfMonth | undefined> {
+    const [theme] = await db.select().from(themeOfMonth).where(eq(themeOfMonth.id, id));
+    return theme;
+  }
+
+  async createTheme(theme: InsertThemeOfMonth): Promise<ThemeOfMonth> {
+    const [created] = await db.insert(themeOfMonth).values(theme).returning();
+    return created;
+  }
+
+  async updateTheme(id: number, theme: Partial<InsertThemeOfMonth>): Promise<ThemeOfMonth> {
+    const [updated] = await db.update(themeOfMonth)
+      .set({ ...theme, updatedAt: new Date() })
+      .where(eq(themeOfMonth.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteTheme(id: number): Promise<void> {
+    await db.delete(themeOfMonth).where(eq(themeOfMonth.id, id));
+  }
+
+  async setActiveTheme(id: number): Promise<ThemeOfMonth> {
+    await db.update(themeOfMonth).set({ isActive: false });
+    const [activated] = await db.update(themeOfMonth)
+      .set({ isActive: true, updatedAt: new Date() })
+      .where(eq(themeOfMonth.id, id))
+      .returning();
+    return activated;
   }
 }
 

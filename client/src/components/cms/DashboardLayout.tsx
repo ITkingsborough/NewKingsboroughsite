@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import {
+  BookOpen,
   Calendar,
   Home,
   Image,
@@ -136,6 +137,12 @@ function Sidebar({ className }: { className?: string }) {
               icon={<FileText className="h-4 w-4" />}
               label="Magazines"
               active={location.startsWith("/cms/magazines")}
+            />
+            <SidebarLink
+              href="/cms/theme"
+              icon={<BookOpen className="h-4 w-4" />}
+              label="Theme of Month"
+              active={location.startsWith("/cms/theme")}
             />
           </div>
           

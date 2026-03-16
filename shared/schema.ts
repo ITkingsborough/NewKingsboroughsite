@@ -316,6 +316,35 @@ export const insertMinistryGroupSchema = createInsertSchema(ministryGroups).pick
 export type InsertMinistryGroup = z.infer<typeof insertMinistryGroupSchema>;
 export type MinistryGroup = typeof ministryGroups.$inferSelect;
 
+// Theme of the Month - for homepage featured content
+export const themeOfMonth = pgTable("theme_of_month", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  subtitle: text("subtitle"),
+  scripture: text("scripture"),
+  scriptureRef: text("scripture_ref"),
+  description: text("description").notNull(),
+  month: text("month").notNull(),
+  imageUrl: text("image_url"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertThemeOfMonthSchema = createInsertSchema(themeOfMonth).pick({
+  title: true,
+  subtitle: true,
+  scripture: true,
+  scriptureRef: true,
+  description: true,
+  month: true,
+  imageUrl: true,
+  isActive: true,
+});
+
+export type InsertThemeOfMonth = z.infer<typeof insertThemeOfMonthSchema>;
+export type ThemeOfMonth = typeof themeOfMonth.$inferSelect;
+
 // Ministry Group Members - Many-to-Many relationship
 export const ministryGroupMembers = pgTable("ministry_group_members", {
   id: serial("id").primaryKey(),
