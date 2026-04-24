@@ -194,16 +194,25 @@ function processVideoItems(items: any[], filterForLiveContent: boolean = false):
         }
       }
       
+      const videoId = videoItem.id.videoId || '';
+      
+      // Generate fallback thumbnail URLs if not provided by API
+      const getThumbnailUrls = (videoId: string) => ({
+        default: { url: `https://img.youtube.com/vi/${videoId}/default.jpg`, width: 120, height: 90 },
+        medium: { url: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`, width: 320, height: 180 },
+        high: { url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`, width: 480, height: 360 },
+        standard: { url: `https://img.youtube.com/vi/${videoId}/sddefault.jpg`, width: 640, height: 480 },
+        maxres: { url: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`, width: 1280, height: 720 }
+      });
+      
       videos.push({
-        id: videoItem.id.videoId || '',
+        id: videoId,
         title: title,
         description: description,
         publishedAt: snippet.publishedAt || new Date().toISOString(),
-        thumbnails: snippet.thumbnails || {
-          default: { url: '', width: 120, height: 90 },
-          medium: { url: '', width: 320, height: 180 },
-          high: { url: '', width: 480, height: 360 }
-        },
+        thumbnails: snippet.thumbnails && Object.keys(snippet.thumbnails).length > 0 
+          ? snippet.thumbnails 
+          : getThumbnailUrls(videoId),
         channelTitle: snippet.channelTitle || 'Unknown Channel'
       });
     }

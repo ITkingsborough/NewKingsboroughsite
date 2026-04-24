@@ -3,11 +3,10 @@ import {
   slideUp,
   slideRight,
   fadeIn,
-  staggerContainer,
 } from "@/lib/animations";
 import { leaders } from "@/lib/data";
 import { Helmet } from "react-helmet";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useGsapAnimations } from "@/hooks/use-gsap-animations";
@@ -28,6 +27,7 @@ const About = () => {
   const valuesRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const [activeValueIndex, setActiveValueIndex] = useState<number | null>(null);
 
   // Parallax scroll refs
   const parallaxBgRef = useRef<HTMLDivElement>(null);
@@ -70,40 +70,39 @@ const About = () => {
   // Core values
   const coreValues = [
     {
-      icon: "fas fa-heart",
-      title: "Love",
+      letter: "F",
+      title: "Fun",
+      image: "/uploads/gallery/IMG_7832.JPG",
       description:
-        "Demonstrating Christ's unconditional love in everything we do, to everyone we meet.",
+        "We create joyful spaces where people can laugh, connect, and experience church as life-giving.",
     },
     {
-      icon: "fas fa-hands-helping",
-      title: "Service",
+      letter: "I",
+      title: "Inclusivity",
+      image: "/uploads/gallery/HOP.jpg",
       description:
-        "Serving others with humility and compassion as an expression of our faith.",
+        "Everyone is welcomed, valued, and embraced regardless of background, story, or season of life.",
     },
     {
-      icon: "fas fa-seedling",
-      title: "Growth",
+      letter: "S",
+      title: "Spirituality",
+      image: "/uploads/gallery/Kingsmen.png",
       description:
-        "Fostering spiritual, personal, and communal growth through discipleship and learning.",
+        "We pursue a deeper relationship with God through worship, prayer, and the Word.",
     },
     {
-      icon: "fas fa-users",
-      title: "Community",
+      letter: "E",
+      title: "Excellence",
+      image: "/uploads/gallery/PE.jpg",
       description:
-        "Building authentic relationships where people belong, connect, and support each other.",
+        "We honour God by giving our best in every area of ministry, leadership, and service.",
     },
     {
-      icon: "fas fa-globe-africa",
-      title: "Impact",
+      letter: "P",
+      title: "Passion",
+      image: "/uploads/gallery/MEDIA.jpg",
       description:
-        "Making a meaningful difference in our city, nation, and world through purposeful action.",
-    },
-    {
-      icon: "fas fa-church",
-      title: "Worship",
-      description:
-        "Celebrating God's presence through passionate, authentic expressions of worship.",
+        "We serve with energy, commitment, and love for people and the presence of God.",
     },
   ];
 
@@ -196,25 +195,6 @@ const About = () => {
 
       cards.forEach((card, index) => {
         createRevealAnimation(card, index === 0 ? "left" : "right", 50);
-      });
-    }
-
-    // Core values animation
-    if (valuesRef.current) {
-      const cards = valuesRef.current.querySelectorAll(".value-card");
-
-      gsap.from(cards, {
-        y: 50,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: valuesRef.current,
-          start: "top 70%",
-          end: "center center",
-          toggleActions: "play none none reverse",
-        },
       });
     }
 
@@ -535,50 +515,93 @@ const About = () => {
         </div>
       </section>
 
-      {/* 5. Core Values Grid Section */}
-      <section ref={valuesRef} className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4 lg:px-8">
+      {/* 5. Core Values Accordion Section */}
+      <section ref={valuesRef} className="flex flex-col bg-gray-50 overflow-hidden h-screen">
+        <div className="w-full h-full flex flex-col">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={slideUp()}
-            className="text-center mb-16"
+            className="text-center px-4 lg:px-8 pt-10 pb-6 shrink-0"
           >
             <h2 className="text-3xl md:text-5xl font-montserrat font-bold mb-4 text-deepPurple">
               Core Values
             </h2>
             <div className="h-1 w-20 bg-gold mx-auto mb-6"></div>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-700">
-              The fundamental beliefs that guide all we do
+              F.I.S.E.P — the values that shape how we lead, love, and serve.
             </p>
           </motion.div>
 
-          <motion.div
-            variants={staggerContainer()}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
-          >
-            {coreValues.map((value, index) => (
-              <motion.div
-                key={index}
-                variants={fadeIn(index * 0.1)}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className="value-card bg-white rounded-xl p-6 shadow-lg border border-gray-100 flex flex-col items-center text-center"
-              >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-deepPurple/100 mb-5">
-                  <i className={`${value.icon} text-gold text-2xl`}></i>
+          <div className="flex flex-1 w-full min-h-0 overflow-hidden">
+            {coreValues.map((value, index) => {
+              const isActive = activeValueIndex === index;
+
+              return (
+                <div
+                  key={index}
+                  className="value-card relative cursor-pointer overflow-hidden"
+                  onMouseEnter={() => setActiveValueIndex(index)}
+                  onMouseLeave={() => setActiveValueIndex(null)}
+                  style={{
+                    flex: isActive ? "4 1 0%" : "1 1 0%",
+                    transition: "flex 0.5s ease-in-out",
+                    minWidth: 0,
+                  }}
+                >
+                  <div className="relative w-full h-full overflow-hidden">
+                    <img
+                      src={value.image}
+                      alt={value.title}
+                      className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${
+                        isActive ? "scale-105" : "scale-100"
+                      }`}
+                      loading="lazy"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                    <div
+                      className={`absolute inset-0 border-4 transition-all duration-500 pointer-events-none ${
+                        isActive ? "border-gold" : "border-transparent"
+                      }`}
+                    />
+
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                        isActive ? "opacity-0 pointer-events-none" : "opacity-100"
+                      }`}
+                    >
+                      <span
+                        className="text-white font-montserrat font-bold text-sm md:text-lg tracking-widest uppercase whitespace-nowrap drop-shadow-lg"
+                        style={{ writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)" }}
+                      >
+                        {value.title}
+                      </span>
+                    </div>
+
+                    <div
+                      className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ${
+                        isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"
+                      }`}
+                    >
+                      <p className="text-gold font-montserrat font-semibold tracking-[0.25em] mb-2 text-sm md:text-base uppercase">
+                        {value.letter}
+                      </p>
+                      <h3 className="text-2xl md:text-4xl font-montserrat font-bold text-white mb-2">
+                        {value.title}
+                      </h3>
+                      <div className="h-0.5 w-12 bg-gold mb-3" />
+                      <p className="text-white/90 text-base md:text-xl leading-relaxed max-w-md">
+                        {value.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-montserrat font-bold mb-3 text-deepPurple">
-                  {value.title}
-                </h3>
-                <p className="text-gray-700">{value.description}</p>
-                <div className="h-0.5 w-12 bg-gold/60 mt-5"></div>
-              </motion.div>
-            ))}
-          </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 

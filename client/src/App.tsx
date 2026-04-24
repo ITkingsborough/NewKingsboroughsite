@@ -8,6 +8,7 @@ import About from "@/pages/About";
 import Ministries from "@/pages/Ministries";
 import Events from "@/pages/Events";
 import Sermons from "@/pages/Sermons";
+import Magazines from "@/pages/Magazines";
 import Gallery from "@/pages/Gallery";
 import Giving from "@/pages/Giving";
 import Contact from "@/pages/Contact";
@@ -73,6 +74,7 @@ function App() {
                   <Route path="/ministries" component={Ministries} />
                   <Route path="/events" component={Events} />
                   <Route path="/sermons" component={Sermons} />
+                  <Route path="/magazines" component={Magazines} />
                   <Route path="/gallery" component={Gallery} />
                   <Route path="/giving" component={Giving} />
                   <Route path="/contact" component={Contact} />

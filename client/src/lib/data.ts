@@ -73,7 +73,7 @@ export const ministries: MinistryItem[] = [
     description:
       "Creating a fun, safe environment where children can learn about God's love through age-appropriate activities.",
     image:
-      "/uploads/gallery/IMG_1177.JPG",
+      "/uploads/gallery/HOP2.JPG",
   },
   {
     id: 3,

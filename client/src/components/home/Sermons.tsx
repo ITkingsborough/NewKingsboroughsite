@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { slideUp, staggerContainer } from "@/lib/animations";
 import { useQuery } from "@tanstack/react-query";
-import { PlayCircle, Calendar } from "lucide-react";
+import { PlayCircle, Calendar, ArrowRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -51,10 +51,12 @@ const Sermons = () => {
 
   const handlePreviousPage = () => {
     setPage((prev: number) => Math.max(0, prev - 1));
+    document.querySelector('[data-sermons-grid]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const handleNextPage = () => {
     setPage((prev: number) => Math.min(totalPages - 1, prev + 1));
+    document.querySelector('[data-sermons-grid]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   // For formatting relative time (e.g., "2 days ago")
@@ -66,8 +68,12 @@ const Sermons = () => {
     }
   };
 
-  const handleWatchClick = (videoId: string) => {
-    window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
+  const handleWatchClick = (videoId: string, isLivestream: boolean = true) => {
+    // Skip to 30 minutes (1800 seconds) for livestreams to jump past pre-show content
+    const url = isLivestream 
+      ? `https://www.youtube.com/watch?v=${videoId}&t=1800`
+      : `https://www.youtube.com/watch?v=${videoId}`;
+    window.open(url, "_blank");
   };
 
   const getThumbnailUrl = (video: YouTubeVideo): string => {
@@ -81,204 +87,237 @@ const Sermons = () => {
   };
 
   return (
-    <section id="sermons" data-nav-theme="dark" className="py-20 bg-gold bg-opacity-60">
+    <section id="sermons" data-nav-theme="dark" className="py-24 bg-gradient-to-br from-deepPurple via-deepPurple to-deepPurple/95">
       <div className="container mx-auto px-4 lg:px-8">
+        {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="mb-20 max-w-3xl"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={slideUp()}
         >
-          <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-white">
+          <div className="inline-flex items-center gap-2 mb-4 bg-gold/20 px-4 py-2 rounded-full">
+            <PlayCircle className="w-4 h-4 text-gold" />
+            <span className="text-sm font-semibold text-gold uppercase tracking-wide">Latest Messages</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-6 text-white leading-tight">
             Recent Sermons
           </h2>
-          <p className="text-lg max-w-3xl mx-auto text-white">
-            Missed a Sunday? Catch up on our latest messages or explore our
-            sermon archive.
+          <p className="text-lg text-gray-300">
+            Dive into our latest messages and grow spiritually. Watch sermons anytime, anywhere.
           </p>
         </motion.div>
 
+        {/* Loading State */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array(3)
               .fill(0)
               .map((_, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg shadow-md overflow-hidden"
-                >
-                  <Skeleton className="h-48 w-full" />
-                  <div className="p-6">
-                    <Skeleton className="h-6 w-3/4 mb-3" />
-                    <Skeleton className="h-4 w-1/2 mb-2" />
-                    <Skeleton className="h-4 w-1/2 mb-4" />
-                    <Skeleton className="h-16 w-full mb-4" />
-                    <div className="flex gap-2">
-                      <Skeleton className="h-8 w-24" />
-                      <Skeleton className="h-8 w-24" />
-                    </div>
-                  </div>
+                <div key={index} className="group">
+                  <Skeleton className="h-56 w-full rounded-xl mb-4" />
+                  <Skeleton className="h-6 w-4/5 mb-3 rounded" />
+                  <Skeleton className="h-4 w-3/5 mb-6 rounded" />
+                  <Skeleton className="h-4 w-full rounded" />
                 </div>
               ))}
           </div>
         ) : isError ? (
-          <div className="text-center p-6 bg-red-50 rounded-lg">
-            <h3 className="text-lg font-medium text-red-800">
-              Failed to load sermons
+          <div className="text-center p-12 bg-white/10 backdrop-blur rounded-2xl border border-white/20">
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Unable to load sermons
             </h3>
-            <p className="text-red-600 mb-4">
-              We couldn't fetch the latest videos from our YouTube channel.
+            <p className="text-gray-300 mb-6">
+              We couldn't fetch the latest videos. Please try again later.
             </p>
-            <Link href="/sermons" className="btn-primary">
-              Go to Sermons Page
+            <Link href="/sermons">
+              <button className="inline-flex items-center gap-2 bg-gold text-deepPurple px-6 py-3 rounded-lg font-semibold hover:bg-gold/90 transition-colors">
+                View Sermon Archive <ArrowRight className="w-4 h-4" />
+              </button>
             </Link>
           </div>
+        ) : videos.length === 0 ? (
+          <div className="text-center p-12 bg-white/10 backdrop-blur rounded-2xl border border-white/20">
+            <p className="text-gray-300">No sermons available at this time.</p>
+          </div>
         ) : (
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={staggerContainer()}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {videos.map((video, index) => (
+          <>
+            {/* Cards Grid */}
+            <motion.div
+              key={`page-${page}`}
+              data-sermons-grid
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
+              variants={staggerContainer()}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              {videos.map((video, index) => (
+                <motion.div
+                  key={video.id}
+                  className="group"
+                  variants={slideUp((index + 1) * 0.1)}
+                >
+                  {/* Card Container */}
+                  <div className="h-full flex flex-col bg-white/10 backdrop-blur border border-white/20 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300 hover:bg-white/15">
+                    {/* Thumbnail Container */}
+                    <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gold/20 to-transparent">
+                      <img
+                        src={getThumbnailUrl(video)}
+                        alt={video.title}
+                        className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+                        }}
+                      />
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-deepPurple/80 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
+                      
+                      {/* Play Button */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <motion.button
+                          onClick={() => handleWatchClick(video.id)}
+                          className="bg-gold/90 hover:bg-gold text-deepPurple rounded-full w-16 h-16 flex items-center justify-center shadow-lg font-semibold text-sm transition-all duration-300 flex-col gap-1"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          aria-label="Play sermon"
+                        >
+                          <PlayCircle className="w-7 h-7" fill="currentColor" />
+                        </motion.button>
+                      </div>
+
+                      {/* Date Badge */}
+                      <div className="absolute top-4 right-4 bg-gold/90 text-deepPurple px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+                        {formatPublishedAt(video.publishedAt)}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 flex flex-col p-6">
+                      <h3 className="text-lg font-montserrat font-bold text-white mb-3 line-clamp-2 group-hover:text-gold transition-colors">
+                        {video.title}
+                      </h3>
+                      
+                      <p className="text-sm text-gray-300 line-clamp-2 mb-4 flex-grow">
+                        {video.description}
+                      </p>
+
+                      {/* Channel Info */}
+                      <div className="flex items-center gap-2 mb-6 pt-4 border-t border-white/10">
+                        <div className="w-8 h-8 bg-gradient-to-br from-gold to-gold/50 rounded-full flex items-center justify-center text-xs font-bold text-deepPurple">
+                          {video.channelTitle.charAt(0)}
+                        </div>
+                        <div className="text-xs opacity-75 text-gray-300">{video.channelTitle}</div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-3">
+                        <motion.button
+                          onClick={() => handleWatchClick(video.id)}
+                          className="flex-1 bg-gold text-deepPurple px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gold/90 transition-colors flex items-center justify-center gap-2"
+                          whileHover={{ y: -2 }}
+                          whileTap={{ y: 0 }}
+                        >
+                          <PlayCircle className="w-4 h-4" />
+                          Watch
+                        </motion.button>
+                        <motion.button
+                          onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, "_blank")}
+                          className="flex-1 border border-gold/30 text-gold px-4 py-2 rounded-lg font-semibold text-sm hover:border-gold hover:bg-gold/10 transition-all flex items-center justify-center gap-2"
+                          whileHover={{ y: -2 }}
+                          whileTap={{ y: 0 }}
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                          YouTube
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
               <motion.div
-                key={video.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden card-hover"
-                variants={slideUp((index + 1) * 0.1)}
-                whileHover={{
-                  y: -5,
-                  boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-                  transition: { duration: 0.3 },
-                }}
+                className="flex justify-center gap-4 mb-12"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                variants={slideUp(0.3)}
               >
-                <div className="h-48 overflow-hidden relative">
-                  <img
-                    src={getThumbnailUrl(video)}
-                    alt={video.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-deepPurple bg-opacity-40 flex items-center justify-center">
-                    <button
-                      onClick={() => handleWatchClick(video.id)}
-                      className="text-white bg-gold bg-opacity-90 rounded-full w-14 h-14 flex items-center justify-center transform transition-transform duration-300 hover:scale-110"
-                      aria-label="Play sermon"
+                <motion.button
+                  onClick={handlePreviousPage}
+                  disabled={page === 0}
+                  className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
+                    page === 0
+                      ? "bg-white/5 text-gray-500 cursor-not-allowed"
+                      : "bg-gold/20 text-gold border border-gold/30 hover:bg-gold hover:text-deepPurple hover:border-gold"
+                  }`}
+                  whileHover={page !== 0 ? { x: -4 } : {}}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Previous
+                </motion.button>
+
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <motion.button
+                      key={i}
+                      onClick={() => setPage(i)}
+                      className={`w-10 h-10 rounded-lg font-semibold transition-all ${
+                        page === i
+                          ? "bg-gold text-deepPurple"
+                          : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      <PlayCircle className="h-8 w-8" />
-                    </button>
-                  </div>
+                      {i + 1}
+                    </motion.button>
+                  ))}
                 </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-montserrat font-semibold line-clamp-2">
-                      {video.title}
-                    </h3>
-                    <span className="text-xs whitespace-nowrap bg-lilac bg-opacity-30 text-deepPurple px-2 py-1 rounded">
-                      {formatPublishedAt(video.publishedAt)}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-3 flex items-center">
-                    <Calendar className="w-4 h-4 mr-2" />{" "}
-                    {formatPublishedAt(video.publishedAt)}
-                  </p>
-                  <p className="mb-6 text-sm line-clamp-3">
-                    {video.description}
-                  </p>
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={() => handleWatchClick(video.id)}
-                      className="text-gold font-montserrat font-medium hover:underline inline-flex items-center"
-                    >
-                      <PlayCircle className="w-5 h-5 mr-1" /> Watch
-                    </button>
-                    <a
-                      href={`https://www.youtube.com/channel/UCGYKC04rR0F7ajcuVQqupRQ`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gold font-montserrat font-medium hover:underline inline-flex items-center"
-                    >
-                      More Sermons
-                    </a>
-                  </div>
-                </div>
+
+                <motion.button
+                  onClick={handleNextPage}
+                  disabled={page >= totalPages - 1}
+                  className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
+                    page >= totalPages - 1
+                      ? "bg-white/5 text-gray-500 cursor-not-allowed"
+                      : "bg-gold/20 text-gold border border-gold/30 hover:bg-gold hover:text-deepPurple hover:border-gold"
+                  }`}
+                  whileHover={page < totalPages - 1 ? { x: 4 } : {}}
+                >
+                  Next
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </motion.button>
               </motion.div>
-            ))}
-          </motion.div>
+            )}
+
+            {/* CTA Button */}
+            <motion.div
+              className="text-center"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={slideUp(0.4)}
+            >
+              <Link href="/sermons">
+                <button className="inline-flex items-center gap-2 bg-gradient-to-r from-gold to-gold/80 text-deepPurple px-8 py-4 rounded-xl font-montserrat font-bold text-lg hover:from-gold hover:to-gold hover:shadow-2xl hover:shadow-gold/25 transition-all duration-300 transform hover:scale-105">
+                  View Complete Sermon Archive
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
+            </motion.div>
+          </>
         )}
-
-        {totalPages > 1 && (
-          <motion.div
-            className="flex justify-center mt-8 mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={slideUp(0.3)}
-          >
-            <div className="flex space-x-4">
-              <button
-                className={`px-5 py-2 rounded-lg flex items-center ${page === 0 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-deepPurple text-white hover:bg-deepPurple/90"}`}
-                onClick={handlePreviousPage}
-                disabled={page === 0}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                Previous
-              </button>
-
-              <button
-                className={`px-5 py-2 rounded-lg flex items-center ${page >= totalPages - 1 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-deepPurple text-white hover:bg-deepPurple/90"}`}
-                onClick={handleNextPage}
-                disabled={page >= totalPages - 1}
-              >
-                Next
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 ml-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        <motion.div
-          className="text-center mt-6"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={slideUp(0.3)}
-        >
-          <Link href="/sermons" className="btn-primary">
-            View Sermon Archive
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

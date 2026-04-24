@@ -2,122 +2,101 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 
-// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+const serviceTimes = [
+  {
+    day: "Sunday",
+    services: [
+      { name: "Celebration Service", time: "10AM - 12PM" }
+    ]
+  },
+  {
+    day: "Wednesday",
+    services: [
+      { name: "Bible Study", time: "7:00PM - 8:30PM" }
+    ]
+  },
+  {
+    day: "Friday",
+    services: [
+      { name: "Vigil Service (Every 3rd Friday of the Month) ", time: "9PM - 12AM" }
+    ]
+  }
+];
+
 const Welcome = () => {
-  // Refs for DOM elements
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
-  const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const textRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
-  const features = [
-    {
-      icon: "fas fa-church",
-      title: "Sunday Services",
-      description: "Join us at 10:00 AM for worship that inspires and messages that transform."
-    },
-    {
-      icon: "fas fa-hands-helping",
-      title: "Community Groups",
-      description: "Connect with others in meaningful relationships through our various small groups and ministries."
-    },
-    {
-      icon: "fas fa-child",
-      title: "Family Ministry",
-      description: "We provide a safe, fun environment for children and teens to learn and grow in faith."
-    }
-  ];
-
-  // Set up GSAP animations
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Create a timeline for animations
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top 80%",
-        end: "bottom 20%",
         toggleActions: "play none none none"
       }
     });
 
-    // Animate heading and text
-    tl.fromTo(
-      headingRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
-    ).fromTo(
-      textRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-      "-=0.5" // Overlap with previous animation
-    );
+    tl.fromTo(headingRef.current, { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, ease: "power2.out" })
+      .fromTo(textRef.current,    { x:  40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, ease: "power2.out" }, "-=0.7")
+      .fromTo(cardsRef.current,   { y:  40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, "-=0.4");
 
-    // Animate feature cards with staggered effect
-    featureRefs.current.forEach((feature, index) => {
-      if (!feature) return;
-      
-      tl.fromTo(
-        feature,
-        { y: 50, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 0.6, 
-          ease: "power2.out" 
-        },
-        `-=${index === 0 ? 0.2 : 0.4}` // Stagger the animations
-      );
-    });
-
-    // Cleanup
-    return () => {
-      if (tl.scrollTrigger) {
-        tl.scrollTrigger.kill();
-      }
-    };
+    return () => { ScrollTrigger.getAll().forEach(t => t.kill()); };
   }, []);
 
   return (
-    <section ref={sectionRef} id="welcome" data-nav-theme="light" className="py-20 bg-white">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 
-            ref={headingRef} 
-            className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple opacity-0"
-          >
-            Your Journey Starts Here
-          </h2>
-          <p 
-            ref={textRef} 
-            className="text-lg text-darkGray leading-relaxed mb-10 opacity-0"
-          >
-            At Kingsborough Church, we believe in authentic community, purposeful worship, and embracing everyone exactly where they are. No matter your background or where you are on your spiritual journey, there's a place for you here.
-          </p>
-          
-          <div 
-            ref={featuresRef} 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
-          >
-            {features.map((feature, index) => (
-              <div 
-                key={index} 
-                ref={el => featureRefs.current[index] = el}
-                className="flex flex-col items-center opacity-0"
-              >
-                <div className="w-20 h-20 rounded-full bg-lilac bg-opacity-20 flex items-center justify-center mb-4">
-                  <i className={`${feature.icon} text-gold text-3xl`}></i>
-                </div>
-                <h3 className="text-xl font-montserrat font-semibold mb-2">{feature.title}</h3>
-                <p className="text-center">{feature.description}</p>
-              </div>
-            ))}
+    <section
+      ref={sectionRef}
+      id="welcome"
+      data-nav-theme="light"
+      className="py-20 bg-white"
+    >
+      <div className="container mx-auto px-6 lg:px-16 max-w-6xl">
+
+        {/* Top row: title left, blurb right */}
+        <div className="flex flex-col md:flex-row md:items-start gap-10 mb-16">
+          <div className="md:w-1/3 shrink-0">
+            <h2
+              ref={headingRef}
+              className="text-5xl md:text-6xl font-montserrat font-bold leading-none tracking-tight text-deepPurple uppercase opacity-0"
+            >
+              Service<br />Times
+            </h2>
+            <div className="h-1 w-16 bg-gold mt-5" />
+          </div>
+          <div ref={textRef} className="opacity-0 md:pt-2 md:w-2/3">
+            <p className="text-darkGray text-base md:text-lg leading-relaxed">
+              At Kingsborough Church, we believe in authentic community, purposeful worship, and embracing everyone exactly where they are. No matter your background or where you are on your spiritual journey, there's a place for you here. Come as you are — you are always welcome.
+            </p>
           </div>
         </div>
+
+        {/* Service time cards */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-0">
+          {serviceTimes.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-xl border border-deepPurple/20 bg-white px-8 py-10 hover:border-gold hover:shadow-lg transition-all duration-300 group"
+            >
+              <h3 className="text-3xl md:text-4xl font-montserrat font-bold text-deepPurple mb-4 group-hover:text-gold transition-colors duration-300">
+                {item.day}
+              </h3>
+              <div className="h-0.5 w-10 bg-gold mb-4" />
+              {item.services.map((s, j) => (
+                <p key={j} className="text-darkGray text-sm md:text-base leading-snug">
+                  <span className="font-semibold text-deepPurple">{s.name}:</span><br />
+                  {s.time}
+                </p>
+              ))}
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

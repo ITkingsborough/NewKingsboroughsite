@@ -1,55 +1,15 @@
 import { motion } from 'framer-motion';
 import { slideUp } from '@/lib/animations';
-import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation } from 'wouter';
 
 const Giving = () => {
-  const [location] = useLocation();
-  const searchParams = new URLSearchParams(location.split('?')[1]);
-  const isRecurring = searchParams.get('recurring') === 'true';
-
-  // State for donation form
-  const [donationForm, setDonationForm] = useState({
-    amount: '50',
-    fundType: 'general',
-    frequency: isRecurring ? 'monthly' : 'one-time',
-    customAmount: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    paymentMethod: 'card',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    savePaymentInfo: false
-  });
-
-  const [submitted, setSubmitted] = useState(false);
-
-  // Predefined donation amounts
-  const donationAmounts = ['25', '50', '100', '250', '500', '1000'];
-
-  // Handle changes to the donation form
-  const handleDonationFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    
-    if (type === 'checkbox') {
-      const target = e.target as HTMLInputElement;
-      setDonationForm(prev => ({ ...prev, [name]: target.checked }));
-    } else if (name === 'amount' && value === 'custom') {
-      setDonationForm(prev => ({ ...prev, amount: 'custom' }));
-    } else {
-      setDonationForm(prev => ({ ...prev, [name]: value }));
-    }
-  };
-
-  // Handle form submission
-  const handleDonationSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Donation form submitted:', donationForm);
-    setSubmitted(true);
-  };
+  const bankDetails = [
+    { label: 'Account Name', value: 'Kingsborough Church' },
+    { label: 'Bank Name', value: 'Your Bank Name Here' },
+    { label: 'Sort Code', value: '00-00-00' },
+    { label: 'Account Number', value: '00000000' },
+    { label: 'Reference', value: 'Tithe / Offering / Building Fund' },
+  ];
 
   return (
     <>
@@ -180,7 +140,7 @@ const Giving = () => {
                   </div>
                 </motion.div>
                 
-                {/* Right Column - Donation Form */}
+                {/* Right Column - Giving Methods */}
                 <motion.div 
                   className="lg:w-1/2"
                   initial="hidden"
@@ -188,356 +148,96 @@ const Giving = () => {
                   viewport={{ once: true, amount: 0.3 }}
                   variants={slideUp(0.2)}
                 >
-                  <div className="bg-white rounded-lg shadow-lg p-8">
-                    {submitted ? (
-                      <div className="text-center py-8">
-                        <div className="w-16 h-16 rounded-full bg-green-100 text-green-500 flex items-center justify-center mx-auto mb-4">
-                          <i className="fas fa-check text-2xl"></i>
-                        </div>
-                        <h3 className="text-2xl font-montserrat font-semibold mb-4">Thank You for Your Generosity!</h3>
-                        <p className="mb-6">
-                          Your donation has been processed successfully. You should receive a confirmation email shortly.
-                        </p>
-                        <p className="text-lg font-medium mb-8">
-                          {donationForm.amount === 'custom' 
-                            ? `£${donationForm.customAmount}` 
-                            : `£${donationForm.amount}`} 
-                          {donationForm.frequency === 'one-time' ? '' : ` ${donationForm.frequency}`}
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                          <button 
-                            onClick={() => setSubmitted(false)}
-                            className="btn-outline"
-                          >
-                            Make Another Donation
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <h2 className="text-2xl font-montserrat font-semibold mb-6 text-center">
-                          {isRecurring ? 'Set Up Recurring Gift' : 'Make a Donation'}
-                        </h2>
-                        
-                        <form onSubmit={handleDonationSubmit}>
-                          {/* Gift Amount */}
-                          <div className="mb-8">
-                            <label className="block text-gray-700 font-semibold mb-2">
-                              Select Gift Amount
-                            </label>
-                            <div className="grid grid-cols-3 gap-2">
-                              {donationAmounts.map((amount) => (
-                                <button
-                                  key={amount}
-                                  type="button"
-                                  className={`py-3 rounded-md ${
-                                    donationForm.amount === amount
-                                      ? 'bg-gold text-white'
-                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                  }`}
-                                  onClick={() => setDonationForm(prev => ({ ...prev, amount }))}
-                                >
-                                  £{amount}
-                                </button>
-                              ))}
-                            </div>
-                            <div className="mt-2 relative">
-                              <button
-                                type="button"
-                                className={`w-full text-left py-3 px-4 rounded-md ${
-                                  donationForm.amount === 'custom'
-                                    ? 'bg-gold text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                }`}
-                                onClick={() => setDonationForm(prev => ({ ...prev, amount: 'custom' }))}
-                              >
-                                Custom Amount
-                              </button>
-                              {donationForm.amount === 'custom' && (
-                                <div className="mt-2 flex items-center">
-                                  <span className="absolute ml-3 text-gray-500">£</span>
-                                  <input
-                                    type="number"
-                                    name="customAmount"
-                                    value={donationForm.customAmount}
-                                    onChange={handleDonationFormChange}
-                                    className="w-full pl-8 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                    placeholder="Enter amount"
-                                    min="1"
-                                    step="1"
-                                    required={donationForm.amount === 'custom'}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          
-                          {/* Gift Frequency */}
-                          <div className="mb-6">
-                            <label className="block text-gray-700 font-semibold mb-2">
-                              Gift Frequency
-                            </label>
-                            <div className="grid grid-cols-3 gap-2">
-                              <button
-                                type="button"
-                                className={`py-3 rounded-md ${
-                                  donationForm.frequency === 'one-time'
-                                    ? 'bg-gold text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                }`}
-                                onClick={() => setDonationForm(prev => ({ ...prev, frequency: 'one-time' }))}
-                              >
-                                One Time
-                              </button>
-                              <button
-                                type="button"
-                                className={`py-3 rounded-md ${
-                                  donationForm.frequency === 'weekly'
-                                    ? 'bg-gold text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                }`}
-                                onClick={() => setDonationForm(prev => ({ ...prev, frequency: 'weekly' }))}
-                              >
-                                Weekly
-                              </button>
-                              <button
-                                type="button"
-                                className={`py-3 rounded-md ${
-                                  donationForm.frequency === 'monthly'
-                                    ? 'bg-gold text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                }`}
-                                onClick={() => setDonationForm(prev => ({ ...prev, frequency: 'monthly' }))}
-                              >
-                                Monthly
-                              </button>
-                            </div>
-                          </div>
-                          
-                          {/* Fund Type */}
-                          <div className="mb-6">
-                            <label className="block text-gray-700 font-semibold mb-2" htmlFor="fundType">
-                              Select Fund
-                            </label>
-                            <select
-                              id="fundType"
-                              name="fundType"
-                              value={donationForm.fundType}
-                              onChange={handleDonationFormChange}
-                              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                            >
-                              <option value="general">General Fund</option>
-                              <option value="missions">Missions Fund</option>
-                              <option value="building">Building Fund</option>
-                              <option value="youth">Centre Point</option>
-                              <option value="outreach">Community Outreach</option>
-                            </select>
-                          </div>
-                          
-                          {/* Contact Information */}
-                          <div className="mb-6">
-                            <h3 className="text-lg font-semibold mb-4 border-b pb-2">Contact Information</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                              <div>
-                                <label className="block text-gray-700 mb-1" htmlFor="firstName">
-                                  First Name
-                                </label>
-                                <input
-                                  type="text"
-                                  id="firstName"
-                                  name="firstName"
-                                  value={donationForm.firstName}
-                                  onChange={handleDonationFormChange}
-                                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                  required
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-gray-700 mb-1" htmlFor="lastName">
-                                  Last Name
-                                </label>
-                                <input
-                                  type="text"
-                                  id="lastName"
-                                  name="lastName"
-                                  value={donationForm.lastName}
-                                  onChange={handleDonationFormChange}
-                                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                  required
-                                />
-                              </div>
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-lg shadow-lg p-8">
+                      <h2 className="text-2xl font-montserrat font-semibold mb-6 text-center text-deepPurple">
+                        Ways to Give
+                      </h2>
+                      <p className="text-center text-gray-600 mb-8">
+                        Choose the giving method that works best for you. Update the placeholder details below with your church's live giving information.
+                      </p>
+
+                      <div className="space-y-6">
+                        <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50">
+                          <div className="flex items-center gap-4 mb-5">
+                            <div className="w-14 h-14 rounded-full bg-deepPurple/10 text-deepPurple flex items-center justify-center shrink-0">
+                              <i className="fas fa-university text-2xl"></i>
                             </div>
                             <div>
-                              <label className="block text-gray-700 mb-1" htmlFor="email">
-                                Email Address
-                              </label>
-                              <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={donationForm.email}
-                                onChange={handleDonationFormChange}
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                required
-                              />
-                              <p className="text-xs text-gray-500 mt-1">
-                                Your receipt will be emailed to this address
-                              </p>
+                              <h3 className="text-xl font-montserrat font-semibold text-deepPurple">Bank Transfer</h3>
+                              <p className="text-sm text-gray-600">Use the church bank details below for direct giving.</p>
                             </div>
                           </div>
-                          
-                          {/* Payment Information */}
-                          <div className="mb-6">
-                            <h3 className="text-lg font-semibold mb-4 border-b pb-2">Payment Information</h3>
-                            <div className="mb-4">
-                              <label className="block text-gray-700 mb-2">Payment Method</label>
-                              <div className="grid grid-cols-3 gap-3">
-                                <button
-                                  type="button"
-                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
-                                    donationForm.paymentMethod === 'card'
-                                      ? 'bg-gold text-white'
-                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                  }`}
-                                  onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'card' }))}
-                                >
-                                  <i className="far fa-credit-card mr-2"></i> Credit Card
-                                </button>
-                                <button
-                                  type="button"
-                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
-                                    donationForm.paymentMethod === 'paypal'
-                                      ? 'bg-gold text-white'
-                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                  }`}
-                                  onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'paypal' }))}
-                                >
-                                  <i className="fab fa-paypal mr-2"></i> PayPal
-                                </button>
-                                <button
-                                  type="button"
-                                  className={`px-4 py-3 rounded-md flex items-center justify-center ${
-                                    donationForm.paymentMethod === 'googlepay'
-                                      ? 'bg-gold text-white'
-                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                  }`}
-                                  onClick={() => setDonationForm(prev => ({ ...prev, paymentMethod: 'googlepay' }))}
-                                >
-                                  <i className="fab fa-google-pay mr-2"></i> Google Pay
-                                </button>
-                              </div>
-                            </div>
-                            
-                            {donationForm.paymentMethod === 'card' && (
-                              <div>
-                                <div className="mb-4">
-                                  <label className="block text-gray-700 mb-1" htmlFor="cardNumber">
-                                    Card Number
-                                  </label>
-                                  <input
-                                    type="text"
-                                    id="cardNumber"
-                                    name="cardNumber"
-                                    value={donationForm.cardNumber}
-                                    onChange={handleDonationFormChange}
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                    placeholder="0000 0000 0000 0000"
-                                    required={donationForm.paymentMethod === 'card'}
-                                  />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div>
-                                    <label className="block text-gray-700 mb-1" htmlFor="expiryDate">
-                                      Expiry Date
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="expiryDate"
-                                      name="expiryDate"
-                                      value={donationForm.expiryDate}
-                                      onChange={handleDonationFormChange}
-                                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                      placeholder="MM/YY"
-                                      required={donationForm.paymentMethod === 'card'}
-                                    />
-                                  </div>
-                                  <div>
-                                    <label className="block text-gray-700 mb-1" htmlFor="cvv">
-                                      CVV
-                                    </label>
-                                    <input
-                                      type="text"
-                                      id="cvv"
-                                      name="cvv"
-                                      value={donationForm.cvv}
-                                      onChange={handleDonationFormChange}
-                                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
-                                      placeholder="000"
-                                      required={donationForm.paymentMethod === 'card'}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                            
-                            {donationForm.paymentMethod === 'paypal' && (
-                              <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-                                <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-                                  <i className="fab fa-paypal text-white text-3xl"></i>
-                                </div>
-                                <h4 className="text-lg font-semibold text-blue-900 mb-2">Pay with PayPal</h4>
-                                <p className="text-blue-700 text-sm mb-4">
-                                  You will be redirected to PayPal to complete your secure donation.
-                                </p>
-                                <div className="flex items-center justify-center space-x-2 text-xs text-blue-600">
-                                  <i className="fas fa-lock"></i>
-                                  <span>Secure PayPal checkout</span>
-                                </div>
-                              </div>
-                            )}
 
-                            {donationForm.paymentMethod === 'googlepay' && (
-                              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-                                <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-md">
-                                  <i className="fab fa-google-pay text-gray-800 text-3xl"></i>
-                                </div>
-                                <h4 className="text-lg font-semibold text-gray-900 mb-2">Pay with Google Pay</h4>
-                                <p className="text-gray-600 text-sm mb-4">
-                                  Use your saved payment methods for a fast and secure donation.
-                                </p>
-                                <div className="flex items-center justify-center space-x-2 text-xs text-gray-500">
-                                  <i className="fas fa-shield-alt"></i>
-                                  <span>Protected by Google</span>
-                                </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {bankDetails.map((detail) => (
+                              <div key={detail.label} className="rounded-xl bg-white border border-gray-200 p-4">
+                                <p className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-1">{detail.label}</p>
+                                <p className="text-base font-medium text-deepPurple break-words">{detail.value}</p>
                               </div>
-                            )}
-                            
-                            <div className="mt-4">
-                              <label className="flex items-center">
-                                <input
-                                  type="checkbox"
-                                  name="savePaymentInfo"
-                                  checked={donationForm.savePaymentInfo}
-                                  onChange={handleDonationFormChange}
-                                  className="mr-2 h-5 w-5"
-                                />
-                                <span className="text-sm">Save my payment information for future donations</span>
-                              </label>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="rounded-2xl border border-blue-200 p-6 bg-blue-50">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0">
+                              <i className="fab fa-paypal text-2xl"></i>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-montserrat font-semibold text-blue-900">PayPal Giving</h3>
+                              <p className="text-sm text-blue-700">Share your PayPal giving link or PayPal email for quick online donations.</p>
                             </div>
                           </div>
-                          
-                          <button type="submit" className="btn-primary w-full text-lg py-4">
-                            {donationForm.frequency === 'one-time' 
-                              ? `Donate ${donationForm.amount === 'custom' ? `£${donationForm.customAmount || '0'}` : `£${donationForm.amount}`}` 
-                              : `Give ${donationForm.amount === 'custom' ? `£${donationForm.customAmount || '0'}` : `£${donationForm.amount}`} ${donationForm.frequency}`}
-                          </button>
-                          
-                          <p className="text-center text-sm text-gray-500 mt-4">
-                            Your donation is secure and encrypted. You'll receive a receipt via email.
-                          </p>
-                        </form>
-                      </>
-                    )}
+
+                          <div className="rounded-xl bg-white border border-blue-100 p-4">
+                            <p className="text-xs uppercase tracking-[0.2em] text-blue-600 font-semibold mb-1">PayPal Link / Email</p>
+                            <p className="text-base font-medium text-blue-900 break-words">paypal.me/yourchurchname or giving@yourchurch.org</p>
+                          </div>
+                        </div>
+
+                        <div className="rounded-2xl border border-gold/30 p-6 bg-gold/5">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="w-14 h-14 rounded-full bg-gold/20 text-gold flex items-center justify-center shrink-0">
+                              <i className="fas fa-qrcode text-2xl"></i>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-montserrat font-semibold text-deepPurple">Scan to Give</h3>
+                              <p className="text-sm text-gray-600">Add your church giving QR code here so people can scan and give instantly.</p>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 items-center">
+                            <div className="mx-auto md:mx-0 w-44 h-44 rounded-2xl border-2 border-dashed border-gold bg-white flex flex-col items-center justify-center text-center p-4">
+                              <i className="fas fa-qrcode text-4xl text-gold mb-3"></i>
+                              <p className="text-sm font-semibold text-deepPurple">QR Code Placeholder</p>
+                              <p className="text-xs text-gray-500 mt-1">Replace with your real giving QR code image</p>
+                            </div>
+
+                            <div className="space-y-3">
+                              <div className="rounded-xl bg-white border border-gold/20 p-4">
+                                <p className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-1">How to use</p>
+                                <p className="text-gray-700">Open your camera or banking app, scan the code, and follow the giving instructions on your phone.</p>
+                              </div>
+                              <div className="rounded-xl bg-white border border-gold/20 p-4">
+                                <p className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-1">Recommended asset</p>
+                                <p className="text-gray-700">Add a square PNG or JPG QR code image to the public folder and swap this placeholder with the real image.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-xl font-montserrat font-semibold mb-3 text-deepPurple">Need Help?</h3>
+                      <p className="text-gray-600 mb-4">
+                        If you need help setting up a bank transfer, PayPal gift, or QR code giving option, our finance team will be happy to assist.
+                      </p>
+                      <a href="mailto:accounts@kingsborough.org.uk" className="text-gold font-medium hover:underline">
+                        accounts@kingsborough.org.uk
+                      </a>
+                    </div>
                   </div>
                 </motion.div>
               </div>
