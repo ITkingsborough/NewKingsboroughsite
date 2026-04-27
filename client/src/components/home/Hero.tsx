@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 import heroVideo from '@assets/Background_video_1768994478570.mp4';
 
 const Hero = () => {
+  const headingText = 'Welcome to Kingsborough Church';
+  const splitChars = headingText.split('');
   const contentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
@@ -13,24 +15,29 @@ const Hero = () => {
     if (!contentRef.current) return;
 
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    const chars = headingRef.current?.querySelectorAll('.hero-char') || [];
 
-    tl.fromTo(
-      headingRef.current,
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      0.2
-    )
+    gsap.set(chars, { yPercent: 120, opacity: 0, rotateX: -50, transformOrigin: '50% 100%' });
+
+    tl.to(chars, {
+      yPercent: 0,
+      opacity: 1,
+      rotateX: 0,
+      duration: 0.9,
+      stagger: 0.03,
+      ease: 'back.out(1.7)',
+    }, 0.15)
     .fromTo(
       paragraphRef.current,
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8 },
-      0.5
+      0.85
     )
     .fromTo(
       buttonsRef.current,
       { y: 20, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8 },
-      0.8
+      1.05
     );
 
     return () => {
@@ -55,13 +62,24 @@ const Hero = () => {
       <div className="relative z-10 container mx-auto px-4 lg:px-8">
         <div 
           ref={contentRef}
-          className="max-w-3xl mx-auto text-center"
+          className="w-full mx-auto text-center"
         >
           <h1 
             ref={headingRef}
-            className="text-4xl md:text-6xl font-montserrat font-bold text-white mb-4 tracking-tight text-shadow opacity-0"
+            aria-label={headingText}
+            className="w-full text-center text-[clamp(1.8rem,5vw,4.2rem)] font-montserrat font-bold text-white mb-4 tracking-tight text-shadow whitespace-nowrap"
           >
-            Welcome to Kingsborough Church
+            <span className="sr-only">{headingText}</span>
+            <span aria-hidden="true">
+              {splitChars.map((char, index) => (
+                <span
+                  key={`${char}-${index}`}
+                  className="hero-char inline-block"
+                >
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
+              ))}
+            </span>
           </h1>
           
           <p 
