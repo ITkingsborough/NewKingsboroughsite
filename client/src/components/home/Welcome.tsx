@@ -8,6 +8,7 @@ const serviceTimes = [
   {
     day: "Sunday",
     services: [
+      { name: "Express Service", time: "8:30AM - 9:30AM" },
       { name: "Celebration Service", time: "10AM - 12PM" }
     ]
   },
