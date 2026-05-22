@@ -86,34 +86,6 @@ const About = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
             </div>
-
-            <motion.div
-              className="absolute -bottom-6 -left-4 md:left-6 bg-lilac text-deepPurple rounded-2xl p-5 md:p-6 border border-white/40 shadow-2xl max-w-[280px]"
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <p className="text-sm md:text-base font-semibold leading-relaxed">
-                "We are building a Christ-centered family where everyone can
-                belong and grow."
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="absolute -top-6 right-0 md:right-6 w-44 h-44 md:w-52 md:h-52 rounded-2xl overflow-hidden border-4 border-deepPurple shadow-xl"
-              initial={{ y: -20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-            >
-              <img
-                src="/uploads/gallery/HOP2.JPG"
-                alt="Kingsborough Church community"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </motion.div>
           </motion.div>
         </div>
       </div>

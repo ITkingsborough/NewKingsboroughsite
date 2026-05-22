@@ -38,9 +38,9 @@ const SocialSidebar = () => {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="fixed bottom-0 left-0 right-0 z-40 md:hidden"
+        className="fixed bottom-4 left-0 right-0 flex justify-center z-40 md:hidden"
       >
-        <div className="bg-deepPurple shadow-lg flex justify-center">
+        <div className="bg-deepPurple rounded-2xl shadow-lg flex items-center px-2 py-1 gap-1">
           {socialLinks.map((social, index) => (
             <a
               key={index}
@@ -48,7 +48,7 @@ const SocialSidebar = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={social.label}
-              className={`flex items-center justify-center w-14 h-14 text-white transition-all duration-300 ${social.color}`}
+              className={`flex items-center justify-center w-12 h-10 rounded-xl text-white transition-all duration-300 ${social.color}`}
             >
               <social.icon className="w-5 h-5" />
             </a>

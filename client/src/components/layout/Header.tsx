@@ -81,7 +81,6 @@ const Header = () => {
   ];
 
   const involvedLinks = [
-    { href: '/ministries', label: 'Ministries' },
     { href: '/community', label: 'Community' },
   ];
 
@@ -218,16 +217,6 @@ const Header = () => {
           
           <div className="flex items-center space-x-3 ml-2">
             <Link 
-              href="/shop" 
-              className={`px-5 py-2 border-2 font-montserrat text-sm font-semibold rounded-full transition-colors ${
-                isDarkBackground 
-                  ? 'border-deepPurple text-deepPurple hover:bg-deepPurple hover:text-white' 
-                  : 'border-white text-white hover:bg-white hover:text-deepPurple'
-              }`}
-            >
-              Shop
-            </Link>
-            <Link 
               href="/giving" 
               className="px-5 py-2 bg-gold text-white font-montserrat text-sm font-semibold rounded-full hover:bg-gold/90 transition-colors"
             >
@@ -313,13 +302,6 @@ const Header = () => {
               </div>
               
               <div className="flex space-x-3 pt-4 mt-2 border-t border-gray-100">
-                <Link 
-                  href="/shop" 
-                  onClick={closeMenu}
-                  className="flex-1 text-center py-3 border-2 border-deepPurple text-deepPurple font-montserrat font-semibold rounded-full"
-                >
-                  Shop
-                </Link>
                 <Link 
                   href="/giving" 
                   onClick={closeMenu}

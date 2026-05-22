@@ -9,6 +9,7 @@ import { apiRequest } from '@/lib/queryClient';
 import { ContactFormData } from '@/lib/types';
 import { Helmet } from 'react-helmet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -141,7 +142,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">Email Us</h3>
-                      <p className="mb-1">info@kingsboroughchurch.org</p>
+                      <p className="mb-1">info@kingsboroughchurch.org.uk</p>
                     </div>
                   </div>
                 </div>
@@ -416,30 +417,10 @@ const Contact = () => {
                     </TabsContent>
                   </Tabs>
                 </div>
-                
-                {/* Additional Contact Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  <div className="bg-deepPurple p-6 rounded-lg">
-                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">Join a Small Group</h3>
-                    <p className="mb-4 text-white">Connect with others in a small group setting for fellowship and growth.</p>
-                    <a href="#" className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
-                      Find a Group <i className="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                  </div>
-                  <div className="bg-deepPurple p-6 rounded-lg">
-                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">Volunteer Opportunities</h3>
-                    <p className="mb-4 text-white">Discover ways to serve and make a difference in our church and community.</p>
-                    <a href="#" className="text-gold font-montserrat font-medium hover:underline inline-flex items-center">
-                      Get Involved <i className="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                  </div>
-                </div>
               </motion.div>
             </div>
           </div>
         </section>
-        
-        {/* FAQ Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div 
@@ -462,11 +443,11 @@ const Contact = () => {
               viewport={{ once: true, amount: 0.1 }}
               variants={slideUp(0.2)}
             >
-              <div className="space-y-5">
+              <Accordion type="single" collapsible className="space-y-3">
                 {[
                   {
                     question: "What time are your Sunday services?",
-                    answer: "Our Sunday services at 10:00 AM - 12:00 PM. Both services include worship and teaching. Children's ministry is available at both services for kids from birth through 5th grade."
+                    answer: "We have two Sunday services: an Express Service from 8:30 AM - 9:30 AM, and our main Celebration Service from 10:00 AM - 12:00 PM. Both services include worship and teaching. Children's ministry is available at both services for kids from birth through 5th grade."
                   },
                   {
                     question: "Where should I park when I visit?",
@@ -485,15 +466,20 @@ const Contact = () => {
                     answer: "Small groups are a great way to build relationships and grow spiritually. You can browse available groups on our website, or visit the Welcome Center on Sunday morning where a team member can help you find a group that fits your schedule and interests."
                   }
                 ].map((faq, index) => (
-                  <div 
-                    key={index} 
-                    className="bg-deepPurple rounded-lg p-6"
+                  <AccordionItem
+                    key={index}
+                    value={`faq-${index}`}
+                    className="bg-deepPurple rounded-lg border-none px-6"
                   >
-                    <h3 className="text-lg font-montserrat font-semibold mb-3 text-white">{faq.question}</h3>
-                    <p className="text-white">{faq.answer}</p>
-                  </div>
+                    <AccordionTrigger className="text-lg font-montserrat font-semibold text-white hover:no-underline hover:text-gold [&>svg]:text-gold">
+                      {faq.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/90 text-base pb-5">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </div>
+              </Accordion>
               
               <div className="text-center mt-10">
                 <p className="mb-4">Still have questions? We're here to help!</p>

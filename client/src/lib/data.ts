@@ -113,36 +113,47 @@ export const ministries: MinistryItem[] = [
 export const events: EventItem[] = [
   {
     id: 1,
-    title: "Sunday Worship Service",
-    date: "Every Sunday",
-    time: "9:00 AM & 11:00 AM",
+    title: "Friday Vigil",
+    date: "May 22, 2026",
+    time: "10:00 PM",
     location: "Main Sanctuary",
     description:
-      "Join us for a time of inspirational worship, relevant teaching, and warm community.",
+      "Join us for an overnight prayer vigil as we seek God's face together in worship and intercession.",
+    image:
+      "/uploads/gallery/prayer22.jpg",
+  },
+  {
+    id: 2,
+    title: "Launch of Our Transformative Express Service",
+    date: "May 24, 2026",
+    time: "8:30 AM",
+    location: "Main Sanctuary",
+    description:
+      "Be part of the exciting launch of our brand new Express Service — a powerful, focused time of worship and the Word designed to ignite your week.",
     image:
       "/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg",
   },
   {
-    id: 2,
-    title: "Community Dinner",
-    date: "October 20, 2023",
-    time: "6:30 PM",
-    location: "Fellowship Hall",
-    description:
-      "Enjoy a delicious meal and meaningful conversation with others from our church family.",
-    image:
-      "/uploads/gallery/HOP2.JPG",
-  },
-  {
     id: 3,
-    title: "Encounter Worship Night",
-    date: "October 25, 2023",
+    title: "Wednesday Pure Worship Service",
+    date: "May 27, 2026",
     time: "7:00 PM",
     location: "Main Sanctuary",
     description:
-      "A special evening of extended worship, prayer, and seeking God's presence together.",
+      "An evening dedicated entirely to pure, undistracted worship. Come and experience the fullness of God's presence.",
     image:
       "/uploads/gallery/HOP.jpg",
+  },
+  {
+    id: 4,
+    title: "Outreach Sunday",
+    date: "May 31, 2026",
+    time: "10:00 AM",
+    location: "Community & Surrounding Areas",
+    description:
+      "Join us as we take the love of God beyond our walls and serve our local community. Everyone is welcome to take part.",
+    image:
+      "/uploads/gallery/outtt.jpg",
   },
 ];
 

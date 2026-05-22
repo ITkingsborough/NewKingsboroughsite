@@ -144,7 +144,7 @@ const Sermons = () => {
         {/* Parallax Background with Overlay - Bible Image */}
         <div 
           className="parallax-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/uploads/gallery/HOP.jpg')` }}
+          style={{ backgroundImage: `url('/uploads/gallery/Apst Preaching.JPG')` }}
         ></div>
         
         {/* Gradient Overlay - Warm tones to complement the Bible image */}
