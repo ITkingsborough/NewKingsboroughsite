@@ -3,12 +3,6 @@ import { Link } from "wouter";
 import { slideUp } from "@/lib/animations";
 
 const About = () => {
-  const impactStats = [
-    { value: "1985", label: "Year Founded" },
-    { value: "12", label: "Original Members" },
-    { value: "1", label: "Shared Mission" },
-  ];
-
   return (
     <section
       id="about"
@@ -46,22 +40,6 @@ const About = () => {
               freedom, discover purpose, and make a difference.
             </p>
 
-            <div className="grid grid-cols-3 gap-3 mb-10">
-              {impactStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-white/10 border border-white/20 rounded-xl p-4 text-center"
-                >
-                  <div className="text-2xl md:text-3xl font-montserrat font-bold text-gold">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs md:text-sm text-white/75 mt-1">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
             <Link
               href="/about"
               className="inline-flex items-center justify-center px-8 py-3 bg-gold text-deepPurple font-montserrat font-semibold rounded-full hover:bg-gold/90 transition-colors"
@@ -79,8 +57,8 @@ const About = () => {
           >
             <div className="absolute inset-0 rounded-3xl overflow-hidden border border-white/20">
               <img
-                src="/uploads/gallery/HOP.jpg"
-                alt="Kingsborough Church worship gathering"
+                src="/uploads/gallery/Our Story.jpg"
+                alt="Kingsborough Church - Our Story"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />

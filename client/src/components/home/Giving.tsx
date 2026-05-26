@@ -49,6 +49,16 @@ const Giving = () => {
                   </div>
                 </li>
               </ul>
+
+              {/* QR Code */}
+              <div className="mt-6 flex flex-col items-start">
+                <p className="text-sm font-semibold mb-2 text-deepPurple">Scan to Give</p>
+                <img
+                  src="/images/QR%20CODE.png"
+                  alt="Scan QR code to give"
+                  className="w-36 h-36 object-contain border border-gray-200 rounded-xl p-1"
+                />
+              </div>
             </motion.div>
             
             <motion.div
@@ -85,14 +95,13 @@ const Giving = () => {
           </div>
           
           <motion.div 
-            className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+            className="flex justify-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             viewport={{ once: true }}
           >
             <Link href="/giving" className="btn-primary">Give Now</Link>
-            <Link href="/giving?recurring=true" className="btn-secondary">Set Up Recurring Gift</Link>
           </motion.div>
         </motion.div>
       </div>

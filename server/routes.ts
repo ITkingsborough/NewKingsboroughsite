@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
+import * as cheerio from "cheerio";
 import { 
   insertContactSchema, 
   insertNewsletterSchema,
@@ -1496,6 +1497,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   }, express.static(path.join(process.cwd(), 'public', 'uploads')));
 
+  // Serve public/images as static assets
+  app.use('/images', express.static(path.join(process.cwd(), 'public', 'images')));
+
   // ==================================================================================
   // COMMUNITY ENGAGEMENT DASHBOARD API ROUTES
   // ==================================================================================
@@ -2051,6 +2055,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.json({ success: true, message: 'Theme deleted' });
     } catch (error) {
       return res.status(500).json({ success: false, message: 'Failed to delete theme' });
+    }
+  });
+
+  // ── ForeverMissed tributes scraper ──────────────────────────────────────────
+  let tributesCache: { data: unknown; fetchedAt: number } | null = null;
+  const TRIBUTES_TTL_MS = 60 * 60 * 1000; // refresh every hour
+  const FOREVERMISSED_URL = "https://www.forevermissed.com/apostletunde-balogun/tributes";
+
+  app.get("/api/tributes", async (_req, res) => {
+    try {
+      const now = Date.now();
+      if (tributesCache && now - tributesCache.fetchedAt < TRIBUTES_TTL_MS) {
+        return res.json({ success: true, data: tributesCache.data, cached: true });
+      }
+
+      const response = await fetch(FOREVERMISSED_URL, {
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; KingsboroughBot/1.0)" },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (!response.ok) {
+        throw new Error(`ForeverMissed returned ${response.status}`);
+      }
+
+      const html = await response.text();
+      const $ = cheerio.load(html);
+      const tributes: { name: string; date: string; message: string }[] = [];
+
+      // Each tribute block contains a name, optional date, and message text
+      $(".tribute-item, .tribute, [class*='tribute']").each((_i, el) => {
+        const name = $(el).find("[class*='name'], h3, h4, strong").first().text().trim();
+        const date = $(el).find("[class*='date'], time").first().text().trim();
+        const message = $(el).find("p, [class*='message'], [class*='text'], [class*='body']").first().text().trim();
+        if (name && message) {
+          tributes.push({ name, date, message: message.slice(0, 300) });
+        }
+      });
+
+      // Fallback: parse the raw HTML structure we observed on the page
+      if (tributes.length === 0) {
+        // Pattern from the page: <strong>Name</strong> then a date span then <p> message
+        $("p").each((_i, el) => {
+          const text = $(el).text().trim();
+          if (text.length > 40) {
+            const parent = $(el).parent();
+            const nameEl = parent.find("strong, b, h3, h4, [class*='name']").first();
+            const name = nameEl.text().trim();
+            const date = parent.find("span, [class*='date'], time").first().text().trim();
+            if (name && text) {
+              const existing = tributes.find((t) => t.name === name);
+              if (!existing) {
+                tributes.push({ name, date, message: text.slice(0, 300) });
+              }
+            }
+          }
+        });
+      }
+
+      tributesCache = { data: tributes, fetchedAt: now };
+      return res.json({ success: true, data: tributes, cached: false });
+    } catch (error) {
+      console.error("Failed to fetch ForeverMissed tributes:", error);
+      // Return stale cache if available rather than erroring
+      if (tributesCache) {
+        return res.json({ success: true, data: tributesCache.data, cached: true, stale: true });
+      }
+      return res.status(502).json({ success: false, message: "Could not load tributes at this time." });
     }
   });
 

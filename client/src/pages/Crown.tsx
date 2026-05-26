@@ -525,7 +525,7 @@ const Crown = () => {
             variants={slideUp()}
           >
             <h2 className="text-4xl md:text-5xl font-montserrat font-bold mb-6">
-              Ready to Wear Centre Point?
+              Ready to be a part of Centre Point?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Take the next step in your spiritual journey. Connect with Centre

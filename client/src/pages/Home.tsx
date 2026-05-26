@@ -11,6 +11,7 @@ import Magazines from '@/components/home/Magazines';
 import Giving from '@/components/home/Giving';
 import Contact from '@/components/home/Contact';
 import Newsletter from '@/components/home/Newsletter';
+import Tributes from '@/components/home/Tributes';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 
@@ -54,6 +55,7 @@ const Home = () => {
           </div>
         </motion.section>
 
+        <Tributes />
         <Welcome />
         <About />
         <Leadership />

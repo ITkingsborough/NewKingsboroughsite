@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet';
 
 const Giving = () => {
   const bankDetails = [
-    { label: 'Account Name', value: 'Kingsborough Church' },
-    { label: 'Bank Name', value: 'Your Bank Name Here' },
-    { label: 'Sort Code', value: '00-00-00' },
-    { label: 'Account Number', value: '00000000' },
+    { label: 'Account Name', value: 'Kingsborough Centre' },
+    { label: 'Bank Name', value: 'Barclays' },
+    { label: 'Sort Code', value: '20-89-16' },
+    { label: 'Account Number', value: '80932892' },
     { label: 'Reference', value: 'Tithe / Offering / Building Fund' },
   ];
 
@@ -208,20 +208,18 @@ const Giving = () => {
                           </div>
 
                           <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6 items-center">
-                            <div className="mx-auto md:mx-0 w-44 h-44 rounded-2xl border-2 border-dashed border-gold bg-white flex flex-col items-center justify-center text-center p-4">
-                              <i className="fas fa-qrcode text-4xl text-gold mb-3"></i>
-                              <p className="text-sm font-semibold text-deepPurple">QR Code Placeholder</p>
-                              <p className="text-xs text-gray-500 mt-1">Replace with your real giving QR code image</p>
+                            <div className="mx-auto md:mx-0">
+                              <img
+                                src="/images/QR%20CODE.png"
+                                alt="Scan QR code to give"
+                                className="w-44 h-44 object-contain rounded-2xl border border-gold/30"
+                              />
                             </div>
 
                             <div className="space-y-3">
                               <div className="rounded-xl bg-white border border-gold/20 p-4">
                                 <p className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-1">How to use</p>
                                 <p className="text-gray-700">Open your camera or banking app, scan the code, and follow the giving instructions on your phone.</p>
-                              </div>
-                              <div className="rounded-xl bg-white border border-gold/20 p-4">
-                                <p className="text-xs uppercase tracking-[0.2em] text-gold font-semibold mb-1">Recommended asset</p>
-                                <p className="text-gray-700">Add a square PNG or JPG QR code image to the public folder and swap this placeholder with the real image.</p>
                               </div>
                             </div>
                           </div>
