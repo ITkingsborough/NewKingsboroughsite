@@ -20,6 +20,11 @@
     @apply border-border;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bebas Neue', sans-serif !important;
+    letter-spacing: 0.08em;
+  }
+
   body {
     @apply font-montserrat antialiased bg-background text-foreground;
     color: #333333;

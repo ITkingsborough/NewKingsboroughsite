@@ -10,6 +10,7 @@ const Header = () => {
   const [mediaOpen, setMediaOpen] = useState(false);
   const [involvedOpen, setInvolvedOpen] = useState(false);
   const [isDarkBackground, setIsDarkBackground] = useState(true);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [location] = useLocation();
   const mediaRef = useRef<HTMLDivElement>(null);
   const involvedRef = useRef<HTMLDivElement>(null);
@@ -92,9 +93,14 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className={`rounded-full shadow-lg px-6 py-3 flex items-center transition-all duration-500 ${
-          isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'
-        }`}>
+        <motion.div
+          animate={{ borderRadius: mobileMenuOpen ? '36px' : '9999px' }}
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          className={`shadow-lg overflow-hidden ${
+            isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'
+          }`}
+        >
+        <div className="flex items-center px-6 py-3">
         <Link href="/" onClick={closeMenu} className="flex items-center flex-shrink-0">
           <img src={churchLogo} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
           <div className="flex flex-col">
@@ -116,25 +122,67 @@ const Header = () => {
           </button>
         </div>
         
-        <nav className="hidden lg:flex items-center justify-center flex-1 space-x-8">
-          <Link 
-            href="/" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
-          >
-            Home
-          </Link>
-          <Link 
-            href="/about" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/about') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
-          >
-            About
-          </Link>
-          
-          <div className="relative" ref={mediaRef}>
-            <button 
+        <nav
+          className="hidden lg:flex items-center justify-center flex-1 gap-1"
+          onMouseLeave={() => setHoveredItem(null)}
+        >
+          {/* Home */}
+          <div className="relative" onMouseEnter={() => setHoveredItem('home')}>
+            {hoveredItem === 'home' && (
+              <motion.div
+                layoutId="nav-pill"
+                className={`absolute inset-0 rounded-full ${isDarkBackground ? 'bg-black' : 'bg-white'}`}
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+              />
+            )}
+            <Link
+              href="/"
+              className={`relative z-10 block font-montserrat text-base font-medium px-4 py-2 rounded-full transition-colors duration-150 ${
+                hoveredItem === 'home'
+                  ? isDarkBackground ? 'text-white' : 'text-deepPurple'
+                  : isDarkBackground ? 'text-gray-700' : 'text-white'
+              }`}
+            >
+              Home
+            </Link>
+          </div>
+
+          {/* About */}
+          <div className="relative" onMouseEnter={() => setHoveredItem('about')}>
+            {hoveredItem === 'about' && (
+              <motion.div
+                layoutId="nav-pill"
+                className={`absolute inset-0 rounded-full ${isDarkBackground ? 'bg-black' : 'bg-white'}`}
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+              />
+            )}
+            <Link
+              href="/about"
+              className={`relative z-10 block font-montserrat text-base font-medium px-4 py-2 rounded-full transition-colors duration-150 ${
+                hoveredItem === 'about'
+                  ? isDarkBackground ? 'text-white' : 'text-deepPurple'
+                  : isDarkBackground ? 'text-gray-700' : 'text-white'
+              }`}
+            >
+              About
+            </Link>
+          </div>
+
+          {/* Media dropdown */}
+          <div className="relative" ref={mediaRef} onMouseEnter={() => setHoveredItem('media')}>
+            {hoveredItem === 'media' && (
+              <motion.div
+                layoutId="nav-pill"
+                className={`absolute inset-0 rounded-full ${isDarkBackground ? 'bg-black' : 'bg-white'}`}
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+              />
+            )}
+            <button
               onClick={() => { setMediaOpen(!mediaOpen); setInvolvedOpen(false); }}
-              className={`flex items-center font-montserrat text-base font-medium transition-colors duration-300 ${
-                isActive('/sermons') || isActive('/gallery') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'
+              className={`relative z-10 flex items-center font-montserrat text-base font-medium px-4 py-2 rounded-full transition-colors duration-150 ${
+                hoveredItem === 'media'
+                  ? isDarkBackground ? 'text-white' : 'text-deepPurple'
+                  : isDarkBackground ? 'text-gray-700' : 'text-white'
               }`}
             >
               Media
@@ -165,12 +213,22 @@ const Header = () => {
               )}
             </AnimatePresence>
           </div>
-          
-          <div className="relative" ref={involvedRef}>
-            <button 
+
+          {/* Get Involved dropdown */}
+          <div className="relative" ref={involvedRef} onMouseEnter={() => setHoveredItem('involved')}>
+            {hoveredItem === 'involved' && (
+              <motion.div
+                layoutId="nav-pill"
+                className={`absolute inset-0 rounded-full ${isDarkBackground ? 'bg-black' : 'bg-white'}`}
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+              />
+            )}
+            <button
               onClick={() => { setInvolvedOpen(!involvedOpen); setMediaOpen(false); }}
-              className={`flex items-center font-montserrat text-base font-medium transition-colors duration-300 ${
-                isActive('/ministries') || isActive('/community') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'
+              className={`relative z-10 flex items-center font-montserrat text-base font-medium px-4 py-2 rounded-full transition-colors duration-150 ${
+                hoveredItem === 'involved'
+                  ? isDarkBackground ? 'text-white' : 'text-deepPurple'
+                  : isDarkBackground ? 'text-gray-700' : 'text-white'
               }`}
             >
               Get Involved
@@ -201,23 +259,52 @@ const Header = () => {
               )}
             </AnimatePresence>
           </div>
-          
-          <Link 
-            href="/events" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/events') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
-          >
-            Events
-          </Link>
-          <Link 
-            href="/contact" 
-            className={`font-montserrat text-base font-medium transition-colors duration-300 ${isActive('/contact') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold' : 'text-white hover:text-gold'}`}
-          >
-            Enquiries
-          </Link>
-          
+
+          {/* Events */}
+          <div className="relative" onMouseEnter={() => setHoveredItem('events')}>
+            {hoveredItem === 'events' && (
+              <motion.div
+                layoutId="nav-pill"
+                className={`absolute inset-0 rounded-full ${isDarkBackground ? 'bg-black' : 'bg-white'}`}
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+              />
+            )}
+            <Link
+              href="/events"
+              className={`relative z-10 block font-montserrat text-base font-medium px-4 py-2 rounded-full transition-colors duration-150 ${
+                hoveredItem === 'events'
+                  ? isDarkBackground ? 'text-white' : 'text-deepPurple'
+                  : isDarkBackground ? 'text-gray-700' : 'text-white'
+              }`}
+            >
+              Events
+            </Link>
+          </div>
+
+          {/* Enquiries */}
+          <div className="relative" onMouseEnter={() => setHoveredItem('contact')}>
+            {hoveredItem === 'contact' && (
+              <motion.div
+                layoutId="nav-pill"
+                className={`absolute inset-0 rounded-full ${isDarkBackground ? 'bg-black' : 'bg-white'}`}
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+              />
+            )}
+            <Link
+              href="/contact"
+              className={`relative z-10 block font-montserrat text-base font-medium px-4 py-2 rounded-full transition-colors duration-150 ${
+                hoveredItem === 'contact'
+                  ? isDarkBackground ? 'text-white' : 'text-deepPurple'
+                  : isDarkBackground ? 'text-gray-700' : 'text-white'
+              }`}
+            >
+              Enquiries
+            </Link>
+          </div>
+
           <div className="flex items-center space-x-3 ml-2">
-            <Link 
-              href="/giving" 
+            <Link
+              href="/giving"
               className="px-5 py-2 bg-gold text-white font-montserrat text-sm font-semibold rounded-full hover:bg-gold/90 transition-colors"
             >
               Give
@@ -225,95 +312,104 @@ const Header = () => {
           </div>
         </nav>
         </div>
+
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="lg:hidden overflow-hidden"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className={`px-6 pb-5 pt-3 flex flex-col space-y-1 border-t ${isDarkBackground ? 'border-gray-100' : 'border-white/20'}`}>
+                <Link
+                  href="/"
+                  onClick={closeMenu}
+                  className={`block font-montserrat font-medium py-3 px-2 rounded-lg ${
+                    isActive('/') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/about"
+                  onClick={closeMenu}
+                  className={`block font-montserrat font-medium py-3 px-2 rounded-lg ${
+                    isActive('/about') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  About
+                </Link>
+
+                <div className={`border-t pt-2 mt-1 ${isDarkBackground ? 'border-gray-100' : 'border-white/20'}`}>
+                  <span className={`text-xs font-montserrat uppercase tracking-wider px-2 ${isDarkBackground ? 'text-gray-400' : 'text-white/40'}`}>Media</span>
+                  {mediaLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`block font-montserrat font-medium py-3 px-4 rounded-lg ${
+                        isActive(link.href) ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className={`border-t pt-2 mt-1 ${isDarkBackground ? 'border-gray-100' : 'border-white/20'}`}>
+                  <span className={`text-xs font-montserrat uppercase tracking-wider px-2 ${isDarkBackground ? 'text-gray-400' : 'text-white/40'}`}>Get Involved</span>
+                  {involvedLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`block font-montserrat font-medium py-3 px-4 rounded-lg ${
+                        isActive(link.href) ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className={`border-t pt-2 mt-1 ${isDarkBackground ? 'border-gray-100' : 'border-white/20'}`}>
+                  <Link
+                    href="/events"
+                    onClick={closeMenu}
+                    className={`block font-montserrat font-medium py-3 px-2 rounded-lg ${
+                      isActive('/events') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    Events
+                  </Link>
+                  <Link
+                    href="/contact"
+                    onClick={closeMenu}
+                    className={`block font-montserrat font-medium py-3 px-2 rounded-lg ${
+                      isActive('/contact') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    Enquiries
+                  </Link>
+                </div>
+
+                <div className={`pt-3 mt-1 border-t ${isDarkBackground ? 'border-gray-100' : 'border-white/20'}`}>
+                  <Link
+                    href="/giving"
+                    onClick={closeMenu}
+                    className="block w-full text-center py-3 bg-gold text-white font-montserrat font-semibold rounded-full"
+                  >
+                    Give
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        </motion.div>
       </div>
-      
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            className="lg:hidden bg-white w-full py-4 shadow-md border-t border-gray-100"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="container mx-auto px-4 flex flex-col space-y-1">
-              <Link 
-                href="/" 
-                onClick={closeMenu}
-                className={`block font-montserrat font-medium py-3 px-2 rounded ${isActive('/') ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'}`}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/about" 
-                onClick={closeMenu}
-                className={`block font-montserrat font-medium py-3 px-2 rounded ${isActive('/about') ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'}`}
-              >
-                About
-              </Link>
-              
-              <div className="border-t border-gray-100 pt-2 mt-2">
-                <span className="text-xs text-gray-400 font-montserrat uppercase tracking-wider px-2">Media</span>
-                {mediaLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className={`block font-montserrat font-medium py-3 px-4 rounded ${
-                      isActive(link.href) ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-              
-              <div className="border-t border-gray-100 pt-2 mt-2">
-                <span className="text-xs text-gray-400 font-montserrat uppercase tracking-wider px-2">Get Involved</span>
-                {involvedLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className={`block font-montserrat font-medium py-3 px-4 rounded ${
-                      isActive(link.href) ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-              
-              <div className="border-t border-gray-100 pt-2 mt-2">
-                <Link 
-                  href="/events" 
-                  onClick={closeMenu}
-                  className={`block font-montserrat font-medium py-3 px-2 rounded ${isActive('/events') ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'}`}
-                >
-                  Events
-                </Link>
-                <Link 
-                  href="/contact" 
-                  onClick={closeMenu}
-                  className={`block font-montserrat font-medium py-3 px-2 rounded ${isActive('/contact') ? 'text-gold bg-gold/5' : 'hover:text-gold hover:bg-gold/5'}`}
-                >
-                  Enquiries
-                </Link>
-              </div>
-              
-              <div className="flex space-x-3 pt-4 mt-2 border-t border-gray-100">
-                <Link 
-                  href="/giving" 
-                  onClick={closeMenu}
-                  className="flex-1 text-center py-3 bg-gold text-white font-montserrat font-semibold rounded-full"
-                >
-                  Give
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 };

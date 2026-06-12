@@ -4,7 +4,7 @@ import { slideUp } from '@/lib/animations';
 
 const Footer = () => {
   return (
-    <footer className="bg-deepPurple text-white py-12 pb-20 md:pb-12">
+    <footer className="bg-deepPurple text-white pt-12 pb-0">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <motion.div
@@ -137,6 +137,26 @@ const Footer = () => {
             </Link>
           </p>
         </div>
+      </div>
+      <div
+        aria-hidden="true"
+        style={{
+          fontSize: 'clamp(3rem, 18vw, 14rem)',
+          fontWeight: 900,
+          letterSpacing: '-0.05em',
+          lineHeight: 1,
+          opacity: 0.08,
+          textAlign: 'center',
+          userSelect: 'none',
+          pointerEvents: 'none',
+          color: 'white',
+          textTransform: 'uppercase',
+          overflow: 'hidden',
+          width: '100%',
+          paddingTop: '0.5rem',
+        }}
+      >
+        Kingsborough
       </div>
     </footer>
   );

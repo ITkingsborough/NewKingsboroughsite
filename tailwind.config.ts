@@ -6,6 +6,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        'bebas': ['Bebas Neue', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
         'anton': ['Anton', 'sans-serif'],
       },

@@ -1,7 +1,6 @@
 import Hero from '@/components/home/Hero';
 import Welcome from '@/components/home/Welcome';
 import About from '@/components/home/About';
-import Leadership from '@/components/home/Leadership';
 import Community from '@/components/home/Community';
 import Quote from '@/components/home/Quote';
 import FeaturedContent from '@/components/home/FeaturedContent';
@@ -58,7 +57,6 @@ const Home = () => {
         <Tributes />
         <Welcome />
         <About />
-        <Leadership />
         <Community />
         <Quote />
         <FeaturedContent />

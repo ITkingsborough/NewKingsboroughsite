@@ -23,38 +23,6 @@ export const leaders: LeaderItem[] = [
     image:
       "/uploads/gallery/PSO.jpg",
   },
-  {
-    id: 3,
-    name: "Pastor Christine Bamigbola",
-    role: "Executive Pastor",
-    bio: "Pastor Christine is a dynamic teacher and compassionate leader who brings a unique blend of spiritual insight and practical wisdom to His ministry. She oversees ministries and pastoral care, creating spaces where people experience healing, growth, and authentic community. Her heart for worship and excellence inspires everyone around her",
-    image:
-      "/uploads/gallery/PC.jpg",
-  },
-  {
-    id: 4,
-    name: "Pastor Segun Oyinloye",
-    role: "Youth & Young Adults Pastor",
-    bio: "Pastor Segun is passionate about raising up the next generation of believers who are bold, authentic, and deeply rooted in their faith. He leads the Centre Point young adults ministry and youth programs with creativity and energy. .",
-    image:
-      "/uploads/gallery/PS.jpg",
-  },
-  {
-    id: 5,
-    name: "Pastor Emmanuel Daudu",
-    role: "Worship & Creative Arts Pastor",
-    bio: "Pastor Emmanuel leads our worship ministry with a heart for God's presence and excellence in creativity. A gifted musician and songwriter,",
-    image:
-      "/uploads/gallery/PE.jpg",
-  },
-  {
-    id: 6,
-    name: "Pastor Bodinga Sambo",
-    role: "Community Outreach Pastor",
-    bio: "Pastor Bodinga leads our community outreach initiatives including the Hillingdon Foodbank and partnership programs. His compassion for the marginalized and commitment to social justice inspire our congregation to live out the gospel through practical service. ",
-    image:
-      "/uploads/gallery/PBO.png",
-  },
 ];
 
 // Ministries data

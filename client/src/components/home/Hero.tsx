@@ -1,48 +1,74 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { gsap } from 'gsap';
 import heroVideo from '@assets/Background_video_1768994478570.mp4';
 
+const CYCLING_WORDS = ['belong', 'believe', 'become'];
+
 const Hero = () => {
   const headingText = 'Welcome to Kingsborough Church';
-  const splitChars = headingText.split('');
+  // Split into words so each word pushes up as a unit
+  const splitWords = headingText.split(' ');
   const contentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
+  const cyclingWordRef = useRef<HTMLSpanElement>(null);
+  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
     if (!contentRef.current) return;
 
-    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-    const chars = headingRef.current?.querySelectorAll('.hero-char') || [];
+    const words = headingRef.current?.querySelectorAll('.hero-word') || [];
 
-    gsap.set(chars, { yPercent: 120, opacity: 0, rotateX: -50, transformOrigin: '50% 100%' });
+    // Start each word below its clip boundary
+    gsap.set(words, { yPercent: 110, opacity: 0 });
 
-    tl.to(chars, {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.to(words, {
       yPercent: 0,
       opacity: 1,
-      rotateX: 0,
-      duration: 0.9,
-      stagger: 0.03,
-      ease: 'back.out(1.7)',
-    }, 0.15)
+      duration: 0.75,
+      stagger: 0.1,
+      ease: 'power3.out',
+    }, 0.1)
     .fromTo(
       paragraphRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      0.85
+      { y: 24, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7 },
+      0.6
     )
     .fromTo(
       buttonsRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8 },
-      1.05
+      { y: 18, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7 },
+      0.8
     );
 
-    return () => {
-      tl.kill();
-    };
+    return () => { tl.kill(); };
+  }, []);
+
+  // Cycle the word every 2s after initial animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const el = cyclingWordRef.current;
+      if (!el) return;
+      gsap.to(el, {
+        yPercent: -110,
+        opacity: 0,
+        duration: 0.35,
+        ease: 'power2.in',
+        onComplete: () => {
+          setWordIndex(prev => (prev + 1) % CYCLING_WORDS.length);
+          gsap.fromTo(el,
+            { yPercent: 110, opacity: 0 },
+            { yPercent: 0, opacity: 1, duration: 0.4, ease: 'power3.out' }
+          );
+        },
+      });
+    }, 2000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -67,16 +93,15 @@ const Hero = () => {
           <h1 
             ref={headingRef}
             aria-label={headingText}
-            className="w-full text-center text-[clamp(1.8rem,5vw,4.2rem)] font-montserrat font-bold text-white mb-4 tracking-tight text-shadow whitespace-nowrap"
+            className="w-full text-center text-[clamp(2.2rem,6.5vw,5.5rem)] font-montserrat font-bold text-white mb-4 tracking-[0.06em] text-shadow mt-24"
           >
             <span className="sr-only">{headingText}</span>
-            <span aria-hidden="true">
-              {splitChars.map((char, index) => (
-                <span
-                  key={`${char}-${index}`}
-                  className="hero-char inline-block"
-                >
-                  {char === ' ' ? '\u00A0' : char}
+            <span aria-hidden="true" className="inline-flex flex-wrap justify-center gap-x-[0.28em]">
+              {splitWords.map((word, index) => (
+                <span key={index} className="overflow-hidden inline-block leading-tight">
+                  <span className="hero-word inline-block">
+                    {word}
+                  </span>
                 </span>
               ))}
             </span>
@@ -84,20 +109,16 @@ const Hero = () => {
           
           <p 
             ref={paragraphRef}
-            className="text-xl md:text-2xl text-white opacity-0 mb-6 font-light"
+            className="text-xl md:text-2xl text-white opacity-0 mb-6 font-light inline-flex flex-wrap items-baseline justify-center gap-x-[0.3em]"
           >
-            A place to belong, believe, and become.
+            <span>A place to</span>
+            <span className="overflow-hidden inline-block leading-none" style={{ verticalAlign: 'baseline' }}>
+              <span ref={cyclingWordRef} className="inline-block text-gold font-semibold">
+                {CYCLING_WORDS[wordIndex]}
+              </span>
+            </span>
           </p>
           
-          <div className="flex items-center justify-center mb-8 text-white">
-            <div className="bg-gold/20 backdrop-blur-sm border border-gold/30 rounded-lg px-6 py-3 inline-flex items-center">
-              <i className="fas fa-clock text-gold mr-3"></i>
-              <div>
-                <span className="font-semibold">Sunday Service:</span>
-                <span className="ml-2">10:00 AM</span>
-              </div>
-            </div>
-          </div>
           
           <div 
             ref={buttonsRef}

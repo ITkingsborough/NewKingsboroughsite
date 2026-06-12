@@ -4,6 +4,7 @@ import {
   slideRight,
   fadeIn,
 } from "@/lib/animations";
+import OurStoryScroll from "@/components/about/OurStoryScroll";
 import { leaders } from "@/lib/data";
 import { Helmet } from "react-helmet";
 import { useRef, useEffect, useState } from "react";
@@ -282,7 +283,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-5xl md:text-7xl font-montserrat font-bold text-white mb-6 tracking-tight"
+            className="text-5xl md:text-7xl lg:text-8xl font-montserrat font-bold text-white mb-6 tracking-[0.06em]"
           >
             We Are A Light In The City
           </motion.h1>
@@ -396,64 +397,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* 3. Our Story Timeline Section */}
-      <section ref={timelineRef} className="py-20 bg-deepPurple overflow-hidden">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={slideUp()}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-5xl font-montserrat font-bold mb-4 text-white">
-              Our Story
-            </h2>
-            <div className="h-1 w-20 bg-gold mx-auto mb-6"></div>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto text-white/90">
-              A journey of faith, growth, and impact through the years
-            </p>
-          </motion.div>
-
-          {/* Horizontal Timeline */}
-          <div className="max-w-5xl mx-auto relative">
-            {/* Timeline connector line */}
-            <div className="timeline-connector absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-gold transform md:-translate-x-1/2"></div>
-
-            {/* Timeline Events */}
-            {timeline.map((event, index) => (
-              <div
-                key={index}
-                className={`timeline-item relative flex flex-col md:flex-row ${
-                  index % 2 !== 0 ? "md:flex-row-reverse" : ""
-                } items-start mb-16 last:mb-0`}
-              >
-                {/* Timeline Node */}
-                <div className="absolute left-8 md:left-1/2 top-0 w-6 h-6 rounded-full bg-gold shadow-lg transform translate-x-[-50%] md:translate-x-[-50%] z-10"></div>
-
-                {/* Content Card */}
-                <div
-                  className={`ml-16 md:ml-0 md:w-[calc(50%-2rem)] ${
-                    index % 2 !== 0 ? "md:pl-8" : "md:pr-8"
-                  }`}
-                >
-                  <div className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-gold">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                      <h3 className="text-xl md:text-2xl font-montserrat font-semibold text-deepPurple">
-                        {event.title}
-                      </h3>
-                      <span className="inline-block bg-gold/20 text-gold font-semibold px-3 py-1 rounded-full text-sm mt-2 md:mt-0">
-                        {event.year}
-                      </span>
-                    </div>
-                    <p className="text-gray-700">{event.description}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 3. Our Story — Scroll-Driven Section */}
+      <OurStoryScroll />
 
       {/* 4. Our Vision & Mission Section */}
       <section
@@ -606,14 +551,14 @@ const About = () => {
       </section>
 
       {/* 6. Meet the Team Section */}
-      <section ref={teamRef} className="py-24 bg-white">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section ref={teamRef} className="overflow-hidden">
+        {/* Section Header */}
+        <div className="py-16 bg-white text-center">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={slideUp()}
-            className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-montserrat font-bold mb-4 text-deepPurple">
               Meet Our Leadership
@@ -623,55 +568,69 @@ const About = () => {
               The dedicated team guiding our church with vision and compassion
             </p>
           </motion.div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {leaders.map((leader, index) => (
-              <motion.div
-                key={leader.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={slideUp(index * 0.1)}
-                className="team-card relative rounded-xl overflow-hidden shadow-xl group cursor-pointer"
-              >
-                {/* Team member image */}
-                <div className="h-80 overflow-hidden">
-                  <img
-                    src={leader.image}
-                    alt={leader.name}
-                    className="w-full h-full object-cover transition-transform duration-700"
-                    loading="lazy"
-                  />
-                </div>
+        {/* Senior Pastors — image left, text right */}
+        <div className="relative min-h-[80vh] flex flex-col lg:flex-row overflow-hidden">
+          {/* Image */}
+          <div className="lg:w-1/2 relative min-h-[50vh] lg:min-h-full overflow-hidden">
+            <img
+              src={leaders[0].image}
+              alt={leaders[0].name}
+              className="absolute inset-0 w-full h-full object-cover object-top"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/30 lg:block hidden" />
+          </div>
+          {/* Text */}
+          <div className="lg:w-1/2 bg-black flex items-center px-8 md:px-16 py-16">
+            <motion.div
+              className="max-w-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={slideUp()}
+            >
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-8 leading-tight">
+                {leaders[0].name}
+              </h3>
+              <div className="border-l-4 border-gold pl-6 space-y-4">
+                <p className="text-gold font-semibold text-xl">{leaders[0].role}</p>
+                <p className="text-white/85 text-lg leading-relaxed">{leaders[0].bio}</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
 
-                {/* Gold border overlay on hover */}
-                <div className="absolute inset-0 border-0 group-hover:border-4 border-gold transition-all duration-300 pointer-events-none"></div>
-
-                {/* Card content - visible always */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-6">
-                  <h3 className="text-xl font-montserrat font-bold text-white mb-1">
-                    {leader.name}
-                  </h3>
-                  <p className="text-gold font-medium text-sm">{leader.role}</p>
-                </div>
-
-                {/* Hover content - Bio text */}
-                <div className="hover-content absolute inset-0 bg-deepPurple/95 flex items-center opacity-0 translate-y-10">
-                  <div className="p-6">
-                    <h3 className="text-xl font-montserrat font-bold text-white mb-2">
-                      {leader.name}
-                    </h3>
-                    <p className="text-gold font-medium mb-3 text-sm">
-                      {leader.role}
-                    </p>
-                    <div className="h-0.5 w-12 bg-gold mb-4"></div>
-                    <p className="text-white/90 leading-relaxed text-sm">
-                      {leader.bio}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+        {/* Resident Pastor — text left, image right */}
+        <div className="relative min-h-[80vh] flex flex-col-reverse lg:flex-row overflow-hidden">
+          {/* Text */}
+          <div className="lg:w-1/2 bg-deepPurple flex items-center px-8 md:px-16 py-16">
+            <motion.div
+              className="max-w-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={slideUp()}
+            >
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-8 leading-tight">
+                {leaders[1].name}
+              </h3>
+              <div className="border-l-4 border-gold pl-6 space-y-4">
+                <p className="text-gold font-semibold text-xl">{leaders[1].role}</p>
+                <p className="text-white/85 text-lg leading-relaxed">{leaders[1].bio}</p>
+              </div>
+            </motion.div>
+          </div>
+          {/* Image */}
+          <div className="lg:w-1/2 relative min-h-[50vh] lg:min-h-full overflow-hidden">
+            <img
+              src={leaders[1].image}
+              alt={leaders[1].name}
+              className="absolute inset-0 w-full h-full object-cover object-top"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-deepPurple/30 lg:block hidden" />
           </div>
         </div>
       </section>
