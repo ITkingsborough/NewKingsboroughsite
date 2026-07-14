@@ -229,7 +229,7 @@ const KidsMinistry = () => {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-8">
               {values.map((value, index) => (
                 <motion.div
                   key={value.title}
@@ -237,15 +237,17 @@ const KidsMinistry = () => {
                   whileInView="visible"
                   viewport={{ once: true, amount: 0.3 }}
                   variants={slideUp(index * 0.1)}
-                  className="text-center"
+                  className="flex flex-row items-center gap-5 bg-lightLilac rounded-2xl p-5 md:flex-col md:items-center md:text-center md:bg-transparent md:rounded-none md:p-0"
                 >
-                  <div className="w-20 h-20 bg-deepPurple rounded-full flex items-center justify-center mx-auto mb-6">
-                    <value.icon className="w-10 h-10 text-gold" />
+                  <div className="w-16 h-16 shrink-0 bg-deepPurple rounded-full flex items-center justify-center md:w-20 md:h-20 md:mx-auto md:mb-6">
+                    <value.icon className="w-8 h-8 text-gold md:w-10 md:h-10" />
                   </div>
-                  <h3 className="text-2xl font-montserrat font-bold mb-4 text-deepPurple">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600 text-lg">{value.description}</p>
+                  <div className="flex-1 md:flex-none">
+                    <h3 className="text-xl font-montserrat font-bold mb-1 text-deepPurple md:text-2xl md:mb-4">
+                      {value.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm leading-relaxed md:text-lg">{value.description}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>

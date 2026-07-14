@@ -96,7 +96,7 @@ const Header = () => {
         <motion.div
           animate={{ borderRadius: mobileMenuOpen ? '36px' : '9999px' }}
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-          className={`shadow-lg overflow-hidden ${
+          className={`shadow-lg ${
             isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'
           }`}
         >

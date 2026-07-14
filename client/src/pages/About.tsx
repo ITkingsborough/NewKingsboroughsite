@@ -5,9 +5,10 @@ import {
   fadeIn,
 } from "@/lib/animations";
 import OurStoryScroll from "@/components/about/OurStoryScroll";
+import ScrollJourney from "@/components/about/ScrollJourney";
 import { leaders } from "@/lib/data";
 import { Helmet } from "react-helmet";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useGsapAnimations } from "@/hooks/use-gsap-animations";
@@ -26,9 +27,10 @@ const About = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const missionVisionRef = useRef<HTMLDivElement>(null);
   const valuesRef = useRef<HTMLDivElement>(null);
+  const valuesWrapperRef = useRef<HTMLDivElement>(null);
+  const horizontalTrackRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const [activeValueIndex, setActiveValueIndex] = useState<number | null>(null);
 
   // Parallax scroll refs
   const parallaxBgRef = useRef<HTMLDivElement>(null);
@@ -107,140 +109,166 @@ const About = () => {
     },
   ];
 
-  // Add GSAP animations on component mount
-  useEffect(() => {
-    // Hero section parallax effect
-    if (parallaxBgRef.current) {
-      createParallaxEffect(parallaxBgRef.current, 0.3, "vertical");
-    }
+  // Combine all GSAP animations into one layout effect for stability
+  // ── Dedicated horizontal-scroll effect ────────────────────────────────────
+  // Uses CSS sticky (NOT gsap pin:true) — unaffected by Framer Motion transforms.
+  // The wrapper is made tall so the sticky section stays in view while GSAP scrubs.
+  useLayoutEffect(() => {
+    const wrapper = valuesWrapperRef.current;
+    const section = valuesRef.current;
+    const track = horizontalTrackRef.current;
+    if (!wrapper || !section || !track) return;
 
-    // Who We Are section animations
-    if (whoWeAreRef.current) {
-      const section = whoWeAreRef.current;
-      const image = section.querySelector(".section-image");
-      const content = section.querySelector(".section-content");
+    let ctx: gsap.Context | null = null;
 
-      if (image) {
-        createScrollAnimation(
-          image,
-          { scale: 1.05, opacity: 0.8 },
-          {
-            trigger: section,
-            scrub: 0.5,
-            start: "top bottom",
-            end: "bottom center",
-          },
-        );
-      }
+    const timer = setTimeout(() => {
+      if (!valuesWrapperRef.current || !valuesRef.current || !horizontalTrackRef.current) return;
 
-      if (content) {
-        gsap.from(content, {
-          x: -50,
-          opacity: 0,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 70%",
-            end: "center center",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-    }
+      const getDistance = () => track.scrollWidth - section.offsetWidth;
+      const distance = getDistance();
+      if (distance <= 0) return;
 
-    // Timeline animations
-    if (timelineRef.current) {
-      const timelineItems =
-        timelineRef.current.querySelectorAll(".timeline-item");
+      // Grow the wrapper so the sticky section stays locked during the full animation
+      wrapper.style.height = `calc(100vh + ${distance}px)`;
 
-      timelineItems.forEach((item, index) => {
-        const direction = index % 2 === 0 ? -30 : 30;
-
-        gsap.from(item, {
-          x: direction,
-          opacity: 0,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 80%",
-            end: "center center",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-
-      // Timeline connector line animation
-      const connector = timelineRef.current.querySelector(
-        ".timeline-connector",
-      );
-      if (connector) {
-        gsap.from(connector, {
-          height: 0,
-          duration: 1.5,
+      ctx = gsap.context(() => {
+        // Trigger off the WRAPPER — no pin:true needed, CSS sticky does the work
+        gsap.to(track, {
+          x: -distance,
           ease: "none",
           scrollTrigger: {
-            trigger: timelineRef.current,
-            start: "top 70%",
-            end: "bottom 80%",
-            scrub: true,
+            trigger: wrapper,
+            start: "top top",
+            end: () => "+=" + getDistance(),
+            scrub: 1,
+            invalidateOnRefresh: true,
+            onRefresh: () => {
+              const d = getDistance();
+              wrapper.style.height = `calc(100vh + ${d}px)`;
+            },
           },
         });
-      }
-    }
 
-    // Mission & Vision reveal animations
-    if (missionVisionRef.current) {
-      const cards = missionVisionRef.current.querySelectorAll(".mv-card");
-
-      cards.forEach((card, index) => {
-        createRevealAnimation(card, index === 0 ? "left" : "right", 50);
+        // Progress bar
+        const progressBar = section.querySelector(".values-progress-bar");
+        if (progressBar) {
+          gsap.to(progressBar, {
+            scaleX: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top top",
+              end: () => "+=" + getDistance(),
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+        }
       });
-    }
 
-    // Team section image hover animations
-    if (teamRef.current) {
-      const teamCards = teamRef.current.querySelectorAll(".team-card");
+      ScrollTrigger.refresh();
+    }, 200);
 
-      teamCards.forEach((card) => {
-        const img = card.querySelector("img");
-        const content = card.querySelector(".hover-content");
-
-        card.addEventListener("mouseenter", () => {
-          gsap.to(img, { scale: 1.1, duration: 0.4 });
-          gsap.to(content, { opacity: 1, y: 0, duration: 0.3 });
-        });
-
-        card.addEventListener("mouseleave", () => {
-          gsap.to(img, { scale: 1, duration: 0.4 });
-          gsap.to(content, { opacity: 0, y: 20, duration: 0.3 });
-        });
-      });
-    }
-
-    // CTA section parallax
-    if (ctaRef.current) {
-      const ctaBg = ctaRef.current.querySelector(".cta-bg");
-      if (ctaBg) {
-        createParallaxEffect(ctaBg, 0.2, "vertical");
-      }
-    }
-
-    // Scroll indicator animation
-    if (scrollIndicatorRef.current) {
-      gsap.to(scrollIndicatorRef.current, {
-        y: 10,
-        repeat: -1,
-        duration: 1.5,
-        ease: "power1.inOut",
-        yoyo: true,
-      });
-    }
-
-    // Clean up ScrollTrigger instances
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      clearTimeout(timer);
+      ctx?.revert();
+      if (valuesWrapperRef.current) valuesWrapperRef.current.style.height = "";
+    };
+  }, []);
+
+  // ── All other page animations ─────────────────────────────────────────────
+  useLayoutEffect(() => {
+    let gsapCtx = gsap.context(() => {
+      // Page Animations
+      if (parallaxBgRef.current) {
+        createParallaxEffect(parallaxBgRef.current, 0.3, "vertical");
+      }
+
+      if (whoWeAreRef.current) {
+        const whoSection = whoWeAreRef.current;
+        const image = whoSection.querySelector(".section-image");
+        const content = whoSection.querySelector(".section-content");
+
+        if (image) {
+          createScrollAnimation(image, { scale: 1.05, opacity: 0.8 }, {
+            trigger: whoSection, scrub: 0.5, start: "top bottom", end: "bottom center"
+          });
+        }
+
+        if (content) {
+          gsap.from(content, {
+            x: -50, opacity: 0, duration: 1, ease: "power2.out",
+            scrollTrigger: {
+              trigger: whoSection, start: "top 70%", end: "center center", toggleActions: "play none none reverse"
+            }
+          });
+        }
+      }
+
+      if (timelineRef.current) {
+        const timelineItems = timelineRef.current.querySelectorAll(".timeline-item");
+        timelineItems.forEach((item, index) => {
+          const direction = index % 2 === 0 ? -30 : 30;
+          gsap.from(item, {
+            x: direction, opacity: 0, duration: 0.7, ease: "power2.out",
+            scrollTrigger: {
+              trigger: item, start: "top 80%", end: "center center", toggleActions: "play none none reverse"
+            }
+          });
+        });
+
+        const connector = timelineRef.current.querySelector(".timeline-connector");
+        if (connector) {
+          gsap.from(connector, {
+            height: 0, duration: 1.5, ease: "none",
+            scrollTrigger: {
+              trigger: timelineRef.current, start: "top 70%", end: "bottom 80%", scrub: true
+            }
+          });
+        }
+      }
+
+      if (missionVisionRef.current) {
+        const cards = missionVisionRef.current.querySelectorAll(".mv-card");
+        cards.forEach((card, index) => {
+          createRevealAnimation(card, index === 0 ? "left" : "right", 50);
+        });
+      }
+
+      if (teamRef.current) {
+        const teamCards = teamRef.current.querySelectorAll(".team-card");
+        teamCards.forEach((card) => {
+          const img = card.querySelector("img");
+          const hoverContent = card.querySelector(".hover-content");
+          card.addEventListener("mouseenter", () => {
+            gsap.to(img, { scale: 1.1, duration: 0.4 });
+            gsap.to(hoverContent, { opacity: 1, y: 0, duration: 0.3 });
+          });
+          card.addEventListener("mouseleave", () => {
+            gsap.to(img, { scale: 1, duration: 0.4 });
+            gsap.to(hoverContent, { opacity: 0, y: 20, duration: 0.3 });
+          });
+        });
+      }
+
+      if (ctaRef.current) {
+        const ctaBg = ctaRef.current.querySelector(".cta-bg");
+        if (ctaBg) createParallaxEffect(ctaBg, 0.2, "vertical");
+      }
+
+      if (scrollIndicatorRef.current) {
+        gsap.to(scrollIndicatorRef.current, {
+          y: 10, repeat: -1, duration: 1.5, ease: "power1.inOut", yoyo: true
+        });
+      }
+    });
+
+    // Essential refresh
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 1000);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      gsapCtx.revert();
     };
   }, [createScrollAnimation, createParallaxEffect, createRevealAnimation]);
 
@@ -397,7 +425,10 @@ const About = () => {
         </div>
       </section>
 
-      {/* 3. Our Story — Scroll-Driven Section */}
+      {/* 3. Journey Timeline — scroll-driven SVG line */}
+      <ScrollJourney />
+
+      {/* 4. Our Story — Scroll-Driven Section */}
       <OurStoryScroll />
 
       {/* 4. Our Vision & Mission Section */}
@@ -460,95 +491,78 @@ const About = () => {
         </div>
       </section>
 
-      {/* 5. Core Values Accordion Section */}
-      <section ref={valuesRef} className="flex flex-col bg-gray-50 overflow-hidden h-screen">
-        <div className="w-full h-full flex flex-col">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={slideUp()}
-            className="text-center px-4 lg:px-8 pt-10 pb-6 shrink-0"
-          >
-            <h2 className="text-3xl md:text-5xl font-montserrat font-bold mb-4 text-deepPurple">
-              Core Values
-            </h2>
-            <div className="h-1 w-20 bg-gold mx-auto mb-6"></div>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto text-gray-700">
-              F.I.S.E.P — the values that shape how we lead, love, and serve.
+      {/* 5. Core Values — CSS Sticky Horizontal Scroll */}
+      {/* Wrapper height is set dynamically by useLayoutEffect to create scroll room */}
+      <div ref={valuesWrapperRef}>
+        <section
+          ref={valuesRef}
+          className="sticky top-0 h-screen overflow-hidden bg-deepPurple"
+        >
+          {/* ── Left anchor panel ── */}
+          <div className="absolute left-0 top-0 h-full w-[40%] z-20 flex flex-col justify-center px-12 lg:px-20 bg-deepPurple border-r border-white/10">
+            <p className="text-gold font-montserrat font-semibold tracking-[0.3em] text-xs uppercase mb-6">
+              F &middot; I &middot; S &middot; E &middot; P
             </p>
-          </motion.div>
+            <h2 className="text-6xl lg:text-8xl font-montserrat font-bold text-white leading-tight mb-1">
+              Our Core
+            </h2>
+            <h2 className="text-6xl lg:text-8xl font-montserrat font-bold italic text-gold leading-tight mb-8">
+              Values
+            </h2>
+            <div className="h-px w-14 bg-gold/40 mb-8" />
+            <p className="text-white/55 text-sm leading-relaxed mb-10 max-w-[260px]">
+              The principles that guide how we lead, love, and serve our
+              community and city.
+            </p>
+            <div className="flex items-center gap-3 text-gold font-montserrat font-bold text-[11px] tracking-[0.3em] uppercase">
+              <span>Scroll to Explore</span>
+              <span className="text-base">&#8594;</span>
+            </div>
+            <div className="absolute bottom-10 left-12 lg:left-20 w-36">
+              <div className="h-px bg-white/10 w-full overflow-hidden">
+                <div className="values-progress-bar h-full bg-gold w-full origin-left scale-x-0" />
+              </div>
+            </div>
+          </div>
 
-          <div className="flex flex-1 w-full min-h-0 overflow-hidden">
-            {coreValues.map((value, index) => {
-              const isActive = activeValueIndex === index;
-
-              return (
+          {/* ── Track — padding-left offsets cards past the left panel ── */}
+          <div className="absolute inset-0 flex items-center overflow-hidden">
+            <div
+              ref={horizontalTrackRef}
+              className="flex gap-4 flex-nowrap"
+              style={{ paddingLeft: "42vw", paddingRight: "5vw", height: "72vh", width: "max-content" }}
+            >
+              {coreValues.map((value, index) => (
                 <div
                   key={index}
-                  className="value-card relative cursor-pointer overflow-hidden"
-                  onMouseEnter={() => setActiveValueIndex(index)}
-                  onMouseLeave={() => setActiveValueIndex(null)}
-                  style={{
-                    flex: isActive ? "4 1 0%" : "1 1 0%",
-                    transition: "flex 0.5s ease-in-out",
-                    minWidth: 0,
-                  }}
+                  className="relative flex-shrink-0 rounded-2xl overflow-hidden group"
+                  style={{ width: "680px", height: "100%" }}
                 >
-                  <div className="relative w-full h-full overflow-hidden">
-                    <img
-                      src={value.image}
-                      alt={value.title}
-                      className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ${
-                        isActive ? "scale-105" : "scale-100"
-                      }`}
-                      loading="lazy"
-                    />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                    <div
-                      className={`absolute inset-0 border-4 transition-all duration-500 pointer-events-none ${
-                        isActive ? "border-gold" : "border-transparent"
-                      }`}
-                    />
-
-                    <div
-                      className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                        isActive ? "opacity-0 pointer-events-none" : "opacity-100"
-                      }`}
-                    >
-                      <span
-                        className="text-white font-montserrat font-bold text-sm md:text-lg tracking-widest uppercase whitespace-nowrap drop-shadow-lg"
-                        style={{ writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)" }}
-                      >
-                        {value.title}
-                      </span>
+                  <img
+                    src={value.image}
+                    alt={value.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
+                  <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-gold/60 transition-all duration-500" />
+                  <div className="absolute top-6 right-6 text-white/25 font-montserrat text-xs tracking-[0.25em]">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-7">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-gold font-montserrat font-bold text-5xl leading-none">{value.letter}</span>
+                      <div className="flex-1 h-px bg-gold/30 group-hover:bg-gold/60 transition-colors" />
                     </div>
-
-                    <div
-                      className={`absolute bottom-0 left-0 right-0 p-6 transition-all duration-500 ${
-                        isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"
-                      }`}
-                    >
-                      <p className="text-gold font-montserrat font-semibold tracking-[0.25em] mb-2 text-sm md:text-base uppercase">
-                        {value.letter}
-                      </p>
-                      <h3 className="text-2xl md:text-4xl font-montserrat font-bold text-white mb-2">
-                        {value.title}
-                      </h3>
-                      <div className="h-0.5 w-12 bg-gold mb-3" />
-                      <p className="text-white/90 text-base md:text-xl leading-relaxed max-w-md">
-                        {value.description}
-                      </p>
-                    </div>
+                    <h3 className="text-2xl font-montserrat font-bold text-white mb-3">{value.title}</h3>
+                    <p className="text-white/65 text-sm leading-relaxed">{value.description}</p>
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* 6. Meet the Team Section */}
       <section ref={teamRef} className="overflow-hidden">
