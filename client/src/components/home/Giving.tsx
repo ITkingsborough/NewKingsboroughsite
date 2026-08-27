@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
 import { slideUp } from '@/lib/animations';
 import { Link } from 'wouter';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const Giving = () => {
   return (
@@ -24,85 +31,89 @@ const Giving = () => {
               Your generosity helps fuel our mission to reach people with the love of Christ and make a difference in our community and beyond.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-xl font-montserrat font-semibold mb-4">Ways to Give</h3>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <i className="fas fa-church text-gold mt-1 mr-3"></i>
-                  <div>
-                    <p className="font-semibold">In Person</p>
-                    <p className="text-sm">During our Sunday services</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-calendar-check text-gold mt-1 mr-3"></i>
-                  <div>
-                    <p className="font-semibold">Recurring Giving</p>
-                    <p className="text-sm">Set up automatic donations</p>
-                  </div>
-                </li>
-              </ul>
 
-              {/* QR Code */}
-              <div className="mt-6 flex flex-col items-start">
-                <p className="text-sm font-semibold mb-2 text-deepPurple">Scan to Give</p>
-                <img
-                  src="/images/QR%20CODE.png"
-                  alt="Scan QR code to give"
-                  className="w-36 h-36 object-contain border border-gray-200 rounded-xl p-1"
-                />
-              </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+          <Dialog>
+            <motion.div 
+              className="flex justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-xl font-montserrat font-semibold mb-4">Where Your Gift Goes</h3>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <i className="fas fa-hands-helping text-gold mt-1 mr-3"></i>
-                  <div>
-                    <p className="font-semibold">Local Outreach</p>
-                    <p className="text-sm">Supporting those in need in our community</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-globe-americas text-gold mt-1 mr-3"></i>
-                  <div>
-                    <p className="font-semibold">Global Missions</p>
-                    <p className="text-sm">Partnering with missionaries around the world</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-church text-gold mt-1 mr-3"></i>
-                  <div>
-                    <p className="font-semibold">Church Operations</p>
-                    <p className="text-sm">Maintaining our facilities and supporting ministries</p>
-                  </div>
-                </li>
-              </ul>
+              <DialogTrigger asChild>
+                <button type="button" className="btn-primary">Give Now</button>
+              </DialogTrigger>
             </motion.div>
-          </div>
-          
-          <motion.div 
-            className="flex justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <Link href="/giving" className="btn-primary">Give Now</Link>
-          </motion.div>
+
+            <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-montserrat font-bold text-deepPurple">Give</DialogTitle>
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2">
+                <div>
+                  <h3 className="text-xl font-montserrat font-semibold mb-4">Ways to Give</h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <i className="fas fa-church text-gold mt-1 mr-3"></i>
+                      <div>
+                        <p className="font-semibold">In Person</p>
+                        <p className="text-sm">During our Sunday services</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-calendar-check text-gold mt-1 mr-3"></i>
+                      <div>
+                        <p className="font-semibold">Recurring Giving</p>
+                        <p className="text-sm">Set up automatic donations</p>
+                      </div>
+                    </li>
+                  </ul>
+
+                  {/* QR Code */}
+                  <div className="mt-6 flex flex-col items-start">
+                    <p className="text-sm font-semibold mb-2 text-deepPurple">Scan to Give</p>
+                    <img
+                      src="/images/QR%20CODE.png"
+                      alt="Scan QR code to give"
+                      className="w-36 h-36 object-contain border border-gray-200 rounded-xl p-1"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-montserrat font-semibold mb-4">Where Your Gift Goes</h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <i className="fas fa-hands-helping text-gold mt-1 mr-3"></i>
+                      <div>
+                        <p className="font-semibold">Local Outreach</p>
+                        <p className="text-sm">Supporting those in need in our community</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-globe-americas text-gold mt-1 mr-3"></i>
+                      <div>
+                        <p className="font-semibold">Global Missions</p>
+                        <p className="text-sm">Partnering with missionaries around the world</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-church text-gold mt-1 mr-3"></i>
+                      <div>
+                        <p className="font-semibold">Church Operations</p>
+                        <p className="text-sm">Maintaining our facilities and supporting ministries</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex justify-center mt-6">
+                <Link href="/giving" className="btn-primary">Give Now</Link>
+              </div>
+            </DialogContent>
+          </Dialog>
         </motion.div>
       </div>
     </section>

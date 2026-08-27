@@ -7,6 +7,12 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { ContactFormData } from '@/lib/types';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -50,6 +56,87 @@ const Contact = () => {
   return (
     <section id="contact" data-nav-theme="light" className="py-20 bg-white">
       <div className="container mx-auto px-4 lg:px-8">
+
+        {/* Plan Your Visit */}
+        <motion.div
+          className="mb-20 overflow-hidden rounded-3xl bg-deepPurple"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={slideUp()}
+        >
+          <div className="grid lg:grid-cols-2">
+            <div className="relative min-h-[280px] lg:min-h-[420px]">
+              <img
+                src="/uploads/gallery/New Audi (1).jpeg"
+                alt="Inside Kingsborough Church"
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-deepPurple/70 via-transparent to-transparent lg:bg-gradient-to-r" />
+            </div>
+
+            <div className="px-8 py-12 md:px-12 lg:px-14">
+              <span className="inline-flex items-center px-4 py-2 mb-5 rounded-full border border-gold/40 text-gold text-xs font-montserrat font-semibold tracking-[0.2em] uppercase">
+                Plan Your Visit
+              </span>
+              <h3 className="text-3xl md:text-4xl font-montserrat font-bold text-white mb-4 leading-tight">
+                First Time Coming? We'd Love to Welcome You.
+              </h3>
+              <p className="text-white/80 leading-relaxed mb-8">
+                Whatever your background, you'll find a warm welcome, friendly faces, and a service designed to make
+                you feel at home from the moment you arrive.
+              </p>
+
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1">
+                    <i className="fas fa-location-dot text-gold"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-white font-montserrat font-semibold mb-1">Where to Find Us</h4>
+                    <p className="text-white/75 text-sm">215 High Street, Yiewsley<br />West Drayton, UB7 7QP</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1">
+                    <i className="fas fa-car text-gold"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-white font-montserrat font-semibold mb-1">Parking</h4>
+                    <p className="text-white/75 text-sm">Free on-site parking available, with overflow street parking nearby.</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1">
+                    <i className="fas fa-train text-gold"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-white font-montserrat font-semibold mb-1">Getting Here</h4>
+                    <p className="text-white/75 text-sm">A short walk from West Drayton Station, with regular bus routes stopping close by.</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="mr-3 mt-1">
+                    <i className="fas fa-shirt text-gold"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-white font-montserrat font-semibold mb-1">What to Expect</h4>
+                    <p className="text-white/75 text-sm">Come as you are — relaxed dress, uplifting worship, and a practical, faith-filled message.</p>
+                  </div>
+                </div>
+              </div>
+
+              <a
+                href="#contact-form"
+                className="inline-flex items-center justify-center mt-9 px-8 py-3 bg-gold text-deepPurple font-montserrat font-semibold rounded-full hover:bg-gold/90 transition-colors"
+              >
+                Plan Your First Visit
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
         <div className="flex flex-col lg:flex-row lg:items-start">
           <motion.div 
             className="lg:w-1/2 lg:pr-12 mb-12 lg:mb-0"
@@ -65,46 +152,59 @@ const Contact = () => {
               We'd love to hear from you! Reach out with any questions or prayer requests, or visit us at our service times.
             </p>
             
-            <div className="space-y-6 mb-8">
-              <div className="flex items-start">
-                <div className="mr-4 mt-1">
-                  <i className="fas fa-map-marker-alt text-gold text-xl"></i>
-                </div>
-                <div>
-                  <h3 className="text-lg font-montserrat font-semibold mb-1">Visit Us</h3>
-                  <p>215 High Street, Yiewsley<br />West Drayton, UB7 7QP</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="mr-4 mt-1">
-                  <i className="fas fa-clock text-gold text-xl"></i>
-                </div>
-                <div>
-                  <h3 className="text-lg font-montserrat font-semibold mb-1">Service Times</h3>
-                  <p>Sundays at 08:30 AM - 09:30 AM (Express Service)</p>
-                  <p>Sundays at 10:00 AM - 12:00 PM</p>
-                  <p>Wednesday at 07:00 PM - 08:30 PM</p>
-                  <p>Bible Study on Sunday at 9:15 PM</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="mr-4 mt-1">
-                  <i className="fas fa-phone text-gold text-xl"></i>
-                </div>
-                <div>
-                  <h3 className="text-lg font-montserrat font-semibold mb-1">Call Us</h3>
-                  <p>01895252224 or 07848237072 (Monday to Friday) </p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="mr-4 mt-1">
-                  <i className="fas fa-envelope text-gold text-xl"></i>
-                </div>
-                <div>
-                  <h3 className="text-lg font-montserrat font-semibold mb-1">Email Us</h3>
-                  <p>info@kingsborough.org.uk</p>
-                </div>
-              </div>
+            <div className="mb-8">
+              <Accordion type="single" collapsible defaultValue="visit-us">
+                <AccordionItem value="visit-us">
+                  <AccordionTrigger className="text-lg font-montserrat font-bold uppercase">
+                    <span className="flex items-center">
+                      <i className="fas fa-map-marker-alt text-gold text-xl mr-4"></i>
+                      Visit Us
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-10">
+                    <p>215 High Street, Yiewsley<br />West Drayton, UB7 7QP</p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="service-times">
+                  <AccordionTrigger className="text-lg font-montserrat font-bold uppercase">
+                    <span className="flex items-center">
+                      <i className="fas fa-clock text-gold text-xl mr-4"></i>
+                      Service Times
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-10">
+                    <p>Sundays at 08:30 AM - 09:30 AM (Express Service)</p>
+                    <p>Sundays at 10:00 AM - 12:00 PM</p>
+                    <p>Wednesday at 07:00 PM - 08:30 PM</p>
+                    <p>Bible Study on Sunday at 9:15 PM</p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="call-us">
+                  <AccordionTrigger className="text-lg font-montserrat font-bold uppercase">
+                    <span className="flex items-center">
+                      <i className="fas fa-phone text-gold text-xl mr-4"></i>
+                      Call Us
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-10">
+                    <p>01895252224 or 07848237072 (Monday to Friday) </p>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="email-us">
+                  <AccordionTrigger className="text-lg font-montserrat font-bold uppercase">
+                    <span className="flex items-center">
+                      <i className="fas fa-envelope text-gold text-xl mr-4"></i>
+                      Email Us
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-10">
+                    <p>info@kingsborough.org.uk</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
             
             <div className="mb-8">
@@ -167,6 +267,7 @@ const Contact = () => {
           
           <motion.div 
             className="lg:w-1/2"
+            id="contact-form"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}

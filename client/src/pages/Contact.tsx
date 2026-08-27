@@ -103,7 +103,7 @@ const Contact = () => {
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-montserrat font-semibold mb-2">Visit Us</h3>
+                      <h3 className="text-xl font-montserrat font-semibold mb-2">VISIT US</h3>
                       <p className="mb-1">215 High Street, Yiewsley</p>
                       <p>West Drayton, UB7 7QP</p>
                     </div>
@@ -116,7 +116,7 @@ const Contact = () => {
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-montserrat font-semibold mb-2">Service Times</h3>
+                      <h3 className="text-xl font-montserrat font-semibold mb-2">SERVICE TIMES</h3>
                       <p className="mb-1"><strong>Sunday Services:</strong> 10:00 AM - 12:00 PM</p>
                       <p><strong>Wednesday Bible Study:</strong> 7:00 PM</p>
                     </div>
@@ -129,7 +129,7 @@ const Contact = () => {
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-montserrat font-semibold mb-2">Call Us</h3>
+                      <h3 className="text-xl font-montserrat font-semibold mb-2">CALL US</h3>
                       <p className="mb-1">01895252224</p>
                     </div>
                   </div>
@@ -141,7 +141,7 @@ const Contact = () => {
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-montserrat font-semibold mb-2">Email Us</h3>
+                      <h3 className="text-xl font-montserrat font-semibold mb-4">EMAIL US</h3>
                       <p className="mb-1">info@kingsboroughchurch.org.uk</p>
                     </div>
                   </div>

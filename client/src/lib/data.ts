@@ -10,18 +10,18 @@ import {
 export const leaders: LeaderItem[] = [
   {
     id: 1,
-    name: "Apostle Tunde & Toyin Balogun",
-    role: "Senior Pastor & Founder",
-    bio: "With over two decades of ministry experience, Apostle Tunde Balogun leads Kingsborough Church with wisdom, integrity, and genuine compassion. His visionary leadership has transformed countless lives through powerful teaching, prophetic ministry, and a heart for community service. He creates an atmosphere of faith and love where people discover their purpose and grow in their relationship with God.",
-    image: "/pastor-couple.png",
+    name: "Apostle Tunde Balogun",
+    role: "Founder",
+    years: "1968 – 2026",
+    bio: "Apostle Tunde Balogun was the visionary founder of Kingsborough Church, a man of unwavering faith, prophetic grace, and deep love for God's people. For decades he poured his life into building a community where every soul felt seen, valued, and called. His powerful teaching, compassionate heart, and prophetic insight transformed countless lives across generations. Though he has gone to be with the Lord, his legacy continues to shape the DNA of this church — in every song we sing, every life we touch, and every soul we reach. We honour his memory and carry his vision forward with gratitude and joy.",
+    image: "/images/APT.jpg",
   },
   {
     id: 2,
-    name: "Pastor Steven Omotayo",
-    role: "Resident Pastor",
-    bio: "Pastor Steven oversees the day-to-day operations and strategic direction of the church. With a background in business administration and theology, he brings organizational excellence and spiritual depth to leadership. His passion is equipping believers to live out their faith in every area of life and building systems that support sustainable growth..",
-    image:
-      "/uploads/gallery/PSO.jpg",
+    name: "Apostle Toyin Balogun",
+    role: "Apostolic Head",
+    bio: "Apostle Toyin Balogun now leads Kingsborough Church as Apostolic Head, continuing the legacy built on faith, love, and community. With a deep pastoral heart and apostolic authority, she shepherds the church with grace, vision, and unwavering dedication to God's purpose. Her leadership carries the spirit of the house forward — nurturing, empowering, and equipping every member to walk fully in their calling.",
+    image: "/images/APTo.png",
   },
 ];
 

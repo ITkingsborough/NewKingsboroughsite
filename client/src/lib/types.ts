@@ -29,6 +29,7 @@ export interface LeaderItem {
   id: number;
   name: string;
   role: string;
+  years?: string;
   bio: string;
   image: string;
 }

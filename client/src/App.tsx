@@ -22,6 +22,7 @@ import KidsMinistry from "@/pages/KidsMinistry";
 import CommunityOutreach from "@/pages/CommunityOutreach";
 import PrayerMinistry from "@/pages/PrayerMinistry";
 import VenueHire from "@/pages/VenueHire";
+import BuildingProject from "@/pages/BuildingProject";
 import LoginPage from "@/pages/auth/login-page";
 import DirectLoginPage from "@/pages/auth/direct-login";
 import DashboardPage from "@/pages/cms/dashboard-page";
@@ -46,8 +47,8 @@ import { useSmoothScroll } from "./hooks/use-smooth-scroll";
 
 function App() {
   // Initialize smooth scrolling
-  useSmoothScroll();
   const [location] = useLocation();
+  useSmoothScroll(location);
   
   // Prevent Flash Of Unstyled Content (FOUC)
   useEffect(() => {
@@ -88,6 +89,7 @@ function App() {
                   <Route path="/community-outreach" component={CommunityOutreach} />
                   <Route path="/prayer-ministry" component={PrayerMinistry} />
                   <Route path="/venue-hire" component={VenueHire} />
+                  <Route path="/building-project" component={BuildingProject} />
                   <Route path="/auth/login" component={LoginPage} />
                   <Route path="/direct-login" component={DirectLoginPage} />
                   <Route component={NotFound} />

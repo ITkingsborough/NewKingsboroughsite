@@ -1,11 +1,11 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   slideUp,
   slideRight,
   fadeIn,
 } from "@/lib/animations";
 import OurStoryScroll from "@/components/about/OurStoryScroll";
-import ScrollJourney from "@/components/about/ScrollJourney";
+import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { leaders } from "@/lib/data";
 import { Helmet } from "react-helmet";
 import { useRef, useEffect, useState, useLayoutEffect } from "react";
@@ -26,21 +26,26 @@ const About = () => {
   const whoWeAreRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const missionVisionRef = useRef<HTMLDivElement>(null);
-  const valuesRef = useRef<HTMLDivElement>(null);
-  const valuesWrapperRef = useRef<HTMLDivElement>(null);
-  const horizontalTrackRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+
+  // Hover-reveal image for the Values list
+  const [hoverValueImage, setHoverValueImage] = useState<string | null>(null);
+  const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
 
   // Parallax scroll refs
-  const parallaxBgRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
-  // Scroll animation for hero section using framer-motion
-  const { scrollYProgress } = useScroll();
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.1], [0, 100]);
+  // Hero zoom-parallax images — the first image is the one scrolled into
+  const heroImages = [
+    { src: "/uploads/about-hero.jpg", alt: "Kingsborough Church community" },
+    { src: "/uploads/gallery/Apst Preaching.JPG", alt: "Apostle preaching" },
+    { src: "/uploads/gallery/HOP.jpg", alt: "Church gathering" },
+    { src: "/uploads/gallery/Kingsmen.png", alt: "Kingsmen ministry" },
+    { src: "/uploads/gallery/Moyo and Van.JPG", alt: "Worship service" },
+    { src: "/uploads/gallery/New Audi (1).jpeg", alt: "Inside Kingsborough Church" },
+    { src: "/uploads/gallery/MEDIA.jpg", alt: "Media ministry" },
+  ];
 
   // Timeline data
   const timeline = [
@@ -87,8 +92,8 @@ const About = () => {
         "Everyone is welcomed, valued, and embraced regardless of background, story, or season of life.",
     },
     {
-      letter: "S",
-      title: "Spirituality",
+      letter: "C",
+      title: "Christlike",
       image: "/uploads/gallery/Kingsmen.png",
       description:
         "We pursue a deeper relationship with God through worship, prayer, and the Word.",
@@ -96,7 +101,7 @@ const About = () => {
     {
       letter: "E",
       title: "Excellence",
-      image: "/uploads/gallery/PE.jpg",
+      image: "/uploads/gallery/Excellence.jpg",
       description:
         "We honour God by giving our best in every area of ministry, leadership, and service.",
     },
@@ -110,80 +115,10 @@ const About = () => {
   ];
 
   // Combine all GSAP animations into one layout effect for stability
-  // ── Dedicated horizontal-scroll effect ────────────────────────────────────
-  // Uses CSS sticky (NOT gsap pin:true) — unaffected by Framer Motion transforms.
-  // The wrapper is made tall so the sticky section stays in view while GSAP scrubs.
-  useLayoutEffect(() => {
-    const wrapper = valuesWrapperRef.current;
-    const section = valuesRef.current;
-    const track = horizontalTrackRef.current;
-    if (!wrapper || !section || !track) return;
-
-    let ctx: gsap.Context | null = null;
-
-    const timer = setTimeout(() => {
-      if (!valuesWrapperRef.current || !valuesRef.current || !horizontalTrackRef.current) return;
-
-      const getDistance = () => track.scrollWidth - section.offsetWidth;
-      const distance = getDistance();
-      if (distance <= 0) return;
-
-      // Grow the wrapper so the sticky section stays locked during the full animation
-      wrapper.style.height = `calc(100vh + ${distance}px)`;
-
-      ctx = gsap.context(() => {
-        // Trigger off the WRAPPER — no pin:true needed, CSS sticky does the work
-        gsap.to(track, {
-          x: -distance,
-          ease: "none",
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top top",
-            end: () => "+=" + getDistance(),
-            scrub: 1,
-            invalidateOnRefresh: true,
-            onRefresh: () => {
-              const d = getDistance();
-              wrapper.style.height = `calc(100vh + ${d}px)`;
-            },
-          },
-        });
-
-        // Progress bar
-        const progressBar = section.querySelector(".values-progress-bar");
-        if (progressBar) {
-          gsap.to(progressBar, {
-            scaleX: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top top",
-              end: () => "+=" + getDistance(),
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          });
-        }
-      });
-
-      ScrollTrigger.refresh();
-    }, 200);
-
-    return () => {
-      clearTimeout(timer);
-      ctx?.revert();
-      if (valuesWrapperRef.current) valuesWrapperRef.current.style.height = "";
-    };
-  }, []);
-
   // ── All other page animations ─────────────────────────────────────────────
   useLayoutEffect(() => {
     let gsapCtx = gsap.context(() => {
       // Page Animations
-      if (parallaxBgRef.current) {
-        createParallaxEffect(parallaxBgRef.current, 0.3, "vertical");
-      }
-
       if (whoWeAreRef.current) {
         const whoSection = whoWeAreRef.current;
         const image = whoSection.querySelector(".section-image");
@@ -251,11 +186,6 @@ const About = () => {
         });
       }
 
-      if (ctaRef.current) {
-        const ctaBg = ctaRef.current.querySelector(".cta-bg");
-        if (ctaBg) createParallaxEffect(ctaBg, 0.2, "vertical");
-      }
-
       if (scrollIndicatorRef.current) {
         gsap.to(scrollIndicatorRef.current, {
           y: 10, repeat: -1, duration: 1.5, ease: "power1.inOut", yoyo: true
@@ -282,79 +212,59 @@ const About = () => {
         />
       </Helmet>
 
-      {/* 1. Full-Screen Hero Section */}
-      <div
-        ref={heroRef}
-        data-nav-theme="dark"
-        className="relative h-screen flex items-center justify-center overflow-hidden"
-      >
-        {/* Parallax Background Video/Image */}
-        <div
-          ref={parallaxBgRef}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/uploads/about-hero.jpg')`,
-            backgroundAttachment: "fixed",
-          }}
-        ></div>
+      {/* 1. Full-Screen Hero Section — Zoom Parallax into the hero image */}
+      <div ref={heroRef} data-nav-theme="dark" className="relative">
+        <ZoomParallax
+          images={heroImages}
+          overlay={
+            <div className="relative h-full w-full pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-r from-gold/40 to-deepPurple/50"></div>
 
-        {/* Gold Tinted Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-gold/50 to-deepPurple/60"></div>
+              {/* Content */}
+              <div
+                ref={heroContentRef}
+                className="relative z-10 h-full container mx-auto px-4 lg:px-8 flex items-center justify-center text-center"
+              >
+                <div>
+                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-montserrat font-bold text-white mb-6 tracking-[0.06em]">
+                    We Are A Light In The City
+                  </h1>
+                  <p className="text-xl md:text-2xl text-white font-light max-w-3xl mx-auto">
+                    Building a community where faith is lived, love is experienced, and
+                    everyone is valued.
+                  </p>
+                </div>
+              </div>
 
-        {/* Content */}
-        <motion.div
-          ref={heroContentRef}
-          className="container relative z-10 px-4 lg:px-8 text-center"
-          style={{ opacity: heroOpacity, y: heroY }}
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-5xl md:text-7xl lg:text-8xl font-montserrat font-bold text-white mb-6 tracking-[0.06em]"
-          >
-            We Are A Light In The City
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="text-xl md:text-2xl text-white font-light max-w-3xl mx-auto"
-          >
-            Building a community where faith is lived, love is experienced, and
-            everyone is valued.
-          </motion.p>
-        </motion.div>
-
-        {/* Animated Scroll Indicator */}
-        <motion.div
-          ref={scrollIndicatorRef}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
-          onClick={() => scrollToElement("who-we-are")}
-        >
-          <div className="text-white text-sm mb-2 font-light tracking-wider">
-            DISCOVER OUR STORY
-          </div>
-          <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center mx-auto">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </div>
-        </motion.div>
+              {/* Scroll Indicator */}
+              <div
+                ref={scrollIndicatorRef}
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer pointer-events-auto"
+                onClick={() => scrollToElement("who-we-are")}
+              >
+                <div className="text-white text-sm mb-2 font-light tracking-wider">
+                  DISCOVER OUR STORY
+                </div>
+                <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          }
+        />
       </div>
 
       {/* 2. "Who We Are" Split Layout Section */}
@@ -425,9 +335,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* 3. Journey Timeline — scroll-driven SVG line */}
-      <ScrollJourney />
-
       {/* 4. Our Story — Scroll-Driven Section */}
       <OurStoryScroll />
 
@@ -491,78 +398,60 @@ const About = () => {
         </div>
       </section>
 
-      {/* 5. Core Values — CSS Sticky Horizontal Scroll */}
-      {/* Wrapper height is set dynamically by useLayoutEffect to create scroll room */}
-      <div ref={valuesWrapperRef}>
-        <section
-          ref={valuesRef}
-          className="sticky top-0 h-screen overflow-hidden bg-deepPurple"
-        >
-          {/* ── Left anchor panel ── */}
-          <div className="absolute left-0 top-0 h-full w-[40%] z-20 flex flex-col justify-center px-12 lg:px-20 bg-deepPurple border-r border-white/10">
-            <p className="text-gold font-montserrat font-semibold tracking-[0.3em] text-xs uppercase mb-6">
-              F &middot; I &middot; S &middot; E &middot; P
-            </p>
-            <h2 className="text-6xl lg:text-8xl font-montserrat font-bold text-white leading-tight mb-1">
-              Our Core
-            </h2>
-            <h2 className="text-6xl lg:text-8xl font-montserrat font-bold italic text-gold leading-tight mb-8">
-              Values
-            </h2>
-            <div className="h-px w-14 bg-gold/40 mb-8" />
-            <p className="text-white/55 text-sm leading-relaxed mb-10 max-w-[260px]">
-              The principles that guide how we lead, love, and serve our
-              community and city.
-            </p>
-            <div className="flex items-center gap-3 text-gold font-montserrat font-bold text-[11px] tracking-[0.3em] uppercase">
-              <span>Scroll to Explore</span>
-              <span className="text-base">&#8594;</span>
-            </div>
-            <div className="absolute bottom-10 left-12 lg:left-20 w-36">
-              <div className="h-px bg-white/10 w-full overflow-hidden">
-                <div className="values-progress-bar h-full bg-gold w-full origin-left scale-x-0" />
-              </div>
-            </div>
-          </div>
+      {/* 5. Core Values — simple numbered list */}
+      <section className="py-24 bg-gray-100 relative">
+        <div className="container mx-auto px-4 lg:px-8 max-w-5xl">
+          <h2 className="text-5xl md:text-6xl font-montserrat font-extrabold uppercase mb-14">
+            <span className="text-black">Our </span>
+            <span className="text-gold">Values</span>
+          </h2>
 
-          {/* ── Track — padding-left offsets cards past the left panel ── */}
-          <div className="absolute inset-0 flex items-center overflow-hidden">
-            <div
-              ref={horizontalTrackRef}
-              className="flex gap-4 flex-nowrap"
-              style={{ paddingLeft: "42vw", paddingRight: "5vw", height: "72vh", width: "max-content" }}
-            >
-              {coreValues.map((value, index) => (
-                <div
-                  key={index}
-                  className="relative flex-shrink-0 rounded-2xl overflow-hidden group"
-                  style={{ width: "680px", height: "100%" }}
+          <div
+            className="relative border-t border-black/70"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              setHoverPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+            }}
+          >
+            {coreValues.map((value, index) => (
+              <motion.div
+                key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp(index * 0.05)}
+                onMouseEnter={() => setHoverValueImage(value.image)}
+                onMouseLeave={() => setHoverValueImage(null)}
+                className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_220px_1fr] gap-4 sm:gap-8 items-baseline py-6 border-b border-black/70 cursor-default"
+              >
+                <span className="font-montserrat font-bold text-sm">{index + 1}</span>
+                <h3 className="font-montserrat font-extrabold text-xl md:text-2xl uppercase col-span-2 sm:col-span-1">
+                  {value.title}
+                </h3>
+                <p className="text-gray-600 text-base md:text-lg col-span-2 sm:col-span-1">
+                  {value.description}
+                </p>
+              </motion.div>
+            ))}
+
+            {/* Floating image that follows the cursor while hovering a value row */}
+            <AnimatePresence>
+              {hoverValueImage && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="hidden lg:block absolute z-50 pointer-events-none w-64 h-40 rounded-xl overflow-hidden shadow-2xl ring-1 ring-gold/50"
+                  style={{ left: hoverPos.x + 28, top: hoverPos.y - 90 }}
                 >
-                  <img
-                    src={value.image}
-                    alt={value.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
-                  <div className="absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-gold/60 transition-all duration-500" />
-                  <div className="absolute top-6 right-6 text-white/25 font-montserrat text-xs tracking-[0.25em]">
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-7">
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-gold font-montserrat font-bold text-5xl leading-none">{value.letter}</span>
-                      <div className="flex-1 h-px bg-gold/30 group-hover:bg-gold/60 transition-colors" />
-                    </div>
-                    <h3 className="text-2xl font-montserrat font-bold text-white mb-3">{value.title}</h3>
-                    <p className="text-white/65 text-sm leading-relaxed">{value.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  <img src={hoverValueImage} alt="" className="w-full h-full object-cover" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       {/* 6. Meet the Team Section */}
       <section ref={teamRef} className="overflow-hidden">
@@ -605,9 +494,15 @@ const About = () => {
               viewport={{ once: true, amount: 0.2 }}
               variants={slideUp()}
             >
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-8 leading-tight">
+              <span className="inline-block text-xs font-montserrat font-bold tracking-[0.3em] uppercase text-gold/80 border border-gold/40 px-3 py-1 rounded-full mb-4">
+                In Loving Memory
+              </span>
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold text-white mb-2 leading-tight">
                 {leaders[0].name}
               </h3>
+              {leaders[0].years && (
+                <p className="text-white/50 font-montserrat text-lg mb-6 tracking-widest">{leaders[0].years}</p>
+              )}
               <div className="border-l-4 border-gold pl-6 space-y-4">
                 <p className="text-gold font-semibold text-xl">{leaders[0].role}</p>
                 <p className="text-white/85 text-lg leading-relaxed">{leaders[0].bio}</p>
@@ -646,52 +541,6 @@ const About = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-deepPurple/30 lg:block hidden" />
           </div>
-        </div>
-      </section>
-
-      {/* 7. Call to Action Section */}
-      <section ref={ctaRef} className="py-24 relative overflow-hidden">
-        {/* Background Image with Parallax */}
-        <div
-          className="cta-bg absolute inset-0 bg-cover bg-center brightness-50"
-          style={{
-            backgroundImage: `url('/uploads/gallery/HOP.jpg')`,
-          }}
-        ></div>
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-deepPurple/80 to-gold/60 mix-blend-multiply"></div>
-
-        <div className="container relative z-10 px-4 lg:px-8 mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={fadeIn()}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h2 className="text-3xl md:text-5xl font-montserrat font-bold mb-6 text-white">
-              Join Our Story
-            </h2>
-            <p className="text-xl md:text-2xl text-white/90 font-light mb-10">
-              Be part of a community that's making a difference. Walk the
-              journey with us. Experience the transformation.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="/contact"
-                className="px-8 py-4 bg-gold text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-white hover:text-gold transition-colors duration-300 transform hover:scale-105"
-              >
-                Plan Your Visit
-              </a>
-              <a
-                href="/sermons"
-                className="px-8 py-4 bg-transparent border-2 border-white text-white text-lg font-semibold rounded-lg hover:bg-white hover:text-deepPurple transition-colors duration-300"
-              >
-                Watch a Service
-              </a>
-            </div>
-          </motion.div>
         </div>
       </section>
     </>

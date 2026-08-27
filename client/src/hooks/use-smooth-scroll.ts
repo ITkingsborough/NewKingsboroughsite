@@ -1,14 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/all';
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export function useSmoothScroll() {
+export function useSmoothScroll(routeKey?: string) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -57,6 +61,16 @@ export function useSmoothScroll() {
       lenis.destroy();
     };
   }, []);
+
+  useLayoutEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    lenis.scrollTo(0, { immediate: true });
+  }, [routeKey]);
 
   return lenisRef;
 }

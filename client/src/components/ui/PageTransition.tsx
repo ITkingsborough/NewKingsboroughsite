@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { useLocation } from 'wouter';
 
@@ -11,7 +11,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
   const pageRef = useRef<HTMLDivElement>(null);
   const prevLocationRef = useRef<string>(location);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Only run transition animation if location has changed
     if (prevLocationRef.current !== location && pageRef.current) {
       // Save current location
@@ -36,8 +36,8 @@ const PageTransition = ({ children }: PageTransitionProps) => {
         ease: 'power2.out'
       });
       
-      // Scroll to top on page change
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Reset scroll before the next paint so the new page opens at the top
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
   }, [location]);
 

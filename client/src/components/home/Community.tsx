@@ -15,18 +15,6 @@ interface CommunityCardProps {
 
 const communityCards: CommunityCardProps[] = [
   {
-    title: "Hillingdon Foodbank",
-    image: "https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Supporting those in need with essential food and supplies in the Hillingdon community.",
-    link: "https://hillingdon.foodbank.org.uk/"
-  },
-  {
-    title: "CMC Nursery",
-    image: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Providing nurturing childcare and early education in a Christ-centered environment.",
-    link: "https://test.cmcnursery.co.uk/"
-  },
-  {
     title: "Hadassah",
     image: "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg",
     description: "A women's ministry empowering and supporting ladies through faith and fellowship.",

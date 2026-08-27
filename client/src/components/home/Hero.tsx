@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { gsap } from 'gsap';
-import heroVideo from '@assets/Background_video_1768994478570.mp4';
+import heroVideo from '@assets/Church Video.mp4';
 
 const CYCLING_WORDS = ['belong', 'believe', 'become'];
 
@@ -124,9 +124,6 @@ const Hero = () => {
             ref={buttonsRef}
             className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 opacity-0"
           >
-            <Link href="/about" className="px-8 py-3 bg-gold text-white font-montserrat font-semibold rounded-full hover:bg-gold/90 transition-colors">
-              Learn More
-            </Link>
             <Link href="/events" className="px-8 py-3 border-2 border-white text-white font-montserrat font-semibold rounded-full hover:bg-white hover:text-deepPurple transition-colors">
               Join Us This Week
             </Link>

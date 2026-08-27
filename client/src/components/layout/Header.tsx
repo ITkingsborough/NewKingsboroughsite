@@ -18,6 +18,12 @@ const Header = () => {
 
   const checkBackgroundColor = useCallback(() => {
     if (!headerRef.current) return;
+
+    // On the home hero, keep the nav blended (transparent + white text) until scrolled past it
+    if (location === '/' && window.scrollY < 50) {
+      setIsDarkBackground(false);
+      return;
+    }
     
     const headerRect = headerRef.current.getBoundingClientRect();
     const headerMiddle = headerRect.top + headerRect.height / 2;
@@ -35,7 +41,7 @@ const Header = () => {
     }
     
     setIsDarkBackground(window.scrollY < 100);
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,28 +85,27 @@ const Header = () => {
   const mediaLinks = [
     { href: '/sermons', label: 'Sermons' },
     { href: '/gallery', label: 'Gallery' },
+    { href: '/magazines', label: 'Magazines' },
   ];
 
   const involvedLinks = [
     { href: '/community', label: 'Community' },
+    { href: '/building-project', label: 'ATB Building Project' },
   ];
 
   return (
     <header 
       ref={headerRef}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'py-2' : 'py-4'
-      }`}
+      className="fixed top-0 w-full z-50 transition-all duration-300"
     >
-      <div className="container mx-auto px-4">
         <motion.div
-          animate={{ borderRadius: mobileMenuOpen ? '36px' : '9999px' }}
-          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-          className={`shadow-lg ${
-            isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'
+          className={`w-full transition-all duration-300 ${
+            !scrolled && location === '/'
+              ? 'bg-transparent shadow-none'
+              : `shadow-lg ${isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'}`
           }`}
         >
-        <div className="flex items-center px-6 py-3">
+        <div className="flex items-center px-6 py-3 container mx-auto">
         <Link href="/" onClick={closeMenu} className="flex items-center flex-shrink-0">
           <img src={churchLogo} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
           <div className="flex flex-col">
@@ -409,7 +414,6 @@ const Header = () => {
           )}
         </AnimatePresence>
         </motion.div>
-      </div>
     </header>
   );
 };

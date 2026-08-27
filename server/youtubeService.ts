@@ -14,6 +14,7 @@ export interface YouTubeVideo {
     maxres?: { url: string; width: number; height: number };
   };
   channelTitle: string;
+  duration?: string;
 }
 
 // Cache to reduce API calls
@@ -64,7 +65,7 @@ export async function getLatestVideos(
         if (liveData.items && liveData.items.length > 0) {
           console.log(`[YouTube API] Found ${liveData.items.length} live videos`);
           const filteredVideos = processVideoItems(liveData.items, true);
-          return filteredVideos.slice(0, maxResults);
+          return attachDurations(filteredVideos.slice(0, maxResults), apiKey);
         }
       }
       
@@ -78,7 +79,7 @@ export async function getLatestVideos(
         if (completedData.items && completedData.items.length > 0) {
           console.log(`[YouTube API] Found ${completedData.items.length} completed live streams`);
           const filteredVideos = processVideoItems(completedData.items, true);
-          return filteredVideos.slice(0, maxResults);
+          return attachDurations(filteredVideos.slice(0, maxResults), apiKey);
         }
       }
       
@@ -91,7 +92,7 @@ export async function getLatestVideos(
         const allData = await allResponse.json() as any;
         if (allData.items && allData.items.length > 0) {
           const filteredVideos = processVideoItems(allData.items, true);
-          return filteredVideos.slice(0, maxResults);
+          return attachDurations(filteredVideos.slice(0, maxResults), apiKey);
         }
       }
     }
@@ -129,12 +130,60 @@ export async function getLatestVideos(
       throw new Error('Invalid response from YouTube API: items is not an array');
     }
     
-    return processVideoItems(responseData.items, false);
+    return attachDurations(processVideoItems(responseData.items, false), apiKey);
 
   } catch (error) {
     console.error('Error fetching YouTube videos:', error);
     // Return empty array on error
     return [];
+  }
+}
+
+/**
+ * Convert an ISO 8601 duration (e.g. PT1H11M4S) into a readable label like "1Hr 11Mins"
+ */
+function formatDuration(isoDuration: string): string {
+  const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(isoDuration);
+  if (!match) return '';
+
+  const hours = parseInt(match[1] || '0', 10);
+  const minutes = parseInt(match[2] || '0', 10);
+  const seconds = parseInt(match[3] || '0', 10);
+
+  if (hours > 0) return `${hours}Hr ${minutes}Mins`;
+  if (minutes > 0) return `${minutes}Mins ${seconds}Sec`;
+  return `${seconds}Secs`;
+}
+
+/**
+ * Fetch and attach real durations (from videos.list contentDetails) to a list of videos
+ */
+async function attachDurations(videos: YouTubeVideo[], apiKey: string): Promise<YouTubeVideo[]> {
+  if (videos.length === 0) return videos;
+
+  try {
+    const ids = videos.map(v => v.id).join(',');
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${ids}&key=${apiKey}`
+    );
+
+    if (!response.ok) return videos;
+
+    const data = await response.json() as any;
+    const durationById = new Map<string, string>();
+    for (const item of data.items || []) {
+      if (item?.id && item?.contentDetails?.duration) {
+        durationById.set(item.id, formatDuration(item.contentDetails.duration));
+      }
+    }
+
+    return videos.map(video => ({
+      ...video,
+      duration: durationById.get(video.id) || video.duration
+    }));
+  } catch (error) {
+    console.error('Error fetching YouTube video durations:', error);
+    return videos;
   }
 }
 
