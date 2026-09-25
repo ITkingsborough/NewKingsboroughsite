@@ -14,7 +14,7 @@ export const leaders: LeaderItem[] = [
     role: "Founder",
     years: "1968 – 2026",
     bio: "Apostle Tunde Balogun was the visionary founder of Kingsborough Church, a man of unwavering faith, prophetic grace, and deep love for God's people. For decades he poured his life into building a community where every soul felt seen, valued, and called. His powerful teaching, compassionate heart, and prophetic insight transformed countless lives across generations. Though he has gone to be with the Lord, his legacy continues to shape the DNA of this church — in every song we sing, every life we touch, and every soul we reach. We honour his memory and carry his vision forward with gratitude and joy.",
-    image: "/images/APT.jpg",
+    image: "/images/APSTLE%20TUNDE.png",
   },
   {
     id: 2,

@@ -22,6 +22,7 @@ import { setupAuth, logUserActivity, requireAuth } from "./auth";
 import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
 import path from "path";
 import { getLatestVideos, getVideoDetails, findChannel } from "./youtubeService";
+import { getCurrentWeekEvents } from "./googleSheetsEventsService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -841,6 +842,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false,
         message: 'Failed to fetch upcoming events'
       });
+    }
+  });
+
+  app.get('/api/events/this-week', async (req, res) => {
+    try {
+      const events = await getCurrentWeekEvents();
+
+      return res.json({
+        success: true,
+        data: events
+      });
+    } catch (error) {
+      console.error('Error fetching this week\'s events from sheet:', error);
+      return res.status(500).json({
+        success: false,
+        message: error instanceof Error ? error.message : 'Failed to fetch this week\'s events'
+      });
+    }
+  });
+
+  // Proxies Google Drive image links server-side — browsers block direct <img> requests
+  // to drive.google.com/googleusercontent.com thumbnails with ERR_BLOCKED_BY_ORB.
+  app.get('/api/events/image-proxy/:id', async (req, res) => {
+    const { id } = req.params;
+    if (!/^[\w-]+$/.test(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid image id' });
+    }
+
+    try {
+      const driveResponse = await fetch(`https://drive.google.com/thumbnail?id=${id}&sz=w1000`);
+      if (!driveResponse.ok || !driveResponse.body) {
+        return res.status(502).json({ success: false, message: 'Could not fetch image' });
+      }
+
+      res.setHeader('Content-Type', driveResponse.headers.get('content-type') || 'image/jpeg');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      const buffer = Buffer.from(await driveResponse.arrayBuffer());
+      return res.send(buffer);
+    } catch (error) {
+      console.error('Error proxying event image:', error);
+      return res.status(502).json({ success: false, message: 'Could not fetch image' });
     }
   });
 

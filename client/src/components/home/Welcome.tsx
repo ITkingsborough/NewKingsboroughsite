@@ -64,9 +64,9 @@ const Welcome = () => {
           <div className="md:w-1/3 shrink-0">
             <h2
               ref={headingRef}
-              className="text-5xl md:text-6xl font-montserrat font-bold leading-none tracking-tight text-deepPurple uppercase opacity-0"
+              className="text-5xl md:text-6xl font-montserrat font-bold leading-none tracking-tight text-deepPurple uppercase opacity-0 whitespace-nowrap"
             >
-              Service<br />Times
+              Service Times
             </h2>
             <div className="h-1 w-16 bg-gold mt-5" />
           </div>
@@ -97,6 +97,19 @@ const Welcome = () => {
             </div>
           ))}
         </div>
+
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=215+High+Street,+Yiewsley,+West+Drayton,+UB7+7QP"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 flex items-center justify-center gap-2 whitespace-nowrap text-darkGray text-sm md:text-base hover:text-gold transition-colors duration-300 group/address"
+        >
+          <i className="fas fa-map-marker-alt text-gold"></i>
+          <span className="font-semibold text-deepPurple group-hover/address:text-gold">Location:</span>
+          <span className="underline decoration-transparent group-hover/address:decoration-gold underline-offset-4">
+            215 High Street, Yiewsley, West Drayton, UB7 7QP
+          </span>
+        </a>
 
       </div>
     </section>

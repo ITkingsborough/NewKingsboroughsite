@@ -282,7 +282,7 @@ const Header = () => {
                   : isDarkBackground ? 'text-gray-700' : 'text-white'
               }`}
             >
-              Events
+              What's On
             </Link>
           </div>
 
@@ -387,7 +387,7 @@ const Header = () => {
                       isActive('/events') ? 'text-gold' : isDarkBackground ? 'text-gray-700 hover:text-gold hover:bg-gold/5' : 'text-white/80 hover:text-white hover:bg-white/10'
                     }`}
                   >
-                    Events
+                    What's On
                   </Link>
                   <Link
                     href="/contact"

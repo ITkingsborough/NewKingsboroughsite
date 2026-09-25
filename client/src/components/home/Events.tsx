@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Event {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   date: string;
@@ -67,7 +67,7 @@ const Events = () => {
   const [direction, setDirection] = useState(1);
 
   const { data: eventsData, isLoading } = useQuery<{ success: boolean; data: Event[] }>({
-    queryKey: ['/api/events/upcoming'],
+    queryKey: ['/api/events/this-week'],
   });
 
   const events = eventsData && eventsData.data.length > 0 ? eventsData.data : PLACEHOLDER_EVENTS;
@@ -107,7 +107,7 @@ const Events = () => {
             What's Happening
           </span>
           <h2 className="text-3xl md:text-4xl font-montserrat font-bold text-deepPurple">
-            Upcoming Events
+            Happening this Week
           </h2>
         </motion.div>
 

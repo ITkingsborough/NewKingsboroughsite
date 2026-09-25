@@ -141,12 +141,12 @@ const Footer = () => {
       <div
         aria-hidden="true"
         style={{
-          fontSize: 'clamp(3rem, 18vw, 14rem)',
-          fontWeight: 900,
+          fontSize: 'clamp(1rem, 12vw, 10rem)',
+          fontWeight: 1000,
           letterSpacing: '-0.05em',
           lineHeight: 1,
           opacity: 0.08,
-          textAlign: 'center',
+          textAlign: 'left',
           userSelect: 'none',
           pointerEvents: 'none',
           color: 'white',

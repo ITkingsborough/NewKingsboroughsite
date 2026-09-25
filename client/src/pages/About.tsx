@@ -341,7 +341,7 @@ const About = () => {
       {/* 4. Our Vision & Mission Section */}
       <section
         ref={missionVisionRef}
-        className="py-24 bg-white overflow-hidden"
+        className="py-24 bg-[#F0EDE6] overflow-hidden"
       >
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -358,41 +358,59 @@ const About = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-            {/* Vision Card */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={slideRight(0)}
-              className="mv-card bg-deepPurple/5 rounded-xl p-8 md:p-10 shadow-lg border-t-4 border-gold"
-            >
-              <h3 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
-                Our Vision
-              </h3>
-              <p className="text-lg md:text-xl leading-relaxed text-gray-700 mb-6">
-                To be a light in our city, transforming lives through faith,
-                building authentic community, and creating positive change in
-                our society.
-              </p>
-              <div className="h-0.5 w-16 bg-gold mt-auto"></div>
-            </motion.div>
-
             {/* Mission Card */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              variants={slideRight(0.3)}
-              className="mv-card bg-deepPurple/5 rounded-xl p-8 md:p-10 shadow-lg border-t-4 border-gold"
+              variants={slideRight(0)}
+              className="mv-card bg-white shadow-lg"
             >
-              <h3 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
-                Our Mission
-              </h3>
-              <p className="text-lg md:text-xl leading-relaxed text-gray-700 mb-6">
-                To lead people into a growing relationship with Jesus Christ
-                through worship, community, discipleship, and service to others.
-              </p>
-              <div className="h-0.5 w-16 bg-gold mt-auto"></div>
+              <div className="p-3 pb-0">
+                <img
+                  src="/uploads/gallery/Moyo and Van.JPG"
+                  alt="Kingsborough Church mission in action"
+                  className="w-full h-72 md:h-80 object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-montserrat font-semibold mb-3 text-gray-900">
+                  Mission
+                </h3>
+                <p className="text-base leading-relaxed text-gray-600">
+                  To lead people into a growing relationship with Jesus Christ
+                  through worship, community, discipleship, and service to others.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Vision Card */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={slideRight(0.3)}
+              className="mv-card bg-white shadow-lg"
+            >
+              <div className="p-3 pb-0">
+                <img
+                  src="/uploads/gallery/HOP.jpg"
+                  alt="Kingsborough Church community vision"
+                  className="w-full h-72 md:h-80 object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-montserrat font-semibold mb-3 text-gray-900">
+                  Vision
+                </h3>
+                <p className="text-base leading-relaxed text-gray-600">
+                  To be a light in our city, transforming lives through faith,
+                  building authentic community, and creating positive change in
+                  our society.
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -474,7 +492,7 @@ const About = () => {
         </div>
 
         {/* Senior Pastors — image left, text right */}
-        <div className="relative min-h-[80vh] flex flex-col lg:flex-row overflow-hidden">
+        <div className="relative min-h-[70vh] lg:min-h-0 lg:aspect-[2/1] flex flex-col lg:flex-row overflow-hidden">
           {/* Image */}
           <div className="lg:w-1/2 relative min-h-[50vh] lg:min-h-full overflow-hidden">
             <img

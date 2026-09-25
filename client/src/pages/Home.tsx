@@ -1,16 +1,14 @@
 import Hero from '@/components/home/Hero';
 import Welcome from '@/components/home/Welcome';
 import MissionVision from '@/components/home/MissionVision';
-import About from '@/components/home/About';
 import Leadership from '@/components/home/Leadership';
 import Community from '@/components/home/Community';
 import Organizations from '@/components/home/Organizations';
 import Quote from '@/components/home/Quote';
 import Events from '@/components/home/Events';
 import Sermons from '@/components/home/Sermons';
-import Giving from '@/components/home/Giving';
+import LifeCollage from '@/components/home/LifeCollage';
 import Contact from '@/components/home/Contact';
-import Newsletter from '@/components/home/Newsletter';
 import { Helmet } from 'react-helmet';
 
 const Home = () => {
@@ -26,14 +24,12 @@ const Home = () => {
         <MissionVision />
         <Leadership />
         <Events />
-        <About />
         <Community />
         <Organizations />
         <Quote />
         <Sermons />
-        <Giving />
+        <LifeCollage />
         <Contact />
-        <Newsletter />
       </div>
     </>
   );

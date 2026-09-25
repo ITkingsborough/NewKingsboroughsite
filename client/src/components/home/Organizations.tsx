@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { slideUp } from "@/lib/animations";
+import warehouseImage from "@assets/Warehouse.png";
+import NurseryImage from "@assets/NURSERY.png";
 
 interface OrganizationCardProps {
   title: string;
@@ -16,8 +18,7 @@ const organizations: OrganizationCardProps[] = [
     tagline: "Community Support",
     description:
       "Supporting those in need with essential food and supplies in the Hillingdon community.",
-    image:
-      "https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80",
+    image: warehouseImage,
     link: "https://hillingdon.foodbank.org.uk/",
   },
   {
@@ -25,8 +26,7 @@ const organizations: OrganizationCardProps[] = [
     tagline: "Early Years Education",
     description:
       "Providing nurturing childcare and early education in a Christ-centered environment.",
-    image:
-      "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80",
+    image: NurseryImage,
     link: "https://test.cmcnursery.co.uk/",
   },
 ];

@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
+import Apostle from "@/pages/Apostle";
 import Ministries from "@/pages/Ministries";
 import Events from "@/pages/Events";
 import Sermons from "@/pages/Sermons";
@@ -72,6 +73,7 @@ function App() {
                 <Switch>
                   <Route path="/" component={Home} />
                   <Route path="/about" component={About} />
+                  <Route path="/apostle-tunde-balogun" component={Apostle} />
                   <Route path="/ministries" component={Ministries} />
                   <Route path="/events" component={Events} />
                   <Route path="/sermons" component={Sermons} />

@@ -23,12 +23,12 @@ const Leadership = () => {
     <section data-nav-theme="dark" className="bg-[#070707] py-6 md:py-10">
       <div className="mx-auto max-w-[1400px] overflow-hidden rounded-2xl bg-[#070707]">
         <div className="grid lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="relative h-[260px] self-center overflow-hidden md:h-[360px] lg:h-[430px]">
+          <div className="relative h-[360px] self-center overflow-hidden md:h-[480px] lg:h-[600px]">
             <img
               src={leaders[0].image}
               alt={leaders[0].name}
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: '50% 75%' }}
+              style={{ objectPosition: '50% 28%' }}
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/5 via-transparent to-black/35" />
@@ -43,16 +43,12 @@ const Leadership = () => {
               transition={{ duration: 0.7, ease: 'easeOut' }}
             >
               <div className="flex items-center justify-center gap-3 lg:justify-start">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d4af37] text-xl font-bold text-[#d4af37]">
-                  ∞
-                </div>
                 <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#d4af37]">
-                  Global
                 </span>
               </div>
 
               <h2 className="mt-6 text-center text-2xl font-montserrat font-bold uppercase tracking-tight text-white md:text-3xl lg:text-left lg:text-[2.5rem] lg:leading-none">
-                Our Lead Pastor
+                Our Founding Pastor
               </h2>
 
               <div className="mt-3 flex flex-col items-center gap-2 lg:items-start">
@@ -66,7 +62,7 @@ const Leadership = () => {
 
               <div className="mt-4 space-y-3 text-sm leading-relaxed text-white/75 md:text-[0.95rem] lg:text-[0.88rem]">
                 <p>
-                  Apostle Tunde Balogun was the visionary founder of Kingsborough Church, a man of unwavering faith,
+                  Apostle Tunde Balogun is the visionary founder of Kingsborough Centre, a man of unwavering faith,
                   prophetic grace, and deep love for God’s people. His ministry was marked by a rare combination of spiritual
                   authority, humility, and practical wisdom that drew people closer to Christ.
                 </p>
@@ -95,7 +91,7 @@ const Leadership = () => {
 
               <div className="mt-5 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <Link
-                  href="/about"
+                  href="/apostle-tunde-balogun"
                   className="inline-flex items-center justify-center rounded-full border border-white/60 px-7 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-white transition hover:border-[#d4af37] hover:text-[#d4af37]"
                 >
                   Read More

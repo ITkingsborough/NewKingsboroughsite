@@ -1,61 +1,74 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowDownCircle } from "lucide-react";
 import { slideUp } from "@/lib/animations";
 
-const cards = [
-  {
-    number: "01",
-    title: "Who We Are",
-    description:
-      "To be a light in our city, transforming lives through faith, building authentic community, and creating positive change in our society.",
-  },
-  {
-    number: "02",
-    title: "What We Believe",
-    description:
-      "To lead people into a growing relationship with Jesus Christ through worship, community, discipleship, and service to others.",
-  },
-];
+const InlinePhoto = ({ images, alt, interval = 3000 }: { images: string[]; alt: string; interval?: number }) => {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, interval);
+    return () => clearInterval(timer);
+  }, [images.length, interval]);
+
+  return (
+    <span className="relative inline-block align-middle h-14 md:h-20 w-24 md:w-36 rounded-md overflow-hidden mx-1 md:mx-2 -translate-y-0.5">
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.img
+          key={images[index]}
+          src={images[index]}
+          alt={alt}
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "-100%" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          loading="lazy"
+        />
+      </AnimatePresence>
+    </span>
+  );
+};
 
 const MissionVision = () => {
   return (
     <section data-nav-theme="light" className="bg-[#F7F5F0] py-16 md:py-20">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between flex-wrap gap-4 mb-14">
-          <h2 className="inline-block bg-neutral-300/70 px-4 py-2 text-4xl md:text-6xl font-montserrat font-extrabold uppercase text-black">
-            About Us
-          </h2>
-          <Link
-            href="/about"
-            className="hidden md:flex items-center gap-2 text-red-600 font-montserrat font-bold text-xs tracking-[0.2em] uppercase"
-          >
-            ( <ArrowDownCircle className="w-4 h-4" /> Learn More )
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {cards.map((card, index) => (
-            <motion.div
-              key={card.title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={slideUp(index * 0.15)}
-              className="relative overflow-hidden rounded-xl border border-black bg-white p-8 md:p-10 min-h-[420px]"
-            >
-              <h3 className="text-3xl md:text-4xl font-montserrat font-extrabold uppercase text-black mb-4">
-                {card.title}
-              </h3>
-              <p className="relative z-10 max-w-md text-base md:text-lg text-gray-700 leading-relaxed">
-                {card.description}
-              </p>
-              <span className="pointer-events-none absolute -bottom-8 -right-2 font-montserrat font-extrabold text-[10rem] leading-none text-gray-100 select-none">
-                {card.number}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={slideUp()}
+          className="max-w-7xl mx-auto text-center"
+        >
+          <span className="inline-flex items-center px-4 py-2 mb-8 rounded-full border border-gold/40 text-gold text-xs font-montserrat font-semibold tracking-[0.2em] uppercase">
+            Who We Are
+          </span>
+          <p className="relative z-10 font-bebas text-[50px] md:text-[56px] leading-relaxed tracking-[0.04em] text-gray-800 text-center">
+            At Kingsborough, we are
+            <InlinePhoto
+              images={["/uploads/gallery/Apst Preaching.JPG", "/uploads/gallery/PS.jpg", "/uploads/gallery/PC.jpg"]}
+              alt="Preaching at Kingsborough Church"
+              interval={2800}
+            />
+            teaching and revealing Jesus Christ and His unending grace to all people,
+            <InlinePhoto
+              images={["/uploads/gallery/MEDIA.jpg", "/uploads/gallery/HOP.jpg", "/uploads/gallery/HOP2.JPG"]}
+              alt="Worship at Kingsborough Church"
+              interval={3400}
+            />
+            building authentic community and creating positive change in our city.
+            <InlinePhoto
+              images={["/uploads/gallery/Moyo and Van.JPG", "/uploads/gallery/IMG_7832.JPG", "/uploads/gallery/IMG_1177.JPG"]}
+              alt="Community at Kingsborough Church"
+              interval={4000}
+            />
+            We believe in leading people into a growing relationship with Jesus Christ through worship, discipleship, and service to others.
+          </p>
+        </motion.div>
 
         <motion.div
           initial="hidden"

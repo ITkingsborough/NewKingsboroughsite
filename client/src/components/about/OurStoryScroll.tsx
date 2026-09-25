@@ -74,7 +74,7 @@ export default function OurStoryScroll() {
           <p
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(2.6rem, 6.5vw, 7rem)',
+              fontSize: 'clamp(2.3rem, 5.85vw, 6.3rem)',
               letterSpacing: '0.05em',
               lineHeight: 1.08,
             }}

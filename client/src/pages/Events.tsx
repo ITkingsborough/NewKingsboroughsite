@@ -3,53 +3,55 @@ import { slideUp, staggerContainer } from '@/lib/animations';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { MapPin, Clock, ArrowLeft, Calendar } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 
-// ─── Hardcoded events ───────────────────────────────────────────────────────────
+// ─── This week's events, sourced from the Google Sheet ──────────────────────────
 
-interface Event {
-  id: number;
+interface SheetEvent {
+  id: string;
   title: string;
-  description: string;
-  day: string;
+  date: string;
   time: string;
   location: string;
-  image: string;
+  description: string;
+  image: string | null;
+  featured: boolean;
 }
 
-const events: Event[] = [
-  {
-    id: 1,
-    title: 'Sunday Service',
-    description: 'Join us every Sunday for a powerful time of worship, the Word, and fellowship. Come expecting a life-changing encounter with God as we gather together as one church family.',
-    day: 'Every Sunday',
-    time: '10:00am – 12:30pm',
-    location: 'Kingsborough Church, Main Auditorium',
-    image: '/uploads/gallery/HOP.jpg',
-  },
-  {
-    id: 2,
-    title: 'Wednesday Bible Study',
-    description: 'Midweek service designed to build your faith and deepen your understanding of the Word. Every Wednesday we gather for in-depth Bible study, prayer, and spiritual growth.',
-    day: 'Every Wednesday',
-    time: '7:00pm – 8:30pm',
-    location: 'Kingsborough Church, Main Auditorium',
-    image: '/uploads/events/Wednesday/15th-Screen.jpg (1).jpeg',
-  },
-  {
-    id: 3,
-    title: 'Friday Night Vigil',
-    description: 'An intense night of prayer, worship, and spiritual warfare. The Friday Night Vigil is a powerful experience where we press into God through the night, believing for breakthrough and transformation.',
-    day: 'Every 3rd Friday of the Month',
-    time: '9:00pm – 12:00am',
-    location: 'Kingsborough Church, Main Auditorium',
-    image: '/uploads/events/Friday/Vigil-Screen.jpg (4).jpeg',
-  },
-];
+function formatSheetEventDate(event: SheetEvent): string {
+  try {
+    const date = new Date(`${event.date}T00:00:00`);
+    return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  } catch {
+    return event.date;
+  }
+}
+
+// ─── Theme of the month (managed via the CMS dashboard) ─────────────────────
+
+interface ThemeOfMonth {
+  id: number;
+  title: string;
+  subtitle: string | null;
+  description: string;
+  scripture: string | null;
+  scriptureRef: string | null;
+}
 
 // ─── Component ──────────────────────────────────────────────────────────────────
 
 const Events = () => {
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<SheetEvent | null>(null);
+
+  const { data: thisWeekData } = useQuery<{ success: boolean; data: SheetEvent[] }>({
+    queryKey: ['/api/events/this-week'],
+  });
+  const thisWeekEvents = thisWeekData?.data ?? [];
+
+  const { data: themeData } = useQuery<{ success: boolean; data: ThemeOfMonth | null }>({
+    queryKey: ['/api/theme-of-month'],
+  });
+  const theme = themeData?.data ?? null;
 
   const [rsvpForm, setRsvpForm] = useState({ name: '', email: '', numberOfGuests: 1 });
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
@@ -110,7 +112,7 @@ const Events = () => {
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                   <div className="relative">
                     <img
-                      src={selectedEvent.image}
+                      src={selectedEvent.image || '/uploads/gallery/HOP.jpg'}
                       alt={selectedEvent.title}
                       className="w-full h-80 md:h-[500px] object-cover"
                     />
@@ -126,16 +128,18 @@ const Events = () => {
                         <div className="space-y-3 mb-8">
                           <div className="flex items-center text-gray-700 gap-2">
                             <Calendar className="w-5 h-5 text-gold flex-shrink-0" />
-                            <span>{selectedEvent.day}</span>
+                            <span>{formatSheetEventDate(selectedEvent)}</span>
                           </div>
                           <div className="flex items-center text-gray-700 gap-2">
                             <Clock className="w-5 h-5 text-gold flex-shrink-0" />
                             <span>{selectedEvent.time}</span>
                           </div>
-                          <div className="flex items-center text-gray-700 gap-2">
-                            <MapPin className="w-5 h-5 text-gold flex-shrink-0" />
-                            <span>{selectedEvent.location}</span>
-                          </div>
+                          {selectedEvent.location && (
+                            <div className="flex items-center text-gray-700 gap-2">
+                              <MapPin className="w-5 h-5 text-gold flex-shrink-0" />
+                              <span>{selectedEvent.location}</span>
+                            </div>
+                          )}
                         </div>
 
                         <div className="mb-8">
@@ -212,64 +216,89 @@ const Events = () => {
           /* Events grid */
           <section className="py-16 bg-gray-50">
             <div className="container mx-auto px-4 lg:px-8">
-              <div className="text-center mb-12">
-                <p className="text-gold font-montserrat font-semibold uppercase tracking-widest text-sm mb-2">Weekly Services</p>
-                <h2 className="text-3xl md:text-4xl font-montserrat font-bold text-deepPurple">Join Us This Week</h2>
-              </div>
+              {/* Theme of the Month */}
+              {theme && (
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={slideUp()}
+                  className="max-w-4xl mx-auto mb-16 text-center bg-deepPurple rounded-2xl px-8 py-12 md:px-16"
+                >
+                  <p className="text-gold font-montserrat font-semibold uppercase tracking-widest text-sm mb-3">Theme of the Month</p>
+                  <h2 className="text-3xl md:text-4xl font-montserrat font-bold text-white mb-4">{theme.title}</h2>
+                  <p className="text-white/80 leading-relaxed max-w-2xl mx-auto">{theme.description}</p>
+                  {theme.scripture && (
+                    <p className="text-gold/80 italic mt-4">
+                      "{theme.scripture}" {theme.scriptureRef && `— ${theme.scriptureRef}`}
+                    </p>
+                  )}
+                </motion.div>
+              )}
 
-              <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-                variants={staggerContainer()}
-                initial="hidden"
-                animate="visible"
-              >
-                {events.map((event, index) => (
+              <div className="mb-16">
+                <div className="text-center mb-12">
+                  <p className="text-gold font-montserrat font-semibold uppercase tracking-widest text-sm mb-2">This Week</p>
+                  <h2 className="text-3xl md:text-4xl font-montserrat font-bold text-deepPurple">This Week's Events</h2>
+                </div>
+
+                {thisWeekEvents.length > 0 ? (
                   <motion.div
-                    key={event.id}
-                    className="group cursor-pointer"
-                    variants={slideUp((index + 1) * 0.1)}
-                    onClick={() => setSelectedEvent(event)}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+                    variants={staggerContainer()}
+                    initial="hidden"
+                    animate="visible"
                   >
-                    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                      <div className="relative overflow-hidden h-64">
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                          Ongoing
+                    {thisWeekEvents.map((event, index) => (
+                      <motion.div
+                        key={event.id}
+                        className="group cursor-pointer"
+                        variants={slideUp((index + 1) * 0.1)}
+                        onClick={() => setSelectedEvent(event)}
+                      >
+                        <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                          <div className="relative overflow-hidden h-64">
+                            <img
+                              src={event.image || '/uploads/gallery/HOP.jpg'}
+                              alt={event.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </div>
+
+                          <div className="p-6">
+                            <h3 className="text-xl font-montserrat font-bold text-deepPurple mb-3 group-hover:text-gold transition-colors">
+                              {event.title}
+                            </h3>
+
+                            <div className="space-y-2 mb-4">
+                              <div className="flex items-center text-gray-600 gap-2 text-sm">
+                                <Calendar className="w-4 h-4 text-gold flex-shrink-0" />
+                                <span>{formatSheetEventDate(event)}</span>
+                              </div>
+                              <div className="flex items-center text-gray-600 gap-2 text-sm">
+                                <Clock className="w-4 h-4 text-gold flex-shrink-0" />
+                                <span>{event.time}</span>
+                              </div>
+                              {event.location && (
+                                <div className="flex items-center text-gray-600 gap-2 text-sm">
+                                  <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
+                                  <span>{event.location}</span>
+                                </div>
+                              )}
+                            </div>
+
+                            <button className="text-sm font-montserrat font-semibold text-gold hover:text-deepPurple transition-colors">
+                              Learn More →
+                            </button>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="p-6">
-                        <h3 className="text-xl font-montserrat font-bold text-deepPurple mb-3 group-hover:text-gold transition-colors">
-                          {event.title}
-                        </h3>
-
-                        <div className="space-y-2 mb-4">
-                          <div className="flex items-center text-gray-600 gap-2 text-sm">
-                            <Calendar className="w-4 h-4 text-gold flex-shrink-0" />
-                            <span>{event.day}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600 gap-2 text-sm">
-                            <Clock className="w-4 h-4 text-gold flex-shrink-0" />
-                            <span>{event.time}</span>
-                          </div>
-                          <div className="flex items-center text-gray-600 gap-2 text-sm">
-                            <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
-                            <span>{event.location}</span>
-                          </div>
-                        </div>
-
-                        <button className="mt-2 text-sm font-montserrat font-semibold text-gold hover:text-deepPurple transition-colors">
-                          Learn More →
-                        </button>
-                      </div>
-                    </div>
+                      </motion.div>
+                    ))}
                   </motion.div>
-                ))}
-              </motion.div>
+                ) : (
+                  <p className="text-center text-gray-500">No events scheduled for this week yet — check back soon!</p>
+                )}
+              </div>
             </div>
           </section>
         )}
