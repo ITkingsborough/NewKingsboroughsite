@@ -19,7 +19,7 @@ const Giving = () => {
       </Helmet>
       <div className="pt-24">
         {/* Hero Section */}
-        <section data-nav-theme="dark" className="relative h-80 md:h-96 flex items-center parallax" style={{ backgroundImage: `url('/uploads/gallery/HOP.jpg')` }}>
+        <section data-nav-theme="dark" className="relative h-80 md:h-96 flex items-center parallax" style={{ backgroundImage: `url('/uploads/giving/giving-01.jpg')` }}>
           <div className="absolute inset-0 overlay-purple"></div>
           <div className="container mx-auto px-4 lg:px-8 z-10">
             <motion.div

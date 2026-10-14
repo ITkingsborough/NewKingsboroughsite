@@ -8,7 +8,7 @@ import Quote from '@/components/home/Quote';
 import Events from '@/components/home/Events';
 import Sermons from '@/components/home/Sermons';
 import LifeCollage from '@/components/home/LifeCollage';
-import Contact from '@/components/home/Contact';
+import MovingGallery from '@/components/home/MovingGallery';
 import { Helmet } from 'react-helmet';
 
 const Home = () => {
@@ -29,7 +29,7 @@ const Home = () => {
         <Quote />
         <Sermons />
         <LifeCollage />
-        <Contact />
+        <MovingGallery />
       </div>
     </>
   );

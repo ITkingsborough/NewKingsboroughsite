@@ -22,65 +22,72 @@ const LifeCollage = () => {
           style={{ scale }}
           className="flex items-center justify-center gap-2 md:gap-3 w-[112%] h-full -ml-[6%] origin-center"
         >
-          {/* Column 1 — bleeds off the left edge */}
+          {/* Column 1 â€” bleeds off the left edge */}
           <div className="w-[16%] shrink-0">
             <img
-              src="/uploads/gallery/PC.jpg"
+              src="/uploads/gallery/Footer/web/_NM_1686.jpg"
               alt="Fellowship at Kingsborough Church"
-              className="w-full h-[60vh] md:h-[75vh] object-cover rounded-2xl shadow-md"
+              className="w-full h-[60vh] md:h-[75vh] object-cover rounded-2xl"
               loading="lazy"
+              decoding="async"
             />
           </div>
 
-          {/* Column 2 — two stacked images */}
+          {/* Column 2 â€” two stacked images */}
           <div className="flex flex-col gap-2 md:gap-3 w-[19%] shrink-0 h-[75vh] md:h-[88vh]">
             <img
-              src="/uploads/gallery/HOP.jpg"
+              src="/uploads/gallery/Footer/web/_NM_1700.jpg"
               alt="Worship at Kingsborough Church"
-              className="w-full h-[45%] object-cover rounded-2xl shadow-md"
+              className="w-full h-[45%] object-cover rounded-2xl"
               loading="lazy"
+              decoding="async"
             />
             <img
-              src="/uploads/gallery/PE.jpg"
+              src="/uploads/gallery/Footer/web/_NM_1701.jpg"
               alt="Ministry at Kingsborough Church"
-              className="w-full h-[55%] object-cover rounded-2xl shadow-md"
+              className="w-full h-[55%] object-cover rounded-2xl"
               loading="lazy"
+              decoding="async"
             />
           </div>
 
-          {/* Center column — the image we zoom into */}
+          {/* Center column â€” the image we zoom into */}
           <div className="w-[34%] shrink-0">
             <img
-              src="/uploads/gallery/Apst Preaching.JPG"
+              src="/uploads/gallery/Footer/web/_NM_1752.jpg"
               alt="Congregation at Kingsborough Church"
-              className="w-full h-[80vh] md:h-[92vh] object-cover rounded-2xl shadow-lg"
+              className="w-full h-[80vh] md:h-[92vh] object-cover rounded-2xl"
               loading="lazy"
+              decoding="async"
             />
           </div>
 
-          {/* Column 4 — two stacked images, top one dimmed */}
+          {/* Column 4 â€” two stacked images, top one dimmed */}
           <div className="flex flex-col gap-2 md:gap-3 w-[19%] shrink-0 h-[75vh] md:h-[88vh]">
             <img
-              src="/uploads/gallery/PSO.jpg"
+              src="/uploads/gallery/Footer/web/_NM_1739.jpg"
               alt="Kingsborough Church event"
-              className="w-full h-[45%] object-cover rounded-2xl shadow-md opacity-50"
+              className="w-full h-[45%] object-cover rounded-2xl opacity-50"
               loading="lazy"
+              decoding="async"
             />
             <img
-              src="/uploads/gallery/Moyo and Van.JPG"
+              src="/uploads/gallery/Footer/web/_NM_1725.jpg"
               alt="Community at Kingsborough Church"
-              className="w-full h-[55%] object-cover rounded-2xl shadow-md"
+              className="w-full h-[55%] object-cover rounded-2xl"
               loading="lazy"
+              decoding="async"
             />
           </div>
 
-          {/* Column 5 — bleeds off the right edge */}
+          {/* Column 5 â€” bleeds off the right edge */}
           <div className="w-[16%] shrink-0">
             <img
-              src="/uploads/gallery/IMG_1177.JPG"
+              src="/uploads/gallery/Footer/web/_NM_1745.jpg"
               alt="Kingsborough Church gathering"
-              className="w-full h-[60vh] md:h-[75vh] object-cover rounded-2xl shadow-md"
+              className="w-full h-[60vh] md:h-[75vh] object-cover rounded-2xl"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </motion.div>

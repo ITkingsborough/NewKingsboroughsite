@@ -17,6 +17,14 @@ import { scrollToElement } from "@/hooks/use-smooth-scroll";
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
+const STORY_SLIDES = [
+  { src: "/uploads/gallery/Ss/IMG_0209.jpg", alt: "Kingsborough Church" },
+  { src: "/uploads/gallery/Ss/IMG_1465.jpg", alt: "Kingsborough Church community" },
+  { src: "/uploads/gallery/Ss/460627826_8710621418948057_4032063906934036991_n.jpg", alt: "Kingsborough Church family" },
+  { src: "/uploads/gallery/Ss/460627945_8710621442281388_1143079453560872202_n.jpg", alt: "Kingsborough Church gathering" },
+  { src: "/uploads/gallery/Ss/WhatsApp Image 2025-07-16 at 17.47.35.jpg", alt: "Kingsborough Church moments" },
+];
+
 const About = () => {
   const { createScrollAnimation, createParallaxEffect, createRevealAnimation } =
     useGsapAnimations();
@@ -28,9 +36,15 @@ const About = () => {
   const missionVisionRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
 
-  // Hover-reveal image for the Values list
-  const [hoverValueImage, setHoverValueImage] = useState<string | null>(null);
-  const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
+  // Our Story slideshow
+  const [storySlide, setStorySlide] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(
+      () => setStorySlide((s) => (s + 1) % STORY_SLIDES.length),
+      5000,
+    );
+    return () => clearInterval(timer);
+  }, [storySlide]);
 
   // Parallax scroll refs
   const heroContentRef = useRef<HTMLDivElement>(null);
@@ -39,12 +53,12 @@ const About = () => {
   // Hero zoom-parallax images — the first image is the one scrolled into
   const heroImages = [
     { src: "/uploads/about-hero.jpg", alt: "Kingsborough Church community" },
-    { src: "/uploads/gallery/Apst Preaching.JPG", alt: "Apostle preaching" },
-    { src: "/uploads/gallery/HOP.jpg", alt: "Church gathering" },
-    { src: "/uploads/gallery/Kingsmen.png", alt: "Kingsmen ministry" },
-    { src: "/uploads/gallery/Moyo and Van.JPG", alt: "Worship service" },
-    { src: "/uploads/gallery/New Audi (1).jpeg", alt: "Inside Kingsborough Church" },
-    { src: "/uploads/gallery/MEDIA.jpg", alt: "Media ministry" },
+    { src: "/uploads/gallery/About US pics/IMG_9633.jpg", alt: "Kingsborough Church family" },
+    { src: "/uploads/gallery/About US pics/IMG_0215.jpg", alt: "Church gathering" },
+    { src: "/uploads/gallery/About US pics/IMG_0246.jpg", alt: "Kingsborough community" },
+    { src: "/uploads/gallery/About US pics/IMG_9968.jpg", alt: "Worship service" },
+    { src: "/uploads/gallery/About US pics/Connect2.jpg", alt: "Kingsborough Church connecting" },
+    { src: "/uploads/gallery/Moyo and Van.JPG", alt: "Moyo and Van" },
   ];
 
   // Timeline data
@@ -75,42 +89,70 @@ const About = () => {
     },
   ];
 
+  const missionPillars = [
+    {
+      title: "Connect",
+      headline:
+        "We create opportunities for people to connect with God, one another and their purpose.",
+      description:
+        "Through worship, fellowship and genuine relationships, we want everyone who comes through our doors to experience a community where they are seen, valued and welcomed.",
+    },
+    {
+      title: "Equip",
+      headline: "We help people grow in faith and in life.",
+      description:
+        "Through biblical teaching, prayer, discipleship, mentoring and development opportunities, we encourage people to discover their gifts, strengthen their relationship with God and become equipped for every area of life.",
+    },
+    {
+      title: "Deploy",
+      headline:
+        "We encourage people to take their faith beyond the walls of the church.",
+      description:
+        "Whether through family life, careers, business, education, leadership, ministry or community service, we want people to use their gifts and influence to bring hope, positive change and the love of Christ wherever they go.",
+    },
+  ];
+
   // Core values
   const coreValues = [
     {
       letter: "F",
       title: "Fun",
-      image: "/uploads/gallery/IMG_7832.JPG",
-      description:
-        "We create joyful spaces where people can laugh, connect, and experience church as life-giving.",
+      description: [
+        "We believe following Jesus is a journey filled with joy. Church should be a place where friendships are formed, memories are made and people genuinely enjoy doing life together.",
+      ],
     },
     {
       letter: "I",
-      title: "Inclusivity",
-      image: "/uploads/gallery/HOP.jpg",
-      description:
-        "Everyone is welcomed, valued, and embraced regardless of background, story, or season of life.",
+      title: "Inclusive",
+      description: [
+        "Kingsborough is home to people from many cultures, generations and walks of life.",
+        "We celebrate that diversity.",
+        "We want everyone who walks through our doors to feel welcomed, respected and valued. Whatever your background or where you are on your journey of faith, there is room for you here.",
+      ],
     },
     {
       letter: "C",
       title: "Christlike",
-      image: "/uploads/gallery/Kingsmen.png",
-      description:
-        "We pursue a deeper relationship with God through worship, prayer, and the Word.",
+      description: [
+        "Jesus is at the centre of everything we do.",
+        "Through prayer, worship, studying God's Word and serving others, we seek to become more like Christ and reflect His love, compassion and character in our everyday lives.",
+      ],
     },
     {
       letter: "E",
       title: "Excellence",
-      image: "/uploads/gallery/Excellence.jpg",
-      description:
-        "We honour God by giving our best in every area of ministry, leadership, and service.",
+      description: [
+        "We believe in bringing our best to what God has entrusted to us.",
+        "For us, excellence isn't about perfection, it's about continually growing, learning and serving people well.",
+      ],
     },
     {
       letter: "P",
       title: "Passion",
-      image: "/uploads/gallery/MEDIA.jpg",
-      description:
-        "We serve with energy, commitment, and love for people and the presence of God.",
+      description: [
+        "We are passionate about Jesus, people and making a difference.",
+        "That passion inspires us to serve generously, love wholeheartedly and use our gifts to help others flourish.",
+      ],
     },
   ];
 
@@ -302,24 +344,6 @@ const About = () => {
                   honest relationships thrive and where we support each other
                   through life's journey.
                 </p>
-
-                {/* Logo Watermark (Low Opacity) */}
-                <div className="opacity-10 absolute bottom-0 left-0 w-72 hidden lg:block">
-                  <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M20,50 L40,20 L60,50 L80,20 L100,50 L120,20 L140,50 L160,20 L180,50"
-                      stroke="#000"
-                      strokeWidth="5"
-                      fill="none"
-                    />
-                    <path
-                      d="M40,80 L160,80"
-                      stroke="#000"
-                      strokeWidth="5"
-                      fill="none"
-                    />
-                  </svg>
-                </div>
               </motion.div>
             </div>
 
@@ -335,83 +359,188 @@ const About = () => {
         </div>
       </section>
 
+      {/* Our Story — written narrative */}
+      <section
+        id="our-story"
+        data-nav-theme="dark"
+        className="bg-[#0c0c0e] overflow-hidden"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={slideUp()}
+              className="px-6 py-12 lg:py-14 lg:pl-10 lg:pr-12 flex flex-col justify-center"
+            >
+              <span className="block text-gold font-montserrat text-xs font-bold tracking-[0.3em] uppercase mb-3">
+                Since 2003
+              </span>
+              <h2
+                className="text-[#F5F2EA] uppercase"
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
+                  lineHeight: 0.95,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                Our Story
+              </h2>
+              <div className="h-1 w-24 bg-gold mt-4 mb-6"></div>
+
+              <h3
+                className="text-gold uppercase mb-5"
+                style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: "clamp(1.6rem, 2.6vw, 2.4rem)",
+                  lineHeight: 1.05,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                Love God. Serve People. Add Value.
+              </h3>
+
+              <p className="text-base leading-relaxed text-white/85 mb-4">
+                Kingsborough began in February 2003 with a simple but powerful
+                vision: to create a church that would love God, serve people
+                and add value to the community. What started with humble
+                beginnings has grown into a thriving church and community
+                organisation committed to seeing individuals, families and
+                communities flourish.
+              </p>
+              <p className="text-base leading-relaxed text-white/85 mb-6">
+                Over the years, our vision has expanded beyond what happens on a
+                Sunday. Through worship, teaching, community initiatives,
+                outreach, leadership development and practical support, we seek
+                to meet people where they are and help them move towards where
+                God has called them to be.
+              </p>
+
+              <div className="border-t border-white/15 pt-4">
+                <p
+                  className="text-gold uppercase"
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontSize: "clamp(1.4rem, 2.2vw, 1.9rem)",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  Giving reason and adding value to lives.
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={slideUp(0.2)}
+              className="relative w-full h-64 sm:h-80 lg:h-auto lg:min-h-[420px] overflow-hidden"
+            >
+              <AnimatePresence initial={false}>
+                <motion.img
+                  key={storySlide}
+                  src={STORY_SLIDES[storySlide].src}
+                  alt={STORY_SLIDES[storySlide].alt}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+              <div className="absolute bottom-4 left-0 right-0 z-10 flex justify-center gap-2">
+                {STORY_SLIDES.map((slide, i) => (
+                  <button
+                    key={slide.src}
+                    type="button"
+                    aria-label={`Show slide ${i + 1}`}
+                    onClick={() => setStorySlide(i)}
+                    className={`h-2 rounded-full transition-all ${
+                      i === storySlide ? "w-6 bg-gold" : "w-2 bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
+            </motion.div>
+        </div>
+      </section>
+
       {/* 4. Our Story — Scroll-Driven Section */}
       <OurStoryScroll />
 
-      {/* 4. Our Vision & Mission Section */}
-      <section
-        ref={missionVisionRef}
-        className="py-24 bg-[#F0EDE6] overflow-hidden"
-      >
-        <div className="container mx-auto px-4 lg:px-8">
+      {/* Our Mission — Connect / Equip / Deploy */}
+      <section id="our-mission" className="py-24 lg:py-32 bg-[#F5F2EA] overflow-hidden">
+        <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={slideUp()}
-            className="text-center mb-16"
+            className="mb-14 lg:mb-20"
           >
-            <h2 className="text-3xl md:text-5xl font-montserrat font-bold mb-4 text-deepPurple">
-              Our Vision & Mission
+            <h2
+              className="uppercase mb-4"
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+                lineHeight: 0.95,
+                letterSpacing: "0.02em",
+              }}
+            >
+              <span className="text-black">Our </span>
+              <span className="text-gold">Mission</span>
             </h2>
-            <div className="h-1 w-20 bg-gold mx-auto mb-6"></div>
+            <p
+              className="text-deepPurple uppercase"
+              style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: "clamp(1.75rem, 3.5vw, 3rem)",
+                lineHeight: 1,
+                letterSpacing: "0.01em",
+              }}
+            >
+              Connect. Equip. Deploy.
+            </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-            {/* Mission Card */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={slideRight(0)}
-              className="mv-card bg-white shadow-lg"
-            >
-              <div className="p-3 pb-0">
-                <img
-                  src="/uploads/gallery/Moyo and Van.JPG"
-                  alt="Kingsborough Church mission in action"
-                  className="w-full h-72 md:h-80 object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-montserrat font-semibold mb-3 text-gray-900">
-                  Mission
-                </h3>
-                <p className="text-base leading-relaxed text-gray-600">
-                  To lead people into a growing relationship with Jesus Christ
-                  through worship, community, discipleship, and service to others.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
+            {missionPillars.map((pillar, index) => (
+              <motion.div
+                key={pillar.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={slideUp(index * 0.15)}
+                className="border-t-2 border-deepPurple pt-8"
+              >
+                <div className="flex items-baseline gap-3 mb-5">
+                  <span
+                    className="text-[#8a6d12]"
+                    style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.25rem" }}
+                  >
+                    0{index + 1}
+                  </span>
+                  <h3
+                    className="text-[#111] uppercase"
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {pillar.title}
+                  </h3>
+                </div>
+                <p className="text-lg font-bold leading-snug mb-4 text-[#111]">
+                  {pillar.headline}
                 </p>
-              </div>
-            </motion.div>
-
-            {/* Vision Card */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={slideRight(0.3)}
-              className="mv-card bg-white shadow-lg"
-            >
-              <div className="p-3 pb-0">
-                <img
-                  src="/uploads/gallery/HOP.jpg"
-                  alt="Kingsborough Church community vision"
-                  className="w-full h-72 md:h-80 object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-montserrat font-semibold mb-3 text-gray-900">
-                  Vision
-                </h3>
                 <p className="text-base leading-relaxed text-gray-600">
-                  To be a light in our city, transforming lives through faith,
-                  building authentic community, and creating positive change in
-                  our society.
+                  {pillar.description}
                 </p>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -420,17 +549,11 @@ const About = () => {
       <section className="py-24 bg-gray-100 relative">
         <div className="container mx-auto px-4 lg:px-8 max-w-5xl">
           <h2 className="text-5xl md:text-6xl font-montserrat font-extrabold uppercase mb-14">
-            <span className="text-black">Our </span>
-            <span className="text-gold">Values</span>
+            <span className="text-black">What matters to </span>
+            <span className="text-gold">Us</span>
           </h2>
 
-          <div
-            className="relative border-t border-black/70"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setHoverPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-            }}
-          >
+          <div className="relative border-t border-black/70">
             {coreValues.map((value, index) => (
               <motion.div
                 key={index}
@@ -438,35 +561,19 @@ const About = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
                 variants={slideUp(index * 0.05)}
-                onMouseEnter={() => setHoverValueImage(value.image)}
-                onMouseLeave={() => setHoverValueImage(null)}
                 className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_220px_1fr] gap-4 sm:gap-8 items-baseline py-6 border-b border-black/70 cursor-default"
               >
                 <span className="font-montserrat font-bold text-sm">{index + 1}</span>
                 <h3 className="font-montserrat font-extrabold text-xl md:text-2xl uppercase col-span-2 sm:col-span-1">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 text-base md:text-lg col-span-2 sm:col-span-1">
-                  {value.description}
-                </p>
+                <div className="text-gray-600 text-base md:text-lg col-span-2 sm:col-span-1 space-y-3">
+                  {value.description.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
               </motion.div>
             ))}
-
-            {/* Floating image that follows the cursor while hovering a value row */}
-            <AnimatePresence>
-              {hoverValueImage && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.85 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="hidden lg:block absolute z-50 pointer-events-none w-64 h-40 rounded-xl overflow-hidden shadow-2xl ring-1 ring-gold/50"
-                  style={{ left: hoverPos.x + 28, top: hoverPos.y - 90 }}
-                >
-                  <img src={hoverValueImage} alt="" className="w-full h-full object-cover" />
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </div>
       </section>
@@ -552,7 +659,7 @@ const About = () => {
           {/* Image */}
           <div className="lg:w-1/2 relative min-h-[50vh] lg:min-h-full overflow-hidden">
             <img
-              src={leaders[1].image}
+              src="/uploads/gallery/Apostle%20Toyin.png"
               alt={leaders[1].name}
               className="absolute inset-0 w-full h-full object-cover object-top"
               loading="lazy"

@@ -55,7 +55,7 @@ const Welcome = () => {
       ref={sectionRef}
       id="welcome"
       data-nav-theme="light"
-      className="py-20 bg-white"
+      className="py-20 bg-white overflow-hidden"
     >
       <div className="container mx-auto px-6 lg:px-16 max-w-6xl">
 
@@ -102,7 +102,7 @@ const Welcome = () => {
           href="https://www.google.com/maps/search/?api=1&query=215+High+Street,+Yiewsley,+West+Drayton,+UB7+7QP"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 flex items-center justify-center gap-2 whitespace-nowrap text-darkGray text-sm md:text-base hover:text-gold transition-colors duration-300 group/address"
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-2 text-center text-darkGray text-sm md:text-base hover:text-gold transition-colors duration-300 group/address"
         >
           <i className="fas fa-map-marker-alt text-gold"></i>
           <span className="font-semibold text-deepPurple group-hover/address:text-gold">Location:</span>

@@ -245,9 +245,9 @@ const Shop = () => {
               </div>
 
               {/* Category Filter */}
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Filter className="w-5 h-5 text-gray-600" />
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap gap-2">
                   {categories.map((category) => {
                     const IconComponent = category.icon;
                     return (

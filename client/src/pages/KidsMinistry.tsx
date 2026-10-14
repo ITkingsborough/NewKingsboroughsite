@@ -97,7 +97,7 @@ const KidsMinistry = () => {
           ref={heroRef}
           className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
           style={{
-            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('/Kids.JPG')`,
+            backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('/uploads/kids/kids-08.jpg')`,
             backgroundPosition: "50% 50%",
           }}
         >
@@ -165,8 +165,8 @@ const KidsMinistry = () => {
                 className="relative"
               >
                 <img
-                  src="/uploads/gallery/IMG_1177.JPG"
-                  alt="Children learning and playing"
+                  src="/uploads/kids/kids-02.jpg"
+                  alt="Children smiling and playing together"
                   className="rounded-lg shadow-xl w-full"
                 />
               </motion.div>
@@ -278,17 +278,14 @@ const KidsMinistry = () => {
           </div>
 
           <div className="scroll-row-left flex mb-0">
-            {[...Array(2)].map((_, setIndex) => (
+            {[...Array(4)].map((_, setIndex) => (
               <div key={setIndex} className="scroll-track-left flex shrink-0">
                 {[
-                  "/uploads/gallery/IMG_1177.JPG",
-                  "/uploads/gallery/HOP.jpg",
-                  "/uploads/gallery/HOP2.JPG",
-                  "/uploads/gallery/IMG_7839 (1).jpg",
-                  "/uploads/gallery/IMG_7832.JPG",
-                  "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
-                  "/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg",
-                  "/uploads/gallery/e8a4e5b7-56e3-43c5-ab64-f36ff2011ef4.png",
+                  "/uploads/kids/kids-01.jpg",
+                  "/uploads/kids/kids-03.jpg",
+                  "/uploads/kids/kids-05.jpg",
+                  "/uploads/kids/kids-06.jpg",
+                  "/uploads/kids/kids-07.jpg",
                 ].map((img, index) => (
                   <img
                     key={index}
@@ -302,17 +299,12 @@ const KidsMinistry = () => {
           </div>
 
           <div className="scroll-row-right flex">
-            {[...Array(2)].map((_, setIndex) => (
+            {[...Array(4)].map((_, setIndex) => (
               <div key={setIndex} className="scroll-track-right flex shrink-0">
                 {[
-                  "/uploads/gallery/prayer22.jpg",
-                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg",
-                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg",
-                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.27.jpeg",
-                  "/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg",
-                  "/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg",
-                  "/uploads/gallery/PC.jpg",
-                  "/uploads/gallery/PS.jpg",
+                  "/uploads/kids/kids-04.jpg",
+                  "/uploads/kids/kids-09.jpg",
+                  "/uploads/kids/kids-10.jpg",
                 ].map((img, index) => (
                   <img
                     key={index}

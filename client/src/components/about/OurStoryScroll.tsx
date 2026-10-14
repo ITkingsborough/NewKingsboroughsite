@@ -9,9 +9,9 @@ const WORDS = FULL_TEXT.split(' ');
 const HIGHLIGHTED = new Set(['CONNECT', 'EQUIP', 'DEPLOY']);
 
 const BG_IMAGES = [
-  '/uploads/gallery/HOP.jpg',
-  '/uploads/gallery/Kingsmen.png',
-  '/uploads/gallery/PE.jpg',
+  '/uploads/gallery/Footer/_NM_1686.JPG',
+  '/uploads/gallery/Equip.jpg',
+  '/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg',
 ];
 
 export default function OurStoryScroll() {
@@ -63,10 +63,10 @@ export default function OurStoryScroll() {
 
         <div className="relative z-20 container mx-auto px-6 lg:px-16">
           {/* Section eyebrow */}
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center justify-center gap-3 mb-8">
             <div className="h-px w-8 bg-gold" />
             <span className="text-gold font-montserrat text-xs font-semibold tracking-[0.3em] uppercase">
-              Our Story
+              Our Mission
             </span>
           </div>
 
@@ -74,9 +74,12 @@ export default function OurStoryScroll() {
           <p
             style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(2.3rem, 5.85vw, 6.3rem)',
+              fontSize: 'clamp(1.75rem, 3.9vw, 4.2rem)',
               letterSpacing: '0.05em',
               lineHeight: 1.08,
+              maxWidth: '16em',
+              margin: '0 auto',
+              textAlign: 'center',
             }}
           >
             {WORDS.map((word, i) => {

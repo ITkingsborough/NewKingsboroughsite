@@ -5,6 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "wouter";
 import { Heart, Crown as CrownIcon, Shield, Baby } from "lucide-react";
 import { Helmet } from "react-helmet";
+import warehouseImage from "@assets/Warehouse.png";
+import NurseryImage from "@assets/NURSERY.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,16 +34,18 @@ const communityGroups: CommunityGroup[] = [
     title: "Hillingdon Foodbank",
     description: "Supporting those in need with essential food and supplies",
     fullDescription: "Our Hillingdon Foodbank is dedicated to fighting hunger and poverty in our local community. We provide emergency food parcels to individuals and families facing crisis, offering not just practical support but also compassion and dignity. Volunteers work together to collect, sort, and distribute food donations, making a real difference in people's lives during their most difficult times.",
-    image: "/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg",
+    image: warehouseImage,
     icon: Heart,
+    link: "https://hillingdon.foodbank.org.uk/",
     hasPage: false
   },
   {
     title: "CMC Nursery",
     description: "Nurturing childcare and early education in a Christ-centered environment",
     fullDescription: "CMC Nursery provides quality childcare and early years education rooted in Christian values. We create a safe, loving environment where children can learn, play, and develop. Our experienced staff focus on nurturing each child's physical, emotional, social, and spiritual growth through age-appropriate activities, play-based learning, and gentle guidance in faith.",
-    image: "/uploads/gallery/IMG_1177.JPG",
+    image: NurseryImage,
     icon: Baby,
+    link: "https://test.cmcnursery.co.uk/",
     hasPage: false
   },
   {
@@ -176,6 +180,15 @@ const Community = () => {
                           Learn More
                         </a>
                       </Link>
+                    ) : group.link ? (
+                      <a
+                        href={group.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-outline inline-block"
+                      >
+                        Get Involved
+                      </a>
                     ) : (
                       <Link href="/contact">
                         <a className="btn-outline inline-block">
