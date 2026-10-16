@@ -125,33 +125,29 @@ const About = () => {
       letter: "I",
       title: "Inclusive",
       description: [
-        "Kingsborough is home to people from many cultures, generations and walks of life.",
-        "We celebrate that diversity.",
-        "We want everyone who walks through our doors to feel welcomed, respected and valued. Whatever your background or where you are on your journey of faith, there is room for you here.",
+        "Kingsborough is home to people from many cultures, generations and walks of life. We celebrate that diversity. We want everyone who walks through our doors to feel welcomed, respected and valued. Whatever your background or where you are on your journey of faith, there is room for you here.",
       ],
     },
     {
       letter: "C",
       title: "Christlike",
       description: [
-        "Jesus is at the centre of everything we do.",
-        "Through prayer, worship, studying God's Word and serving others, we seek to become more like Christ and reflect His love, compassion and character in our everyday lives.",
+        
+         "Jesus is at the centre of everything we do.Through prayer, worship, studying God's Word and serving others, we seek to become more like Christ and reflect His love, compassion and character in our everyday lives.",
       ],
     },
     {
       letter: "E",
       title: "Excellence",
       description: [
-        "We believe in bringing our best to what God has entrusted to us.",
-        "For us, excellence isn't about perfection, it's about continually growing, learning and serving people well.",
+        "We believe in becoming a better version of ourselves and bringing our best to all God has entrusted to us. For us, excellence means continually growing, learning and developing our gifts so we can honour God and serve people well."
       ],
     },
     {
       letter: "P",
       title: "Passion",
       description: [
-        "We are passionate about Jesus, people and making a difference.",
-        "That passion inspires us to serve generously, love wholeheartedly and use our gifts to help others flourish.",
+        "We are passionate about Jesus, people and making a difference.That passion inspires us to serve generously, love wholeheartedly and use our gifts to help others flourish.",
       ],
     },
   ];
@@ -637,7 +633,7 @@ const About = () => {
         </div>
 
         {/* Resident Pastor — text left, image right */}
-        <div className="relative min-h-[80vh] flex flex-col-reverse lg:flex-row overflow-hidden">
+        <div className="relative min-h-[70vh] lg:min-h-0 lg:aspect-[2/1] flex flex-col-reverse lg:flex-row overflow-hidden">
           {/* Text */}
           <div className="lg:w-1/2 bg-deepPurple flex items-center px-8 md:px-16 py-16">
             <motion.div
@@ -658,10 +654,22 @@ const About = () => {
           </div>
           {/* Image */}
           <div className="lg:w-1/2 relative min-h-[50vh] lg:min-h-full overflow-hidden">
+            {/* Blurred copy fills the sides so the photo can sit smaller in the frame */}
             <img
-              src="/uploads/gallery/Apostle%20Toyin.png"
+              src="/images/APT%20NEW.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover object-top scale-110 blur-2xl"
+              loading="lazy"
+            />
+            <img
+              src="/images/APT%20NEW.png"
               alt={leaders[1].name}
-              className="absolute inset-0 w-full h-full object-cover object-top"
+              className="absolute left-1/2 -translate-x-1/2 top-0 w-[80%] h-auto"
+              style={{
+                WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+              }}
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-deepPurple/30 lg:block hidden" />

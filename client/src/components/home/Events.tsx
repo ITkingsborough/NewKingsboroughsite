@@ -95,7 +95,7 @@ const Events = () => {
 
   return (
     <section id="events" data-nav-theme="light" className="py-20 bg-white">
-      <div className="container mx-auto px-4 lg:px-8 max-w-5xl">
+      <div className="container mx-auto px-4 lg:px-8">
         <motion.div
           className="mb-12 text-center"
           initial="hidden"
@@ -120,12 +120,12 @@ const Events = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={(d: number) => ({ opacity: 0, x: d * -60 })}
               transition={{ duration: 0.4, ease: 'easeInOut' }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-center"
+              className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-10 items-center"
             >
               {/* Poster image */}
               <Link
                 href="/events"
-                className="block aspect-square w-full max-w-md mx-auto md:mx-0 rounded-lg overflow-hidden shadow-lg bg-gray-100"
+                className="block aspect-video w-full rounded-lg overflow-hidden shadow-lg bg-gray-100"
               >
                 <img
                   src={activeEvent.image || '/uploads/gallery/HOP2.JPG'}
@@ -136,14 +136,14 @@ const Events = () => {
               </Link>
 
               {/* Content */}
-              <div className="text-center md:text-left">
+              <div className="text-center lg:text-left">
                 <h3 className="text-2xl md:text-4xl font-montserrat font-extrabold uppercase text-deepPurple mb-2 leading-tight">
                   {activeEvent.title}
                 </h3>
                 <p className="text-gold font-montserrat font-bold uppercase tracking-wide mb-5">
                   {formatEventDateTime(activeEvent)}
                 </p>
-                <p className="text-gray-600 leading-relaxed mb-6 max-w-md mx-auto md:mx-0">
+                <p className="text-gray-600 leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0">
                   {activeEvent.description}
                 </p>
                 <Link

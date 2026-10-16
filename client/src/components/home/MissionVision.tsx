@@ -54,19 +54,19 @@ const MissionVision = () => {
               alt="Preaching at Kingsborough Church"
               interval={2800}
             />
-            teaching and revealing Jesus Christ and His unending grace to all people,
+            a welcoming Pentecostal church family sharing the love of Jesus Christ and His unending grace.
             <InlinePhoto
               images={["/uploads/gallery/MEDIA.jpg", "/uploads/gallery/HOP.jpg", "/uploads/gallery/HOP2.JPG"]}
               alt="Worship at Kingsborough Church"
               interval={3400}
             />
-            building authentic community and creating positive change in our city.
+            Through worship, biblical teaching and service, we help people grow in faith, discover their God-given purpose and make a positive difference in our community.
             <InlinePhoto
               images={["/uploads/gallery/Moyo and Van.JPG", "/uploads/gallery/IMG_7832.JPG", "/uploads/gallery/IMG_1177.JPG"]}
               alt="Community at Kingsborough Church"
               interval={4000}
             />
-            We believe in leading people into a growing relationship with Jesus Christ through worship, discipleship, and service to others.
+            Wherever you are on your faith journey, there is a place for you to belong and grow.
           </p>
         </motion.div>
 

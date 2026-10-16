@@ -1,12 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
+import { ArrowRight } from 'lucide-react';
 
-const FULL_TEXT =
-  'WE CONNECT PEOPLE TO FAITH AND TO EACH OTHER. WE EQUIP EVERY BELIEVER TO GROW AND LEAD. WE DEPLOY THEM INTO THE WORLD TO MAKE A DIFFERENCE.';
-
-const WORDS = FULL_TEXT.split(' ');
-
-// Words to highlight in gold when lit
-const HIGHLIGHTED = new Set(['CONNECT', 'EQUIP', 'DEPLOY']);
+const STEPS = ['CONNECT', 'EQUIP', 'DEPLOY'];
 
 const BG_IMAGES = [
   '/uploads/gallery/Footer/_NM_1686.JPG',
@@ -34,7 +29,6 @@ export default function OurStoryScroll() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const litCount = Math.round(progress * WORDS.length);
   const activeImg = progress < 0.33 ? 0 : progress < 0.66 ? 1 : 2;
 
   return (
@@ -70,39 +64,39 @@ export default function OurStoryScroll() {
             </span>
           </div>
 
-          {/* Progressive word-by-word text */}
-          <p
-            style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 'clamp(1.75rem, 3.9vw, 4.2rem)',
-              letterSpacing: '0.05em',
-              lineHeight: 1.08,
-              maxWidth: '16em',
-              margin: '0 auto',
-              textAlign: 'center',
-            }}
-          >
-            {WORDS.map((word, i) => {
-              const isLit = i < litCount;
-              // Strip trailing punctuation to check against the set
-              const bare = word.replace(/[^A-Z]/g, '');
-              const isKey = HIGHLIGHTED.has(bare);
+          {/* Progressive Connect → Equip → Deploy */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 md:gap-x-8 gap-y-2">
+            {STEPS.map((word, i) => {
+              const visible = i <= activeImg;
               return (
-                <span
-                  key={i}
-                  className="inline-block mr-[0.18em] transition-colors duration-300"
-                  style={{
-                    color: isLit
-                      ? isKey ? '#D4AF37' : '#ffffff'
-                      : 'rgba(255,255,255,0.15)',
-                    transitionDelay: `${Math.min(i * 8, 120)}ms`,
-                  }}
-                >
-                  {word}
-                </span>
+                <div key={word} className="flex items-center gap-x-4 md:gap-x-8">
+                  {i > 0 && (
+                    <ArrowRight
+                      className="text-gold transition-all duration-700 ease-out w-[clamp(2rem,6vw,5rem)] h-[clamp(2rem,6vw,5rem)]"
+                      strokeWidth={2.5}
+                      style={{
+                        opacity: visible ? 1 : 0,
+                        transform: visible ? 'translateX(0)' : 'translateX(-20px)',
+                      }}
+                    />
+                  )}
+                  <span
+                    className="text-gold transition-all duration-700 ease-out"
+                    style={{
+                      fontFamily: "'Bebas Neue', sans-serif",
+                      fontSize: 'clamp(3.5rem, 11vw, 9rem)',
+                      letterSpacing: '0.05em',
+                      lineHeight: 1,
+                      opacity: visible ? 1 : 0,
+                      transform: visible ? 'translateY(0)' : 'translateY(30px)',
+                    }}
+                  >
+                    {word}
+                  </span>
+                </div>
               );
             })}
-          </p>
+          </div>
         </div>
 
         {/* Gold scroll progress bar */}

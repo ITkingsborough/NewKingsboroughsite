@@ -79,7 +79,7 @@ const Events = () => {
           data-nav-theme="dark"
           className="relative h-[50vh] md:h-[60vh] flex items-center justify-center bg-cover bg-center"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('/uploads/gallery/Our Story.jpg')`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('/uploads/gallery/Events-Calendar.jpg')`,
           }}
         >
           <motion.h1

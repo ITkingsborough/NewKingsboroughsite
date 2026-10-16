@@ -96,11 +96,9 @@ const Hadassah = () => {
                 variants={slideUp(0.1)}
                 className="text-xl leading-relaxed mb-12 text-gray-700"
               >
-                Hadassah is our vibrant women's ministry, named after the
-                biblical Queen Esther, whose Hebrew name was Hadassah. Like
-                Queen Esther, we believe every woman has been placed "for such a
-                time as this" to make a significant impact in God's kingdom and
-                in our community.
+               Hadassah is Kingsborough’s vibrant women’s ministry, named after the biblical Queen Esther, whose Hebrew name was Hadassah. Inspired by her courage and purpose, we believe every woman is uniquely placed “for such a time as this” to make a meaningful impact in God’s kingdom and our community.
+
+Through prayer, biblical teaching, mentoring and shared experiences, we bring women of all ages together to grow in faith, build lasting friendships and discover their God-given worth. We support one another through every season of life, encouraging each woman to develop her gifts and embrace who God has called her to be.
               </motion.p>
             </motion.div>
 
@@ -164,11 +162,7 @@ const Hadassah = () => {
                   Our Purpose
                 </h3>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Hadassah exists to create a safe and nurturing environment
-                  where women can grow spiritually, build meaningful
-                  relationships, and discover their God-given purpose. We
-                  believe in the power of sisterhood and the strength that comes
-                  from walking together in faith.
+                   Hadassah offers a safe, nurturing space for women to grow in faith, build meaningful friendships and discover their God-given purpose. We believe in the power of sisterhood, walking together, encouraging one another and finding strength in Christ through every season of life.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-start">
@@ -176,8 +170,7 @@ const Hadassah = () => {
                       <i className="fas fa-heart text-white text-sm"></i>
                     </div>
                     <p>
-                      <strong>Fellowship:</strong> Building deep, authentic
-                      relationships among women
+                      <strong>Fellowship:</strong>Building authentic friendships where every woman feels welcomed, valued and supported.
                     </p>
                   </div>
                   <div className="flex items-start">
@@ -185,8 +178,7 @@ const Hadassah = () => {
                       <i className="fas fa-praying-hands text-white text-sm"></i>
                     </div>
                     <p>
-                      <strong>Prayer:</strong> Supporting one another through
-                      intercession and spiritual warfare
+                      <strong>Prayer:</strong> Standing together in prayer, interceding for one another and growing stronger in faith.
                     </p>
                   </div>
                   <div className="flex items-start">
@@ -194,8 +186,7 @@ const Hadassah = () => {
                       <i className="fas fa-seedling text-white text-sm"></i>
                     </div>
                     <p>
-                      <strong>Growth:</strong> Encouraging spiritual maturity
-                      and personal development
+                      <strong>Growth:</strong>Encouraging spiritual maturity and personal development, helping every woman develop her gifts and become who God has called her to be.
                     </p>
                   </div>
                 </div>
