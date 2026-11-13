@@ -127,15 +127,40 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 pt-8 text-center text-gray-400">
-          <p className="mb-2">&copy; {new Date().getFullYear()} Kingsborough Church. All Rights Reserved.</p>
-          <p>
-            <Link 
-              href="/" 
-              className="text-gold hover:text-white transition-colors duration-300"
+          <p className="mb-2">
+            Registered Charity No.{' '}
+            <a
+              href="https://register-of-charities.charitycommission.gov.uk/charity-details/?regid=1112820"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors duration-300"
             >
-        
+              1112820
+            </a>
+            {' '}|{' '}Company Registration No.{' '}
+            <a
+              href="https://find-and-update.company-information.service.gov.uk/company/05539255"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors duration-300"
+            >
+              05539255
+            </a>
+          </p>
+          <p className="mb-2">
+            <Link href="/privacy-notice" className="text-gold hover:text-white transition-colors duration-300">
+              Privacy Notice
+            </Link>
+            {' '}|{' '}
+            <Link href="/cookie-notice" className="text-gold hover:text-white transition-colors duration-300">
+              Cookie Notice
+            </Link>
+            {' '}|{' '}
+            <Link href="/safeguarding-policy" className="text-gold hover:text-white transition-colors duration-300">
+              Safeguarding Policy
             </Link>
           </p>
+          <p className="mb-2">&copy; {new Date().getFullYear()} Kingsborough Church. All Rights Reserved.</p>
         </div>
       </div>
       <div

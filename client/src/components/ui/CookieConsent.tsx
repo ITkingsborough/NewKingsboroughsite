@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CookieConsent = () => {
@@ -37,7 +38,8 @@ const CookieConsent = () => {
           transition={{ duration: 0.5 }}
         >
           <p className="text-sm pr-4">
-            We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.
+            We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.{' '}
+            <Link href="/cookie-notice" className="underline">Cookie Notice</Link> and <Link href="/privacy-notice" className="underline">Privacy Notice</Link>
           </p>
           <div className="flex space-x-2">
             <button 

@@ -4,7 +4,6 @@ import MissionVision from '@/components/home/MissionVision';
 import Leadership from '@/components/home/Leadership';
 import Community from '@/components/home/Community';
 import Organizations from '@/components/home/Organizations';
-import Quote from '@/components/home/Quote';
 import Events from '@/components/home/Events';
 import Sermons from '@/components/home/Sermons';
 import LifeCollage from '@/components/home/LifeCollage';
@@ -26,7 +25,6 @@ const Home = () => {
         <Events />
         <Community />
         <Organizations />
-        <Quote />
         <Sermons />
         <LifeCollage />
         <MovingGallery />
