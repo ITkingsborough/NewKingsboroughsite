@@ -5,7 +5,6 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import * as cheerio from "cheerio";
 import { 
-  insertContactSchema, 
   insertNewsletterSchema,
   insertSermonSchema,
   insertEventSchema,
@@ -23,33 +22,70 @@ import { uploadMiddleware, getPublicUrl, deleteFile } from "./uploadService";
 import path from "path";
 import { getLatestVideos, getVideoDetails, findChannel } from "./youtubeService";
 import { getCurrentWeekEvents } from "./googleSheetsEventsService";
+import { isOneDriveConfigured, getOneDriveAlbums, fetchOneDriveImage } from "./onedriveGalleryService";
+import { isInstagramConfigured, getInstagramImages, startInstagramTokenRefresh } from "./instagramService";
+import { sendContactEmail } from "./contactEmailService";
+import { createContactHandler } from "./contactSubmission";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
   setupAuth(app);
+
+  startInstagramTokenRefresh();
+
+  // Public gallery sources. The page falls back to its built-in albums when a source isn't configured.
+  app.get('/api/gallery/onedrive', async (_req, res) => {
+    if (!isOneDriveConfigured()) {
+      return res.json({ success: true, configured: false, data: [] });
+    }
+    try {
+      const albums = await getOneDriveAlbums();
+      res.setHeader('Cache-Control', 'public, max-age=300');
+      return res.json({ success: true, configured: true, data: albums });
+    } catch (error) {
+      console.error('Error loading OneDrive gallery:', error);
+      return res.status(502).json({ success: false, configured: true, data: [], message: 'Could not load gallery from OneDrive' });
+    }
+  });
+
+  app.get('/api/gallery/onedrive/image/:id', async (req, res) => {
+    if (!isOneDriveConfigured()) return res.status(404).end();
+    try {
+      const size = req.query.size === 'full' ? 'full' : 'large';
+      const image = await fetchOneDriveImage(req.params.id, size);
+      if (!image) return res.status(404).end();
+      res.setHeader('Content-Type', image.contentType);
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      return res.send(image.buffer);
+    } catch (error) {
+      console.error('Error proxying OneDrive image:', error);
+      return res.status(502).end();
+    }
+  });
+
+  app.get('/api/gallery/instagram', async (_req, res) => {
+    if (!isInstagramConfigured()) {
+      return res.json({ success: true, configured: false, data: [] });
+    }
+    try {
+      const images = await getInstagramImages();
+      res.setHeader('Cache-Control', 'public, max-age=300');
+      return res.json({ success: true, configured: true, data: images });
+    } catch (error) {
+      console.error('Error loading Instagram feed:', error);
+      return res.status(502).json({ success: false, configured: true, data: [], message: 'Could not load Instagram feed' });
+    }
+  });
+
   
   // API routes
   const apiRouter = app.route('/api');
   
   // Contact form submission
-  app.post('/api/contact', async (req, res) => {
-    try {
-      const validatedData = insertContactSchema.parse(req.body);
-      const result = await storage.createContactMessage(validatedData);
-      
-      return res.status(201).json({
-        success: true,
-        message: 'Contact message submitted successfully',
-        data: result
-      });
-    } catch (error) {
-      console.error('Error submitting contact form:', error);
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid contact form data'
-      });
-    }
-  });
+  app.post('/api/contact', createContactHandler({
+    save: (contact) => storage.createContactMessage(contact),
+    send: sendContactEmail,
+  }));
   
   // Newsletter subscription
   app.post('/api/newsletter', async (req, res) => {

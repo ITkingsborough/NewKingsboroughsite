@@ -27,7 +27,7 @@ const organizations: OrganizationCardProps[] = [
     description:
       "Providing nurturing childcare and early education in a Christ-centered environment.",
     image: NurseryImage,
-    link: "https://test.cmcnursery.co.uk/",
+    link: "https://cmcnursery.co.uk/",
   },
 ];
 

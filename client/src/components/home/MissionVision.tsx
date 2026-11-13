@@ -62,7 +62,7 @@ const MissionVision = () => {
             />
             Through worship, biblical teaching and service, we help people grow in faith, discover their God-given purpose and make a positive difference in our community.
             <InlinePhoto
-              images={["/uploads/gallery/Moyo and Van.JPG", "/uploads/gallery/IMG_7832.JPG", "/uploads/gallery/IMG_1177.JPG"]}
+              images={["/uploads/gallery/Moyo and Van.JPG", "/uploads/gallery/IMG_7832.JPG"]}
               alt="Community at Kingsborough Church"
               interval={4000}
             />
@@ -90,4 +90,3 @@ const MissionVision = () => {
 };
 
 export default MissionVision;
-

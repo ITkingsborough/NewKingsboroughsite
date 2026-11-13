@@ -45,7 +45,7 @@ const Contact = () => {
     },
     onError: (error) => {
       console.error('Error submitting form:', error);
-      window.alert('There was an error sending your message. Please try again.');
+      window.alert('We could not confirm delivery. Your message may have been saved; please email info@kingsborough.org.uk directly.');
     }
   });
 

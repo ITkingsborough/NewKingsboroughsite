@@ -55,7 +55,8 @@ const PrayerMinistry = () => {
           name: prayerRequest.name,
           email: prayerRequest.email,
           message: prayerRequest.request,
-          type: 'prayer_request'
+          isPrayer: true,
+          isPrivate: prayerRequest.isPrivate
         })
       });
 
@@ -71,7 +72,7 @@ const PrayerMinistry = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to submit prayer request. Please try again.",
+        description: "We could not confirm delivery. Your request may have been saved; please email info@kingsborough.org.uk directly.",
         variant: "destructive"
       });
     } finally {
@@ -327,7 +328,7 @@ const PrayerMinistry = () => {
                         data-testid="checkbox-private"
                       />
                       <label htmlFor="private" className="text-gray-600">
-                        Keep my request confidential (shared only with pastoral team)
+                        Mark my request confidential (sent to the church inbox and stored in the CMS)
                       </label>
                     </div>
 

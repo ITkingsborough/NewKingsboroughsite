@@ -80,8 +80,9 @@ const PILLARS = [
   },
 ];
 
-// Set to a YouTube video ID (e.g. "dQw4w9WgXcQ") to embed the documentary. Leave empty to show "coming soon".
-const DOCUMENTARY_VIDEO_ID = "";
+// YouTube video ID the documentary starts on, and the playlist it belongs to. Leave the video ID empty to show "coming soon".
+const DOCUMENTARY_VIDEO_ID = "hnw6KVOImjY";
+const DOCUMENTARY_PLAYLIST_ID = "PLFn0ElsdSTuM";
 
 const MEMORIAL_GALLERY = [
   "/uploads/gallery/Apst Preaching.JPG",
@@ -521,7 +522,7 @@ const Apostle = () => {
             {DOCUMENTARY_VIDEO_ID ? (
               <div className="relative w-full overflow-hidden rounded-xl shadow-lg" style={{ paddingTop: "56.25%" }}>
                 <iframe
-                  src={`https://www.youtube.com/embed/${DOCUMENTARY_VIDEO_ID}`}
+                  src={`https://www.youtube.com/embed/${DOCUMENTARY_VIDEO_ID}?list=${DOCUMENTARY_PLAYLIST_ID}`}
                   title="Apostle Tunde Balogun Documentary"
                   className="absolute inset-0 h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

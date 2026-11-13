@@ -18,7 +18,6 @@ const middleCol = [
 ];
 
 const rightCol = [
-  '/uploads/gallery/IMG_1177.JPG',
   '/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.27.jpeg',
   '/uploads/gallery/New Audi (2).jpeg',
   '/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.28.jpeg',

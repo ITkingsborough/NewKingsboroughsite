@@ -45,7 +45,7 @@ const communityGroups: CommunityGroup[] = [
     fullDescription: "CMC Nursery provides quality childcare and early years education rooted in Christian values. We create a safe, loving environment where children can learn, play, and develop. Our experienced staff focus on nurturing each child's physical, emotional, social, and spiritual growth through age-appropriate activities, play-based learning, and gentle guidance in faith.",
     image: NurseryImage,
     icon: Baby,
-    link: "https://test.cmcnursery.co.uk/",
+    link: "https://cmcnursery.co.uk/",
     hasPage: false
   },
   {
@@ -105,9 +105,9 @@ const Community = () => {
       <div className="min-h-screen">
         <section 
           ref={heroRef}
-          className="relative h-96 flex items-center justify-center bg-cover bg-center bg-fixed"
+          className="relative h-96 flex items-center justify-center bg-cover bg-center bg-scroll md:bg-fixed"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('/uploads/gallery/HOP.jpg')`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('/images/community-hero.jpg')`,
             backgroundPosition: "50% 50%"
           }}
         >

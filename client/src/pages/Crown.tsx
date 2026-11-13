@@ -46,7 +46,7 @@ const Crown = () => {
         ref={heroRef}
         className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: `url('/uploads/gallery/IMG_7839%20(1).jpg')`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/images/Cntr%20Point%203.jpg')`,
           backgroundPosition: "50% 50%",
         }}
       >
@@ -106,8 +106,8 @@ const Crown = () => {
               className="relative"
             >
               <img
-                src="/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg"
-                alt="Young adults in worship"
+                src="/images/Cntr Point.jpg"
+                alt="Centre Point young adults group photo"
                 className="rounded-lg shadow-xl w-full"
               />
             </motion.div>
@@ -275,7 +275,7 @@ const Crown = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -284,15 +284,15 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="/uploads/gallery/67993630bb7f463a5b9c6b0a_worship-672c02982a03e589238fc443_62f285c4f9aa3441840257d6_nathan-mullet-pmiW630yDPE-unsplash.jpeg"
-                alt="Crown Worship Night"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                src="/images/Cntr Point.jpg"
+                alt="Centre Point group photo"
+                className="w-full aspect-[3/2] object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold">Worship Night</h3>
+                  <h3 className="font-semibold">Centre Point Family</h3>
                   <p className="text-sm opacity-90">
-                    Experiencing God's presence together
+                    Growing in faith together
                   </p>
                 </div>
               </div>
@@ -306,15 +306,15 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="/uploads/gallery/IMG_7832.JPG"
-                alt="Crown Life Group"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                src="/images/Cntr Point 2.jpg"
+                alt="Centre Point young adults together"
+                className="w-full aspect-[3/2] object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold">Life Group</h3>
+                  <h3 className="font-semibold">Authentic Friendships</h3>
                   <p className="text-sm opacity-90">
-                    Building authentic friendships
+                    Building lasting relationships
                   </p>
                 </div>
               </div>
@@ -328,13 +328,13 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg"
-                alt="Crown Community Service"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                src="/images/Cntr Point 3.jpg"
+                alt="Centre Point fellowship outdoors"
+                className="w-full aspect-[3/2] object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold">Community Service</h3>
+                  <h3 className="font-semibold">Fellowship</h3>
                   <p className="text-sm opacity-90">
                     Making a difference together
                   </p>
@@ -350,58 +350,14 @@ const Crown = () => {
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
               <img
-                src="/uploads/gallery/HOP.jpg"
-                alt="Crown Social Event"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                src="/images/Cntr Point 4.jpg"
+                alt="Centre Point young adults having fun"
+                className="w-full aspect-[3/2] object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-4 left-4 text-white">
                   <h3 className="font-semibold">Social Gathering</h3>
                   <p className="text-sm opacity-90">Fun and fellowship</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={slideUp(0.4)}
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-            >
-              <img
-                src="/uploads/gallery/HOP2.JPG"
-                alt="Crown Leadership Training"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold">Leadership Training</h3>
-                  <p className="text-sm opacity-90">
-                    Developing future leaders
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={slideUp(0.5)}
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-            >
-              <img
-                src="/uploads/gallery/IMG_1177.JPG"
-                alt="Crown Annual Conference"
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold">Annual Conference</h3>
-                  <p className="text-sm opacity-90">
-                    Spiritual renewal and growth
-                  </p>
                 </div>
               </div>
             </motion.div>
@@ -507,8 +463,8 @@ const Crown = () => {
               className="relative"
             >
               <img
-                src="/uploads/gallery/IMG_7839 (1).jpg"
-                alt="Young adults in worship and prayer"
+                src="/images/Cntr Point 2.jpg"
+                alt="Centre Point young adults together"
                 className="rounded-lg shadow-xl w-full"
               />
             </motion.div>

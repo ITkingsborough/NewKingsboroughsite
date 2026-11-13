@@ -66,7 +66,7 @@ const Shop = () => {
       author: "Faith Collection",
       price: 24.99,
       category: 'gifts',
-      image: "/uploads/gallery/IMG_1177.JPG",
+      image: "/uploads/gallery/prayer22.jpg",
       rating: 4.6,
       reviews: 45,
       description: "Beautiful set of 2 mugs with inspirational verses"

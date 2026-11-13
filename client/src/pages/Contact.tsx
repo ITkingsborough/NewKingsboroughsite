@@ -33,7 +33,7 @@ const Contact = () => {
 
   const contactMutation = useMutation({
     mutationFn: async (data: ContactFormData) => {
-      const response = await apiRequest('POST', '/api/contact', data);
+      const response = await apiRequest('POST', '/api/contact', { ...data, isPrivate: data.isPrayer });
       return response.json();
     },
     onSuccess: () => {
@@ -42,7 +42,7 @@ const Contact = () => {
     },
     onError: (error) => {
       console.error('Error submitting form:', error);
-      setFormError('There was an error sending your message. Please try again.');
+      setFormError('We could not confirm delivery. Your message may have been saved; please email info@kingsborough.org.uk directly.');
     }
   });
 
@@ -52,7 +52,7 @@ const Contact = () => {
 
   const onSubmit = (data: ContactFormData) => {
     setFormError(null);
-    contactMutation.mutate(data);
+    contactMutation.mutate({ ...data, isPrayer: activeTab === "prayer" });
   };
 
   return (
@@ -63,7 +63,7 @@ const Contact = () => {
       </Helmet>
       <div className="pt-24">
         {/* Hero Section */}
-        <section data-nav-theme="dark" className="relative h-80 md:h-96 flex items-center parallax" style={{ backgroundImage: `url('/uploads/gallery/IMG_1177.JPG')` }}>
+        <section data-nav-theme="dark" className="relative h-80 md:h-96 flex items-center bg-cover bg-no-repeat bg-scroll bg-[position:70%_40%] md:bg-fixed md:bg-[position:center_40%]" style={{ backgroundImage: `url('/images/contact-call.jpg')` }}>
           <div className="absolute inset-0 overlay-lilac"></div>
           <div className="container mx-auto px-4 lg:px-8 z-10">
             <motion.div
@@ -142,7 +142,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-4">EMAIL US</h3>
-                      <p className="mb-1">info@kingsboroughchurch.org.uk</p>
+                      <p className="mb-1">info@kingsborough.org.uk</p>
                     </div>
                   </div>
                 </div>
@@ -294,17 +294,6 @@ const Contact = () => {
                               ></textarea>
                               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
                             </div>
-                            <div className="mb-6 hidden">
-                              <div className="flex items-center">
-                                <input 
-                                  type="checkbox" 
-                                  id="isPrayer"
-                                  {...register('isPrayer')}
-                                  className="mr-2 h-5 w-5"
-                                />
-                                <label htmlFor="isPrayer" className="text-gray-700">This is a prayer request</label>
-                              </div>
-                            </div>
                             <button 
                               type="submit" 
                               className="btn-primary w-full"
@@ -384,30 +373,14 @@ const Contact = () => {
                                 rows={5}
                                 {...register('message')}
                                 className={`w-full px-4 py-3 border ${errors.message ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-gold`}
-                                placeholder="Share your prayer request. This will be kept confidential within our prayer team."
+                                placeholder="Share your prayer request. It will be sent to the church inbox and stored in the CMS as confidential."
                               ></textarea>
                               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
-                            </div>
-                            <div className="mb-6 hidden">
-                              <input 
-                                type="checkbox" 
-                                id="prayer-isPrayer"
-                                {...register('isPrayer')}
-                                checked
-                                readOnly
-                              />
                             </div>
                             <button 
                               type="submit" 
                               className="btn-primary w-full"
                               disabled={contactMutation.isPending}
-                              onClick={() => {
-                                // Set the prayer checkbox to true when using the prayer tab
-                                const hiddenPrayerCheckbox = document.getElementById('prayer-isPrayer') as HTMLInputElement;
-                                if (hiddenPrayerCheckbox) {
-                                  hiddenPrayerCheckbox.checked = true;
-                                }
-                              }}
                             >
                               {contactMutation.isPending ? 'Submitting...' : 'Submit Prayer Request'}
                             </button>

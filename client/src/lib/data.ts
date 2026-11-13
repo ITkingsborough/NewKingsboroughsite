@@ -13,7 +13,7 @@ export const leaders: LeaderItem[] = [
     name: "Apostle Tunde Balogun",
     role: "Founder",
     years: "1968 – 2026",
-    bio: "Apostle Tunde Balogun was the visionary founder of Kingsborough Church, a man of unwavering faith, prophetic grace, and deep love for God's people. For decades he poured his life into building a community where every soul felt seen, valued, and called. His powerful teaching, compassionate heart, and prophetic insight transformed countless lives across generations. Though he has gone to be with the Lord, his legacy continues to shape the DNA of this church — in every song we sing, every life we touch, and every soul we reach. We honour his memory and carry his vision forward with gratitude and joy.",
+    bio: "Apostle Tunde Balogun is the visionary founder of Kingsborough Church, a man of unwavering faith, prophetic grace, and deep love for God's people. For decades he poured his life into building a community where every soul felt seen, valued, and called. His powerful teaching, compassionate heart, and prophetic insight transformed countless lives across generations. Though he has gone to be with the Lord, his legacy continues to shape the DNA of this church — in every song we sing, every life we touch, and every soul we reach. We honour his memory and carry his vision forward with gratitude and joy.",
     image: "/images/APSTLE%20TUNDE.png",
   },
   {
@@ -189,7 +189,7 @@ export const magazines: MagazineItem[] = [
     title: "Revival & Restoration",
     date: "February 2024",
     coverImage:
-      "/uploads/gallery/IMG_1177.JPG",
+      "/uploads/gallery/HOP2.JPG",
     summary:
       "Dedicated to spiritual renewal, this edition presents powerful teachings on prayer, worship, and the move of the Holy Spirit, along with stories of healing and restoration.",
     pdfUrl: "#",

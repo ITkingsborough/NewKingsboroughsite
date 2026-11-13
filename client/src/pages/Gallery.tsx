@@ -2,15 +2,18 @@
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet';
-import { ChevronDown, ChevronUp, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronUp, X, ChevronLeft, ChevronRight, Instagram } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 
 // ─── Types ──────────────────────────────────────────────────────────────────────
 
 interface GalleryImage {
-  id: number;
+  id: number | string;
   src: string;
+  full?: string;
   alt: string;
   caption: string;
+  permalink?: string;
 }
 
 interface Album {
@@ -23,7 +26,7 @@ interface Album {
 
 // ─── Album data ─────────────────────────────────────────────────────────────────
 
-const albums: Album[] = [
+const defaultAlbums: Album[] = [
   {
     id: 'ordination',
     name: 'Kingsborough Ordination',
@@ -69,7 +72,6 @@ const albums: Album[] = [
       { id: 3,  src: '/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.23.jpeg',     alt: 'Hadassah women ministry meeting',   caption: "Hadassah women's ministry meeting" },
       { id: 4,  src: '/uploads/gallery/IMG_7832.JPG',                                    alt: 'Youth group activity',              caption: 'Youth group fellowship and learning' },
       { id: 5,  src: '/uploads/gallery/IMG_7839 (1).jpg',                                alt: 'Youth group fellowship',            caption: 'Youth group fellowship' },
-      { id: 6,  src: '/uploads/gallery/IMG_1177.JPG',                                    alt: 'Kingsmen ministry event',           caption: "Kingsmen men's gathering" },
       { id: 7,  src: '/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg',        alt: 'Kingsmen prayer meeting',           caption: 'Kingsmen prayer breakfast' },
       { id: 8,  src: '/uploads/gallery/2b96f7e5-3a83-42bb-bf84-c08bf9d69203.jpg',        alt: 'Kingsmen ministry meeting',         caption: 'Kingsmen leadership development' },
       { id: 9,  src: '/uploads/gallery/WhatsApp Image 2026-02-04 at 10.21.26.jpeg',     alt: "Hadassah women's conference",       caption: "Annual Hadassah women's conference" },
@@ -85,13 +87,38 @@ const PREVIEW_COUNT = 8;
 
 const Gallery = () => {
   const [expandedAlbums, setExpandedAlbums] = useState<Record<string, boolean>>({});
-  const [lightbox, setLightbox] = useState<{ albumId: string; imageId: number } | null>(null);
+  const [lightbox, setLightbox] = useState<{ albumId: string; imageId: number | string } | null>(null);
+
+  const { data: oneDriveData } = useQuery<{ success: boolean; configured: boolean; data: Album[] }>({
+    queryKey: ['/api/gallery/onedrive'],
+    staleTime: 5 * 60 * 1000,
+  });
+  const { data: instagramData } = useQuery<{ success: boolean; configured: boolean; data: GalleryImage[] }>({
+    queryKey: ['/api/gallery/instagram'],
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // OneDrive albums replace the built-in ones once the folder is connected and has photos
+  const baseAlbums = oneDriveData?.data?.length ? oneDriveData.data : defaultAlbums;
+  const instagramImages = instagramData?.data ?? [];
+  const albums: Album[] = instagramImages.length
+    ? [
+        {
+          id: 'instagram',
+          name: 'From Instagram',
+          description: 'The latest moments shared on our church Instagram page.',
+          coverImage: instagramImages[0].src,
+          images: instagramImages,
+        },
+        ...baseAlbums,
+      ]
+    : baseAlbums;
 
   const toggleAlbum = (albumId: string) => {
     setExpandedAlbums(prev => ({ ...prev, [albumId]: !prev[albumId] }));
   };
 
-  const openLightbox = (albumId: string, imageId: number) => {
+  const openLightbox = (albumId: string, imageId: number | string) => {
     setLightbox({ albumId, imageId });
   };
 
@@ -228,6 +255,7 @@ const Gallery = () => {
                         src={image.src}
                         alt={image.alt}
                         loading="lazy"
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-deepPurple/0 group-hover:bg-deepPurple/40 transition-colors duration-300 flex items-end">
@@ -292,8 +320,9 @@ const Gallery = () => {
                 {/* Image */}
                 <div className="relative rounded-xl overflow-hidden bg-black/40 max-h-[80vh] flex items-center justify-center">
                   <img
-                    src={currentImages[currentIndex].src}
+                    src={currentImages[currentIndex].full ?? currentImages[currentIndex].src}
                     alt={currentImages[currentIndex].alt}
+                    referrerPolicy="no-referrer"
                     className="max-h-[80vh] w-auto max-w-full object-contain"
                   />
 
@@ -321,9 +350,21 @@ const Gallery = () => {
                 </div>
 
                 {/* Caption bar */}
-                <div className="mt-3 flex items-center justify-between text-white/80 text-sm px-1">
-                  <span>{currentImages[currentIndex].caption}</span>
-                  <span className="text-white/50">{currentIndex + 1} / {currentImages.length}</span>
+                <div className="mt-3 flex items-center justify-between gap-4 text-white/80 text-sm px-1">
+                  <span className="truncate">{currentImages[currentIndex].caption}</span>
+                  <span className="flex items-center gap-4 shrink-0">
+                    {currentImages[currentIndex].permalink && (
+                      <a
+                        href={currentImages[currentIndex].permalink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-white hover:text-gold transition-colors"
+                      >
+                        <Instagram className="w-4 h-4" /> View on Instagram
+                      </a>
+                    )}
+                    <span className="text-white/50">{currentIndex + 1} / {currentImages.length}</span>
+                  </span>
                 </div>
               </motion.div>
             </motion.div>

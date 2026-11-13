@@ -317,26 +317,6 @@ const Kingsmen = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              variants={slideUp(0.3)}
-              className="relative group overflow-hidden rounded-lg shadow-lg"
-            >
-              <img 
-                src="/uploads/gallery/IMG_1177.JPG" 
-                alt="Kingsmen Adventure Activity" 
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold">Adventure Outing</h3>
-                  <p className="text-sm opacity-90">Building bonds through adventure</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
               variants={slideUp(0.4)}
               className="relative group overflow-hidden rounded-lg shadow-lg"
             >
