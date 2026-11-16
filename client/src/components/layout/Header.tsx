@@ -113,7 +113,7 @@ const Header = () => {
               <span className="text-gold font-montserrat font-bold text-xl tracking-tight">Kingsborough</span>
               <span className={`font-montserrat ml-1 font-bold text-xl transition-colors duration-500 ${isDarkBackground ? 'text-deepPurple' : 'text-white'}`}>Church</span>
             </div>
-            <span className={`text-xs font-light italic hidden sm:block transition-colors duration-500 ${isDarkBackground ? 'text-gray-500' : 'text-white/70'}`}>Transforming Lives, Shaping Destinies</span>
+            <span className={`text-xs font-light italic hidden sm:block transition-colors duration-500 ${isDarkBackground ? 'text-gray-500' : 'text-white/70'}`}>Adding Value to Lives</span>
           </div>
         </Link>
         

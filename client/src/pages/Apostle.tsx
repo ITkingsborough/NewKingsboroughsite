@@ -25,24 +25,24 @@ const ACCOMPLISHMENTS = [
     text: "Planted the church from a small gathering of believers into a thriving, multi-generational community of faith.",
   },
   {
-    title: "Raised Generations of Disciples",
-    text: "Mentored countless leaders, pastors, and ministers who now serve faithfully across the UK and beyond.",
+    title: "Established the Coat of Many Colours Nursery",
+    text: "Founded a nursery that provides quality early years care and education for children in the community.",
+  },
+  {
+    title: "Established the First Foodbank in London in 2009",
+    text: "Pioneered the first foodbank in London in 2009, providing practical support to families and individuals in need.",
   },
   {
     title: "Established Kingsborough Centre",
     text: "Built a permanent home for worship, outreach, and community impact that continues to serve the city.",
   },
   {
+    title: "Raised Generations of Disciples",
+    text: "Mentored countless leaders, pastors, and ministers who now serve faithfully across the UK and beyond.",
+  },
+  {
     title: "Launched Global Outreach",
     text: "Extended the church's reach through missions, media ministry, and community programmes across nations.",
-  },
-  {
-    title: "A Legacy of Teaching",
-    text: "Left a body of biblical teaching, sermons, and publications that continue to disciple new generations.",
-  },
-  {
-    title: "Built a Culture of Prayer",
-    text: "Championed a lifestyle of prayer and intercession that remains the spiritual anchor of the church today.",
   },
 ];
 
@@ -85,15 +85,17 @@ const DOCUMENTARY_VIDEO_ID = "hnw6KVOImjY";
 const DOCUMENTARY_PLAYLIST_ID = "PLFn0ElsdSTuM";
 
 const MEMORIAL_GALLERY = [
-  "/uploads/gallery/Apst Preaching.JPG",
-  "/uploads/gallery/Kingsborough Ordination/02_K3A0384.jpg",
-  "/uploads/gallery/Kingsborough Ordination/04_K3A9888.jpg",
-  "/uploads/gallery/Kingsborough Ordination/06_K3A0343.jpg",
-  "/uploads/gallery/Kingsborough Ordination/09_K3A0363.jpg",
-  "/uploads/gallery/Kingsborough Ordination/12_K3A0232.jpg",
-  "/uploads/gallery/Kingsborough Ordination/16_K3A0115.jpg",
-  "/uploads/gallery/Kingsborough Ordination/25_K3A0001.jpg",
-];
+  "4962442_1920x1080_3a5b4e.jpg",
+  "4962451_1920x1080_f985cc.jpg",
+  "4962460_1920x1080_f985cc.jpg",
+  "4964943_1920x1080_f985cc.jpg",
+  "image (14).png",
+  "image (15).png",
+  "image (16).png",
+  "image (17).png",
+  "image (18).png",
+  "IMG_4041.JPG",
+].map((file) => encodeURI(`/images/APT LIFE FOLDER/${file}`));
 
 const Apostle = () => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -444,6 +446,10 @@ const Apostle = () => {
               </div>
             ))}
           </div>
+
+          <p className="mt-10 text-center font-montserrat text-xl font-bold text-gold md:text-2xl">
+            ...and many more
+          </p>
         </div>
       </section>
 

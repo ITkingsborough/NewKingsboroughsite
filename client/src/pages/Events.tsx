@@ -53,19 +53,6 @@ const Events = () => {
   });
   const theme = themeData?.data ?? null;
 
-  const [rsvpForm, setRsvpForm] = useState({ name: '', email: '', numberOfGuests: 1 });
-  const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
-
-  const handleRsvpChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setRsvpForm(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleRsvpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setRsvpSubmitted(true);
-  };
-
   return (
     <>
       <Helmet>
@@ -103,7 +90,7 @@ const Events = () => {
                 variants={slideUp()}
               >
                 <button
-                  onClick={() => { setSelectedEvent(null); setRsvpSubmitted(false); }}
+                  onClick={() => setSelectedEvent(null)}
                   className="flex items-center text-deepPurple hover:text-gold mb-8 font-medium"
                 >
                   <ArrowLeft className="w-5 h-5 mr-2" /> Back to All Events
@@ -120,7 +107,7 @@ const Events = () => {
 
                   <div className="p-8 md:p-12">
                     <div className="flex flex-col lg:flex-row lg:justify-between gap-8">
-                      <div className="lg:w-2/3">
+                      <div className="lg:w-full">
                         <h2 className="text-3xl md:text-4xl font-montserrat font-bold mb-6 text-deepPurple">
                           {selectedEvent.title}
                         </h2>
@@ -145,64 +132,6 @@ const Events = () => {
                         <div className="mb-8">
                           <h3 className="text-xl font-montserrat font-semibold mb-4 text-deepPurple">About This Event</h3>
                           <p className="text-gray-600 leading-relaxed text-lg">{selectedEvent.description}</p>
-                        </div>
-                      </div>
-
-                      <div className="lg:w-1/3">
-                        <div className="bg-gray-50 p-6 rounded-xl">
-                          <h3 className="text-xl font-montserrat font-semibold mb-4 text-deepPurple">Plan Your Visit</h3>
-
-                          {rsvpSubmitted ? (
-                            <div className="text-center py-4">
-                              <div className="text-green-500 text-4xl mb-3">✓</div>
-                              <h4 className="text-lg font-semibold mb-2">Thank You!</h4>
-                              <p className="text-gray-600">We look forward to seeing you.</p>
-                            </div>
-                          ) : (
-                            <form onSubmit={handleRsvpSubmit} className="space-y-4">
-                              <div>
-                                <label className="block text-gray-700 font-medium mb-2">Your Name</label>
-                                <input
-                                  type="text"
-                                  name="name"
-                                  value={rsvpForm.name}
-                                  onChange={handleRsvpChange}
-                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold"
-                                  required
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-gray-700 font-medium mb-2">Email Address</label>
-                                <input
-                                  type="email"
-                                  name="email"
-                                  value={rsvpForm.email}
-                                  onChange={handleRsvpChange}
-                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold"
-                                  required
-                                />
-                              </div>
-                              <div>
-                                <label className="block text-gray-700 font-medium mb-2">Number of Guests</label>
-                                <select
-                                  name="numberOfGuests"
-                                  value={rsvpForm.numberOfGuests}
-                                  onChange={handleRsvpChange}
-                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold"
-                                >
-                                  {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                                    <option key={n} value={n}>{n}</option>
-                                  ))}
-                                </select>
-                              </div>
-                              <button
-                                type="submit"
-                                className="w-full bg-gold text-white py-3 rounded-lg font-montserrat font-semibold hover:bg-gold/90 transition-colors"
-                              >
-                                Confirm Attendance
-                              </button>
-                            </form>
-                          )}
                         </div>
                       </div>
                     </div>
