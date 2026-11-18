@@ -47,7 +47,10 @@ const Welcome = () => {
       .fromTo(textRef.current,    { x:  40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, ease: "power2.out" }, "-=0.7")
       .fromTo(cardsRef.current,   { y:  40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }, "-=0.4");
 
-    return () => { ScrollTrigger.getAll().forEach(t => t.kill()); };
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
   }, []);
 
   return (
@@ -78,18 +81,18 @@ const Welcome = () => {
         </div>
 
         {/* Service time cards */}
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-0">
+        <div ref={cardsRef} className="grid grid-cols-3 gap-2 md:gap-6 opacity-0">
           {serviceTimes.map((item, i) => (
             <div
               key={i}
-              className="rounded-xl border border-deepPurple/20 bg-white px-8 py-10 hover:border-gold hover:shadow-lg transition-all duration-300 group"
+              className="min-w-0 rounded-xl border border-deepPurple/20 bg-white px-2 py-5 md:px-8 md:py-10 hover:border-gold hover:shadow-lg transition-all duration-300 group"
             >
-              <h3 className="text-3xl md:text-4xl font-montserrat font-bold text-deepPurple mb-4 group-hover:text-gold transition-colors duration-300">
+              <h3 className="text-[0.95rem] sm:text-xl md:text-4xl font-montserrat font-bold text-deepPurple mb-2 md:mb-4 group-hover:text-gold transition-colors duration-300 break-words">
                 {item.day}
               </h3>
-              <div className="h-0.5 w-10 bg-gold mb-4" />
+              <div className="h-0.5 w-6 md:w-10 bg-gold mb-2 md:mb-4" />
               {item.services.map((s, j) => (
-                <p key={j} className="text-darkGray text-sm md:text-base leading-snug">
+                <p key={j} className="text-darkGray text-[0.65rem] sm:text-xs md:text-base leading-snug break-words">
                   <span className="font-semibold text-deepPurple">{s.name}:</span><br />
                   {s.time}
                 </p>
@@ -99,7 +102,7 @@ const Welcome = () => {
         </div>
 
         <a
-          href="https://www.google.com/maps/search/?api=1&query=215+High+Street,+Yiewsley,+West+Drayton,+UB7+7QP"
+          href="https://www.google.com/maps/search/?api=1&query=No.+4+New+Windsor+Street,+Uxbridge,+UB8+2TU"
           target="_blank"
           rel="noopener noreferrer"
           className="mt-8 flex flex-wrap items-center justify-center gap-x-2 text-center text-darkGray text-sm md:text-base hover:text-gold transition-colors duration-300 group/address"
@@ -107,7 +110,7 @@ const Welcome = () => {
           <i className="fas fa-map-marker-alt text-gold"></i>
           <span className="font-semibold text-deepPurple group-hover/address:text-gold">Location:</span>
           <span className="underline decoration-transparent group-hover/address:decoration-gold underline-offset-4">
-            215 High Street, Yiewsley, West Drayton, UB7 7QP
+            No. 4 New Windsor Street, Uxbridge, UB8 2TU
           </span>
         </a>
 

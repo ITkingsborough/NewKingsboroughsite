@@ -3,6 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import churchLogo from '@assets/Untitled_design_(43)_1765446173985.png';
+import churchLogoWhite from '@assets/New_KBC_Logo.png';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -85,7 +86,6 @@ const Header = () => {
   const mediaLinks = [
     { href: '/sermons', label: 'Sermons' },
     { href: '/gallery', label: 'Gallery' },
-    { href: '/magazines', label: 'Magazines' },
   ];
 
   const involvedLinks = [
@@ -101,13 +101,15 @@ const Header = () => {
         <motion.div
           className={`w-full transition-all duration-300 ${
             !scrolled && location === '/'
-              ? 'bg-transparent shadow-none'
+              ? mobileMenuOpen
+                ? 'bg-deepPurple shadow-lg lg:bg-transparent lg:shadow-none'
+                : 'bg-transparent shadow-none'
               : `shadow-lg ${isDarkBackground ? 'bg-white/95 backdrop-blur-sm' : 'bg-deepPurple/95 backdrop-blur-sm'}`
           }`}
         >
         <div className="flex items-center px-6 py-3 container mx-auto">
         <Link href="/" onClick={closeMenu} className="flex items-center flex-shrink-0">
-          <img src={churchLogo} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
+          <img src={isDarkBackground ? churchLogo : churchLogoWhite} alt="Kingsborough Church Logo" className="h-12 w-auto mr-3" />
           <div className="flex flex-col">
             <div className="flex items-baseline">
               <span className="text-gold font-montserrat font-bold text-xl tracking-tight">Kingsborough</span>
@@ -321,7 +323,7 @@ const Header = () => {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              className="lg:hidden overflow-hidden"
+              className="lg:hidden overflow-y-auto max-h-[calc(100vh-4.5rem)]"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}

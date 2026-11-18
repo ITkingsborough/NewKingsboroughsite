@@ -40,10 +40,9 @@ const Kingsmen = () => {
       <section 
         ref={heroRef}
         data-nav-theme="dark"
-        className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
+        className="relative h-[75vh] min-h-[560px] md:h-screen flex items-center justify-center bg-cover bg-[position:40%_50%] md:bg-[position:50%_50%] bg-scroll md:bg-fixed"
         style={{
           backgroundImage: `url('/uploads/gallery/Kingsmen.png')`,
-          backgroundPosition: "50% 50%"
         }}
       >
         <div className="text-center text-white px-4 max-w-4xl mx-auto">
@@ -432,8 +431,8 @@ const Kingsmen = () => {
                     </h3>
                     <p className="text-gray-600">
                       Kingsborough Church<br />
-                      215 High Street, Yiewsley<br />
-                      West Drayton, UB7 7QP
+                      No. 4 New Windsor Street<br />
+                      Uxbridge, UB8 2TU
                     </p>
                   </div>
                 </div>

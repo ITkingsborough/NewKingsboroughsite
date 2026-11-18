@@ -163,7 +163,7 @@ const VenueHire = () => {
                 Your Perfect Event Space
               </h2>
               <p className="text-xl text-gray-700 leading-relaxed mb-6">
-                Located in the heart of West Drayton, Kingsborough Church offers
+                Located in the heart of Uxbridge, Kingsborough Church offers
                 a stunning venue space perfect for weddings, corporate events,
                 celebrations, and community gatherings. Our versatile hall can be
                 transformed to suit your vision.
@@ -177,7 +177,7 @@ const VenueHire = () => {
               <div className="flex items-center gap-4 text-gray-600">
                 <Building2 className="h-5 w-5 text-deepPurple" />
                 <span className="font-montserrat">
-                  215 High Street, Yiewsley, West Drayton, UB7 7QP
+                  No. 4 New Windsor Street, Uxbridge, UB8 2TU
                 </span>
               </div>
             </motion.div>

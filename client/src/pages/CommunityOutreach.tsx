@@ -74,10 +74,9 @@ const CommunityOutreach = () => {
       <div className="min-h-screen">
         <section 
           ref={heroRef}
-          className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
+          className="relative h-[75vh] min-h-[560px] md:h-screen flex items-center justify-center bg-cover bg-[position:55%_40%] md:bg-[position:50%_50%] bg-scroll md:bg-fixed"
           style={{
             backgroundImage: `linear-gradient(rgba(76,0,109,0.7), rgba(76,0,109,0.5)), url('/uploads/gallery/16a79bb9-e14d-4375-9610-73efa97e6223.jpg')`,
-            backgroundPosition: "50% 50%"
           }}
         >
           <div className="text-center text-white px-4 max-w-4xl mx-auto">

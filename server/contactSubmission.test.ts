@@ -46,6 +46,38 @@ test("enquiries and prayer requests produce emails for the church inbox", async 
   }
 });
 
+test("contact handler rejects submissions that fail reCAPTCHA", async () => {
+  let saves = 0;
+  const app = express();
+  app.use(express.json());
+  app.post("/api/contact", createContactHandler({
+    save: async (contact) => {
+      saves++;
+      return { ...contact, id: 1, phone: null, isPrayer: false, createdAt: new Date() } satisfies Contact;
+    },
+    send: async () => {},
+    verifyCaptcha: async (token) => token === "valid-token",
+  }));
+  const server = app.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  const address = server.address();
+  assert.ok(address && typeof address !== "string");
+  const submit = (body: object) => fetch(`http://127.0.0.1:${address.port}/api/contact`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  try {
+    assert.equal((await submit(sample)).status, 400);
+    assert.equal((await submit({ ...sample, recaptchaToken: "bad-token" })).status, 400);
+    assert.equal(saves, 0);
+    assert.equal((await submit({ ...sample, recaptchaToken: "valid-token" })).status, 201);
+    assert.equal(saves, 1);
+  } finally {
+    await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+  }
+});
+
 test("contact handler saves requests, sends notifications and reports failures", async () => {
   const saved: InsertContact[] = [];
   const sent: { contact: InsertContact; isPrivate: boolean }[] = [];

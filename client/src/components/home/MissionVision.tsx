@@ -15,7 +15,7 @@ const InlinePhoto = ({ images, alt, interval = 3000 }: { images: string[]; alt: 
   }, [images.length, interval]);
 
   return (
-    <span className="relative inline-block align-middle h-14 md:h-20 w-24 md:w-36 rounded-md overflow-hidden mx-1 md:mx-2 -translate-y-0.5">
+    <span className="relative inline-block align-middle h-9 md:h-14 w-16 md:w-24 rounded-md overflow-hidden mx-1 md:mx-2 -translate-y-0.5">
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.img
           key={images[index]}
@@ -47,7 +47,7 @@ const MissionVision = () => {
           <span className="inline-flex items-center px-4 py-2 mb-8 rounded-full border border-gold/40 text-gold text-xs font-montserrat font-semibold tracking-[0.2em] uppercase">
             Who We Are
           </span>
-          <p className="relative z-10 font-bebas text-[50px] md:text-[56px] leading-relaxed tracking-[0.04em] text-gray-800 text-center">
+          <p className="relative z-10 font-bebas text-[30px] md:text-[44px] leading-relaxed tracking-[0.04em] text-gray-800 text-center">
             At Kingsborough, we are
             <InlinePhoto
               images={["/uploads/gallery/Apst Preaching.JPG", "/uploads/gallery/PS.jpg", "/uploads/gallery/PC.jpg"]}

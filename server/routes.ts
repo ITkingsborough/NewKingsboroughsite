@@ -26,6 +26,7 @@ import { isOneDriveConfigured, getOneDriveAlbums, fetchOneDriveImage } from "./o
 import { isInstagramConfigured, getInstagramImages, startInstagramTokenRefresh } from "./instagramService";
 import { sendContactEmail } from "./contactEmailService";
 import { createContactHandler } from "./contactSubmission";
+import { getRecaptchaSiteKey, isRecaptchaEnabled, verifyRecaptcha } from "./recaptchaService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
@@ -81,11 +82,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API routes
   const apiRouter = app.route('/api');
   
+  // Public reCAPTCHA site key (null when reCAPTCHA is not configured)
+  app.get('/api/recaptcha-config', (_req, res) => {
+    res.json({ siteKey: getRecaptchaSiteKey() });
+  });
+
   // Contact form submission
-  app.post('/api/contact', createContactHandler({
-    save: (contact) => storage.createContactMessage(contact),
-    send: sendContactEmail,
-  }));
+  app.post('/api/contact', (req, res, next) =>
+    createContactHandler({
+      save: (contact) => storage.createContactMessage(contact),
+      send: sendContactEmail,
+      verifyCaptcha: isRecaptchaEnabled() ? verifyRecaptcha : undefined,
+    })(req, res, next));
   
   // Newsletter subscription
   app.post('/api/newsletter', async (req, res) => {

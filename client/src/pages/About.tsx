@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import {
   slideUp,
   slideRight,
@@ -38,6 +39,8 @@ const About = () => {
 
   // Our Story slideshow
   const [storySlide, setStorySlide] = useState(0);
+  // Mission pillars act as an accordion on mobile only; Connect starts open
+  const [openPillar, setOpenPillar] = useState<number | null>(0);
   useEffect(() => {
     const timer = setInterval(
       () => setStorySlide((s) => (s + 1) % STORY_SLIDES.length),
@@ -509,32 +512,54 @@ const About = () => {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={slideUp(index * 0.15)}
-                className="border-t-2 border-deepPurple pt-8"
+                className="border-t-2 border-deepPurple pt-6 md:pt-8"
               >
-                <div className="flex items-baseline gap-3 mb-5">
-                  <span
-                    className="text-[#8a6d12]"
-                    style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.25rem" }}
-                  >
-                    0{index + 1}
-                  </span>
-                  <h3
-                    className="text-[#111] uppercase"
-                    style={{
-                      fontFamily: "'Bebas Neue', sans-serif",
-                      fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {pillar.title}
-                  </h3>
+                <button
+                  type="button"
+                  onClick={() => setOpenPillar(openPillar === index ? null : index)}
+                  aria-expanded={openPillar === index}
+                  aria-controls={`pillar-panel-${index}`}
+                  className="flex w-full items-center justify-between text-left md:pointer-events-none md:cursor-default"
+                >
+                  <div className="flex items-baseline gap-3 md:mb-5">
+                    <span
+                      className="text-[#8a6d12]"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.25rem" }}
+                    >
+                      0{index + 1}
+                    </span>
+                    <h3
+                      className="text-[#111] uppercase"
+                      style={{
+                        fontFamily: "'Bebas Neue', sans-serif",
+                        fontSize: "clamp(2.5rem, 4vw, 3.5rem)",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {pillar.title}
+                    </h3>
+                  </div>
+                  <ChevronDown
+                    className={`h-6 w-6 shrink-0 text-deepPurple transition-transform duration-300 md:hidden ${
+                      openPillar === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  id={`pillar-panel-${index}`}
+                  className={`grid transition-[grid-template-rows] duration-300 ease-out md:grid-rows-[1fr] ${
+                    openPillar === index ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-lg font-bold leading-snug mb-4 mt-5 md:mt-0 text-[#111]">
+                      {pillar.headline}
+                    </p>
+                    <p className="text-base leading-relaxed text-gray-600">
+                      {pillar.description}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-lg font-bold leading-snug mb-4 text-[#111]">
-                  {pillar.headline}
-                </p>
-                <p className="text-base leading-relaxed text-gray-600">
-                  {pillar.description}
-                </p>
               </motion.div>
             ))}
           </div>

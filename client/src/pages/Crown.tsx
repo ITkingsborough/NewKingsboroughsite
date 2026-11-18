@@ -44,10 +44,9 @@ const Crown = () => {
     <div className="min-h-screen">
       <section
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
+        className="relative h-[75vh] min-h-[560px] md:h-screen flex items-center justify-center bg-cover bg-[position:50%_30%] md:bg-[position:50%_50%] bg-scroll md:bg-fixed"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/images/Cntr%20Point%203.jpg')`,
-          backgroundPosition: "50% 50%",
         }}
       >
         <div className="text-center text-white px-4 max-w-4xl mx-auto">
@@ -440,9 +439,9 @@ const Crown = () => {
                     <p className="text-gray-600">
                       Kingsborough Church
                       <br />
-                      215 High Street, Yiewsley
+                      No. 4 New Windsor Street
                       <br />
-                      West Drayton, UB7 7QP
+                      Uxbridge, UB8 2TU
                     </p>
                   </div>
                 </div>

@@ -57,7 +57,8 @@ const Magazines = () => {
     );
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      tl.scrollTrigger?.kill();
+      tl.kill();
     };
   }, []);
 

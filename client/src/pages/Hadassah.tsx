@@ -49,7 +49,7 @@ const Hadassah = () => {
         {/* Hero Section */}
         <section
           data-nav-theme="dark"
-          className="relative h-96 md:h-[500px] flex items-center parallax"
+          className="relative h-96 md:h-[500px] flex items-center parallax bg-[position:45%_50%] md:bg-[position:center]"
           style={{
             backgroundImage: `url('/uploads/gallery/WhatsApp%20Image%202025-08-07%20at%2011.33.15.jpg')`,
           }}
@@ -357,7 +357,7 @@ Through prayer, biblical teaching, mentoring and shared experiences, we bring wo
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -445,50 +445,6 @@ Through prayer, biblical teaching, mentoring and shared experiences, we bring wo
                   </div>
                 </div>
               </motion.div>
-
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={slideUp(0.4)}
-                className="relative group overflow-hidden rounded-lg shadow-lg"
-              >
-                <img
-                  src="/uploads/gallery/HOP2.JPG"
-                  alt="Hadassah Retreat Weekend"
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="font-semibold">Annual Retreat</h3>
-                    <p className="text-sm opacity-90">
-                      Weekend of renewal and rest
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={slideUp(0.5)}
-                className="relative group overflow-hidden rounded-lg shadow-lg"
-              >
-                <img
-                  src="/uploads/gallery/HOP.jpg"
-                  alt="Hadassah Social Event"
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="font-semibold">Social Fellowship</h3>
-                    <p className="text-sm opacity-90">
-                      Building lasting friendships
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
             </div>
 
             <motion.div
@@ -568,7 +524,7 @@ Through prayer, biblical teaching, mentoring and shared experiences, we bring wo
                       <p className="text-gray-700">
                         Kingsborough Church
                         <br />
-                        215 High Street, Yiewsley, West Drayton, UB7 7QP
+                        No. 4 New Windsor Street, Uxbridge, UB8 2TU
                       </p>
                     </div>
                   </div>

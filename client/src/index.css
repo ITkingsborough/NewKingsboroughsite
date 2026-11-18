@@ -50,7 +50,7 @@
   }
 
   .parallax {
-    @apply bg-fixed bg-center bg-no-repeat bg-cover;
+    @apply bg-scroll bg-center bg-no-repeat bg-cover md:bg-fixed;
   }
 
   .card-hover {

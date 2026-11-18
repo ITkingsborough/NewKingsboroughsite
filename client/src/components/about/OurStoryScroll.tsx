@@ -65,14 +65,14 @@ export default function OurStoryScroll() {
           </div>
 
           {/* Progressive Connect → Equip → Deploy */}
-          <div className="flex flex-wrap items-center justify-center gap-x-4 md:gap-x-8 gap-y-2">
+          <div className="flex flex-nowrap items-center justify-center gap-x-2 md:gap-x-8">
             {STEPS.map((word, i) => {
               const visible = i <= activeImg;
               return (
-                <div key={word} className="flex items-center gap-x-4 md:gap-x-8">
+                <div key={word} className="flex items-center gap-x-2 md:gap-x-8">
                   {i > 0 && (
                     <ArrowRight
-                      className="text-gold transition-all duration-700 ease-out w-[clamp(2rem,6vw,5rem)] h-[clamp(2rem,6vw,5rem)]"
+                      className="text-gold transition-all duration-700 ease-out shrink-0 w-[5vw] h-[5vw] md:w-[clamp(2rem,6vw,5rem)] md:h-[clamp(2rem,6vw,5rem)]"
                       strokeWidth={2.5}
                       style={{
                         opacity: visible ? 1 : 0,
@@ -81,10 +81,9 @@ export default function OurStoryScroll() {
                     />
                   )}
                   <span
-                    className="text-gold transition-all duration-700 ease-out"
+                    className="text-gold transition-all duration-700 ease-out text-[7.5vw] md:text-[clamp(3.5rem,11vw,9rem)]"
                     style={{
                       fontFamily: "'Bebas Neue', sans-serif",
-                      fontSize: 'clamp(3.5rem, 11vw, 9rem)',
                       letterSpacing: '0.05em',
                       lineHeight: 1,
                       opacity: visible ? 1 : 0,

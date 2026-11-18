@@ -20,6 +20,17 @@ Port 465 uses TLS immediately; other ports require STARTTLS. Use a provider and 
 
 Confidential requests are marked in both the CMS and the email. Restrict access to the CMS and the shared inbox to the appropriate pastoral staff; the label itself does not restrict access.
 
+### reCAPTCHA (spam protection)
+
+The enquiry and prayer request forms can require Google reCAPTCHA v2 ("I'm not a robot" checkbox). Create a **reCAPTCHA v2 → "I'm not a robot" Checkbox** site at https://www.google.com/recaptcha/admin, add your website's domain(s) (and `localhost` for local testing), then set:
+
+```
+RECAPTCHA_SITE_KEY=<site key>
+RECAPTCHA_SECRET_KEY=<secret key>
+```
+
+Both keys are read by the server only, so no client build setting is needed. Restart the server after changing them. reCAPTCHA is enforced only when both keys are set; without them the forms behave as before. The secret key must never be committed to source control.
+
 ## Gallery sources (optional)
 
 The Gallery page can pull photos from OneDrive and Instagram. Both are off until their environment variables are set (in `.env` or your host's settings); without them the page shows its built-in albums.

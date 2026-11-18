@@ -63,7 +63,8 @@ const Community = () => {
     );
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      tl.scrollTrigger?.kill();
+      tl.kill();
     };
   }, []);
 

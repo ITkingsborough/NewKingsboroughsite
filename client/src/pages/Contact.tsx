@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion';
 import { slideUp } from '@/lib/animations';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { ContactFormData } from '@/lib/types';
 import { Helmet } from 'react-helmet';
+import Recaptcha, { RecaptchaHandle } from '@/components/ui/recaptcha';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
@@ -32,7 +33,7 @@ const Contact = () => {
   });
 
   const contactMutation = useMutation({
-    mutationFn: async (data: ContactFormData) => {
+    mutationFn: async (data: ContactFormData & { recaptchaToken?: string }) => {
       const response = await apiRequest('POST', '/api/contact', { ...data, isPrivate: data.isPrayer });
       return response.json();
     },
@@ -42,18 +43,46 @@ const Contact = () => {
     },
     onError: (error) => {
       console.error('Error submitting form:', error);
-      setFormError('We could not confirm delivery. Your message may have been saved; please email info@kingsborough.org.uk directly.');
+      recaptchaRef.current?.reset();
+      const message = error instanceof Error ? error.message : '';
+      setFormError(
+        message.includes('reCAPTCHA')
+          ? 'reCAPTCHA verification failed. Please tick the box and try again.'
+          : 'We could not confirm delivery. Your message may have been saved; please email info@kingsborough.org.uk directly.'
+      );
     }
   });
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("contact");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<RecaptchaHandle>(null);
+
+  const { data: recaptchaConfig } = useQuery<{ siteKey: string | null }>({
+    queryKey: ['/api/recaptcha-config'],
+    staleTime: Infinity,
+  });
+  const recaptchaSiteKey = recaptchaConfig?.siteKey ?? null;
 
   const onSubmit = (data: ContactFormData) => {
+    if (recaptchaSiteKey && !captchaToken) {
+      setFormError('Please tick "I\'m not a robot" before sending.');
+      return;
+    }
     setFormError(null);
-    contactMutation.mutate({ ...data, isPrayer: activeTab === "prayer" });
+    contactMutation.mutate({
+      ...data,
+      isPrayer: activeTab === "prayer",
+      ...(captchaToken ? { recaptchaToken: captchaToken } : {}),
+    });
   };
+
+  const captchaWidget = recaptchaSiteKey ? (
+    <div className="mb-6">
+      <Recaptcha ref={recaptchaRef} siteKey={recaptchaSiteKey} onChange={setCaptchaToken} />
+    </div>
+  ) : null;
 
   return (
     <>
@@ -104,8 +133,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-montserrat font-semibold mb-2">VISIT US</h3>
-                      <p className="mb-1">215 High Street, Yiewsley</p>
-                      <p>West Drayton, UB7 7QP</p>
+                      <p className="mb-1">No. 4 New Windsor Street</p>
+                      <p>Uxbridge, UB8 2TU</p>
                     </div>
                   </div>
                   
@@ -193,7 +222,7 @@ const Contact = () => {
                   <h3 className="text-xl font-montserrat font-semibold mb-4">Location Map</h3>
                   <div className="h-80 bg-gray-100 rounded-lg overflow-hidden relative">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.5!2d-0.4716!3d51.5127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48766f0a0a0a0a0a%3A0x0!2s215%20High%20Street%2C%20Yiewsley%2C%20West%20Drayton%20UB7%207QP%2C%20UK!5e0!3m2!1sen!2suk!4v1620151853093!5m2!1sen!2suk"
+                      src="https://www.google.com/maps?q=No.+4+New+Windsor+Street,+Uxbridge,+UB8+2TU,+UK&output=embed"
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}
@@ -294,6 +323,7 @@ const Contact = () => {
                               ></textarea>
                               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
                             </div>
+                            {captchaWidget}
                             <button 
                               type="submit" 
                               className="btn-primary w-full"
@@ -377,6 +407,7 @@ const Contact = () => {
                               ></textarea>
                               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
                             </div>
+                            {captchaWidget}
                             <button 
                               type="submit" 
                               className="btn-primary w-full"

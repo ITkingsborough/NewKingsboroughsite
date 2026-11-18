@@ -43,7 +43,7 @@ const Ministries = () => {
         {/* Hero Section */}
         <section
           data-nav-theme="dark"
-          className="relative h-80 md:h-96 flex items-center parallax"
+          className="relative h-80 md:h-96 flex items-center parallax bg-[position:55%_50%] md:bg-[position:center]"
           style={{
             backgroundImage: `url('/uploads/gallery/HOP2.JPG')`,
           }}
