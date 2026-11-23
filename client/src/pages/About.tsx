@@ -23,6 +23,9 @@ const STORY_SLIDES = [
   { src: "/uploads/gallery/Ss/460627826_8710621418948057_4032063906934036991_n.jpg", alt: "Kingsborough Church family" },
   { src: "/uploads/gallery/Ss/460627945_8710621442281388_1143079453560872202_n.jpg", alt: "Kingsborough Church gathering" },
   { src: "/uploads/gallery/Ss/WhatsApp Image 2025-07-16 at 17.47.35.jpg", alt: "Kingsborough Church moments" },
+  { src: "/uploads/gallery/Ss/IMG_8570.jpg", alt: "Kingsborough Church worship" },
+  { src: "/uploads/gallery/Ss/IMG_8689.jpg", alt: "Kingsborough Church fellowship" },
+  { src: "/uploads/gallery/Ss/IMG_8714.jpg", alt: "Kingsborough Church celebration" },
 ];
 
 const About = () => {
