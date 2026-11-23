@@ -20,7 +20,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const STORY_SLIDES = [
   { src: "/uploads/gallery/Ss/IMG_0209.jpg", alt: "Kingsborough Church" },
-  { src: "/uploads/gallery/Ss/IMG_1465.jpg", alt: "Kingsborough Church community" },
   { src: "/uploads/gallery/Ss/460627826_8710621418948057_4032063906934036991_n.jpg", alt: "Kingsborough Church family" },
   { src: "/uploads/gallery/Ss/460627945_8710621442281388_1143079453560872202_n.jpg", alt: "Kingsborough Church gathering" },
   { src: "/uploads/gallery/Ss/WhatsApp Image 2025-07-16 at 17.47.35.jpg", alt: "Kingsborough Church moments" },
